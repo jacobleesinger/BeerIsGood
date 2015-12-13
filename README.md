@@ -6,19 +6,21 @@
 
 ## Minimum Viable Product
 
-FresherNote is a web application inspired by Evernote built using Ruby on Rails
-and React.js. FresherNote allows users to:
+BeerIsGood is a social media web application for craft beer enthusiasts inspired by Untappd and built using Ruby on Rails and React.js. BeerIsGood allows users to:
+
+
 
 <!-- This is a Markdown checklist. Use it to keep track of your progress! -->
 
 - [ ] Create an account
 - [ ] Log in / Log out
-- [ ] Create, read, edit, and delete notes
-- [ ] Organize notes within Notebooks
-- [ ] Tag notes with multiple tags and search notes by tag
-- [ ] Search through notes for blocks of text
-- [ ] Apply complex styling to notes while editing
-- [ ] Set reminders on notes
+- [ ] Create, read, edit, and delete reviews
+- [ ] View other users' profiles
+- [ ] Connect with other users by adding them as a friend
+- [ ] View a timeline of friends' recent reviews
+- [ ] Interact with friends by commenting on and/or "toast"-ing their reviews
+- [ ] Search for reviews by beer name or review author name
+
 
 ## Design Docs
 * [View Wireframes][view]

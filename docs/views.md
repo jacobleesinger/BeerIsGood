@@ -1,26 +1,34 @@
 # View Wireframes
 
-## New User
-![new-user]
+## Landing Page
+![landing-page]
 
-## New Session
-![new-session]
+## Sign Up
+![sign-up]
 
-## NotesIndex / NoteIndexItem / NoteForm
-![notes]
+## Sign In
+![sign-in]
 
-## NotebooksIndex / NotebookIndexItem
-![notebooks]
+## User Show
+![user-show]
 
-## NoteBookForm
-![notebook-form]
+## Beer Show
+![beer_show]
 
-## Component Heirarchy
-![component-heirarchy]
+## Main Page (friend beer reviews)
+![main-page]
 
-[new-user]: ./wireframes/new_user.png
-[new-session]: ./wireframes/new_session.png
-[notes]: ./wireframes/root_notes.png
-[notebooks]: ./wireframes/root_notebooks.png
-[notebook-form]: ./wireframes/notebook_form.png
-[component-heirarchy]: ./wireframes/component_heirarchy.png
+## Beer Review Form
+![review-form]
+
+## Component Hierarchy
+![component-hierarchy]
+
+[landing-page]: ./wireframes/landing_page.png
+[sign-up]: ./wireframes/sign_up.png
+[sign-in]: ./wireframes/sign-in.png
+[user-show]: ./wireframes/user_show.png
+[beer_show]: ./wireframes/beer_show.png
+[main-page]: ./wireframes/main_page.png
+[review-form]: ./wireframes/review_form.png
+[component-hierarchy]: ./wireframes/component_hierarchy.png

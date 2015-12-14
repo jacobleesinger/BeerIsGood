@@ -28,50 +28,68 @@
 * Beer
 
 ### Actions
-  * ApiActions.receiveAllComments
-  * ApiActions.receiveSingleComment
-  * ApiActions.deleteComment
+* ApiActions.receiveAllComments
+* ApiActions.receiveSingleComment
+* ApiActions.deleteComment
 
-  * ApiActions.receiveAllToasts
-  * ApiActions.receiveSingleToast
-  * ApiActions.deleteToast
+* ApiActions.receiveAllToasts
+* ApiActions.receiveSingleToast
+* ApiActions.deleteToast
 
-  * ToastActions.fetchAllToasts
-  * ToastActions.fetchSingleToast
-  * ToastActions.createToast
-  * ToastActions.destroyToast
+* ApiActions.receiveAllFriends
+* ApiActions.recieveSingleFriend
+* ApiActions.deleteFriend
 
-  * CommentActions.fetchAllComments
-  * CommentActions.fetchSingleComment
-  * CommentActions.createComment
-  * CommentActions.editComment
-  * CommentActions.destroyComment
+* ApiActions.receiveAllUsers -> triggered by ApiUtil
+* ApiActions.receiveSingleUser
+* ApiActions.deleteUser
+
+* UserActions.fetchAllUsers -> triggers ApiUtil
+* UserActions.fetchSingleUser
+* UserActions.createUser
+* UserActions.editUser
+* UserActions.destroyUser
+
+* ToastActions.fetchAllToasts
+* ToastActions.fetchSingleToast
+* ToastActions.createToast
+* ToastActions.destroyToast
+
+* CommentActions.fetchAllComments
+* CommentActions.fetchSingleComment
+* CommentActions.createComment
+* CommentActions.editComment
+* CommentActions.destroyComment
+
+* FriendActions.fetchAllFriends
+* FriendActions.fetchSingleFriend
+* FriendActions.createFriend
+* FriendActions.destroyFriend
+
+
 
 ### ApiUtil
-  * ApiUtil.fetchAlComments
-  * ApiUtil.fetchSingleComment
-  * ApiUtil.createComment
-  * ApiUtil.editComment
-  * ApiUtil.destroyComment
+* ApiUtil.fetchAllUsers
+* ApiUtil.fetchSingleUser
+* ApiUtil.createUser
+* ApiUtil.editUser
+* ApiUtil.destroyUser
 
+* ApiUtil.fetchAllComments
+* ApiUtil.fetchSingleComment
+* ApiUtil.createComment
+* ApiUtil.editComment
+* ApiUtil.destroyComment
 
+* ApiUtil.fetchAllToasts
+* ApiUtil.fetchSingleToast
+* ApiUtil.createToast
+* ApiUtil.destroyToast
 
+* ApiUtil.FetchAllFriends
+* ApiUtil.fetchSingleFriend
+* ApiUtil.createFriend
+* ApiUtil.destroyFriend
 
-
-* ApiActions.receiveAllNotebooks -> triggered by ApiUtil
-* ApiActions.receiveSingleNotebook
-* ApiActions.deleteNotebook
-* NotebookActions.fetchAllNotebooks -> triggers ApiUtil
-* NotebookActions.fetchSingleNotebook
-* NotebookActions.createNotebook
-* NotebookActions.editNotebook
-* NotebookActions.destroyNotebook
-
-### ApiUtil
-* ApiUtil.fetchAllNotebooks
-* ApiUtil.fetchSingleNotebook
-* ApiUtil.createNotebook
-* ApiUtil.editNotebook
-* ApiUtil.destroyNotebook
 
 ## Gems/Libraries

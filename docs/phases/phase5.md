@@ -2,39 +2,57 @@
 
 ## Rails
 ### Models
-* Reminder
+* User
+* Beer
 
 ### Controllers
-* Api::RemindersController (create, destroy, index, show, update)
+
 
 ### Views
-* reminders/index.json.jbuilder
+* User/show.json.jbuilder
+* Beer/show.json.jbuilder
 
 ## Flux
 ### Views (React Components)
-* RemindersIndex
-  - ReminderIndexItem
-* ReminderShow
-* ReminderForm
+* UserSummary
+* UserSidebarIndex
+  - UserSidebarIndexItem
+* BeerSummary
+* BeerSidebarIndex
+  - BeerSidebarIndexItem
 
 ### Stores
-* Reminder
+* User
+* Beer
 
 ### Actions
-* ApiActions.receiveAllReminders -> triggered by ApiUtil
-* ApiActions.receiveSingleReminder
-* ApiActions.deleteReminder
-* ReminderActions.fetchAllReminders -> triggers ApiUtil
-* ReminderActions.fetchSingleReminder
-* ReminderActions.createReminder
-* ReminderActions.updateReminder
-* ReminderActions.destroyReminder
+
+* ApiActions.receiveAllUsers
+* ApiActions.receiveSingleUser
+
+* ApiActions.receiveAllBeers
+* ApiActions.receiveSingleBeer
+
+* UserActions.fetchAllUsers
+* UserActions.fetchSingleUser
+* UserActions.createUser
+* UserActions.updateUser
+
+* BeerActions.fetchAllBeers
+* BeerActions.fetchSingleBeer
+* BeerActions.createBeer
 
 ### ApiUtil
-* ApiUtil.fetchAllReminders
-* ApiUtil.fetchSingleReminder
-* ApiUtil.createReminder
-* ApiUtil.updateReminder
-* ApiUtil.destroyReminder
+
+* ApiUtil.fetchAllUsers
+* ApiUtil.fetchSingleUser
+* ApiUtil.createUser
+* ApiUtil.updateUser
+
+* ApiUtil.fetchAllBeers
+* ApiUtil.fetchSingleBeer
+* ApiUtil.createBeer
+
+
 
 ## Gems/Libraries

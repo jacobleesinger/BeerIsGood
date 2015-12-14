@@ -15,11 +15,11 @@ BeerIsGood is a social media web application for craft beer enthusiasts inspired
 - [ ] Create an account
 - [ ] Log in / Log out
 - [ ] Create, read, edit, and delete reviews
-- [ ] View other users' profiles
+- [ ] View other users' profiles and reviews
 - [ ] Connect with other users by adding them as a friend
 - [ ] View a timeline of friends' recent reviews
 - [ ] Interact with friends by commenting on and/or "toast"-ing their reviews
-- [ ] Search for reviews by beer name or review author name
+- [ ] Search for reviews by beer name or review author username
 
 
 ## Design Docs
@@ -38,59 +38,49 @@ In Phase 1 I will create the majority of the application's Rails back end logic.
 
 [Details][phase-one]
 
-### Phase 2: Flux Architecture and Note CRUD (2.5 days)
+### Phase 2: Flux Architecture: Users, Beers, Reviews (2.5 days)
 
-Phase 2 is focused on setting up Flux, the React Router, and the React view
-structure for the main application. After the basic Flux architecture has been
-set up, a Note store will be implemented and a set of actions corresponding to
-the needed CRUD functionality created. Once this is done, I will create React
-views for the Notes `Index`, `IndexItem` and `Form`. At the end of Phase 2,
-Notes can be created, read, edited and destroyed in the browser. Notes should
-save to the database when the form loses focus or is left idle after editing.
-Lastly, while constructing the views I will start using basic bootstrap for
-styling.
+In Phase 2 I will create the Flux Architecture, the React Router, and the React view structure for the main application. I will then set up stores for Users and Beers, with corresponding actions. CRUD functionality for Reviews will live in the Beer to which a Review belongs. Once these are set up I will create React views for Reviews Index, IndexItem, and Form.
+At the end of phase 2, Reviews can be created, edited, and destroyed though the browser, and read filtered by reviews created by the current user, the user's friends, or the beer to which it belongs. I will also start using basic bootstrap for styling during this phase.
+
 
 [Details][phase-two]
 
-### Phase 3: Notebooks and Tags (2 days)
+### Phase 3: Friends, comments, toasts (2 days)
 
-Phase 3 adds organization to the Notes. Notes belong to a Notebook, which has
-its own `Index` view. Create JSON API for Notebooks. Notes can also now be
-tagged with multiple tags. Users can bring up notes in a separate `SearchIndex`
-view by searching for their tags. Once the tag search is implemented, I will
-extend this to a fuzzy search through every Note's content.
+In Phase 3 I will add more interactivity between Users and their reviews. I will implement the mechanism for adding/confirming another User as a Friend. I will create the JSON API for Comments and Toasts, allowing Users to interact with their Friends' reviews. I will also implement a simple UserFriendsIndex React view which will enable a User to see a list of all of their friends and link to those friends' user pages. At this point I will have to enforce that Users cannot Update or Destroy profiles other than their own.
+At the end of Phase 3, the application's core social features will be in place. Users will be able to 'Friend' each other, see other Users' profiles and reviews, and interact with their Friends by Commenting on and/or Toasting their reviews.  
+
+
 
 [Details][phase-three]
 
-### Phase 4: Allow Complex Styling in Notes (1 day)
+### Phase 4: Search (1 day)
+Phase 4 will implement a multi-use search that will allow Users to search for other Users or for Beers. Search is an extremely important part of this application as it is what in my mind will really make it feel like a single page app. After Phase 4, Users will be able to get to the views for any Beer/User, allowing them to quickly and easily access the features implemented in phases 2 and 3 directly from the application. At this point the minimum viable product will be complete, and BeerIsGood will be beginning to look and behave like a real, user-friendly, interactive social media application.
 
-Using the react-quill library (based on Quill.js), allow for complex styling of
-notes.
+
 
 [Details][phase-four]
 
-### Phase 5: Reminders and Garbage Collection (1 day)
+### Phase 5: Fleshing out Users and Beers: Sidebars and Summaries (1 day)
 
-Phase 5 introduces two new features. First, users can set reminders on notes
-which will at the time they are set for prompt the user to review and edit the
-given note. In addition, I will implement a feature that asks users to review
-notes once they reach a certain age and ask whether they should be kept,
-archived, or deleted.
+In Phase 5 I will begin to work on more visual, less functional aspects of the app. User/User and User/Beer interactions will be more or less fully implemented by this point, but there isn't yet a whole lot to see other than reviews. I will add displays of various information about Users and Beers to their respective React views in the form of Sidebars and Summaries. At this point I will also add more columns to the User and Beer tables in the database in order to store that data. Most of this content will be optional; Users will be able to create their full profile either when they sign up or any time later via links I will add to User views.
+After phase 5, there should no longer be large areas of empty space on any of the application's main views. Adding additional informational content for Users and Beers will not significantly alter the app's functionality, but it will make for a more complete and immersive experience.
+
 
 [Details][phase-five]
 
-### Phase 6: Styling Cleanup and Seeding (1 day)
+### Phase 6: Styling Cleanup and Seeding (1+ day(s))
 
-Bootstrap will have been used to keep things organized up until now, but in
-Phase 6 I will add styling flourishes and make modals out of some elements (like
-the NotebookForm).
+CSS. So much CSS for everything, until it looks AWESOME.
 
 ### Bonus Features (TBD)
-- [ ] Prettify transitions
-- [ ] Use javascript library for cleaner tag selection
-- [ ] Changelogs for Notes
-- [ ] Pagination / infinite scroll for Notes Index
-- [ ] Multiple sessions
+- [ ] Beers belong_to a Brewery (Breweries will be searchable)
+- [ ] Reviews include a Venue (Venues will be searchable)
+- [ ] Google Maps API. Let Users find Venues near them!
+- [ ] Beers have Styles (Styles will be searchable)
+- [ ] Multiple CSS Themes available. (dark beer/light beer, possibly based on      what styles the user rates highest)
+- [ ] Connect with Facebook using some API (sign up using Facebook, allow app to post to Facebook)  -- I have no idea how to do this
 
 [phase-one]: ./docs/phases/phase1.md
 [phase-two]: ./docs/phases/phase2.md

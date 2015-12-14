@@ -1,30 +1,63 @@
-# Phase 3: Flux Architecture (part 2) Reviews and Comments(2 days)
+# Phase 3: Comments, Toasts, and Sidebars(2 days)
 
 ## Rails
 ### Models
 * User
-* Beer
-* Tagging
+* Review
+* Comment
+* Toast
 
 ### Controllers
-* Api::NotebooksController (create, destroy, index, show, update)
+* Api::CommentsController (create, destroy, index, show, update)
+* Api::ToastsController (create, destroy, show, update)
 
 ### Views
-* notebooks/index.json.jbuilder
-* notebooks/show.json.jbuilder
-* tags/show.json.jbuilder
+* comments/show.json.jbuilder
+* toasts/show.json.jbuilder
+* users/show.json.jbuilder
+
 
 ## Flux
 ### Views (React Components)
-* NotebooksIndex
-  - NotebookIndexItem
-* NotebookForm
-* SearchIndex
+* ReviewIndexItemComment
+  - Toast
+
 
 ### Stores
-* Notebook
+* User
+* Beer
 
 ### Actions
+  * ApiActions.receiveAllComments
+  * ApiActions.receiveSingleComment
+  * ApiActions.deleteComment
+
+  * ApiActions.receiveAllToasts
+  * ApiActions.receiveSingleToast
+  * ApiActions.deleteToast
+
+  * ToastActions.fetchAllToasts
+  * ToastActions.fetchSingleToast
+  * ToastActions.createToast
+  * ToastActions.destroyToast
+
+  * CommentActions.fetchAllComments
+  * CommentActions.fetchSingleComment
+  * CommentActions.createComment
+  * CommentActions.editComment
+  * CommentActions.destroyComment
+
+### ApiUtil
+  * ApiUtil.fetchAlComments
+  * ApiUtil.fetchSingleComment
+  * ApiUtil.createComment
+  * ApiUtil.editComment
+  * ApiUtil.destroyComment
+
+
+
+
+
 * ApiActions.receiveAllNotebooks -> triggered by ApiUtil
 * ApiActions.receiveSingleNotebook
 * ApiActions.deleteNotebook

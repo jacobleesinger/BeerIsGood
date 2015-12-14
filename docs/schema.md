@@ -9,13 +9,6 @@ body        | text      | not null
 author_id   | integer   | not null, foreign key (references users)
 beer_id     | integer   | not null, foreign key (references beers)
 
-## beer_reviews
-column name     | data type | details
-----------------|-----------|-----------------------
-id              | integer   | not null, primary key
-review_id       | integer   | not null, foreign key (references reviews)
-beer_id         | integer   | not null, foreign key (references reviews)
-
 
 ## beers
 column name | data type | details

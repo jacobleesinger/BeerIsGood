@@ -1,36 +1,35 @@
-# Phase 2: Flux Architecture: Users, Beers, and Reviews (2.5 days)
-
-## Rails
-### Models
-
-### Controllers
-
-### Views
-
-## Flux
 ### Views (React Components)
-* FriendReviewsIndex
-  - FriendReviewIndexItem
-* UserReviewsIndex
-  - UserReviewIndexItem
-* BeerReviewsIndex
-  - BeerReviewIndexItem
-  - BeerReviewForm
-
+* ReviewsIndex
+  - ReviewIndexItem
+  - ReviewForm
 
 ### Stores
-* User
-* Beer
+* Review
 
 ### Actions
 * ApiActions.receiveAllReviews -> triggered by ApiUtil
 * ApiActions.receiveSingleReview
-* ApiActions.deleteNote
+* ApiActions.deleteReview
+
+* ApiActions.receiveAllUsers
+* ApiActions.receiveSingleUser
+
+* ApiActions.receiveAllBeers
+* ApiActions.receiveSingleBeer
+
 * ReviewActions.fetchAllReviews -> triggers ApiUtil
 * ReviewActions.fetchSingleReview
 * ReviewActions.createReview
 * ReviewActions.editReview
 * ReviewActions.destroyReview
+
+* UserActions.fetchAllUsers
+* UserActions.fetchSingleUser
+
+* BeerActions.fetchAllBeers
+* BeerActions.fetchSingleBeer
+
+
 
 ### ApiUtil
 * ApiUtil.fetchAllReviews
@@ -38,6 +37,12 @@
 * ApiUtil.createReview
 * ApiUtil.editReview
 * ApiUtil.destroyReview
+
+* ApiUtil.fetchAllUsers
+* ApiUtil.fetchSingleUser
+
+* ApiUtil.fetchAllBeers
+* ApiUtil.fetchSingleBeer
 
 ## Gems/Libraries
 * Flux Dispatcher (npm)

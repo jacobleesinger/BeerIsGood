@@ -38,25 +38,17 @@ In Phase 1 I will create the majority of the application's Rails back end logic.
 
 [Details][phase-one]
 
-### Phase 2: Flux Architecture: Users, Beers, Reviews (2.5 days)
 
-In Phase 2 I will create the Flux Architecture, the React Router, and the React view structure for the main application. I will then set up stores for Users and Beers, with corresponding actions. CRUD functionality for Reviews will live in the Beer to which a Review belongs. Once these are set up I will create React views for Reviews Index, IndexItem, and Form.
-At the end of phase 2, Reviews can be created, edited, and destroyed though the browser, and read filtered by reviews created by the current user, the user's friends, or the beer to which it belongs. I will also start using basic bootstrap for styling during this phase.
-
-### Phase 2 alternate: Flux Architecture part 1: Reviews (2.5 days)
+### Phase 2: Flux Architecture part 1: Reviews (2.5 days)
 
 In Phase 2 I will begin creating the Flux Architecture, React Router, and React view structure for the main application. I have decided to split this into two phases, as the main application is essentially divided into two layers. The Reviews comprise a significant portion of the application, and only differ slightly between subpages. I will create the Review store, which will filter Reviews to be rendered according to which actions have been dispatched. I will create CRUD functionality for reviews and a React ReviewsIndex that contains ReviewIndexItems which can be filtered by User or Beer, along with a Form for creating new Reviews.
 At the end of Phase 2, Reviews can be created, edited,  and destroyed through the browser, and read either as a complete Index or filtered by the User or Beer to which they belong. I will also start using Bootstrap for basic styling during this phase. User and Beer views will only consist of filtered ReviewIndexItems at this point.
 
 
 [Details][phase-two]
+  
 
-### Phase 3: Friends, comments, toasts (2 days)
-
-In Phase 3 I will add more interactivity between Users and their reviews. I will implement the mechanism for adding/confirming another User as a Friend. I will create the JSON API for Comments and Toasts, allowing Users to interact with their Friends' reviews. I will also implement a simple UserFriendsIndex React view which will enable a User to see a list of all of their friends and link to those friends' user pages. At this point I will have to enforce that Users cannot Update or Destroy profiles other than their own.
-At the end of Phase 3, the application's core social features will be in place. Users will be able to 'Friend' each other, see other Users' profiles and reviews, and interact with their Friends by Commenting on and/or Toasting their reviews.  
-
-### Phase 3 alternate: Users and Interactivity (2.5 days)
+### Phase 3: Users and Interactivity (2.5 days)
 
 In Phase 3 I will add significant interactivity between Users and Reviews. I will implement the mechanism for adding/confirming another user as a Friend. I will create the JSON API for Comments and Toasts, allowing users to interact wiht their Friends' Reviews. I will also implement a simple UserFriendsIndex React view which will enable a User to see a list of all their Friends and link to those Friends' user pages. At this point I will have to enforce that most Users cannot Update or Destroy profiles other than their own.
 At the end of Phase 3, the application's core social features will be in place. Users will be able to 'Friend' each other, see others Users' profiles and Reviews, and interact with their Friends by Commenting on and/or Toasting their Reviews.
@@ -90,7 +82,8 @@ CSS. So much CSS for everything, until it looks AWESOME.
 - [ ] Reviews include a Venue (Venues will be searchable)
 - [ ] Google Maps API. Let Users find Venues near them!
 - [ ] Beers have Styles (Styles will be searchable)
-- [ ] Multiple CSS Themes available. (dark beer/light beer, possibly based on      what styles the user rates highest)
+- [ ] Multiple Visual Themes available. (dark beer/light beer, possibly based on      what styles the user rates highest)
+- [ ] Allow Users to significantly customize their view via an edit page using jQuery UI or something similar.
 - [ ] Connect with Facebook using some API (sign up using Facebook, allow app to post to Facebook)  -- I have no idea how to do this
 
 [phase-one]: ./docs/phases/phase1.md

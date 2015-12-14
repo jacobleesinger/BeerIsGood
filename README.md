@@ -31,12 +31,10 @@ BeerIsGood is a social media web application for craft beer enthusiasts inspired
 
 ## Implementation Timeline
 
-### Phase 1: User Authentication, Note Model and JSON API (1.5 days)
+### Phase 1: Rails Back-End, User Authentication, JSON API (2 days)
 
-In Phase 1, I will begin by implementing user signup and authentication (using
-BCrypt). There will be a basic landing page after signup that will contain the
-container for the application's root React component. Before building out the
-front end, I will begin by setting up a full JSON API for Notes.
+In Phase 1 I will create the majority of the application's Rails back end logic. I will implement user signup and authentication (using BCrypt), with a basic landing page and views for signing up and signing in. There will be a main page that will contain the application's root React component. I will then build all of the primary JSON APIs (for Users, Beers, and Reviews).
+
 
 [Details][phase-one]
 

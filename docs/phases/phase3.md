@@ -1,9 +1,9 @@
-# Phase 3: Notebooks and Tags (2 days)
+# Phase 3: Flux Architecture (part 2) Reviews and Comments(2 days)
 
 ## Rails
 ### Models
-* Notebook
-* Tag
+* User
+* Beer
 * Tagging
 
 ### Controllers

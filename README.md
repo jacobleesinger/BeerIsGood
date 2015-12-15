@@ -50,7 +50,7 @@ In Phase 2 I will begin creating the Flux Architecture, React Router, and React 
 
 ### Phase 3: Users and Interactivity (2.5 days)
 
-In Phase 3 I will add the User React view and intruduce significant interactivity between Users and Reviews. I will implement the mechanism for adding/confirming another user as a Friend. I will add Comments and Toasts to the Reviews JSON API, allowing users to interact with their Friends' Reviews. I will also implement a simple UserFriendsIndex React view which will enable a User to see a list of all their Friends and link to those Friends' user pages. At this point I will have to enforce that most Users cannot Update or Destroy profiles other than their own.
+In Phase 3 I will add the User React view and introduce significant interactivity between Users and Reviews. I will implement the mechanism for adding/confirming another user as a Friend. I will add Comments and Toasts to the Reviews JSON API, allowing users to interact with their Friends' Reviews. I will also implement a simple UserFriendsIndex React view which will enable a User to see a list of all their Friends and link to those Friends' user pages. At this point I will have to enforce that most Users cannot Update or Destroy profiles other than their own.
 At the end of Phase 3, the application's core social features will be in place. Users will be able to 'Friend' each other, see others Users' profiles and Reviews, and interact with their Friends by Commenting on and/or Toasting their Reviews.
 
 

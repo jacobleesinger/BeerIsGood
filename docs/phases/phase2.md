@@ -11,9 +11,6 @@
 * ApiActions.receiveSingleReview
 * ApiActions.deleteReview
 
-* ApiActions.receiveAllUsers
-* ApiActions.receiveSingleUser
-
 * ApiActions.receiveAllBeers
 * ApiActions.receiveSingleBeer
 
@@ -23,13 +20,8 @@
 * ReviewActions.editReview
 * ReviewActions.destroyReview
 
-* UserActions.fetchAllUsers
-* UserActions.fetchSingleUser
-
 * BeerActions.fetchAllBeers
 * BeerActions.fetchSingleBeer
-
-
 
 ### ApiUtil
 * ApiUtil.fetchAllReviews
@@ -38,8 +30,6 @@
 * ApiUtil.editReview
 * ApiUtil.destroyReview
 
-* ApiUtil.fetchAllUsers
-* ApiUtil.fetchSingleUser
 
 * ApiUtil.fetchAllBeers
 * ApiUtil.fetchSingleBeer

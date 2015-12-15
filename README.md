@@ -39,18 +39,18 @@ In Phase 1 I will create the majority of the application's Rails back end logic.
 [Details][phase-one]
 
 
-### Phase 2: Flux Architecture part 1: Reviews (2.5 days)
+### Phase 2: Flux Architecture part 1: Beers and Reviews (2.5 days)
 
-In Phase 2 I will begin creating the Flux Architecture, React Router, and React view structure for the main application. I have decided to split this into two phases, as the main application is essentially divided into two layers. The Reviews comprise a significant portion of the application, and only differ slightly between subpages. I will create the Review store, which will filter Reviews to be rendered according to which actions have been dispatched. I will create CRUD functionality for reviews and a React ReviewsIndex that contains ReviewIndexItems which can be filtered by User or Beer, along with a Form for creating new Reviews.
-At the end of Phase 2, Reviews can be created, edited,  and destroyed through the browser, and read either as a complete Index or filtered by the User or Beer to which they belong. I will also start using Bootstrap for basic styling during this phase. User and Beer views will only consist of filtered ReviewIndexItems at this point.
+In Phase 2 I will begin creating the Flux Architecture, React Router, and React view structure for the main application. I have decided to split this into two phases, as the main application is essentially divided into two parts. Phase 2 will focus on the "Craft Beer" side of the application, and Phase 3 will focus on the "Social Media" side. Reviews will comprise a significant part of the visual app and of interaction between Users, but they will fundamentally belong to Beers. In this phase, I will create the Beer store and the React views for Beers, Reviews, and the Review form.
+At the end of Phase 2, Reviews can be created, read, updated, and destroyed through a Review form in the Beer component. Reviews will also be viewable as a list of all Reviews.
 
 
 [Details][phase-two]
-  
+
 
 ### Phase 3: Users and Interactivity (2.5 days)
 
-In Phase 3 I will add significant interactivity between Users and Reviews. I will implement the mechanism for adding/confirming another user as a Friend. I will create the JSON API for Comments and Toasts, allowing users to interact wiht their Friends' Reviews. I will also implement a simple UserFriendsIndex React view which will enable a User to see a list of all their Friends and link to those Friends' user pages. At this point I will have to enforce that most Users cannot Update or Destroy profiles other than their own.
+In Phase 3 I will add the User React view and intruduce significant interactivity between Users and Reviews. I will implement the mechanism for adding/confirming another user as a Friend. I will add Comments and Toasts to the Reviews JSON API, allowing users to interact with their Friends' Reviews. I will also implement a simple UserFriendsIndex React view which will enable a User to see a list of all their Friends and link to those Friends' user pages. At this point I will have to enforce that most Users cannot Update or Destroy profiles other than their own.
 At the end of Phase 3, the application's core social features will be in place. Users will be able to 'Friend' each other, see others Users' profiles and Reviews, and interact with their Friends by Commenting on and/or Toasting their Reviews.
 
 

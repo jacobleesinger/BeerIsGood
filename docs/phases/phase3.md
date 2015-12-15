@@ -28,16 +28,11 @@
 * Beer
 
 ### Actions
-* ApiActions.receiveAllComments
-* ApiActions.receiveSingleComment
 * ApiActions.deleteComment
 
-* ApiActions.receiveAllToasts
-* ApiActions.receiveSingleToast
 * ApiActions.deleteToast
 
 * ApiActions.receiveAllFriends
-* ApiActions.recieveSingleFriend
 * ApiActions.deleteFriend
 
 * ApiActions.receiveAllUsers -> triggered by ApiUtil
@@ -50,19 +45,16 @@
 * UserActions.editUser
 * UserActions.destroyUser
 
-* ToastActions.fetchAllToasts
-* ToastActions.fetchSingleToast
+
 * ToastActions.createToast
 * ToastActions.destroyToast
 
-* CommentActions.fetchAllComments
-* CommentActions.fetchSingleComment
+
 * CommentActions.createComment
 * CommentActions.editComment
 * CommentActions.destroyComment
 
 * FriendActions.fetchAllFriends
-* FriendActions.fetchSingleFriend
 * FriendActions.createFriend
 * FriendActions.destroyFriend
 
@@ -75,19 +67,16 @@
 * ApiUtil.editUser
 * ApiUtil.destroyUser
 
-* ApiUtil.fetchAllComments
-* ApiUtil.fetchSingleComment
+
 * ApiUtil.createComment
 * ApiUtil.editComment
 * ApiUtil.destroyComment
 
-* ApiUtil.fetchAllToasts
-* ApiUtil.fetchSingleToast
+
 * ApiUtil.createToast
 * ApiUtil.destroyToast
 
 * ApiUtil.FetchAllFriends
-* ApiUtil.fetchSingleFriend
 * ApiUtil.createFriend
 * ApiUtil.destroyFriend
 

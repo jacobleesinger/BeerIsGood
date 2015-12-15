@@ -39,10 +39,10 @@ In Phase 1 I will create the majority of the application's Rails back end logic.
 [Details][phase-one]
 
 
-### Phase 2: Flux Architecture part 1: Beers and Reviews (2.5 days)
+### Phase 2: Flux Architecture part 1: Reviews (2.5 days)
 
-In Phase 2 I will begin creating the Flux Architecture, React Router, and React view structure for the main application. I have decided to split this into two phases, as the main application is essentially divided into two parts. Phase 2 will focus on the "Craft Beer" side of the application, and Phase 3 will focus on the "Social Media" side. Reviews will comprise a significant part of the visual app and of interaction between Users, but they will fundamentally belong to Beers. In this phase, I will create the Beer store and the React views for Beers, Reviews, and the Review form.
-At the end of Phase 2, Reviews can be created, read, updated, and destroyed through a Review form in the Beer component. Reviews will also be viewable as a list of all Reviews.
+In Phase 2 I will begin creating the Flux Architecture, React Router, and React view structure for the main application. I will create simple Stores and views for Users and Beers, followed by the Review store and CRUD functionality, which will comprise a significant part of the application. At the end of Phase 2, Users will be able to create, read, update, and destroy Reviews from the browser through a Review form. Reviews will be visible sorted by User on User views and by Beer on Beer views. At this time I will be using basic Bootstrap for visual organization and styling.
+
 
 
 [Details][phase-two]

@@ -1,0 +1,28 @@
+{
+  "name": "beer_is_good",
+  "version": "1.0.0",
+  "description": "[Heroku link][heroku] **NB:** This should be a link to your production site",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacobleesinger/BeerIsGood.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jacobleesinger/BeerIsGood/issues"
+  },
+  "scripts": {
+  "postinstall": "./node_modules/.bin/webpack"
+  },
+
+  "homepage": "https://github.com/jacobleesinger/BeerIsGood#readme"
+}

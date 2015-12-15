@@ -1,9 +1,11 @@
 ### Views (React Components)
+* BeerShow
 * ReviewsIndex
   - ReviewIndexItem
   - ReviewForm
 
 ### Stores
+* Beer
 * Review
 
 ### Actions

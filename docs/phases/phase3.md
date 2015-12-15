@@ -3,17 +3,14 @@
 ## Rails
 ### Models
 * User
-* Review
 * Comment
 * Toast
 
 ### Controllers
-* Api::CommentsController (create, destroy, index, show, update)
+* Api::CommentsController (create, destroy, show, update)
 * Api::ToastsController (create, destroy, show, update)
 
 ### Views
-* comments/show.json.jbuilder
-* toasts/show.json.jbuilder
 * users/show.json.jbuilder
 
 
@@ -25,7 +22,7 @@
 
 ### Stores
 * User
-* Beer
+
 
 ### Actions
 * ApiActions.deleteComment

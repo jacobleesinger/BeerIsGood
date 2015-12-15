@@ -1,4 +1,4 @@
-# Phase 3: Comments, Toasts, and Sidebars(2 days)
+# Phase 3: Users and Interactivity(2.5 days)
 
 ## Rails
 ### Models
@@ -21,7 +21,7 @@
 
 
 ### Stores
-* User
+
 
 
 ### Actions
@@ -31,16 +31,6 @@
 
 * ApiActions.receiveAllFriends
 * ApiActions.deleteFriend
-
-* ApiActions.receiveAllUsers -> triggered by ApiUtil
-* ApiActions.receiveSingleUser
-* ApiActions.deleteUser
-
-* UserActions.fetchAllUsers -> triggers ApiUtil
-* UserActions.fetchSingleUser
-* UserActions.createUser
-* UserActions.editUser
-* UserActions.destroyUser
 
 
 * ToastActions.createToast
@@ -58,12 +48,6 @@
 
 
 ### ApiUtil
-* ApiUtil.fetchAllUsers
-* ApiUtil.fetchSingleUser
-* ApiUtil.createUser
-* ApiUtil.editUser
-* ApiUtil.destroyUser
-
 
 * ApiUtil.createComment
 * ApiUtil.editComment

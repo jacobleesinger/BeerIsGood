@@ -24,9 +24,19 @@
 
 ### Actions
 
+* ApiActions.editUser
+* ApiActions.destroyUser
+
+* UserActions.editUser
+* UserActions.desroyUser
+
+
 
 
 ### ApiUtil
+
+* ApiUtil.editUser
+* ApiUtil.destroyUser
 
 
 

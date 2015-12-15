@@ -1,4 +1,7 @@
+# Phase 2: Flux Architecture and Reviews
+
 ### Views (React Components)
+* UserShow
 * BeerShow
 * ReviewsIndex
   - ReviewIndexItem
@@ -7,14 +10,23 @@
 ### Stores
 * Beer
 * Review
+* User
 
 ### Actions
+
+* ApiActions.receiveAllUsers
+* ApiActions.receiveSingleUser
+
+
 * ApiActions.receiveAllReviews -> triggered by ApiUtil
 * ApiActions.receiveSingleReview
 * ApiActions.deleteReview
 
 * ApiActions.receiveAllBeers
 * ApiActions.receiveSingleBeer
+
+* UserActions.fetchAllUsers
+* UserActions.fetchSingleUser
 
 * ReviewActions.fetchAllReviews -> triggers ApiUtil
 * ReviewActions.fetchSingleReview
@@ -26,6 +38,10 @@
 * BeerActions.fetchSingleBeer
 
 ### ApiUtil
+
+* ApiUtil.fetchAllUsers
+* ApiUtil.fetchSingleUser
+
 * ApiUtil.fetchAllReviews
 * ApiUtil.fetchSingleReview
 * ApiUtil.createReview

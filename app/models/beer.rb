@@ -5,4 +5,6 @@ class Beer < ActiveRecord::Base
   foreign_key: :beer_id,
   primary_key: :id
   )
+
+  has_many :reviewers, through: :reviews, source: :author
 end

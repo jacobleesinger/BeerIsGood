@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "./node_modules/.bin/webpack"
   },
   "repository": {
     "type": "git",
@@ -20,9 +20,8 @@
   "bugs": {
     "url": "https://github.com/jacobleesinger/BeerIsGood/issues"
   },
-  "scripts": {
-  "postinstall": "./node_modules/.bin/webpack"
-  },
-
-  "homepage": "https://github.com/jacobleesinger/BeerIsGood#readme"
+  "homepage": "https://github.com/jacobleesinger/BeerIsGood#readme",
+  "dependencies": {
+    "webpack": "^1.12.9"
+  }
 }

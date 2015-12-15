@@ -25,7 +25,7 @@ username        | string    | not null, indexed, unique
 email           | string    | not null, unique
 birthday        | date      | not null
 password_digest | string    | not null
-session_token   | string    | not null
+session_token   | string    | not null, unique
 
 
 ## friendships

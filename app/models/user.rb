@@ -8,6 +8,12 @@ class User < ActiveRecord::Base
   )
 
   has_many(
+  :friends,
+  through: :friendships,
+  source: :friend
+  )
+
+  has_many(
   :reviews,
   class_name: "Review",
   foreign_key: :author_id,

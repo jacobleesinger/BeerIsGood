@@ -28,7 +28,7 @@ password_digest | string    | not null
 session_token   | string    | not null
 
 
-## friends
+## friendships
 column name     | data type | details
 ----------------|-----------|-----------------------
 id              | integer   | not null, primary key

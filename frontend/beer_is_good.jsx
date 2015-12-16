@@ -11,19 +11,19 @@ var App = React.createClass({
     return (
       <div>
         <h1>BeerIsGood</h1>
-        {this.props.children}
+        
       </div>
     )
   }
 });
 
-var routes = (
-  <Route path="/" component={App}>
-    <IndexRoute component={LandingPage}/>
-  </Route>
-);
+// var routes = (
+//   <Route path="/" component={App}>
+//     <IndexRoute component={LandingPage}/>
+//   </Route>
+// );
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  ReactDOM.render(<Router>{routes}</Router>, document.getElementById("root"));
+  ReactDOM.render(<App />, document.getElementById("root"));
 });

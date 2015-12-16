@@ -9,64 +9,55 @@ var NewUser = React.createClass({
   render: function () {
 
     return(
-      <div className='modal-screen'>
-        <div className='modal-content new-user'>
-          <p>{this.props.method}</p>
+      <div className="row">
+        <div className='modal-screen'>
+          <div className='modal-content col-md-6 col-offset-3'>
+            <p>{this.props.method}</p>
 
-          <form id="newSessionForm" className="form-control">
+            <form id="newSessionForm" className="form-control">
+              <div className="col-md-3 col-offset3">
+                <div className="form-group">
+                  <label htmlFor="newUsername">Username</label>
+                  <input type="text" name="username" id="newUsername"/>
+                </div>
 
-            <div className="half">
+                <div className="form-group">
+                  <label htmlFor="newPassword">Password</label>
+                  <input type="password" name="password" id="newUsername"/>
+                </div>
 
-              <div className="form-group">
-                <label>Username
-                  <input type="text" name="username"/>
-                </label>
+                <div className="form-group">
+                  <label htmlFor="newLocation">Location</label>
+                  <input type="text" name="location" id="newLocation"/>
+                </div>
+              </div>
+
+              <div className="col-md-3 col-offset-6">
+
+                <div className="form-group">
+                  <label htmlFor="newEmail">Email</label>
+                  <input type="email" name="email" id="newEmail"/>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="newConfirm">Confirm Password</label>
+                  <input type="password" name="password" id="newConfirm"/>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="newBirthday">Birthday</label>
+                  <input type="date" name="birthday" id="newBirthday"/>
+                </div>
               </div>
 
               <div className="form-group">
-                <label>Password
-                  <input type="password" name="password"/>
-                </label>
+                <input className="btn btn-primary new-user-submit" type="submit" onClick={this.handleSubmit} value="Sign Up!" />
               </div>
 
-              <div className="form-group">
-                <label>Location
-                  <input type="text" name="location"/>
-                </label>
-              </div>
-
-            </div>
-
-            <div className="half">
-
-              <div className="form-group">
-                <label>Email
-                  <input type="email" name="email"/>
-                </label>
-              </div>
-
-              <div className="form-group">
-                <label>Confirm Password
-                  <input type="password" name="password"/>
-                </label>
-              </div>
-
-              <div className="form-group">
-                <label>Birthday
-                  <input type="date" name="birthday"/>
-                </label>
-              </div>
-
-            </div>
-
-            <div className="form-group">
-              <input className="btn btn-primary new-user-submit" type="submit" onClick={this.handleSubmit} value="Sign Up!" />
-            </div>
-
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-
     );
   }
 

@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 gem 'bcrypt'
 
-
+gem 'bootstrap'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'

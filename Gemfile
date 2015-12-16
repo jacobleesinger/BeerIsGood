@@ -2,9 +2,6 @@ source 'https://rubygems.org'
 
 
 gem 'bcrypt'
-gem 'sprockets_better_errors'
-
-
 
 
 

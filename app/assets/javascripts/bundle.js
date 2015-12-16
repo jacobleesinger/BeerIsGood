@@ -24190,7 +24190,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'hi'
+	      'hi!'
 	    );
 	  }
 	

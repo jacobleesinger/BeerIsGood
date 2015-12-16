@@ -62,7 +62,7 @@
 	      React.createElement(
 	        'h1',
 	        null,
-	        'BeerIsGood!'
+	        'BeerIsGood'
 	      ),
 	      this.props.children
 	    );

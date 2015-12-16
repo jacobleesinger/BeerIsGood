@@ -61,7 +61,7 @@ var LandingPage = React.createClass({
     // {modal}
 
     return (
-    <div>hi there! Jacob4
+    <div>hi there! Jacob5
     </div>
     )
   }

@@ -10,41 +10,58 @@ var NewUser = React.createClass({
 
     return(
       <div className='modal-screen'>
-        <div className='modal-content'>
+        <div className='modal-content new-user'>
           <p>{this.props.method}</p>
 
-          <form id="newSessionForm">
-            <label>Username
-              <input type="text" name="username"/>
-            </label>
-            <br />
+          <form id="newSessionForm" className="form-control">
 
-            <label>Email
-              <input type="email" name="email"/>
-            </label>
-            <br />
+            <div className="half">
 
-            <label>Password
-              <input type="password" name="password"/>
-            </label>
-            <br />
+              <div className="form-group">
+                <label>Username
+                  <input type="text" name="username"/>
+                </label>
+              </div>
 
-            <label>Confirm Password
-              <input type="password" name="password"/>
-            </label>
-            <br />
+              <div className="form-group">
+                <label>Password
+                  <input type="password" name="password"/>
+                </label>
+              </div>
 
-            <label>Location
-              <input type="text" name="location"/>
-            </label>
-            <br />
+              <div className="form-group">
+                <label>Location
+                  <input type="text" name="location"/>
+                </label>
+              </div>
 
-            <label>Birthday
-              <input type="date" name="birthday"/>
-            </label>
-            <br />
+            </div>
 
-            <input className="btn btn-primary" type="submit" onClick={this.handleSubmit} value="Sign Up!" />
+            <div className="half">
+
+              <div className="form-group">
+                <label>Email
+                  <input type="email" name="email"/>
+                </label>
+              </div>
+
+              <div className="form-group">
+                <label>Confirm Password
+                  <input type="password" name="password"/>
+                </label>
+              </div>
+
+              <div className="form-group">
+                <label>Birthday
+                  <input type="date" name="birthday"/>
+                </label>
+              </div>
+
+            </div>
+
+            <div className="form-group">
+              <input className="btn btn-primary new-user-submit" type="submit" onClick={this.handleSubmit} value="Sign Up!" />
+            </div>
 
           </form>
         </div>

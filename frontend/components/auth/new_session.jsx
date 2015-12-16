@@ -1,17 +1,12 @@
 var React = require('react');
 var AuthStore = require('../../stores/auth_store');
-var LinkedStateMixin = require('react-addons-linked-state-mixin');
-var ApiUtil = require('../../util/api_util');
 
 
-var NewSessionForm = React.createClass ({
+
+var NewSession = React.createClass ({
 
   handleSubmit: function (e) {
-    debugger;
     e.preventDefault();
-    var form = document.getElementById("newSessionForm");
-    ApiUtil.signInUser(form.username, form.password);
-
   },
 
   render: function () {
@@ -21,10 +16,12 @@ var NewSessionForm = React.createClass ({
           <p>{this.props.method}</p>
 
           <form id="newSessionForm">
+            
             <label>Username:
               <input type="text" name="username"/>
             </label>
             <br />
+
             <label>Password:
               <input type="password" name="password"/>
             </label>
@@ -40,4 +37,4 @@ var NewSessionForm = React.createClass ({
 
 });
 
-module.exports = NewSessionForm;
+module.exports = NewSession;

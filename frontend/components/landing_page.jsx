@@ -9,17 +9,17 @@ var LandingPage = React.createClass({
     return(
       {
         signedIn: false,
-        method: "",
+        button: "",
         auth: false
       }
     )
   },
 
-  handleAuth: function (method) {
+  handleAuth: function (button) {
     this.setState(
       {
         auth: true,
-        method: method
+        button: button
       }
     );
   },
@@ -44,7 +44,7 @@ var LandingPage = React.createClass({
     var buttons;
 
     if (this.state.auth) {
-      modal = <Auth method={this.state.method} callback={this.finishAuth} />;
+      modal = <Auth button={this.state.button} callback={this.finishAuth} />;
     }
 
     if (this.state.signedIn) {
@@ -52,8 +52,8 @@ var LandingPage = React.createClass({
     } else {
       buttons = (
         <div>
-         <button onClick={this.handleAuth.bind(this, "Sign Up!")}>Sign Up</button>
-         <button onClick={this.handleAuth.bind(this, "Sign In!")}>Sign In</button>
+         <button onClick={this.handleAuth.bind(this, "sign up")}>Sign Up</button>
+         <button onClick={this.handleAuth.bind(this, "sign in")}>Sign In</button>
        </div>
      );
     }

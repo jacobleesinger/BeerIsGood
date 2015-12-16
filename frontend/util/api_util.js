@@ -9,7 +9,7 @@ createUser: function (user) {
   },
 
   signInUser: function (username, password) {
-    $.post("sessions", { username: username, password: password }, function (results) {
+    $.post("sessions", {user: username, user: password}, function (results) {
       ApiAction.receiveAuthMessages(results);
     });
   },
@@ -21,9 +21,9 @@ createUser: function (user) {
 
       }
     });
-  },
+  }
 
 };
 
-
+window.ApiUtil = ApiUtil;
 module.exports = ApiUtil;

@@ -7,24 +7,27 @@ var ApiUtil = require('../../util/api_util');
 var NewSessionForm = React.createClass ({
 
   handleSubmit: function (e) {
-    e.preventDefault;
-    ApiUtil.SignInUser(user)
+    debugger;
+    e.preventDefault();
+    var form = document.getElementById("newSessionForm");
+    ApiUtil.signInUser(form.username, form.password);
 
-  }
+  },
 
   render: function () {
     return (
       <div className='modal-screen'>
         <div className='modal-content'>
           <p>{this.props.method}</p>
-          {displayMessages}
-          <form>
-            Username: <input type="text"/>
 
+          <form id="newSessionForm">
+            <label>Username:
+              <input type="text" name="username"/>
+            </label>
             <br />
-
-            Password: <input type="password"/>
-
+            <label>Password:
+              <input type="password" name="password"/>
+            </label>
             <br />
 
             <input className="btn btn-primary" type="submit" onClick={this.handleSubmit} value="Sign In!" />

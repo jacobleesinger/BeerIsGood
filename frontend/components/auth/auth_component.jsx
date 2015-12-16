@@ -6,7 +6,7 @@ var NewUser = require('./new_user_form');
 var NewSession = require('./new_session_form');
 
 var Auth = React.createClass({
-  mixins: [LinkedStateMixin],
+
   getInitialState: function() {
     return({
       username: "",
@@ -29,25 +29,28 @@ var Auth = React.createClass({
   },
 
   render: function () {
-    var displayMessages;
-    if (this.state.messages.length > 0) {
-      displayMessages =
-      <ul>
-        {this.state.messages.map(function (message) {
-          return <li>{message}</li>;
-        })
-      }
-      </ul>
-    }
-    if (this.props.method === "Sign Up!") {
-      return (
-        <NewUser />
-      )
-    } elsif (this.props.method === "Sign In!") {
-      return (
-        <NewSession />
-      )
-    }
+    // var displayMessages;
+    // if (this.state.messages.length > 0) {
+    //   displayMessages =
+    //   <ul>
+    //     {this.state.messages.map(function (message) {
+    //       return <li>{message}</li>;
+    //     })
+    //   }
+    //   </ul>
+    // }
+    // if (this.props.method === "Sign Up!") {
+    //   return (
+    //     <NewUser />
+    //   )
+    // } elsif (this.props.method === "Sign In!") {
+    //   return (
+    //     <NewSession />
+    //   )
+    // }
+    return (
+      <NewSession />
+    )
 
 
   }

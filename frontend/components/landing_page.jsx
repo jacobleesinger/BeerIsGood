@@ -52,8 +52,8 @@ var LandingPage = React.createClass({
     } else {
       buttons = (
         <div>
-         <button onClick={this.handleAuth.bind(this, "sign up")}>Sign Up</button>
-         <button onClick={this.handleAuth.bind(this, "sign in")}>Sign In</button>
+         <button onClick={this.handleAuth.bind(this, "signup")}>Sign Up</button>
+         <button onClick={this.handleAuth.bind(this, "signin")}>Sign In</button>
        </div>
      );
     }

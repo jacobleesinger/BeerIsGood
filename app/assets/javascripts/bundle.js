@@ -24174,12 +24174,12 @@
 	        null,
 	        React.createElement(
 	          'button',
-	          { onClick: this.handleAuth.bind(this, "sign up") },
+	          { onClick: this.handleAuth.bind(this, "signup") },
 	          'Sign Up'
 	        ),
 	        React.createElement(
 	          'button',
-	          { onClick: this.handleAuth.bind(this, "sign in") },
+	          { onClick: this.handleAuth.bind(this, "signin") },
 	          'Sign In'
 	        )
 	      );
@@ -24214,9 +24214,9 @@
 	
 	  GetAppropriateAuthForm: function () {
 	
-	    if (this.props.button === "sign up") {
+	    if (this.props.button === "signup") {
 	      AuthForm = NewUser;
-	    } else if (this.props.button === "sign in") {
+	    } else if (this.props.button === "signin") {
 	      AuthForm = NewSession;
 	    }
 	  },

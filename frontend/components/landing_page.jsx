@@ -57,12 +57,11 @@ var LandingPage = React.createClass({
        </div>
      );
     }
-    // {buttons}
-    // {modal}
 
     return (
-    <div>hi there! Jacob6
-      
+    <div>
+      {buttons}
+      {modal}
     </div>
     )
   }

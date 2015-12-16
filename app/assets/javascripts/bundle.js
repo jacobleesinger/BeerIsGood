@@ -62,7 +62,7 @@
 	      React.createElement(
 	        'h1',
 	        null,
-	        'BeerIsGood!!!'
+	        'BeerIsGood'
 	      ),
 	      this.props.children
 	    );
@@ -24184,13 +24184,12 @@
 	        )
 	      );
 	    }
-	    // {buttons}
-	    // {modal}
 	
 	    return React.createElement(
 	      'div',
 	      null,
-	      'hi there! Jacob6'
+	      buttons,
+	      modal
 	    );
 	  }
 	

@@ -11,28 +11,24 @@ var NewSession = React.createClass ({
 
   render: function () {
     return (
-      <div className="row">
-        <div className='modal-screen col-md-4 col-offset-4'>
-          <div className='modal-content new-session'>
-            <p>{this.props.method}</p>
+      <div  className="row">
+        <div className="col-md-8" id="newSessionFormDiv">
+          <form id="newSessionForm" className="form-group">
+            <div className="row">
 
-            <form id="newSessionForm" className="form-group">
+              <div className="col-md-4">
 
-              <div className="form-control">
-                <label htmlFor="newSessionUsername">Username</label>
-                  <input type="text" name="username" id="newSessionUsername"/>
+                <label htmlFor="sessionUsername">Username</label>
+                <input type="text" className="form-control" id="sessionUsername"/>
+
+                <label htmlFor="sessionPassword">Password</label>
+                <input type="password" className="form-control"id="sessionPassword"/>
               </div>
+            </div>
 
-              <div className="form-control">
-                <label htmlFor="newSessionPassword">Password</label>
-                  <input type="password" name="newSessionPassword"/>
-              </div>
+            <input type="submit" onClick={this.handleSubmit} value="Sign In" className="btn btn-primary"/>
 
-              <div className="form-control">
-                <input className="btn btn-primary" type="submit" onClick={this.handleSubmit} value="Sign In!" />
-              </div>
-            </form>
-          </div>
+          </form>
         </div>
       </div>
     );

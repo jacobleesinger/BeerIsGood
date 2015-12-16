@@ -31260,7 +31260,7 @@
 	var React = __webpack_require__(1);
 	
 	var NewUser = React.createClass({
-	  displayName: 'NewUser',
+	  displayName: "NewUser",
 	
 	  handleSubmit: function (e) {
 	    e.preventDefault();
@@ -31269,96 +31269,63 @@
 	  render: function () {
 	
 	    return React.createElement(
-	      'div',
-	      { className: 'row' },
+	      "div",
+	      { className: "row" },
 	      React.createElement(
-	        'div',
-	        { className: 'modal-screen' },
+	        "div",
+	        { className: "col-md-8", id: "newUserFormDiv" },
 	        React.createElement(
-	          'div',
-	          { className: 'modal-content col-md-6 col-offset-3' },
+	          "form",
+	          { id: "newUserForm", className: "form-group" },
 	          React.createElement(
-	            'p',
-	            null,
-	            this.props.method
-	          ),
-	          React.createElement(
-	            'form',
-	            { id: 'newSessionForm', className: 'form-control' },
+	            "div",
+	            { className: "row" },
 	            React.createElement(
-	              'div',
-	              { className: 'col-md-3 col-offset3' },
+	              "div",
+	              { className: "col-md-4" },
 	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'label',
-	                  { htmlFor: 'newUsername' },
-	                  'Username'
-	                ),
-	                React.createElement('input', { type: 'text', name: 'username', id: 'newUsername' })
+	                "label",
+	                { htmlFor: "newUsername" },
+	                "Username"
 	              ),
+	              React.createElement("input", { type: "text", className: "form-control", id: "newUsername" }),
 	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'label',
-	                  { htmlFor: 'newPassword' },
-	                  'Password'
-	                ),
-	                React.createElement('input', { type: 'password', name: 'password', id: 'newUsername' })
+	                "label",
+	                { htmlFor: "newPassword" },
+	                "Password"
 	              ),
+	              React.createElement("input", { type: "password", className: "form-control", id: "newPassword" }),
 	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'label',
-	                  { htmlFor: 'newLocation' },
-	                  'Location'
-	                ),
-	                React.createElement('input', { type: 'text', name: 'location', id: 'newLocation' })
-	              )
+	                "label",
+	                { htmlFor: "newLocation" },
+	                "Location"
+	              ),
+	              React.createElement("input", { type: "text", className: "form-control", id: "newLocation" })
 	            ),
 	            React.createElement(
-	              'div',
-	              { className: 'col-md-3 col-offset-6' },
+	              "div",
+	              { className: "col-md-4" },
 	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'label',
-	                  { htmlFor: 'newEmail' },
-	                  'Email'
-	                ),
-	                React.createElement('input', { type: 'email', name: 'email', id: 'newEmail' })
+	                "label",
+	                { htmlFor: "newEmail" },
+	                "Email"
 	              ),
+	              React.createElement("input", { type: "email", className: "form-control", id: "newEmail" }),
 	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'label',
-	                  { htmlFor: 'newConfirm' },
-	                  'Confirm Password'
-	                ),
-	                React.createElement('input', { type: 'password', name: 'password', id: 'newConfirm' })
+	                "label",
+	                { htmlFor: "newConfirm" },
+	                "Confirm Password"
 	              ),
+	              React.createElement("input", { type: "password", className: "form-control", id: "newConfirm" }),
 	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'label',
-	                  { htmlFor: 'newBirthday' },
-	                  'Birthday'
-	                ),
-	                React.createElement('input', { type: 'date', name: 'birthday', id: 'newBirthday' })
-	              )
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'form-group' },
-	              React.createElement('input', { className: 'btn btn-primary new-user-submit', type: 'submit', onClick: this.handleSubmit, value: 'Sign Up!' })
+	                "label",
+	                { htmlFor: "newBirthday" },
+	                "Birthday"
+	              ),
+	              React.createElement("input", { type: "date", className: "form-control", id: "newBirthday" })
 	            )
-	          )
+	          ),
+	          React.createElement("input", { type: "submit", onClick: this.handleSubmit, value: "Sign Up", className: "btn btn-primary" })
 	        )
 	      )
 	    );
@@ -31388,44 +31355,31 @@
 	      { className: 'row' },
 	      React.createElement(
 	        'div',
-	        { className: 'modal-screen col-md-4 col-offset-4' },
+	        { className: 'col-md-8', id: 'newSessionFormDiv' },
 	        React.createElement(
-	          'div',
-	          { className: 'modal-content new-session' },
+	          'form',
+	          { id: 'newSessionForm', className: 'form-group' },
 	          React.createElement(
-	            'p',
-	            null,
-	            this.props.method
-	          ),
-	          React.createElement(
-	            'form',
-	            { id: 'newSessionForm', className: 'form-group' },
+	            'div',
+	            { className: 'row' },
 	            React.createElement(
 	              'div',
-	              { className: 'form-control' },
+	              { className: 'col-md-4' },
 	              React.createElement(
 	                'label',
-	                { htmlFor: 'newSessionUsername' },
+	                { htmlFor: 'sessionUsername' },
 	                'Username'
 	              ),
-	              React.createElement('input', { type: 'text', name: 'username', id: 'newSessionUsername' })
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'form-control' },
+	              React.createElement('input', { type: 'text', className: 'form-control', id: 'sessionUsername' }),
 	              React.createElement(
 	                'label',
-	                { htmlFor: 'newSessionPassword' },
+	                { htmlFor: 'sessionPassword' },
 	                'Password'
 	              ),
-	              React.createElement('input', { type: 'password', name: 'newSessionPassword' })
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'form-control' },
-	              React.createElement('input', { className: 'btn btn-primary', type: 'submit', onClick: this.handleSubmit, value: 'Sign In!' })
+	              React.createElement('input', { type: 'password', className: 'form-control', id: 'sessionPassword' })
 	            )
-	          )
+	          ),
+	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Sign In', className: 'btn btn-primary' })
 	        )
 	      )
 	    );

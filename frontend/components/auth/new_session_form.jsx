@@ -8,6 +8,7 @@ var NewSessionForm = React.createClass ({
 
   handleSubmit: function (e) {
     e.preventDefault;
+    ApiUtil.SignInUser(user)
 
   }
 

@@ -8,8 +8,8 @@ createUser: function (user) {
     });
   },
 
-  signInUser: function (user) {
-    $.post("sessions", { user: user }, function (results) {
+  signInUser: function (username, password) {
+    $.post("sessions", { username: username, password: password }, function (results) {
       ApiAction.receiveAuthMessages(results);
     });
   },

@@ -1,5 +1,5 @@
 var React = require('react');
-var Auth = require('./auth_component');
+var Auth = require('./auth/auth_component');
 var ApiUtil = require('../util/api_util');
 
 

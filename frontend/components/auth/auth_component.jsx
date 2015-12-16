@@ -1,7 +1,9 @@
 var React = require('react');
-var AuthStore = require('../stores/auth_store');
+var AuthStore = require('../../stores/auth_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
-var ApiUtil = require('../util/api_util');
+var ApiUtil = require('../../util/api_util');
+var NewUser = require('./new_user_form');
+var NewSession = require('./new_session_form');
 
 var Auth = React.createClass({
   mixins: [LinkedStateMixin],
@@ -37,31 +39,17 @@ var Auth = React.createClass({
       }
       </ul>
     }
+    if (this.props.method === "Sign Up!") {
+      return (
+        <NewUser />
+      )
+    } elsif (this.props.method === "Sign In!") {
+      return (
+        <NewSession />
+      )
+    }
 
-    return (
-      <div className='modal-screen'>
-        <div className='modal-content'>
-          <p>{this.props.method}</p>
-          {displayMessages}
-          <form>
-            Username: <input
-            type="text"
-            valueLink={this.linkState('username')}/>
 
-            <br />
-
-            Password: <input
-            type="password"
-            valueLink={this.linkState('password')}/>
-
-            <br />
-
-            <button onClick={this.handleSubmit}>Submit</button>
-
-          </form>
-        </div>
-      </div>
-    );
   }
 
 });

@@ -11,9 +11,9 @@ var Auth = React.createClass({
 
   GetAppropriateAuthForm: function() {
 
-    if (this.props.button === "Sign Up") {
+    if (this.props.button === "sign up") {
       AuthForm = NewUser;
-    } else if (this.props.button === "Sign In") {
+    } else if (this.props.button === "sign in") {
       AuthForm = NewSession;
     }
   },

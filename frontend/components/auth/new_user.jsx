@@ -1,5 +1,6 @@
 var React = require('react');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
+var ApiUtil = require('../../util/api_util');
 
 var NewUser = React.createClass({
 

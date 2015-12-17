@@ -1,37 +1,61 @@
-var Store = require('flux/utils').Store;
-var _users = {};
-var UserConstants = require('../constants/user_constants');
-var AppDispatcher = require('../dispatcher/dispatcher');
-
+var Store = require('flux/utils').Store,
+    AppDispatcher = require('../dispatcher/dispatcher'),
+    UserConstants = require('../constants/user_constants');
 
 var UserStore = new Store(AppDispatcher);
 
-var resetUsers = function(users) {
-  _users = users.slice(0);
+var _users = {};
+var currentUser = null;
+var session = false;
+
+UserStore.currentUser = function(){
+  return currentUser;
 };
 
-
-
-UserStore.all = function () {
-  return Object.keys(_users);
+UserStore.currentStatus = function(){
+  return session;
 };
 
-UserStore.currentUser = function (user) {
-  return _users[user.id]
-}
+var resetUser = function(){
+  currentUser = null;
+};
 
-var resetUser = function(user) {
-  _user[user.id] = user;
-}
+var resetSession = function() {
+  session = false;
+};
 
-UserStore.__onDispatch= function (payload) {
-  switch(payoad.actionType) {
+var addSingleUser = function(newUser){
+  debugger;
+    _users[newUser.id] = newUser;
+    currentUser = newUser;
+    session = true;
+};
+
+var addAllUsers = function (users) {
+  users.forEach(function(user){
+    _users[user.id] = user;
+  });
+};
+
+UserStore.__onDispatch = function(payload){
+  switch(payload.actionType) {
     case UserConstants.USER_RECEIVED:
-    resetUser();
-
-
-
-  }
-}
+      addSingleUser(payload.user);
+      UserStore.__emitChange();
+      break;
+    case UserConstants.USERs_RECEIVED:
+      addAllUsersUser(payload.users);
+      UserStore.__emitChange();
+      break;
+    case UserConstants.SESSION_DESTROYED:
+      resetUser();
+      UserStore.__emitChange();
+      break;
+    case UserConstants.SESSION_CREATED:
+      addSingleUser(payload.user);
+      UserStore.__emitChange();
+      break;
+  };
+};
 
 module.exports = UserStore;

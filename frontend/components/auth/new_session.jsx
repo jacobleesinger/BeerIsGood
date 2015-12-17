@@ -1,12 +1,29 @@
 var React = require('react');
-var SessionStore = require('../../stores/session_store');
-
+var UserStore = require('../../stores/user_store');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
+var ApiUtil = require('../../util/api_util');
 
 
 var NewSession = React.createClass ({
+  mixins: [LinkedStateMixin],
+
+  contextTypes: {
+    router: React.PropTypes.func
+  },
+
+  getInitialState: function (){
+    return({
+      username: "",
+      password: "",
+
+    });
+  },
 
   handleSubmit: function (e) {
     e.preventDefault();
+    var sessionData = Object.assign({}, this.state);
+    debugger;
+    ApiUtil.createSession(sessionData);
 
   },
 
@@ -20,10 +37,10 @@ var NewSession = React.createClass ({
               <div className="col-md-4">
 
                 <label htmlFor="sessionUsername">Username</label>
-                <input type="text" className="form-control" id="sessionUsername"/>
+                <input type="text" className="form-control" id="sessionUsername" valueLink={this.linkState('username')}/>
 
                 <label htmlFor="sessionPassword">Password</label>
-                <input type="password" className="form-control"id="sessionPassword"/>
+                <input type="password" className="form-control"id="sessionPassword" valueLink={this.linkState('password')}/>
               </div>
             </div>
 

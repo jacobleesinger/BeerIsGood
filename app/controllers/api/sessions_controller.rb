@@ -1,21 +1,19 @@
 class Api::SessionsController < ApplicationController
-  def new
-  end
-
   def create
-    user = User.find_by_credentials(
-    params[:user][:username],
-    params[:user][:password]
-    )
-    if user
-      sign_in(user)
-      redirect_to staticpages_url
-    else
-      flash[:errors] = ["invalid username/password"]
-      render :new
+    @user = User.find_by(username: params[:user][:username])
+    if @user && @user.is_password?(params[:user][:password])
+      sign_in(@user)
+      render json: @user
     end
   end
 
+  def show
+    render json: current_user
+  end
+
   def destroy
+    @user = current_user
+    sign_out(current_user)
+    render json: @user
   end
 end

@@ -5,6 +5,7 @@ var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 var LandingPage = require('./components/landing_page');
+var Home = require('./components/home');
 
 var App = React.createClass({
   render: function () {

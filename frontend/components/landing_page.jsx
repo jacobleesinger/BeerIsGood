@@ -30,8 +30,8 @@ var LandingPage = React.createClass({
 
   _onChange: function () {
     this.setState({
-      currentUser: UserStore.currentUser,
-      signedIn: UserStore.currentStatus
+      currentUser: UserStore.currentUser(),
+      signedIn: UserStore.currentStatus()
     });
   },
 
@@ -46,6 +46,7 @@ var LandingPage = React.createClass({
   },
 
   render: function () {
+    
     if (this.state.auth) {
       modal = <Auth button={this.state.button} callback={this.finishAuth} />;
     }

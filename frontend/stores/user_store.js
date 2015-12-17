@@ -43,12 +43,13 @@ UserStore.__onDispatch = function(payload){
       addSingleUser(payload.user);
       UserStore.__emitChange();
       break;
-    case UserConstants.USERs_RECEIVED:
+    case UserConstants.USERS_RECEIVED:
       addAllUsersUser(payload.users);
       UserStore.__emitChange();
       break;
     case UserConstants.SESSION_DESTROYED:
       resetUser();
+      resetSession();
       UserStore.__emitChange();
       break;
     case UserConstants.SESSION_CREATED:

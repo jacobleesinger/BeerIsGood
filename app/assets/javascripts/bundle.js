@@ -24151,8 +24151,8 @@
 	
 	  _onChange: function () {
 	    this.setState({
-	      currentUser: UserStore.currentUser,
-	      signedIn: UserStore.currentStatus
+	      currentUser: UserStore.currentUser(),
+	      signedIn: UserStore.currentStatus()
 	    });
 	  },
 	
@@ -24165,6 +24165,7 @@
 	  },
 	
 	  render: function () {
+	
 	    if (this.state.auth) {
 	      modal = React.createElement(Auth, { button: this.state.button, callback: this.finishAuth });
 	    }
@@ -24292,12 +24293,13 @@
 	      addSingleUser(payload.user);
 	      UserStore.__emitChange();
 	      break;
-	    case UserConstants.USERs_RECEIVED:
+	    case UserConstants.USERS_RECEIVED:
 	      addAllUsersUser(payload.users);
 	      UserStore.__emitChange();
 	      break;
 	    case UserConstants.SESSION_DESTROYED:
 	      resetUser();
+	      resetSession();
 	      UserStore.__emitChange();
 	      break;
 	    case UserConstants.SESSION_CREATED:
@@ -31394,6 +31396,7 @@
 	    e.preventDefault();
 	    var user = Object.assign({}, this.state);
 	    ApiUtil.createUser(user);
+	    ApiUtil.createSession({ username: user.username, password: user.password });
 	  },
 	
 	  render: function () {
@@ -31574,15 +31577,37 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(236);
+	var LinkedStateMixin = __webpack_require__(232);
 	
 	var Home = React.createClass({
 	  displayName: 'Home',
 	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  handleSignOut: function () {
+	    ApiUtil.destroySession();
+	  },
+	
 	  render: function () {
+	    var name = this.props.currentUser.username;
+	
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Home Page'
+	      'Cheers, ',
+	      name,
+	      '!',
+	      React.createElement(
+	        'button',
+	        {
+	          className: 'btn btn-primary', onClick: this.handleSignOut },
+	        'Sign Out'
+	      )
 	    );
 	  }
 	

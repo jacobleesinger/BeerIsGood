@@ -3,7 +3,7 @@ var UserActions = require('../actions/user_actions');
 
 var ApiUtil = {
 
-createUser: function (data) {
+  createUser: function (data) {
     $.post("api/users", { user: data }, function (user) {
       UserActions.receiveSingleUser(user);
     });

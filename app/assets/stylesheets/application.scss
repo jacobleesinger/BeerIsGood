@@ -19,3 +19,34 @@ body {
   color: red;
   background-color: #ddd;
 }
+
+.reviewsIndexContainer {
+  border: 1px solid black;
+}
+
+.reviewContainer {
+  border: 1px solid black;
+}
+
+.reviewContent {
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.reviewHeader {
+  color: blue;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.reviewBody {
+  color: black;
+}
+
+.reviewCommentsIndex {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+
+}

@@ -31666,6 +31666,7 @@
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(236);
 	var LinkedStateMixin = __webpack_require__(232);
+	var ReviewsIndex = __webpack_require__(244);
 	
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -31685,22 +31686,154 @@
 	
 	    return React.createElement(
 	      'div',
-	      null,
-	      'Cheers, ',
-	      name,
-	      '!',
+	      { className: 'row' },
 	      React.createElement(
-	        'button',
-	        {
-	          className: 'btn btn-primary', onClick: this.handleSignOut },
-	        'Sign Out'
-	      )
+	        'div',
+	        { className: 'col-md-4 col-offset-4' },
+	        'Cheers, ',
+	        name,
+	        '!',
+	        React.createElement('br', null),
+	        React.createElement(
+	          'button',
+	          {
+	            className: 'btn btn-primary', onClick: this.handleSignOut },
+	          'Sign Out'
+	        )
+	      ),
+	      React.createElement('br', null),
+	      React.createElement(ReviewsIndex, { user: this.props.currentUser })
 	    );
 	  }
 	
 	});
 	
 	module.exports = Home;
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReviewIndexItem = __webpack_require__(245);
+	
+	var ReviewsIndex = React.createClass({
+	  displayName: 'ReviewsIndex',
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { className: 'col-md-6 reviewsIndexContainer' },
+	        React.createElement(
+	          'h3',
+	          null,
+	          'My Reviews'
+	        ),
+	        this.props.user.reviews.map((function (review) {
+	          return React.createElement(ReviewIndexItem, { review: review, key: review.id });
+	        }).bind(this))
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ReviewsIndex;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Comment = __webpack_require__(246);
+	
+	var ReviewIndexItem = React.createClass({
+	  displayName: 'ReviewIndexItem',
+	
+	  render: function () {
+	    debugger;
+	    return React.createElement(
+	      'div',
+	      { className: 'reviewContainer col-md-12' },
+	      React.createElement(
+	        'div',
+	        { className: 'reviewContent col-md-12' },
+	        React.createElement(
+	          'div',
+	          { className: 'reviewHeader col-md-12' },
+	          this.props.review.beer.name
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'reviewBody col-md-12' },
+	          'Review: ',
+	          this.props.review.body
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'reviewFooter col-md-12' },
+	          React.createElement(
+	            'div',
+	            { className: 'reviewFooterItem col-md-4' },
+	            'Rating: ',
+	            this.props.review.rating
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'reviewFooterItem col-md-4' },
+	            'toasts: ',
+	            this.props.review.toasts.length
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'reviewCommentsIndex col-md-12' },
+	        React.createElement(
+	          'h4',
+	          null,
+	          'Comments'
+	        ),
+	        this.props.review.comments.map((function (comment) {
+	          return React.createElement(Comment, { comment: comment, key: comment.id });
+	        }).bind(this))
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ReviewIndexItem;
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Comment = React.createClass({
+	  displayName: 'Comment',
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h5',
+	        null,
+	        this.props.comment.author.username,
+	        ':'
+	      ),
+	      this.props.comment.body
+	    );
+	  }
+	
+	});
+	
+	module.exports = Comment;
 
 /***/ }
 /******/ ]);

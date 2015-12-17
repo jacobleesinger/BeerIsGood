@@ -16,7 +16,7 @@ createUser: function (data) {
  },
 
  createSession: function(data){
-   debugger;
+
    $.post('api/session', { user: data }, function(user){
      UserActions.createSession(user);
    });

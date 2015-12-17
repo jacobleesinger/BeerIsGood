@@ -22,7 +22,7 @@ var UserActions = {
 
 
   createSession: function(user){
-    debugger;
+
     Dispatcher.dispatch({
       actionType: UserConstants.SESSION_CREATED,
       user: user

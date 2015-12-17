@@ -25,7 +25,7 @@ var resetSession = function() {
 };
 
 var addSingleUser = function(newUser){
-  debugger;
+
     _users[newUser.id] = newUser;
     currentUser = newUser;
     session = true;

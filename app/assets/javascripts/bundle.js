@@ -24274,7 +24274,7 @@
 	};
 	
 	var addSingleUser = function (newUser) {
-	  debugger;
+	
 	  _users[newUser.id] = newUser;
 	  currentUser = newUser;
 	  session = true;
@@ -31280,7 +31280,7 @@
 	  },
 	
 	  createSession: function (data) {
-	    debugger;
+	
 	    $.post('api/session', { user: data }, function (user) {
 	      UserActions.createSession(user);
 	    });
@@ -31344,7 +31344,7 @@
 	  },
 	
 	  createSession: function (user) {
-	    debugger;
+	
 	    Dispatcher.dispatch({
 	      actionType: UserConstants.SESSION_CREATED,
 	      user: user
@@ -31494,7 +31494,7 @@
 	  handleSubmit: function (e) {
 	    e.preventDefault();
 	    var sessionData = Object.assign({}, this.state);
-	    debugger;
+	
 	    ApiUtil.createSession(sessionData);
 	  },
 	

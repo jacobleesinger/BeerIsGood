@@ -22,7 +22,7 @@ var NewSession = React.createClass ({
   handleSubmit: function (e) {
     e.preventDefault();
     var sessionData = Object.assign({}, this.state);
-    debugger;
+
     ApiUtil.createSession(sessionData);
 
   },

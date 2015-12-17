@@ -18,7 +18,8 @@ var LandingPage = React.createClass({
         currentUser: {},
         signedIn: false,
         button: "",
-        errorMessages: []
+        sessionErrors: [],
+        userErrors: []
       }
     )
   },
@@ -35,14 +36,15 @@ var LandingPage = React.createClass({
     this.setState({
       currentUser: UserStore.currentUser(),
       signedIn: UserStore.currentStatus(),
-      errorMessages: UserStore.errorMessages()
+      sessionErrors: UserStore.sessionErrors(),
+      userErrors: UserStore.userErrors()
     });
   },
 
   displayErrorMessages: function () {
-    // debugger;
+    var errorMessages = this.state.sessionErrors.concat(this.state.userErrors);
     return(
-      this.state.errorMessages.map(function(error, idx){
+      errorMessages.map(function(error, idx){
         return (<div key={idx}>{error}</div>);
       })
     );

@@ -32,7 +32,7 @@ var UserActions = {
     // debugger;
     if (user.hasOwnProperty("errors")) {
       Dispatcher.dispatch({
-        actionType: UserConstants.ERRORS,
+        actionType: UserConstants.SESSION_ERRORS,
         errors: user.errors
       });
     } else {

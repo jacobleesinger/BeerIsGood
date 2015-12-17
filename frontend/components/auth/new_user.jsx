@@ -1,6 +1,7 @@
 var React = require('react');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ApiUtil = require('../../util/api_util');
+var today = new Date();
 
 var NewUser = React.createClass({
 
@@ -17,7 +18,7 @@ var NewUser = React.createClass({
       location: "",
       email: "",
       password_confirmation: "",
-      birthday: ""
+      birthday: today.toISOString().slice(0,10)
     });
   },
 
@@ -29,6 +30,8 @@ var NewUser = React.createClass({
   },
 
   render: function () {
+
+
 
     return(
 
@@ -58,7 +61,7 @@ var NewUser = React.createClass({
                 <input type="password" className="form-control" id="newConfirm" valueLink={this.linkState('password_confirmation')}/>
 
                 <label htmlFor="newBirthday">Birthday</label>
-                <input type="date" className="form-control" id="newBirthday" valueLink={this.linkState('birthday')}/>
+                <input type="date" className="form-control" id="newBirthday" valueLink={this.linkState('birthday')} />
 
               </div>
 

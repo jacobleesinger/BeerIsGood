@@ -5,7 +5,7 @@ class Api::SessionsController < ApplicationController
       sign_in(@user)
       render json: @user
     else
-      @errors = {errors: ["Invalid username/password"]}
+      @errors = {errors: ["Error. Please try again."]}
       render json: @errors
     end
   end

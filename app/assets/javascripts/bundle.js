@@ -24139,7 +24139,8 @@
 	      currentUser: {},
 	      signedIn: false,
 	      button: "",
-	      errorMessages: []
+	      sessionErrors: [],
+	      userErrors: []
 	    };
 	  },
 	
@@ -24155,13 +24156,14 @@
 	    this.setState({
 	      currentUser: UserStore.currentUser(),
 	      signedIn: UserStore.currentStatus(),
-	      errorMessages: UserStore.errorMessages()
+	      sessionErrors: UserStore.sessionErrors(),
+	      userErrors: UserStore.userErrors()
 	    });
 	  },
 	
 	  displayErrorMessages: function () {
-	    // debugger;
-	    return this.state.errorMessages.map(function (error, idx) {
+	    var errorMessages = this.state.sessionErrors.concat(this.state.userErrors);
+	    return errorMessages.map(function (error, idx) {
 	      return React.createElement(
 	        'div',
 	        { key: idx },
@@ -24694,7 +24696,7 @@
 	    // debugger;
 	    if (user.hasOwnProperty("errors")) {
 	      Dispatcher.dispatch({
-	        actionType: UserConstants.ERRORS,
+	        actionType: UserConstants.SESSION_ERRORS,
 	        errors: user.errors
 	      });
 	    } else {
@@ -25011,6 +25013,10 @@
 	  return sessionErrors;
 	};
 	
+	UserStore.userErrors = function () {
+	  return userErrors;
+	};
+	
 	var resetUser = function () {
 	  currentUser = null;
 	};
@@ -25027,13 +25033,14 @@
 	};
 	
 	var addAllUsers = function (users) {
+	
 	  users.forEach(function (user) {
 	    _users[user.id] = user;
 	  });
 	};
 	
 	var resetErrors = function () {
-	  sessoinErrors = [];
+	  sessionErrors = [];
 	  userErrors = [];
 	};
 	
@@ -25050,13 +25057,15 @@
 	};
 	
 	UserStore.__onDispatch = function (payload) {
+	
 	  switch (payload.actionType) {
 	    case UserConstants.USER_RECEIVED:
 	      addSingleUser(payload.user);
 	      UserStore.__emitChange();
 	      break;
 	    case UserConstants.USERS_RECEIVED:
-	      addAllUsersUser(payload.users);
+	
+	      addAllUsers(payload.users);
 	      UserStore.__emitChange();
 	      break;
 	    case UserConstants.SESSION_DESTROYED:
@@ -31482,6 +31491,7 @@
 	var React = __webpack_require__(1);
 	var LinkedStateMixin = __webpack_require__(218);
 	var ApiUtil = __webpack_require__(210);
+	var today = new Date();
 	
 	var NewUser = React.createClass({
 	  displayName: 'NewUser',
@@ -31499,7 +31509,7 @@
 	      location: "",
 	      email: "",
 	      password_confirmation: "",
-	      birthday: ""
+	      birthday: today.toISOString().slice(0, 10)
 	    };
 	  },
 	

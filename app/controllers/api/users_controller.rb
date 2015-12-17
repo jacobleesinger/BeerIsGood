@@ -9,7 +9,7 @@ class Api::UsersController < ApplicationController
       sign_in(@user)
       render json: @user
     else
-      debugger;
+      # debugger;
       @errors = @user.errors.full_messages
       render json: @errors
     end

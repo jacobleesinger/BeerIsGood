@@ -20,7 +20,11 @@ UserStore.currentStatus = function(){
 
 UserStore.sessionErrors = function() {
   return sessionErrors;
-}
+};
+
+UserStore.userErrors = function() {
+  return userErrors;
+};
 
 var resetUser = function(){
   currentUser = null;
@@ -38,13 +42,14 @@ var addSingleUser = function(newUser){
 };
 
 var addAllUsers = function (users) {
+
   users.forEach(function(user){
     _users[user.id] = user;
   });
 };
 
 var resetErrors = function() {
-  sessoinErrors = [];
+  sessionErrors = [];
   userErrors = [];
 };
 
@@ -62,13 +67,15 @@ var addUserErrors = function(errors) {
 
 
 UserStore.__onDispatch = function(payload){
+
   switch(payload.actionType) {
     case UserConstants.USER_RECEIVED:
       addSingleUser(payload.user);
       UserStore.__emitChange();
       break;
     case UserConstants.USERS_RECEIVED:
-      addAllUsersUser(payload.users);
+
+      addAllUsers(payload.users);
       UserStore.__emitChange();
       break;
     case UserConstants.SESSION_DESTROYED:

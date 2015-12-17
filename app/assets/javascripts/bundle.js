@@ -24165,7 +24165,6 @@
 	  },
 	
 	  render: function () {
-	
 	    if (this.state.auth) {
 	      modal = React.createElement(Auth, { button: this.state.button, callback: this.finishAuth });
 	    }
@@ -24184,11 +24183,22 @@
 	        'Sign In'
 	      )
 	    );
+	
+	    if (this.state.signedIn) {
+	      Page = React.createElement(Home, { currentUser: this.state.currentUser });
+	    } else {
+	      Page = React.createElement(
+	        'div',
+	        null,
+	        buttons,
+	        modal
+	      );
+	    }
+	
 	    return React.createElement(
 	      'div',
 	      null,
-	      buttons,
-	      modal
+	      Page
 	    );
 	  }
 	

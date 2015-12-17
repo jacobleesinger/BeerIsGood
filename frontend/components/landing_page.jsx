@@ -46,9 +46,8 @@ var LandingPage = React.createClass({
   },
 
   render: function () {
-
     if (this.state.auth) {
-     modal = <Auth button={this.state.button} callback={this.finishAuth} />;
+      modal = <Auth button={this.state.button} callback={this.finishAuth} />;
     }
 
     buttons = (
@@ -57,10 +56,20 @@ var LandingPage = React.createClass({
         <button onClick={this.handleAuth.bind(this, "signin")}>Sign In</button>
       </div>
     );
-    return (
-      <div>
+
+    if (this.state.signedIn) {
+      Page = <Home currentUser={this.state.currentUser}/>
+    } else {
+      Page =
+       <div>
         {buttons}
         {modal}
+      </div>
+    }
+
+    return (
+      <div>
+        {Page}
       </div>
     );
   }

@@ -2,12 +2,20 @@ var AppDispatcher = require('../dispatcher/dispatcher');
 var AuthConstants = require('../constants/auth_constants');
 
 var ApiActions = {
-  receiveAuthMessages: function (messages) {
-    // debugger;
+  receiveSingleUser: function (user) {
     AppDispatcher.dispatch({
-      actionType: AuthConstants.MESSAGES_RECEIVED,
-      messages: messages
+      actionType: UserConstants.USER_RECEIVED,
+      user: user
+    });
+  },
+
+  receiveSession: function (session) {
+    AppDispatcher.dispatch({
+      actionType: SessionConstants.SESSION_RECEIVED,
+      session: session
     });
   }
 
 };
+
+module.exports = ApiActions;

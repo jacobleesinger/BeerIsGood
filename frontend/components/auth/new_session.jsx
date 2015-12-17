@@ -1,5 +1,5 @@
 var React = require('react');
-var AuthStore = require('../../stores/auth_store');
+var SessionStore = require('../../stores/session_store');
 
 
 
@@ -7,6 +7,7 @@ var NewSession = React.createClass ({
 
   handleSubmit: function (e) {
     e.preventDefault();
+
   },
 
   render: function () {

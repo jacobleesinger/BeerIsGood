@@ -24122,6 +24122,7 @@
 	var React = __webpack_require__(1);
 	var Auth = __webpack_require__(209);
 	var ApiUtil = __webpack_require__(236);
+	var UserStore = __webpack_require__(243);
 	
 	var LandingPage = React.createClass({
 	  displayName: 'LandingPage',
@@ -24202,13 +24203,15 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var AuthStore = __webpack_require__(210);
+	var SessionStore = __webpack_require__(240);
 	var LinkedStateMixin = __webpack_require__(232);
 	var ApiUtil = __webpack_require__(236);
 	var NewUser = __webpack_require__(238);
 	var NewSession = __webpack_require__(239);
+	var DestroySession = __webpack_require__(242);
 	
 	var AuthForm;
+	var session = SessionStore.session();
 	var Auth = React.createClass({
 	  displayName: 'Auth',
 	
@@ -24232,35 +24235,7 @@
 	module.exports = Auth;
 
 /***/ },
-/* 210 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(211).Store;
-	var AppDispatcher = __webpack_require__(228);
-	var _messages = [];
-	var AuthStore = new Store(AppDispatcher);
-	var AuthConstants = __webpack_require__(231);
-	
-	var resetMessages = function (messages) {
-	  _messages = messages;
-	};
-	
-	AuthStore.all = function () {
-	  return _messages.slice(0);
-	};
-	AuthStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case AuthConstants.MESSAGES_RECEIVED:
-	
-	      resetMessages(payload.messages);
-	      AuthStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = AuthStore;
-
-/***/ },
+/* 210 */,
 /* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31211,22 +31186,10 @@
 	
 	var ApiUtil = {
 	
-	  createUser: function (user) {
-	    $.post("users", { user: user }, function (results) {
-	      ApiAction.receiveAuthMessages(results);
-	    });
-	  },
-	
-	  signInUser: function (username, password) {
-	    $.post("sessions", { user: username, user: password }, function (results) {
-	      ApiAction.receiveAuthMessages(results);
-	    });
-	  },
-	  signOutUser: function () {
-	    $.ajax({
-	      url: "sessions",
-	      type: "DELETE",
-	      success: function (results) {}
+	  createUser: function (data) {
+	    $.post("api/users", { user: data }, function (user) {
+	      ApiAction.receiveSingleUser(user);
+	      ApiAction.receiveSession(session);
 	    });
 	  }
 	
@@ -31243,89 +31206,117 @@
 	var AuthConstants = __webpack_require__(231);
 	
 	var ApiActions = {
-	  receiveAuthMessages: function (messages) {
-	    // debugger;
+	  receiveSingleUser: function (user) {
 	    AppDispatcher.dispatch({
-	      actionType: AuthConstants.MESSAGES_RECEIVED,
-	      messages: messages
+	      actionType: UserConstants.USER_RECEIVED,
+	      user: user
+	    });
+	  },
+	
+	  receiveSession: function (session) {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.SESSION_RECEIVED,
+	      session: session
 	    });
 	  }
 	
 	};
+	
+	module.exports = ApiActions;
 
 /***/ },
 /* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var LinkedStateMixin = __webpack_require__(232);
 	
 	var NewUser = React.createClass({
-	  displayName: "NewUser",
+	  displayName: 'NewUser',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      password: "",
+	      location: "",
+	      email: "",
+	      password_confirmation: "",
+	      birthday: ""
+	    };
+	  },
 	
 	  handleSubmit: function (e) {
 	    e.preventDefault();
+	    var user = Object.assign({}, this.state);
+	    ApiUtil.createUser(user);
 	  },
 	
 	  render: function () {
 	
 	    return React.createElement(
-	      "div",
-	      { className: "row" },
+	      'div',
+	      { className: 'row' },
 	      React.createElement(
-	        "div",
-	        { className: "col-md-8", id: "newUserFormDiv" },
+	        'div',
+	        { className: 'col-md-8', id: 'newUserFormDiv' },
 	        React.createElement(
-	          "form",
-	          { id: "newUserForm", className: "form-group" },
+	          'form',
+	          { id: 'newUserForm', className: 'form-group' },
 	          React.createElement(
-	            "div",
-	            { className: "row" },
+	            'div',
+	            { className: 'row' },
 	            React.createElement(
-	              "div",
-	              { className: "col-md-4" },
+	              'div',
+	              { className: 'col-md-4' },
 	              React.createElement(
-	                "label",
-	                { htmlFor: "newUsername" },
-	                "Username"
+	                'label',
+	                { htmlFor: 'newUsername' },
+	                'Username'
 	              ),
-	              React.createElement("input", { type: "text", className: "form-control", id: "newUsername" }),
+	              React.createElement('input', { type: 'text', className: 'form-control', id: 'newUsername', valueLink: this.linkState('username') }),
 	              React.createElement(
-	                "label",
-	                { htmlFor: "newPassword" },
-	                "Password"
+	                'label',
+	                { htmlFor: 'newPassword' },
+	                'Password'
 	              ),
-	              React.createElement("input", { type: "password", className: "form-control", id: "newPassword" }),
+	              React.createElement('input', { type: 'password', className: 'form-control', id: 'newPassword', valueLink: this.linkState('password') }),
 	              React.createElement(
-	                "label",
-	                { htmlFor: "newLocation" },
-	                "Location"
+	                'label',
+	                { htmlFor: 'newLocation' },
+	                'Location'
 	              ),
-	              React.createElement("input", { type: "text", className: "form-control", id: "newLocation" })
+	              React.createElement('input', { type: 'text', className: 'form-control', id: 'newLocation', valueLink: this.linkState('location') })
 	            ),
 	            React.createElement(
-	              "div",
-	              { className: "col-md-4" },
+	              'div',
+	              { className: 'col-md-4' },
 	              React.createElement(
-	                "label",
-	                { htmlFor: "newEmail" },
-	                "Email"
+	                'label',
+	                { htmlFor: 'newEmail' },
+	                'Email'
 	              ),
-	              React.createElement("input", { type: "email", className: "form-control", id: "newEmail" }),
+	              React.createElement('input', { type: 'email', className: 'form-control', id: 'newEmail', valueLink: this.linkState('email') }),
 	              React.createElement(
-	                "label",
-	                { htmlFor: "newConfirm" },
-	                "Confirm Password"
+	                'label',
+	                { htmlFor: 'newConfirm' },
+	                'Confirm Password'
 	              ),
-	              React.createElement("input", { type: "password", className: "form-control", id: "newConfirm" }),
+	              React.createElement('input', { type: 'password', className: 'form-control', id: 'newConfirm', valueLink: this.linkState('password_confirmation') }),
 	              React.createElement(
-	                "label",
-	                { htmlFor: "newBirthday" },
-	                "Birthday"
+	                'label',
+	                { htmlFor: 'newBirthday' },
+	                'Birthday'
 	              ),
-	              React.createElement("input", { type: "date", className: "form-control", id: "newBirthday" })
+	              React.createElement('input', { type: 'date', className: 'form-control', id: 'newBirthday', valueLink: this.linkState('birthday') })
 	            )
 	          ),
-	          React.createElement("input", { type: "submit", onClick: this.handleSubmit, value: "Sign Up", className: "btn btn-primary" })
+	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Sign Up', className: 'btn btn-primary' })
 	        )
 	      )
 	    );
@@ -31340,7 +31331,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var AuthStore = __webpack_require__(210);
+	var SessionStore = __webpack_require__(240);
 	
 	var NewSession = React.createClass({
 	  displayName: 'NewSession',
@@ -31388,6 +31379,104 @@
 	});
 	
 	module.exports = NewSession;
+
+/***/ },
+/* 240 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(211).Store;
+	var AppDispatcher = __webpack_require__(228);
+	var _session = false;
+	var SessionStore = new Store(AppDispatcher);
+	var SessionConstants = __webpack_require__(241);
+	
+	var resetSession = function (session) {
+	  _session = false;
+	};
+	
+	SessionStore.newSession = function () {
+	  _session = true;
+	};
+	
+	SessionStore.session = function () {
+	  return _session;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.SESSION_RECEIVED:
+	
+	      resetSession();
+	      newSession(paylaod.session);
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
+/* 241 */
+/***/ function(module, exports) {
+
+	var SessionConstants = {
+	  SESSION_RECEIVED: "SESSION_RECEIVED"
+	};
+	
+	module.exports = SessionConstants;
+
+/***/ },
+/* 242 */
+/***/ function(module, exports) {
+
+
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(211).Store;
+	var _users = {};
+	var UserConstants = __webpack_require__(244);
+	var AppDispatcher = __webpack_require__(228);
+	
+	var UserStore = new Store(AppDispatcher);
+	
+	var resetUsers = function (users) {
+	  _users = users.slice(0);
+	};
+	
+	UserStore.all = function () {
+	  return Object.keys(_users);
+	};
+	
+	UserStore.currentUser = function (user) {
+	  return _users[user.id];
+	};
+	
+	var resetUser = function (user) {
+	  _user[user.id] = user;
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payoad.actionType) {
+	    case UserConstants.USER_RECEIVED:
+	      resetUser();
+	
+	  }
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
+/* 244 */
+/***/ function(module, exports) {
+
+	var UserConstants = {
+	  USER_RECEIVED: "USER_RECEIVED"
+	};
+	
+	module.exports = UserConstants;
 
 /***/ }
 /******/ ]);

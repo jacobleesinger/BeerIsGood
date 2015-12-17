@@ -1,9 +1,29 @@
 var React = require('react');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 var NewUser = React.createClass({
 
+  mixins: [LinkedStateMixin],
+
+  contextTypes: {
+    router: React.PropTypes.func
+  },
+
+  getInitialState: function (){
+    return({
+      username: "",
+      password: "",
+      location: "",
+      email: "",
+      password_confirmation: "",
+      birthday: ""
+    });
+  },
+
   handleSubmit: function (e) {
     e.preventDefault();
+    var user = Object.assign({}, this.state);
+    ApiUtil.createUser(user);
   },
 
   render: function () {
@@ -18,25 +38,25 @@ var NewUser = React.createClass({
               <div className="col-md-4">
 
                 <label htmlFor="newUsername">Username</label>
-                <input type="text" className="form-control" id="newUsername"/>
+                <input type="text" className="form-control" id="newUsername" valueLink={this.linkState('username')}/>
 
                 <label htmlFor="newPassword">Password</label>
-                <input type="password" className="form-control"id="newPassword"/>
+                <input type="password" className="form-control"id="newPassword" valueLink={this.linkState('password')}/>
 
                 <label htmlFor="newLocation">Location</label>
-                <input type="text" className="form-control" id="newLocation"/>
+                <input type="text" className="form-control" id="newLocation" valueLink={this.linkState('location')}/>
 
               </div>
 
               <div className="col-md-4">
                 <label htmlFor="newEmail">Email</label>
-                <input type="email" className="form-control" id="newEmail"/>
+                <input type="email" className="form-control" id="newEmail" valueLink={this.linkState('email')}/>
 
                 <label htmlFor="newConfirm">Confirm Password</label>
-                <input type="password" className="form-control" id="newConfirm"/>
+                <input type="password" className="form-control" id="newConfirm" valueLink={this.linkState('password_confirmation')}/>
 
                 <label htmlFor="newBirthday">Birthday</label>
-                <input type="date" className="form-control" id="newBirthday"/>
+                <input type="date" className="form-control" id="newBirthday" valueLink={this.linkState('birthday')}/>
 
               </div>
 

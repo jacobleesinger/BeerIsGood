@@ -15,6 +15,12 @@ var ApiUtil = {
    });
  },
 
+ fetchSingleUser: function(user) {
+   $.get('api/user/' + user.id, function(user) {
+     UserActions.receiveSingleUser(user);
+   })
+ },
+
  createSession: function(data){
 
    $.post('api/session', { user: data }, function(user){

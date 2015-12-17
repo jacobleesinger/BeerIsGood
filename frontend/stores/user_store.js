@@ -34,10 +34,10 @@ var resetSession = function() {
   session = false;
 };
 
-var addSingleUser = function(newUser){
+var addSingleUser = function(user){
 
-    _users[newUser.id] = newUser;
-    currentUser = newUser;
+    _users[user.id] = user;
+    currentUser = user;
     session = true;
 };
 

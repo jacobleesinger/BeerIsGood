@@ -3,7 +3,7 @@ class Api::SessionsController < ApplicationController
     @user = User.find_by(username: params[:user][:username])
     if @user && @user.is_password?(params[:user][:password])
       sign_in(@user)
-      render json: @user
+      redirect_to api_user_url(@user.id)
     else
       @errors = {errors: ["Error. Please try again."]}
       render json: @errors

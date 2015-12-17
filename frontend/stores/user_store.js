@@ -7,6 +7,8 @@ var UserStore = new Store(AppDispatcher);
 var _users = {};
 var currentUser = null;
 var session = false;
+var sessionErrors = [];
+var userErrors = [];
 
 UserStore.currentUser = function(){
   return currentUser;
@@ -15,6 +17,10 @@ UserStore.currentUser = function(){
 UserStore.currentStatus = function(){
   return session;
 };
+
+UserStore.sessionErrors = function() {
+  return sessionErrors;
+}
 
 var resetUser = function(){
   currentUser = null;
@@ -37,6 +43,24 @@ var addAllUsers = function (users) {
   });
 };
 
+var resetErrors = function() {
+  sessoinErrors = [];
+  userErrors = [];
+};
+
+var addSessionErrors = function(errors) {
+  // debugger;
+  sessionErrors = errors;
+  session = false;
+};
+
+var addUserErrors = function(errors) {
+  userErrors = errors;
+  currentUser = null;
+  session = false;
+};
+
+
 UserStore.__onDispatch = function(payload){
   switch(payload.actionType) {
     case UserConstants.USER_RECEIVED:
@@ -50,10 +74,23 @@ UserStore.__onDispatch = function(payload){
     case UserConstants.SESSION_DESTROYED:
       resetUser();
       resetSession();
+      resetErrors();
       UserStore.__emitChange();
       break;
     case UserConstants.SESSION_CREATED:
       addSingleUser(payload.user);
+      UserStore.__emitChange();
+      break;
+    case UserConstants.SESSION_ERRORS:
+      // debugger;
+      resetErrors();
+      addSessionErrors(payload.errors);
+      UserStore.__emitChange();
+      break;
+    case UserConstants.USER_ERRORS:
+      // debugger;
+      resetErrors();
+      addUserErrors(payload.errors);
       UserStore.__emitChange();
       break;
   };

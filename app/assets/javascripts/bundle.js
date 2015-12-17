@@ -51,7 +51,7 @@
 	var Route = ReactRouter.Route;
 	var IndexRoute = ReactRouter.IndexRoute;
 	var LandingPage = __webpack_require__(208);
-	var Home = __webpack_require__(243);
+	var Home = __webpack_require__(209);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -24121,14 +24121,15 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Auth = __webpack_require__(209);
-	var ApiUtil = __webpack_require__(236);
-	var UserStore = __webpack_require__(210);
+	var Auth = __webpack_require__(222);
+	var ApiUtil = __webpack_require__(210);
+	var UserStore = __webpack_require__(223);
 	// var Buttons = require('./auth/buttons');
-	var Home = __webpack_require__(243);
+	var Home = __webpack_require__(209);
 	
 	var Page;
 	var modal;
+	var buttons;
 	
 	var LandingPage = React.createClass({
 	  displayName: 'LandingPage',
@@ -24137,7 +24138,8 @@
 	    return {
 	      currentUser: {},
 	      signedIn: false,
-	      button: ""
+	      button: "",
+	      errorMessages: []
 	    };
 	  },
 	
@@ -24152,7 +24154,19 @@
 	  _onChange: function () {
 	    this.setState({
 	      currentUser: UserStore.currentUser(),
-	      signedIn: UserStore.currentStatus()
+	      signedIn: UserStore.currentStatus(),
+	      errorMessages: UserStore.errorMessages()
+	    });
+	  },
+	
+	  displayErrorMessages: function () {
+	    // debugger;
+	    return this.state.errorMessages.map(function (error, idx) {
+	      return React.createElement(
+	        'div',
+	        { key: idx },
+	        error
+	      );
 	    });
 	  },
 	
@@ -24188,9 +24202,11 @@
 	    if (this.state.signedIn) {
 	      Page = React.createElement(Home, { currentUser: this.state.currentUser });
 	    } else {
+	      var errors = this.displayErrorMessages();
 	      Page = React.createElement(
 	        'div',
 	        null,
+	        errors,
 	        buttons,
 	        modal
 	      );
@@ -24212,13 +24228,736 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(210);
-	var LinkedStateMixin = __webpack_require__(232);
-	var ApiUtil = __webpack_require__(236);
-	var NewUser = __webpack_require__(239);
-	var NewSession = __webpack_require__(240);
-	var DestroySession = __webpack_require__(241);
-	var Buttons = __webpack_require__(242);
+	var ApiUtil = __webpack_require__(210);
+	var LinkedStateMixin = __webpack_require__(218);
+	
+	var Home = React.createClass({
+	  displayName: 'Home',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  handleSignOut: function () {
+	    ApiUtil.destroySession();
+	  },
+	
+	  render: function () {
+	    var name = this.props.currentUser.username;
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Cheers, ',
+	      name,
+	      '!',
+	      React.createElement(
+	        'button',
+	        {
+	          className: 'btn btn-primary', onClick: this.handleSignOut },
+	        'Sign Out'
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = Home;
+
+/***/ },
+/* 210 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ApiActions = __webpack_require__(211);
+	var UserActions = __webpack_require__(217);
+	
+	var ApiUtil = {
+	
+	  createUser: function (data) {
+	    $.post("api/users", { user: data }, function (user) {
+	      UserActions.receiveSingleUser(user);
+	    });
+	  },
+	
+	  fetchCurrentUser: function () {
+	    $.get('api/session', function (user) {
+	      UserActions.receiveCurrentUser(user);
+	    });
+	  },
+	
+	  createSession: function (data) {
+	
+	    $.post('api/session', { user: data }, function (user) {
+	      UserActions.createSession(user);
+	    });
+	  },
+	
+	  destroySession: function () {
+	    $.ajax({
+	      url: "api/session",
+	      type: 'DELETE',
+	      success: function (user) {
+	        UserActions.destroySession(user);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = ApiUtil;
+
+/***/ },
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(212);
+	var UserConstants = __webpack_require__(216);
+	
+	var ApiActions = {
+	  receiveSingleUser: function (user) {
+	    AppDispatcher.dispatch({
+	      actionType: UserConstants.USER_RECEIVED,
+	      user: user
+	    });
+	  }
+	};
+	
+	module.exports = ApiActions;
+
+/***/ },
+/* 212 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	var Dispatcher = __webpack_require__(213).Dispatcher;
+	module.exports = new Dispatcher();
+
+/***/ },
+/* 213 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright (c) 2014-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+	
+	module.exports.Dispatcher = __webpack_require__(214);
+
+
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright (c) 2014-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule Dispatcher
+	 * 
+	 * @preventMunge
+	 */
+	
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var invariant = __webpack_require__(215);
+	
+	var _prefix = 'ID_';
+	
+	/**
+	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
+	 * different from generic pub-sub systems in two ways:
+	 *
+	 *   1) Callbacks are not subscribed to particular events. Every payload is
+	 *      dispatched to every registered callback.
+	 *   2) Callbacks can be deferred in whole or part until other callbacks have
+	 *      been executed.
+	 *
+	 * For example, consider this hypothetical flight destination form, which
+	 * selects a default city when a country is selected:
+	 *
+	 *   var flightDispatcher = new Dispatcher();
+	 *
+	 *   // Keeps track of which country is selected
+	 *   var CountryStore = {country: null};
+	 *
+	 *   // Keeps track of which city is selected
+	 *   var CityStore = {city: null};
+	 *
+	 *   // Keeps track of the base flight price of the selected city
+	 *   var FlightPriceStore = {price: null}
+	 *
+	 * When a user changes the selected city, we dispatch the payload:
+	 *
+	 *   flightDispatcher.dispatch({
+	 *     actionType: 'city-update',
+	 *     selectedCity: 'paris'
+	 *   });
+	 *
+	 * This payload is digested by `CityStore`:
+	 *
+	 *   flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'city-update') {
+	 *       CityStore.city = payload.selectedCity;
+	 *     }
+	 *   });
+	 *
+	 * When the user selects a country, we dispatch the payload:
+	 *
+	 *   flightDispatcher.dispatch({
+	 *     actionType: 'country-update',
+	 *     selectedCountry: 'australia'
+	 *   });
+	 *
+	 * This payload is digested by both stores:
+	 *
+	 *   CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'country-update') {
+	 *       CountryStore.country = payload.selectedCountry;
+	 *     }
+	 *   });
+	 *
+	 * When the callback to update `CountryStore` is registered, we save a reference
+	 * to the returned token. Using this token with `waitFor()`, we can guarantee
+	 * that `CountryStore` is updated before the callback that updates `CityStore`
+	 * needs to query its data.
+	 *
+	 *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'country-update') {
+	 *       // `CountryStore.country` may not be updated.
+	 *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
+	 *       // `CountryStore.country` is now guaranteed to be updated.
+	 *
+	 *       // Select the default city for the new country
+	 *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
+	 *     }
+	 *   });
+	 *
+	 * The usage of `waitFor()` can be chained, for example:
+	 *
+	 *   FlightPriceStore.dispatchToken =
+	 *     flightDispatcher.register(function(payload) {
+	 *       switch (payload.actionType) {
+	 *         case 'country-update':
+	 *         case 'city-update':
+	 *           flightDispatcher.waitFor([CityStore.dispatchToken]);
+	 *           FlightPriceStore.price =
+	 *             getFlightPriceStore(CountryStore.country, CityStore.city);
+	 *           break;
+	 *     }
+	 *   });
+	 *
+	 * The `country-update` payload will be guaranteed to invoke the stores'
+	 * registered callbacks in order: `CountryStore`, `CityStore`, then
+	 * `FlightPriceStore`.
+	 */
+	
+	var Dispatcher = (function () {
+	  function Dispatcher() {
+	    _classCallCheck(this, Dispatcher);
+	
+	    this._callbacks = {};
+	    this._isDispatching = false;
+	    this._isHandled = {};
+	    this._isPending = {};
+	    this._lastID = 1;
+	  }
+	
+	  /**
+	   * Registers a callback to be invoked with every dispatched payload. Returns
+	   * a token that can be used with `waitFor()`.
+	   */
+	
+	  Dispatcher.prototype.register = function register(callback) {
+	    var id = _prefix + this._lastID++;
+	    this._callbacks[id] = callback;
+	    return id;
+	  };
+	
+	  /**
+	   * Removes a callback based on its token.
+	   */
+	
+	  Dispatcher.prototype.unregister = function unregister(id) {
+	    !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
+	    delete this._callbacks[id];
+	  };
+	
+	  /**
+	   * Waits for the callbacks specified to be invoked before continuing execution
+	   * of the current callback. This method should only be used by a callback in
+	   * response to a dispatched payload.
+	   */
+	
+	  Dispatcher.prototype.waitFor = function waitFor(ids) {
+	    !this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : undefined;
+	    for (var ii = 0; ii < ids.length; ii++) {
+	      var id = ids[ii];
+	      if (this._isPending[id]) {
+	        !this._isHandled[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : undefined;
+	        continue;
+	      }
+	      !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
+	      this._invokeCallback(id);
+	    }
+	  };
+	
+	  /**
+	   * Dispatches a payload to all registered callbacks.
+	   */
+	
+	  Dispatcher.prototype.dispatch = function dispatch(payload) {
+	    !!this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : undefined;
+	    this._startDispatching(payload);
+	    try {
+	      for (var id in this._callbacks) {
+	        if (this._isPending[id]) {
+	          continue;
+	        }
+	        this._invokeCallback(id);
+	      }
+	    } finally {
+	      this._stopDispatching();
+	    }
+	  };
+	
+	  /**
+	   * Is this Dispatcher currently dispatching.
+	   */
+	
+	  Dispatcher.prototype.isDispatching = function isDispatching() {
+	    return this._isDispatching;
+	  };
+	
+	  /**
+	   * Call the callback stored with the given id. Also do some internal
+	   * bookkeeping.
+	   *
+	   * @internal
+	   */
+	
+	  Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
+	    this._isPending[id] = true;
+	    this._callbacks[id](this._pendingPayload);
+	    this._isHandled[id] = true;
+	  };
+	
+	  /**
+	   * Set up bookkeeping needed when dispatching.
+	   *
+	   * @internal
+	   */
+	
+	  Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
+	    for (var id in this._callbacks) {
+	      this._isPending[id] = false;
+	      this._isHandled[id] = false;
+	    }
+	    this._pendingPayload = payload;
+	    this._isDispatching = true;
+	  };
+	
+	  /**
+	   * Clear bookkeeping used for dispatching.
+	   *
+	   * @internal
+	   */
+	
+	  Dispatcher.prototype._stopDispatching = function _stopDispatching() {
+	    delete this._pendingPayload;
+	    this._isDispatching = false;
+	  };
+	
+	  return Dispatcher;
+	})();
+	
+	module.exports = Dispatcher;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule invariant
+	 */
+	
+	"use strict";
+	
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+	
+	var invariant = function (condition, format, a, b, c, d, e, f) {
+	  if (process.env.NODE_ENV !== 'production') {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  }
+	
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
+	        return args[argIndex++];
+	      }));
+	    }
+	
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	};
+	
+	module.exports = invariant;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 216 */
+/***/ function(module, exports) {
+
+	var UserConstants = {
+	  USER_RECEIVED: "USER_RECEIVED",
+	  SESSION_CREATED: "SESSION_CREATED",
+	  SESSION_DESTROYED: "SESSION_DESTROYED",
+	  SIGNING_UP: "SIGNING_UP",
+	  SIGNING_IN: "SIGNING_IN",
+	  USER_ERRORS: "USER_ERRORS",
+	  SESSION_ERRORS: "SESSION_ERRORS"
+	};
+	
+	module.exports = UserConstants;
+
+/***/ },
+/* 217 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	var Dispatcher = __webpack_require__(212),
+	    UserConstants = __webpack_require__(216);
+	
+	var UserActions = {
+	  receiveSingleUser: function (user) {
+	    if (user.hasOwnProperty("errors")) {
+	      Dispatcher.dispatch({
+	        actionType: UserConstants.USER_ERRORS,
+	        errors: user.errors
+	      });
+	    } else {
+	      Dispatcher.dispatch({
+	        actionType: UserConstants.USER_RECEIVED,
+	        user: user
+	      });
+	    }
+	  },
+	
+	  receiveAllUsers: function (users) {
+	    var action = {
+	      actionType: UserConstants.USERS_RECEIVED,
+	      users: users
+	    };
+	
+	    Dispatcher.dispatch(action);
+	  },
+	
+	  createSession: function (user) {
+	    // debugger;
+	    if (user.hasOwnProperty("errors")) {
+	      Dispatcher.dispatch({
+	        actionType: UserConstants.ERRORS,
+	        errors: user.errors
+	      });
+	    } else {
+	      Dispatcher.dispatch({
+	        actionType: UserConstants.SESSION_CREATED,
+	        user: user
+	      });
+	    }
+	  },
+	
+	  destroySession: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: UserConstants.SESSION_DESTROYED,
+	      user: user
+	    });
+	  }
+	
+	};
+	
+	module.exports = UserActions;
+
+/***/ },
+/* 218 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(219);
+
+/***/ },
+/* 219 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule LinkedStateMixin
+	 * @typechecks static-only
+	 */
+	
+	'use strict';
+	
+	var ReactLink = __webpack_require__(220);
+	var ReactStateSetters = __webpack_require__(221);
+	
+	/**
+	 * A simple mixin around ReactLink.forState().
+	 */
+	var LinkedStateMixin = {
+	  /**
+	   * Create a ReactLink that's linked to part of this component's state. The
+	   * ReactLink will have the current value of this.state[key] and will call
+	   * setState() when a change is requested.
+	   *
+	   * @param {string} key state key to update. Note: you may want to use keyOf()
+	   * if you're using Google Closure Compiler advanced mode.
+	   * @return {ReactLink} ReactLink instance linking to the state.
+	   */
+	  linkState: function (key) {
+	    return new ReactLink(this.state[key], ReactStateSetters.createStateKeySetter(this, key));
+	  }
+	};
+	
+	module.exports = LinkedStateMixin;
+
+/***/ },
+/* 220 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactLink
+	 * @typechecks static-only
+	 */
+	
+	'use strict';
+	
+	/**
+	 * ReactLink encapsulates a common pattern in which a component wants to modify
+	 * a prop received from its parent. ReactLink allows the parent to pass down a
+	 * value coupled with a callback that, when invoked, expresses an intent to
+	 * modify that value. For example:
+	 *
+	 * React.createClass({
+	 *   getInitialState: function() {
+	 *     return {value: ''};
+	 *   },
+	 *   render: function() {
+	 *     var valueLink = new ReactLink(this.state.value, this._handleValueChange);
+	 *     return <input valueLink={valueLink} />;
+	 *   },
+	 *   _handleValueChange: function(newValue) {
+	 *     this.setState({value: newValue});
+	 *   }
+	 * });
+	 *
+	 * We have provided some sugary mixins to make the creation and
+	 * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
+	 */
+	
+	var React = __webpack_require__(2);
+	
+	/**
+	 * @param {*} value current value of the link
+	 * @param {function} requestChange callback to request a change
+	 */
+	function ReactLink(value, requestChange) {
+	  this.value = value;
+	  this.requestChange = requestChange;
+	}
+	
+	/**
+	 * Creates a PropType that enforces the ReactLink API and optionally checks the
+	 * type of the value being passed inside the link. Example:
+	 *
+	 * MyComponent.propTypes = {
+	 *   tabIndexLink: ReactLink.PropTypes.link(React.PropTypes.number)
+	 * }
+	 */
+	function createLinkTypeChecker(linkType) {
+	  var shapes = {
+	    value: typeof linkType === 'undefined' ? React.PropTypes.any.isRequired : linkType.isRequired,
+	    requestChange: React.PropTypes.func.isRequired
+	  };
+	  return React.PropTypes.shape(shapes);
+	}
+	
+	ReactLink.PropTypes = {
+	  link: createLinkTypeChecker
+	};
+	
+	module.exports = ReactLink;
+
+/***/ },
+/* 221 */
+/***/ function(module, exports) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactStateSetters
+	 */
+	
+	'use strict';
+	
+	var ReactStateSetters = {
+	  /**
+	   * Returns a function that calls the provided function, and uses the result
+	   * of that to set the component's state.
+	   *
+	   * @param {ReactCompositeComponent} component
+	   * @param {function} funcReturningState Returned callback uses this to
+	   *                                      determine how to update state.
+	   * @return {function} callback that when invoked uses funcReturningState to
+	   *                    determined the object literal to setState.
+	   */
+	  createStateSetter: function (component, funcReturningState) {
+	    return function (a, b, c, d, e, f) {
+	      var partialState = funcReturningState.call(component, a, b, c, d, e, f);
+	      if (partialState) {
+	        component.setState(partialState);
+	      }
+	    };
+	  },
+	
+	  /**
+	   * Returns a single-argument callback that can be used to update a single
+	   * key in the component's state.
+	   *
+	   * Note: this is memoized function, which makes it inexpensive to call.
+	   *
+	   * @param {ReactCompositeComponent} component
+	   * @param {string} key The key in the state that you should update.
+	   * @return {function} callback of 1 argument which calls setState() with
+	   *                    the provided keyName and callback argument.
+	   */
+	  createStateKeySetter: function (component, key) {
+	    // Memoize the setters.
+	    var cache = component.__keySetters || (component.__keySetters = {});
+	    return cache[key] || (cache[key] = createStateKeySetter(component, key));
+	  }
+	};
+	
+	function createStateKeySetter(component, key) {
+	  // Partial state is allocated outside of the function closure so it can be
+	  // reused with every call, avoiding memory allocation when this function
+	  // is called.
+	  var partialState = {};
+	  return function stateKeySetter(value) {
+	    partialState[key] = value;
+	    component.setState(partialState);
+	  };
+	}
+	
+	ReactStateSetters.Mixin = {
+	  /**
+	   * Returns a function that calls the provided function, and uses the result
+	   * of that to set the component's state.
+	   *
+	   * For example, these statements are equivalent:
+	   *
+	   *   this.setState({x: 1});
+	   *   this.createStateSetter(function(xValue) {
+	   *     return {x: xValue};
+	   *   })(1);
+	   *
+	   * @param {function} funcReturningState Returned callback uses this to
+	   *                                      determine how to update state.
+	   * @return {function} callback that when invoked uses funcReturningState to
+	   *                    determined the object literal to setState.
+	   */
+	  createStateSetter: function (funcReturningState) {
+	    return ReactStateSetters.createStateSetter(this, funcReturningState);
+	  },
+	
+	  /**
+	   * Returns a single-argument callback that can be used to update a single
+	   * key in the component's state.
+	   *
+	   * For example, these statements are equivalent:
+	   *
+	   *   this.setState({x: 1});
+	   *   this.createStateKeySetter('x')(1);
+	   *
+	   * Note: this is memoized function, which makes it inexpensive to call.
+	   *
+	   * @param {string} key The key in the state that you should update.
+	   * @return {function} callback of 1 argument which calls setState() with
+	   *                    the provided keyName and callback argument.
+	   */
+	  createStateKeySetter: function (key) {
+	    return ReactStateSetters.createStateKeySetter(this, key);
+	  }
+	};
+	
+	module.exports = ReactStateSetters;
+
+/***/ },
+/* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(223);
+	var LinkedStateMixin = __webpack_require__(218);
+	var ApiUtil = __webpack_require__(210);
+	var NewUser = __webpack_require__(240);
+	var NewSession = __webpack_require__(241);
+	var DestroySession = __webpack_require__(242);
+	var Buttons = __webpack_require__(243);
 	
 	var AuthForm;
 	var Auth = React.createClass({
@@ -24245,18 +24984,20 @@
 	module.exports = Auth;
 
 /***/ },
-/* 210 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(211).Store,
-	    AppDispatcher = __webpack_require__(228),
-	    UserConstants = __webpack_require__(231);
+	var Store = __webpack_require__(224).Store,
+	    AppDispatcher = __webpack_require__(212),
+	    UserConstants = __webpack_require__(216);
 	
 	var UserStore = new Store(AppDispatcher);
 	
 	var _users = {};
 	var currentUser = null;
 	var session = false;
+	var sessionErrors = [];
+	var userErrors = [];
 	
 	UserStore.currentUser = function () {
 	  return currentUser;
@@ -24264,6 +25005,10 @@
 	
 	UserStore.currentStatus = function () {
 	  return session;
+	};
+	
+	UserStore.sessionErrors = function () {
+	  return sessionErrors;
 	};
 	
 	var resetUser = function () {
@@ -24287,6 +25032,23 @@
 	  });
 	};
 	
+	var resetErrors = function () {
+	  sessoinErrors = [];
+	  userErrors = [];
+	};
+	
+	var addSessionErrors = function (errors) {
+	  // debugger;
+	  sessionErrors = errors;
+	  session = false;
+	};
+	
+	var addUserErrors = function (errors) {
+	  userErrors = errors;
+	  currentUser = null;
+	  session = false;
+	};
+	
 	UserStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case UserConstants.USER_RECEIVED:
@@ -24300,10 +25062,23 @@
 	    case UserConstants.SESSION_DESTROYED:
 	      resetUser();
 	      resetSession();
+	      resetErrors();
 	      UserStore.__emitChange();
 	      break;
 	    case UserConstants.SESSION_CREATED:
 	      addSingleUser(payload.user);
+	      UserStore.__emitChange();
+	      break;
+	    case UserConstants.SESSION_ERRORS:
+	      // debugger;
+	      resetErrors();
+	      addSessionErrors(payload.errors);
+	      UserStore.__emitChange();
+	      break;
+	    case UserConstants.USER_ERRORS:
+	      // debugger;
+	      resetErrors();
+	      addUserErrors(payload.errors);
 	      UserStore.__emitChange();
 	      break;
 	  };
@@ -24312,7 +25087,7 @@
 	module.exports = UserStore;
 
 /***/ },
-/* 211 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -24324,15 +25099,15 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Container = __webpack_require__(212);
-	module.exports.MapStore = __webpack_require__(216);
-	module.exports.Mixin = __webpack_require__(227);
-	module.exports.ReduceStore = __webpack_require__(217);
-	module.exports.Store = __webpack_require__(218);
+	module.exports.Container = __webpack_require__(225);
+	module.exports.MapStore = __webpack_require__(228);
+	module.exports.Mixin = __webpack_require__(239);
+	module.exports.ReduceStore = __webpack_require__(229);
+	module.exports.Store = __webpack_require__(230);
 
 
 /***/ },
-/* 212 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24354,10 +25129,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStoreGroup = __webpack_require__(213);
+	var FluxStoreGroup = __webpack_require__(226);
 	
-	var invariant = __webpack_require__(214);
-	var shallowEqual = __webpack_require__(215);
+	var invariant = __webpack_require__(215);
+	var shallowEqual = __webpack_require__(227);
 	
 	var DEFAULT_OPTIONS = {
 	  pure: true,
@@ -24515,7 +25290,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 213 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24534,7 +25309,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(214);
+	var invariant = __webpack_require__(215);
 	
 	/**
 	 * FluxStoreGroup allows you to execute a callback on every dispatch after
@@ -24596,62 +25371,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 214 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule invariant
-	 */
-	
-	"use strict";
-	
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-	
-	var invariant = function (condition, format, a, b, c, d, e, f) {
-	  if (process.env.NODE_ENV !== 'production') {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  }
-	
-	  if (!condition) {
-	    var error;
-	    if (format === undefined) {
-	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
-	        return args[argIndex++];
-	      }));
-	    }
-	
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-	    throw error;
-	  }
-	};
-	
-	module.exports = invariant;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ },
-/* 215 */
+/* 227 */
 /***/ function(module, exports) {
 
 	/**
@@ -24706,7 +25426,7 @@
 	module.exports = shallowEqual;
 
 /***/ },
-/* 216 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24727,10 +25447,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxReduceStore = __webpack_require__(217);
-	var Immutable = __webpack_require__(226);
+	var FluxReduceStore = __webpack_require__(229);
+	var Immutable = __webpack_require__(238);
 	
-	var invariant = __webpack_require__(214);
+	var invariant = __webpack_require__(215);
 	
 	/**
 	 * This is a simple store. It allows caching key value pairs. An implementation
@@ -24856,7 +25576,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 217 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24877,10 +25597,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStore = __webpack_require__(218);
+	var FluxStore = __webpack_require__(230);
 	
-	var abstractMethod = __webpack_require__(225);
-	var invariant = __webpack_require__(214);
+	var abstractMethod = __webpack_require__(237);
+	var invariant = __webpack_require__(215);
 	
 	var FluxReduceStore = (function (_FluxStore) {
 	  _inherits(FluxReduceStore, _FluxStore);
@@ -24963,7 +25683,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 218 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24982,11 +25702,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _require = __webpack_require__(219);
+	var _require = __webpack_require__(231);
 	
 	var EventEmitter = _require.EventEmitter;
 	
-	var invariant = __webpack_require__(214);
+	var invariant = __webpack_require__(215);
 	
 	/**
 	 * This class should be extended by the stores in your application, like so:
@@ -25146,7 +25866,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 219 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25159,14 +25879,14 @@
 	 */
 	
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(220)
+	  EventEmitter: __webpack_require__(232)
 	};
 	
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 220 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25185,11 +25905,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var EmitterSubscription = __webpack_require__(221);
-	var EventSubscriptionVendor = __webpack_require__(223);
+	var EmitterSubscription = __webpack_require__(233);
+	var EventSubscriptionVendor = __webpack_require__(235);
 	
-	var emptyFunction = __webpack_require__(224);
-	var invariant = __webpack_require__(214);
+	var emptyFunction = __webpack_require__(236);
+	var invariant = __webpack_require__(215);
 	
 	/**
 	 * @class BaseEventEmitter
@@ -25363,7 +26083,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 221 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25384,7 +26104,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EventSubscription = __webpack_require__(222);
+	var EventSubscription = __webpack_require__(234);
 	
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -25416,7 +26136,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 222 */
+/* 234 */
 /***/ function(module, exports) {
 
 	/**
@@ -25467,7 +26187,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 223 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25486,7 +26206,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(214);
+	var invariant = __webpack_require__(215);
 	
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -25576,7 +26296,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 224 */
+/* 236 */
 /***/ function(module, exports) {
 
 	/**
@@ -25619,7 +26339,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 225 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25636,7 +26356,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(214);
+	var invariant = __webpack_require__(215);
 	
 	function abstractMethod(className, methodName) {
 	   true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Subclasses of %s must override %s() with their own implementation.', className, methodName) : invariant(false) : undefined;
@@ -25646,7 +26366,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 226 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30633,7 +31353,7 @@
 	}));
 
 /***/ },
-/* 227 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -30650,9 +31370,9 @@
 	
 	'use strict';
 	
-	var FluxStoreGroup = __webpack_require__(213);
+	var FluxStoreGroup = __webpack_require__(226);
 	
-	var invariant = __webpack_require__(214);
+	var invariant = __webpack_require__(215);
 	
 	/**
 	 * `FluxContainer` should be preferred over this mixin, but it requires using
@@ -30756,621 +31476,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 228 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	var Dispatcher = __webpack_require__(229).Dispatcher;
-	module.exports = new Dispatcher();
-
-/***/ },
-/* 229 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright (c) 2014-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 */
-	
-	module.exports.Dispatcher = __webpack_require__(230);
-
-
-/***/ },
-/* 230 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright (c) 2014-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule Dispatcher
-	 * 
-	 * @preventMunge
-	 */
-	
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var invariant = __webpack_require__(214);
-	
-	var _prefix = 'ID_';
-	
-	/**
-	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
-	 * different from generic pub-sub systems in two ways:
-	 *
-	 *   1) Callbacks are not subscribed to particular events. Every payload is
-	 *      dispatched to every registered callback.
-	 *   2) Callbacks can be deferred in whole or part until other callbacks have
-	 *      been executed.
-	 *
-	 * For example, consider this hypothetical flight destination form, which
-	 * selects a default city when a country is selected:
-	 *
-	 *   var flightDispatcher = new Dispatcher();
-	 *
-	 *   // Keeps track of which country is selected
-	 *   var CountryStore = {country: null};
-	 *
-	 *   // Keeps track of which city is selected
-	 *   var CityStore = {city: null};
-	 *
-	 *   // Keeps track of the base flight price of the selected city
-	 *   var FlightPriceStore = {price: null}
-	 *
-	 * When a user changes the selected city, we dispatch the payload:
-	 *
-	 *   flightDispatcher.dispatch({
-	 *     actionType: 'city-update',
-	 *     selectedCity: 'paris'
-	 *   });
-	 *
-	 * This payload is digested by `CityStore`:
-	 *
-	 *   flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'city-update') {
-	 *       CityStore.city = payload.selectedCity;
-	 *     }
-	 *   });
-	 *
-	 * When the user selects a country, we dispatch the payload:
-	 *
-	 *   flightDispatcher.dispatch({
-	 *     actionType: 'country-update',
-	 *     selectedCountry: 'australia'
-	 *   });
-	 *
-	 * This payload is digested by both stores:
-	 *
-	 *   CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'country-update') {
-	 *       CountryStore.country = payload.selectedCountry;
-	 *     }
-	 *   });
-	 *
-	 * When the callback to update `CountryStore` is registered, we save a reference
-	 * to the returned token. Using this token with `waitFor()`, we can guarantee
-	 * that `CountryStore` is updated before the callback that updates `CityStore`
-	 * needs to query its data.
-	 *
-	 *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'country-update') {
-	 *       // `CountryStore.country` may not be updated.
-	 *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
-	 *       // `CountryStore.country` is now guaranteed to be updated.
-	 *
-	 *       // Select the default city for the new country
-	 *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
-	 *     }
-	 *   });
-	 *
-	 * The usage of `waitFor()` can be chained, for example:
-	 *
-	 *   FlightPriceStore.dispatchToken =
-	 *     flightDispatcher.register(function(payload) {
-	 *       switch (payload.actionType) {
-	 *         case 'country-update':
-	 *         case 'city-update':
-	 *           flightDispatcher.waitFor([CityStore.dispatchToken]);
-	 *           FlightPriceStore.price =
-	 *             getFlightPriceStore(CountryStore.country, CityStore.city);
-	 *           break;
-	 *     }
-	 *   });
-	 *
-	 * The `country-update` payload will be guaranteed to invoke the stores'
-	 * registered callbacks in order: `CountryStore`, `CityStore`, then
-	 * `FlightPriceStore`.
-	 */
-	
-	var Dispatcher = (function () {
-	  function Dispatcher() {
-	    _classCallCheck(this, Dispatcher);
-	
-	    this._callbacks = {};
-	    this._isDispatching = false;
-	    this._isHandled = {};
-	    this._isPending = {};
-	    this._lastID = 1;
-	  }
-	
-	  /**
-	   * Registers a callback to be invoked with every dispatched payload. Returns
-	   * a token that can be used with `waitFor()`.
-	   */
-	
-	  Dispatcher.prototype.register = function register(callback) {
-	    var id = _prefix + this._lastID++;
-	    this._callbacks[id] = callback;
-	    return id;
-	  };
-	
-	  /**
-	   * Removes a callback based on its token.
-	   */
-	
-	  Dispatcher.prototype.unregister = function unregister(id) {
-	    !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
-	    delete this._callbacks[id];
-	  };
-	
-	  /**
-	   * Waits for the callbacks specified to be invoked before continuing execution
-	   * of the current callback. This method should only be used by a callback in
-	   * response to a dispatched payload.
-	   */
-	
-	  Dispatcher.prototype.waitFor = function waitFor(ids) {
-	    !this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : undefined;
-	    for (var ii = 0; ii < ids.length; ii++) {
-	      var id = ids[ii];
-	      if (this._isPending[id]) {
-	        !this._isHandled[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : undefined;
-	        continue;
-	      }
-	      !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
-	      this._invokeCallback(id);
-	    }
-	  };
-	
-	  /**
-	   * Dispatches a payload to all registered callbacks.
-	   */
-	
-	  Dispatcher.prototype.dispatch = function dispatch(payload) {
-	    !!this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : undefined;
-	    this._startDispatching(payload);
-	    try {
-	      for (var id in this._callbacks) {
-	        if (this._isPending[id]) {
-	          continue;
-	        }
-	        this._invokeCallback(id);
-	      }
-	    } finally {
-	      this._stopDispatching();
-	    }
-	  };
-	
-	  /**
-	   * Is this Dispatcher currently dispatching.
-	   */
-	
-	  Dispatcher.prototype.isDispatching = function isDispatching() {
-	    return this._isDispatching;
-	  };
-	
-	  /**
-	   * Call the callback stored with the given id. Also do some internal
-	   * bookkeeping.
-	   *
-	   * @internal
-	   */
-	
-	  Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
-	    this._isPending[id] = true;
-	    this._callbacks[id](this._pendingPayload);
-	    this._isHandled[id] = true;
-	  };
-	
-	  /**
-	   * Set up bookkeeping needed when dispatching.
-	   *
-	   * @internal
-	   */
-	
-	  Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
-	    for (var id in this._callbacks) {
-	      this._isPending[id] = false;
-	      this._isHandled[id] = false;
-	    }
-	    this._pendingPayload = payload;
-	    this._isDispatching = true;
-	  };
-	
-	  /**
-	   * Clear bookkeeping used for dispatching.
-	   *
-	   * @internal
-	   */
-	
-	  Dispatcher.prototype._stopDispatching = function _stopDispatching() {
-	    delete this._pendingPayload;
-	    this._isDispatching = false;
-	  };
-	
-	  return Dispatcher;
-	})();
-	
-	module.exports = Dispatcher;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ },
-/* 231 */
-/***/ function(module, exports) {
-
-	var UserConstants = {
-	  USER_RECEIVED: "USER_RECEIVED",
-	  SESSION_CREATED: "SESSION_CREATED",
-	  SESSION_DESTROYED: "SESSION_DESTROYED",
-	  SIGNING_UP: "SIGNING_UP",
-	  SIGNING_IN: "SIGNING_IN"
-	};
-	
-	module.exports = UserConstants;
-
-/***/ },
-/* 232 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(233);
-
-/***/ },
-/* 233 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule LinkedStateMixin
-	 * @typechecks static-only
-	 */
-	
-	'use strict';
-	
-	var ReactLink = __webpack_require__(234);
-	var ReactStateSetters = __webpack_require__(235);
-	
-	/**
-	 * A simple mixin around ReactLink.forState().
-	 */
-	var LinkedStateMixin = {
-	  /**
-	   * Create a ReactLink that's linked to part of this component's state. The
-	   * ReactLink will have the current value of this.state[key] and will call
-	   * setState() when a change is requested.
-	   *
-	   * @param {string} key state key to update. Note: you may want to use keyOf()
-	   * if you're using Google Closure Compiler advanced mode.
-	   * @return {ReactLink} ReactLink instance linking to the state.
-	   */
-	  linkState: function (key) {
-	    return new ReactLink(this.state[key], ReactStateSetters.createStateKeySetter(this, key));
-	  }
-	};
-	
-	module.exports = LinkedStateMixin;
-
-/***/ },
-/* 234 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactLink
-	 * @typechecks static-only
-	 */
-	
-	'use strict';
-	
-	/**
-	 * ReactLink encapsulates a common pattern in which a component wants to modify
-	 * a prop received from its parent. ReactLink allows the parent to pass down a
-	 * value coupled with a callback that, when invoked, expresses an intent to
-	 * modify that value. For example:
-	 *
-	 * React.createClass({
-	 *   getInitialState: function() {
-	 *     return {value: ''};
-	 *   },
-	 *   render: function() {
-	 *     var valueLink = new ReactLink(this.state.value, this._handleValueChange);
-	 *     return <input valueLink={valueLink} />;
-	 *   },
-	 *   _handleValueChange: function(newValue) {
-	 *     this.setState({value: newValue});
-	 *   }
-	 * });
-	 *
-	 * We have provided some sugary mixins to make the creation and
-	 * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
-	 */
-	
-	var React = __webpack_require__(2);
-	
-	/**
-	 * @param {*} value current value of the link
-	 * @param {function} requestChange callback to request a change
-	 */
-	function ReactLink(value, requestChange) {
-	  this.value = value;
-	  this.requestChange = requestChange;
-	}
-	
-	/**
-	 * Creates a PropType that enforces the ReactLink API and optionally checks the
-	 * type of the value being passed inside the link. Example:
-	 *
-	 * MyComponent.propTypes = {
-	 *   tabIndexLink: ReactLink.PropTypes.link(React.PropTypes.number)
-	 * }
-	 */
-	function createLinkTypeChecker(linkType) {
-	  var shapes = {
-	    value: typeof linkType === 'undefined' ? React.PropTypes.any.isRequired : linkType.isRequired,
-	    requestChange: React.PropTypes.func.isRequired
-	  };
-	  return React.PropTypes.shape(shapes);
-	}
-	
-	ReactLink.PropTypes = {
-	  link: createLinkTypeChecker
-	};
-	
-	module.exports = ReactLink;
-
-/***/ },
-/* 235 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactStateSetters
-	 */
-	
-	'use strict';
-	
-	var ReactStateSetters = {
-	  /**
-	   * Returns a function that calls the provided function, and uses the result
-	   * of that to set the component's state.
-	   *
-	   * @param {ReactCompositeComponent} component
-	   * @param {function} funcReturningState Returned callback uses this to
-	   *                                      determine how to update state.
-	   * @return {function} callback that when invoked uses funcReturningState to
-	   *                    determined the object literal to setState.
-	   */
-	  createStateSetter: function (component, funcReturningState) {
-	    return function (a, b, c, d, e, f) {
-	      var partialState = funcReturningState.call(component, a, b, c, d, e, f);
-	      if (partialState) {
-	        component.setState(partialState);
-	      }
-	    };
-	  },
-	
-	  /**
-	   * Returns a single-argument callback that can be used to update a single
-	   * key in the component's state.
-	   *
-	   * Note: this is memoized function, which makes it inexpensive to call.
-	   *
-	   * @param {ReactCompositeComponent} component
-	   * @param {string} key The key in the state that you should update.
-	   * @return {function} callback of 1 argument which calls setState() with
-	   *                    the provided keyName and callback argument.
-	   */
-	  createStateKeySetter: function (component, key) {
-	    // Memoize the setters.
-	    var cache = component.__keySetters || (component.__keySetters = {});
-	    return cache[key] || (cache[key] = createStateKeySetter(component, key));
-	  }
-	};
-	
-	function createStateKeySetter(component, key) {
-	  // Partial state is allocated outside of the function closure so it can be
-	  // reused with every call, avoiding memory allocation when this function
-	  // is called.
-	  var partialState = {};
-	  return function stateKeySetter(value) {
-	    partialState[key] = value;
-	    component.setState(partialState);
-	  };
-	}
-	
-	ReactStateSetters.Mixin = {
-	  /**
-	   * Returns a function that calls the provided function, and uses the result
-	   * of that to set the component's state.
-	   *
-	   * For example, these statements are equivalent:
-	   *
-	   *   this.setState({x: 1});
-	   *   this.createStateSetter(function(xValue) {
-	   *     return {x: xValue};
-	   *   })(1);
-	   *
-	   * @param {function} funcReturningState Returned callback uses this to
-	   *                                      determine how to update state.
-	   * @return {function} callback that when invoked uses funcReturningState to
-	   *                    determined the object literal to setState.
-	   */
-	  createStateSetter: function (funcReturningState) {
-	    return ReactStateSetters.createStateSetter(this, funcReturningState);
-	  },
-	
-	  /**
-	   * Returns a single-argument callback that can be used to update a single
-	   * key in the component's state.
-	   *
-	   * For example, these statements are equivalent:
-	   *
-	   *   this.setState({x: 1});
-	   *   this.createStateKeySetter('x')(1);
-	   *
-	   * Note: this is memoized function, which makes it inexpensive to call.
-	   *
-	   * @param {string} key The key in the state that you should update.
-	   * @return {function} callback of 1 argument which calls setState() with
-	   *                    the provided keyName and callback argument.
-	   */
-	  createStateKeySetter: function (key) {
-	    return ReactStateSetters.createStateKeySetter(this, key);
-	  }
-	};
-	
-	module.exports = ReactStateSetters;
-
-/***/ },
-/* 236 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ApiActions = __webpack_require__(237);
-	var UserActions = __webpack_require__(238);
-	
-	var ApiUtil = {
-	
-	  createUser: function (data) {
-	    $.post("api/users", { user: data }, function (user) {
-	      UserActions.receiveSingleUser(user);
-	    });
-	  },
-	
-	  fetchCurrentUser: function () {
-	    $.get('api/session', function (user) {
-	      UserActions.receiveCurrentUser(user);
-	    });
-	  },
-	
-	  createSession: function (data) {
-	
-	    $.post('api/session', { user: data }, function (user) {
-	      UserActions.createSession(user);
-	    });
-	  },
-	
-	  destroySession: function () {
-	    $.ajax({
-	      url: "api/session",
-	      type: 'DELETE',
-	      success: function (user) {
-	        UserActions.destroySession(user);
-	      }
-	    });
-	  }
-	
-	};
-	
-	module.exports = ApiUtil;
-
-/***/ },
-/* 237 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(228);
-	var UserConstants = __webpack_require__(231);
-	
-	var ApiActions = {
-	  receiveSingleUser: function (user) {
-	    AppDispatcher.dispatch({
-	      actionType: UserConstants.USER_RECEIVED,
-	      user: user
-	    });
-	  }
-	};
-	
-	module.exports = ApiActions;
-
-/***/ },
-/* 238 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	var Dispatcher = __webpack_require__(228),
-	    UserConstants = __webpack_require__(231);
-	
-	var UserActions = {
-	  receiveSingleUser: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: UserConstants.USER_RECEIVED,
-	      user: user
-	    });
-	  },
-	
-	  receiveAllUsers: function (users) {
-	    var action = {
-	      actionType: UserConstants.USERS_RECEIVED,
-	      users: users
-	    };
-	
-	    Dispatcher.dispatch(action);
-	  },
-	
-	  createSession: function (user) {
-	
-	    Dispatcher.dispatch({
-	      actionType: UserConstants.SESSION_CREATED,
-	      user: user
-	    });
-	  },
-	
-	  destroySession: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: UserConstants.SESSION_DESTROYED,
-	      user: user
-	    });
-	  }
-	
-	};
-	
-	module.exports = UserActions;
-
-/***/ },
-/* 239 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(232);
-	var ApiUtil = __webpack_require__(236);
+	var LinkedStateMixin = __webpack_require__(218);
+	var ApiUtil = __webpack_require__(210);
 	
 	var NewUser = React.createClass({
 	  displayName: 'NewUser',
@@ -31469,13 +31580,13 @@
 	module.exports = NewUser;
 
 /***/ },
-/* 240 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(210);
-	var LinkedStateMixin = __webpack_require__(232);
-	var ApiUtil = __webpack_require__(236);
+	var UserStore = __webpack_require__(223);
+	var LinkedStateMixin = __webpack_require__(218);
+	var ApiUtil = __webpack_require__(210);
 	
 	var NewSession = React.createClass({
 	  displayName: 'NewSession',
@@ -31542,22 +31653,22 @@
 	module.exports = NewSession;
 
 /***/ },
-/* 241 */
+/* 242 */
 /***/ function(module, exports) {
 
 
 
 /***/ },
-/* 242 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(210);
-	var LinkedStateMixin = __webpack_require__(232);
-	var ApiUtil = __webpack_require__(236);
-	var NewUser = __webpack_require__(239);
-	var NewSession = __webpack_require__(240);
-	var DestroySession = __webpack_require__(241);
+	var UserStore = __webpack_require__(223);
+	var LinkedStateMixin = __webpack_require__(218);
+	var ApiUtil = __webpack_require__(210);
+	var NewUser = __webpack_require__(240);
+	var NewSession = __webpack_require__(241);
+	var DestroySession = __webpack_require__(242);
 	
 	// var Buttons = React.createClass({
 	//
@@ -31571,49 +31682,6 @@
 	// });
 	//
 	// module.exports = Buttons;
-
-/***/ },
-/* 243 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(236);
-	var LinkedStateMixin = __webpack_require__(232);
-	
-	var Home = React.createClass({
-	  displayName: 'Home',
-	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
-	  },
-	
-	  handleSignOut: function () {
-	    ApiUtil.destroySession();
-	  },
-	
-	  render: function () {
-	    var name = this.props.currentUser.username;
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Cheers, ',
-	      name,
-	      '!',
-	      React.createElement(
-	        'button',
-	        {
-	          className: 'btn btn-primary', onClick: this.handleSignOut },
-	        'Sign Out'
-	      )
-	    );
-	  }
-	
-	});
-	
-	module.exports = Home;
 
 /***/ }
 /******/ ]);

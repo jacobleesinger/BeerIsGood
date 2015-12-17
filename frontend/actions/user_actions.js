@@ -4,10 +4,17 @@ var Dispatcher = require('../dispatcher/dispatcher'),
 
 var UserActions = {
   receiveSingleUser: function(user){
-    Dispatcher.dispatch({
-      actionType: UserConstants.USER_RECEIVED,
-      user: user
-    });
+    if (user.hasOwnProperty("errors")) {
+      Dispatcher.dispatch({
+        actionType: UserConstants.USER_ERRORS,
+        errors: user.errors
+      });
+    } else {
+      Dispatcher.dispatch({
+        actionType: UserConstants.USER_RECEIVED,
+        user: user
+      });
+    }
   },
 
   receiveAllUsers: function(users){
@@ -22,11 +29,18 @@ var UserActions = {
 
 
   createSession: function(user){
-
-    Dispatcher.dispatch({
-      actionType: UserConstants.SESSION_CREATED,
-      user: user
-    });
+    // debugger;
+    if (user.hasOwnProperty("errors")) {
+      Dispatcher.dispatch({
+        actionType: UserConstants.ERRORS,
+        errors: user.errors
+      });
+    } else {
+      Dispatcher.dispatch({
+        actionType: UserConstants.SESSION_CREATED,
+        user: user
+      });
+    }
   },
 
   destroySession: function(user){

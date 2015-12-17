@@ -7,6 +7,8 @@ var Home = require('./home');
 
 var Page;
 var modal;
+var buttons;
+
 
 var LandingPage = React.createClass({
 
@@ -15,7 +17,8 @@ var LandingPage = React.createClass({
       {
         currentUser: {},
         signedIn: false,
-        button: ""
+        button: "",
+        errorMessages: []
       }
     )
   },
@@ -31,8 +34,18 @@ var LandingPage = React.createClass({
   _onChange: function () {
     this.setState({
       currentUser: UserStore.currentUser(),
-      signedIn: UserStore.currentStatus()
+      signedIn: UserStore.currentStatus(),
+      errorMessages: UserStore.errorMessages()
     });
+  },
+
+  displayErrorMessages: function () {
+    // debugger;
+    return(
+      this.state.errorMessages.map(function(error, idx){
+        return (<div key={idx}>{error}</div>);
+      })
+    );
   },
 
   handleAuth: function (button) {
@@ -46,7 +59,7 @@ var LandingPage = React.createClass({
   },
 
   render: function () {
-    
+
     if (this.state.auth) {
       modal = <Auth button={this.state.button} callback={this.finishAuth} />;
     }
@@ -58,11 +71,14 @@ var LandingPage = React.createClass({
       </div>
     );
 
+
     if (this.state.signedIn) {
       Page = <Home currentUser={this.state.currentUser}/>
     } else {
+      var errors = this.displayErrorMessages();
       Page =
        <div>
+        {errors}
         {buttons}
         {modal}
       </div>
@@ -70,6 +86,7 @@ var LandingPage = React.createClass({
 
     return (
       <div>
+
         {Page}
       </div>
     );

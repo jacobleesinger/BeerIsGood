@@ -6,6 +6,7 @@ var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 var LandingPage = require('./components/landing_page');
 var Home = require('./components/home');
+var ApiUtil = require('./util/api_util');
 
 var App = React.createClass({
   render: function () {
@@ -27,4 +28,6 @@ var routes = (
 
 document.addEventListener("DOMContentLoaded", function () {
   ReactDOM.render(<Router>{routes}</Router>, document.getElementById("root"));
+
+  ApiUtil.fetchAllUsers();
 });

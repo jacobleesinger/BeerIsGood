@@ -21,6 +21,12 @@ var ApiUtil = {
    })
  },
 
+ fetchAllUsers: function() {
+   $.get('api/users', function (users) {
+     UserActions.receiveAllUsers(users);
+   });
+ },
+
  createSession: function(data){
 
    $.post('api/session', { user: data }, function(user){

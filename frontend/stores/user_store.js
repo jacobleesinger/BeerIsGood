@@ -54,7 +54,6 @@ var resetErrors = function() {
 };
 
 var addSessionErrors = function(errors) {
-  // debugger;
   sessionErrors = errors;
   session = false;
 };
@@ -67,7 +66,6 @@ var addUserErrors = function(errors) {
 
 
 UserStore.__onDispatch = function(payload){
-
   switch(payload.actionType) {
     case UserConstants.USER_RECEIVED:
       addSingleUser(payload.user);
@@ -89,13 +87,11 @@ UserStore.__onDispatch = function(payload){
       UserStore.__emitChange();
       break;
     case UserConstants.SESSION_ERRORS:
-      // debugger;
       resetErrors();
       addSessionErrors(payload.errors);
       UserStore.__emitChange();
       break;
     case UserConstants.USER_ERRORS:
-      // debugger;
       resetErrors();
       addUserErrors(payload.errors);
       UserStore.__emitChange();

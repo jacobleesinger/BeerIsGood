@@ -29,7 +29,6 @@ var UserActions = {
 
 
   createSession: function(user){
-    // debugger;
     if (user.hasOwnProperty("errors")) {
       Dispatcher.dispatch({
         actionType: UserConstants.SESSION_ERRORS,

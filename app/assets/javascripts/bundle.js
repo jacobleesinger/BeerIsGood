@@ -52,6 +52,7 @@
 	var IndexRoute = ReactRouter.IndexRoute;
 	var LandingPage = __webpack_require__(208);
 	var Home = __webpack_require__(243);
+	var ApiUtil = __webpack_require__(236);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -82,6 +83,8 @@
 	    null,
 	    routes
 	  ), document.getElementById("root"));
+	
+	  ApiUtil.fetchAllUsers();
 	});
 
 /***/ },
@@ -24322,7 +24325,6 @@
 	};
 	
 	var addSessionErrors = function (errors) {
-	  // debugger;
 	  sessionErrors = errors;
 	  session = false;
 	};
@@ -24334,7 +24336,6 @@
 	};
 	
 	UserStore.__onDispatch = function (payload) {
-	
 	  switch (payload.actionType) {
 	    case UserConstants.USER_RECEIVED:
 	      addSingleUser(payload.user);
@@ -24356,13 +24357,11 @@
 	      UserStore.__emitChange();
 	      break;
 	    case UserConstants.SESSION_ERRORS:
-	      // debugger;
 	      resetErrors();
 	      addSessionErrors(payload.errors);
 	      UserStore.__emitChange();
 	      break;
 	    case UserConstants.USER_ERRORS:
-	      // debugger;
 	      resetErrors();
 	      addUserErrors(payload.errors);
 	      UserStore.__emitChange();
@@ -31083,10 +31082,9 @@
 
 	var UserConstants = {
 	  USER_RECEIVED: "USER_RECEIVED",
+	  USERS_RECEIVED: "USERS_RECEIVED",
 	  SESSION_CREATED: "SESSION_CREATED",
 	  SESSION_DESTROYED: "SESSION_DESTROYED",
-	  SIGNING_UP: "SIGNING_UP",
-	  SIGNING_IN: "SIGNING_IN",
 	  USER_ERRORS: "USER_ERRORS",
 	  SESSION_ERRORS: "SESSION_ERRORS"
 	};
@@ -31350,6 +31348,12 @@
 	    });
 	  },
 	
+	  fetchAllUsers: function () {
+	    $.get('api/users', function (users) {
+	      UserActions.receiveAllUsers(users);
+	    });
+	  },
+	
 	  createSession: function (data) {
 	
 	    $.post('api/session', { user: data }, function (user) {
@@ -31422,7 +31426,6 @@
 	  },
 	
 	  createSession: function (user) {
-	    // debugger;
 	    if (user.hasOwnProperty("errors")) {
 	      Dispatcher.dispatch({
 	        actionType: UserConstants.SESSION_ERRORS,
@@ -31678,7 +31681,6 @@
 	  },
 	
 	  render: function () {
-	    debugger;
 	    var name = this.props.currentUser.username;
 	
 	    return React.createElement(

@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
   def show
-    @guest = guest.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   def create

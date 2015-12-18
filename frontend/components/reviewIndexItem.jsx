@@ -1,13 +1,13 @@
 var React = require('react');
 var Comment = require('./comment');
-var ApiUtil = require('../util/api_util');
+var ReviewUtil = require('../util/review_util');
 
 var ReviewIndexItem = React.createClass({
 
 
   handleClick: function (review) {
     debugger;
-    ApiUtil.destroyReview(review);
+    ReviewUtil.destroyReview(review);
 
   },
 

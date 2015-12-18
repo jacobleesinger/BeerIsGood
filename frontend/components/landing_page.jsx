@@ -1,8 +1,6 @@
 var React = require('react');
 var Auth = require('./auth/auth_component');
-var ApiUtil = require('../util/api_util');
 var UserStore=require('../stores/user_store');
-// var Buttons = require('./auth/buttons');
 var Home = require('./home');
 
 var Page;

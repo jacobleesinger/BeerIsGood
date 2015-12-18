@@ -52,8 +52,8 @@
 	var IndexRoute = ReactRouter.IndexRoute;
 	var LandingPage = __webpack_require__(208);
 	var Home = __webpack_require__(245);
-	var ApiUtil = __webpack_require__(236);
 	var UserUtil = __webpack_require__(254);
+	var BeerUtil = __webpack_require__(255);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -85,8 +85,8 @@
 	    routes
 	  ), document.getElementById("root"));
 	
-	  ApiUtil.fetchAllUsers();
-	  ApiUtil.fetchAllBeers();
+	  UserUtil.fetchAllUsers();
+	  BeerUtil.fetchAllBeers();
 	});
 
 /***/ },
@@ -24127,9 +24127,7 @@
 
 	var React = __webpack_require__(1);
 	var Auth = __webpack_require__(209);
-	var ApiUtil = __webpack_require__(236);
 	var UserStore = __webpack_require__(210);
-	// var Buttons = require('./auth/buttons');
 	var Home = __webpack_require__(245);
 	
 	var Page;
@@ -24237,11 +24235,10 @@
 	var React = __webpack_require__(1);
 	var UserStore = __webpack_require__(210);
 	var LinkedStateMixin = __webpack_require__(232);
-	var ApiUtil = __webpack_require__(236);
 	var NewUser = __webpack_require__(241);
 	var NewSession = __webpack_require__(242);
-	var DestroySession = __webpack_require__(243);
-	var Buttons = __webpack_require__(244);
+	var DestroySession = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./destroy_session\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Buttons = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./buttons.jsx\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
 	var AuthForm;
 	var Auth = React.createClass({
@@ -31085,10 +31082,8 @@
 	var UserConstants = {
 	  USER_RECEIVED: "USER_RECEIVED",
 	  USERS_RECEIVED: "USERS_RECEIVED",
-	  SESSION_CREATED: "SESSION_CREATED",
-	  SESSION_DESTROYED: "SESSION_DESTROYED",
-	  USER_ERRORS: "USER_ERRORS",
-	  SESSION_ERRORS: "SESSION_ERRORS"
+	  USER_ERRORS: "USER_ERRORS"
+	
 	};
 	
 	module.exports = UserConstants;
@@ -31324,110 +31319,8 @@
 	module.exports = ReactStateSetters;
 
 /***/ },
-/* 236 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ApiActions = __webpack_require__(237);
-	var UserActions = __webpack_require__(238);
-	var BeerActions = __webpack_require__(239);
-	var ReviewActions = __webpack_require__(251);
-	
-	var ApiUtil = {
-	
-	  createUser: function (data) {
-	    $.post("api/users", { user: data }, function (user) {
-	      UserActions.receiveSingleUser(user);
-	    });
-	  },
-	
-	  fetchCurrentUser: function () {
-	    $.get('api/session', function (user) {
-	      UserActions.receiveCurrentUser(user);
-	    });
-	  },
-	
-	  fetchSingleUser: function (user) {
-	    $.get('api/user/' + user.id, function (user) {
-	      UserActions.receiveSingleUser(user);
-	    });
-	  },
-	
-	  fetchAllUsers: function () {
-	    $.get('api/users', function (users) {
-	      UserActions.receiveAllUsers(users);
-	    });
-	  },
-	
-	  createSession: function (data) {
-	
-	    $.post('api/session', { user: data }, function (user) {
-	      UserActions.createSession(user);
-	    });
-	  },
-	
-	  destroySession: function () {
-	    $.ajax({
-	      url: "api/session",
-	      type: 'DELETE',
-	      success: function (user) {
-	        UserActions.destroySession(user);
-	      }
-	    });
-	  },
-	
-	  fetchAllBeers: function () {
-	    $.get('api/beers', function (beers) {
-	      BeerActions.receiveAllBeers(beers);
-	    });
-	  },
-	
-	  fetchSingleBeer: function (beer) {
-	    $.get('api/beer/' + beer.id, function (beer) {
-	      BeerActions.receiveSingleBeer(beer);
-	    });
-	  },
-	
-	  createReview: function (review) {
-	
-	    $.post('api/reviews', { review: review }, function (user) {
-	      UserActions.receiveSingleUser(user);
-	    });
-	  },
-	
-	  destroyReview: function (review) {
-	    $.ajax({
-	      url: "api/reviews/" + review.id,
-	      type: 'DELETE',
-	      success: function (user) {
-	        UserActions.receiveSingleUser(user);
-	      },
-	      error: function (user) {}
-	    });
-	  }
-	
-	};
-	
-	module.exports = ApiUtil;
-
-/***/ },
-/* 237 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(228);
-	var UserConstants = __webpack_require__(231);
-	
-	var ApiActions = {
-	  receiveSingleUser: function (user) {
-	    AppDispatcher.dispatch({
-	      actionType: UserConstants.USER_RECEIVED,
-	      user: user
-	    });
-	  }
-	};
-	
-	module.exports = ApiActions;
-
-/***/ },
+/* 236 */,
+/* 237 */,
 /* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31458,27 +31351,6 @@
 	    };
 	
 	    Dispatcher.dispatch(action);
-	  },
-	
-	  createSession: function (user) {
-	    if (user.hasOwnProperty("errors")) {
-	      Dispatcher.dispatch({
-	        actionType: UserConstants.SESSION_ERRORS,
-	        errors: user.errors
-	      });
-	    } else {
-	      Dispatcher.dispatch({
-	        actionType: UserConstants.SESSION_CREATED,
-	        user: user
-	      });
-	    }
-	  },
-	
-	  destroySession: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: UserConstants.SESSION_DESTROYED,
-	      user: user
-	    });
 	  }
 	
 	};
@@ -31530,7 +31402,8 @@
 
 	var React = __webpack_require__(1);
 	var LinkedStateMixin = __webpack_require__(232);
-	var ApiUtil = __webpack_require__(236);
+	var UserUtil = __webpack_require__(254);
+	var SessionUtil = __webpack_require__(256);
 	var today = new Date();
 	
 	var NewUser = React.createClass({
@@ -31556,8 +31429,8 @@
 	  handleSubmit: function (e) {
 	    e.preventDefault();
 	    var user = Object.assign({}, this.state);
-	    ApiUtil.createUser(user);
-	    ApiUtil.createSession({ username: user.username, password: user.password });
+	    UserUtil.createUser(user);
+	    SessionUtil.createSession({ username: user.username, password: user.password });
 	  },
 	
 	  render: function () {
@@ -31634,9 +31507,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(210);
+	var SessionStore = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../../stores/Session_store\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	var LinkedStateMixin = __webpack_require__(232);
-	var ApiUtil = __webpack_require__(236);
+	var SessionUtil = __webpack_require__(256);
 	
 	var NewSession = React.createClass({
 	  displayName: 'NewSession',
@@ -31658,8 +31531,8 @@
 	  handleSubmit: function (e) {
 	    e.preventDefault();
 	    var sessionData = Object.assign({}, this.state);
-	
-	    ApiUtil.createSession(sessionData);
+	    debugger;
+	    SessionUtil.createSession(sessionData);
 	  },
 	
 	  render: function () {
@@ -31703,42 +31576,13 @@
 	module.exports = NewSession;
 
 /***/ },
-/* 243 */
-/***/ function(module, exports) {
-
-
-
-/***/ },
-/* 244 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(210);
-	var LinkedStateMixin = __webpack_require__(232);
-	var ApiUtil = __webpack_require__(236);
-	var NewUser = __webpack_require__(241);
-	var NewSession = __webpack_require__(242);
-	var DestroySession = __webpack_require__(243);
-	
-	// var Buttons = React.createClass({
-	//
-	//   render: function () {
-	//
-	//     return (
-	//
-	//     );
-	//   }
-	//
-	// });
-	//
-	// module.exports = Buttons;
-
-/***/ },
+/* 243 */,
+/* 244 */,
 /* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(236);
+	var SessionUtil = __webpack_require__(256);
 	var LinkedStateMixin = __webpack_require__(232);
 	var ReviewsIndex = __webpack_require__(246);
 	var ReviewStore = __webpack_require__(253);
@@ -31753,7 +31597,7 @@
 	  },
 	
 	  handleSignOut: function () {
-	    ApiUtil.destroySession();
+	    SessionUtil.destroySession();
 	  },
 	
 	  render: function () {
@@ -31835,14 +31679,14 @@
 
 	var React = __webpack_require__(1);
 	var Comment = __webpack_require__(248);
-	var ApiUtil = __webpack_require__(236);
+	var ReviewUtil = __webpack_require__(257);
 	
 	var ReviewIndexItem = React.createClass({
 	  displayName: 'ReviewIndexItem',
 	
 	  handleClick: function (review) {
 	    debugger;
-	    ApiUtil.destroyReview(review);
+	    ReviewUtil.destroyReview(review);
 	  },
 	
 	  render: function () {
@@ -31941,7 +31785,7 @@
 	var React = __webpack_require__(1);
 	var BeerStore = __webpack_require__(250);
 	var LinkedStateMixin = __webpack_require__(232);
-	var ApiUtil = __webpack_require__(236);
+	var ReviewUtil = __webpack_require__(257);
 	
 	var ReviewForm = React.createClass({
 	  displayName: 'ReviewForm',
@@ -31979,7 +31823,7 @@
 	    e.preventDefault;
 	
 	    var reviewData = Object.assign({}, this.state);
-	    ApiUtil.createReview(reviewData);
+	    ReviewUtil.createReview(reviewData);
 	  },
 	
 	  handleChange: function (event) {
@@ -32185,6 +32029,93 @@
 	};
 	
 	module.exports = UserUtil;
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BeerActions = __webpack_require__(239);
+	
+	var BeerUtil = {
+	
+	  fetchAllBeers: function () {
+	    $.get('api/beers', function (beers) {
+	      BeerActions.receiveAllBeers(beers);
+	    });
+	  },
+	
+	  fetchSingleBeer: function (beer) {
+	    $.get('api/beer/' + beer.id, function (beer) {
+	      BeerActions.receiveSingleBeer(beer);
+	    });
+	  }
+	
+	};
+	
+	module.exports = BeerUtil;
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var SessionActions = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./actions/session_actions\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var SessionUtil = {
+	
+	  fetchCurrentUser: function () {
+	    $.get('api/session', function (user) {
+	      SessionActions.receiveCurrentUser(user);
+	    });
+	  },
+	
+	  createSession: function (data) {
+	
+	    $.post('api/session', { user: data }, function (user) {
+	      SessionActions.createSession(user);
+	    });
+	  },
+	
+	  destroySession: function () {
+	    $.ajax({
+	      url: "api/session",
+	      type: 'DELETE',
+	      success: function (user) {
+	        SessionActions.destroySession(user);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = SessionUtil;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ReviewActions = __webpack_require__(251);
+	
+	var ReviewUtil = {
+	
+	  createReview: function (review) {
+	    $.post('api/reviews', { review: review }, function (user) {
+	      UserActions.receiveSingleUser(user);
+	    });
+	  },
+	
+	  destroyReview: function (review) {
+	    $.ajax({
+	      url: "api/reviews/" + review.id,
+	      type: 'DELETE',
+	      success: function (user) {
+	        UserActions.receiveSingleUser(user);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = ReviewUtil;
 
 /***/ }
 /******/ ]);

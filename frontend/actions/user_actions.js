@@ -26,28 +26,6 @@ var UserActions = {
 
 
     Dispatcher.dispatch(action);
-  },
-
-
-  createSession: function(user){
-    if (user.hasOwnProperty("errors")) {
-      Dispatcher.dispatch({
-        actionType: UserConstants.SESSION_ERRORS,
-        errors: user.errors
-      });
-    } else {
-      Dispatcher.dispatch({
-        actionType: UserConstants.SESSION_CREATED,
-        user: user
-      });
-    }
-  },
-
-  destroySession: function(user){
-    Dispatcher.dispatch({
-      actionType: UserConstants.SESSION_DESTROYED,
-      user: user
-    });
   }
 
 };

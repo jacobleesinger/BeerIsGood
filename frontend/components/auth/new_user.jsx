@@ -1,6 +1,7 @@
 var React = require('react');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
-var ApiUtil = require('../../util/api_util');
+var UserUtil = require('../../util/user_util');
+var SessionUtil = require('../../util/session_util')
 var today = new Date();
 
 var NewUser = React.createClass({
@@ -25,8 +26,8 @@ var NewUser = React.createClass({
   handleSubmit: function (e) {
     e.preventDefault();
     var user = Object.assign({}, this.state);
-    ApiUtil.createUser(user);
-    ApiUtil.createSession({username: user.username, password: user.password});
+    UserUtil.createUser(user);
+    SessionUtil.createSession({username: user.username, password: user.password});
   },
 
   render: function () {

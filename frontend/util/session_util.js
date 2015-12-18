@@ -4,14 +4,14 @@ var SessionUtil = {
 
   fetchCurrentUser: function(){
    $.get('api/session', function(user){
-     UserActions.receiveCurrentUser(user);
+     SessionActions.receiveCurrentUser(user);
    });
  },
 
  createSession: function(data){
 
    $.post('api/session', { user: data }, function(user){
-     UserActions.createSession(user);
+     SessionActions.createSession(user);
    });
  },
 
@@ -20,7 +20,7 @@ var SessionUtil = {
      url: "api/session",
      type: 'DELETE',
      success: function(user){
-       UserActions.destroySession(user);
+       SessionActions.destroySession(user);
      }
    });
  },

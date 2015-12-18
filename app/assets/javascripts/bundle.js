@@ -31868,13 +31868,24 @@
 
 	var React = __webpack_require__(1);
 	var BeerStore = __webpack_require__(248);
+	var LinkedStateMixin = __webpack_require__(232);
+	var ApiUtil = __webpack_require__(236);
 	
 	var ReviewForm = React.createClass({
 	  displayName: 'ReviewForm',
 	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
 	  getInitialState: function () {
 	    return {
-	      beers: BeerStore.all()
+	      beers: BeerStore.all(),
+	      beer: {},
+	      body: "",
+	      rating: 0
 	    };
 	  },
 	
@@ -31889,6 +31900,13 @@
 	  },
 	  componentWillUnmount: function () {
 	    this.BeerToken.remove();
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault;
+	    debugger;
+	
+	    var beerData = Object.assign({}, this.state);
 	  },
 	
 	  render: function () {
@@ -31907,7 +31925,7 @@
 	        this.state.beers.map((function (beer) {
 	          return React.createElement(
 	            'option',
-	            { key: beer.id },
+	            { key: beer.id, valueLink: this.linkState('beer') },
 	            beer.name
 	          );
 	        }).bind(this))
@@ -31917,14 +31935,14 @@
 	        { htmlFor: 'reviewBody' },
 	        'What do you think?'
 	      ),
-	      React.createElement('textarea', { className: 'form-control' }),
+	      React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
 	      React.createElement(
 	        'label',
 	        { htmlFor: 'reviewRating' },
 	        'Your Rating'
 	      ),
-	      React.createElement('input', { className: 'form-control', type: 'integer', id: 'reviewRating' }),
-	      React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Add your review!' })
+	      React.createElement('input', { className: 'form-control', type: 'integer', id: 'reviewRating', valueLink: this.linkState('rating') }),
+	      React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Add your review!', onClick: this.handleSubmit })
 	    );
 	  }
 	

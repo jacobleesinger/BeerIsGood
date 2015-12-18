@@ -23,20 +23,31 @@ var LandingPage = React.createClass({
   },
 
   componentDidMount: function(){
-    this.UserToken = UserStore.addListener(this._onChange);
+    this.userToken = UserStore.addListener(this._onUserChange);
+    this.sessionToken = SessionStore.addListener(this._onSessionChange)
+
   },
 
   componentWillUnmount: function(){
     this.userToken.remove();
   },
 
-  _onChange: function () {
+  _onUserChange: function () {
     this.setState({
       currentUser: UserStore.currentUser(),
       signedIn: UserStore.currentStatus(),
       sessionErrors: UserStore.sessionErrors(),
       userErrors: UserStore.userErrors()
     });
+  },
+
+  _onSessionChange: function() {
+    this.setState({
+      currentUser: SessionStore.currentUser(),
+      currentSession: SessionStore.currentSession(),
+      sessionErrors: SessionStore.sessionErrors()
+
+    })
   },
 
   displayErrorMessages: function () {

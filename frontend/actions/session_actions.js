@@ -5,12 +5,12 @@ var SessionActions = {
   createSession: function(user){
     if (user.hasOwnProperty("errors")) {
       Dispatcher.dispatch({
-        actionType: UserConstants.SESSION_ERRORS,
+        actionType: SessionConstants.SESSION_ERRORS,
         errors: user.errors
       });
     } else {
       Dispatcher.dispatch({
-        actionType: UserConstants.SESSION_CREATED,
+        actionType: SessionConstants.SESSION_CREATED,
         user: user
       });
     }
@@ -18,7 +18,7 @@ var SessionActions = {
 
   destroySession: function(user){
     Dispatcher.dispatch({
-      actionType: UserConstants.SESSION_DESTROYED,
+      actionType: SessionConstants.SESSION_DESTROYED,
       user: user
     });
   }

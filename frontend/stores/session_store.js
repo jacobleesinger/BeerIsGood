@@ -7,20 +7,22 @@ var currentUser = {};
 var sessionErrors = [];
 var SessionStore = new Store(AppDispatcher);
 
-UserStore.currentUser = function(){
+SessionStore.currentUser = function(){
   return currentUser;
 };
 
-UserStore.currentSession = function(){
+SessionStore.currentSession = function(){
+  debugger;
   return _session;
 };
 
-UserStore.sessionErrors = function() {
+SessionStore.sessionErrors = function() {
   return sessionErrors;
 };
 
-var resetCurrentUser = function(){
-  currentUser = null;
+var newCurrentUser = function(user){
+  debugger;
+  currentUser = user;
 };
 
 var resetSession = function() {
@@ -37,15 +39,16 @@ var addSessionErrors = function(errors) {
 };
 
 var newSession = function(sessionToken){
+  debugger;
   _session = sessionToken;
 }
 
-SessionStore.__onDispatch = function(payload)
+SessionStore.__onDispatch = function(payload) {
   switch(payload.actionType) {
     case SessionConstants.SESSION_CREATED:
       resetErrors();
-      currentUser = (payload.user)
-      newSession(payload.user.sessionToken);
+      newCurrentUser(payload.user);
+      newSession(payload.user.session_token);
       SessionStore.__emitChange();
       break;
     case SessionConstants.SESSION_DESTROYED:
@@ -59,5 +62,6 @@ SessionStore.__onDispatch = function(payload)
       break;
 
   }
+};
 
 module.exports = SessionStore;

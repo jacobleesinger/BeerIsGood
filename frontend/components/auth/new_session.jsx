@@ -1,5 +1,4 @@
 var React = require('react');
-var SessionStore = require('../../stores/Session_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var SessionUtil = require('../../util/session_util');
 
@@ -22,7 +21,6 @@ var NewSession = React.createClass ({
   handleSubmit: function (e) {
     e.preventDefault();
     var sessionData = Object.assign({}, this.state);
-    debugger;
     SessionUtil.createSession(sessionData);
 
   },

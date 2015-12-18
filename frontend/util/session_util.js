@@ -1,4 +1,4 @@
-var SessionActions = require('./actions/session_actions');
+var SessionActions = require('../actions/session_actions');
 
 var SessionUtil = {
 

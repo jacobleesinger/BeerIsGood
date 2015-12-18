@@ -20,7 +20,7 @@ class Api::ReviewsController < ApplicationController
 
     review.destroy
 
-    render json: @user
+    render json: @review
 
 
   end

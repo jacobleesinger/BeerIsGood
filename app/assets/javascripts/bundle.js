@@ -32203,6 +32203,7 @@
 	var BeerStore = __webpack_require__(249);
 	var LinkedStateMixin = __webpack_require__(210);
 	var ReviewUtil = __webpack_require__(248);
+	var ReviewStore = __webpack_require__(256);
 	
 	var ReviewForm = React.createClass({
 	  displayName: 'ReviewForm',
@@ -32225,12 +32226,17 @@
 	
 	  _onChange: function () {
 	    this.setState({
-	      beers: BeerStore.all()
+	      beers: BeerStore.all(),
+	      beer_id: 0,
+	      body: "",
+	      rating: 0,
+	      author_id: this.props.user.id
 	    });
 	  },
 	
 	  componentDidMount: function () {
 	    this.BeerToken = BeerStore.addListener(this._onChange);
+	    this.ReviewToken = ReviewStore.addListener(this._onChange);
 	  },
 	  componentWillUnmount: function () {
 	    this.BeerToken.remove();
@@ -32243,8 +32249,12 @@
 	    ReviewUtil.createReview(reviewData);
 	  },
 	
-	  handleChange: function (event) {
+	  handleBeerChange: function (event) {
 	    this.setState({ beer_id: event.target.value });
+	  },
+	
+	  handleRatingChange: function (event) {
+	    this.setState({ rating: event.target.value });
 	  },
 	
 	  render: function () {
@@ -32259,7 +32269,7 @@
 	      ),
 	      React.createElement(
 	        'select',
-	        { value: this.state.beer_id, onChange: this.handleChange },
+	        { value: this.state.beer_id, onChange: this.handleBeerChange },
 	        React.createElement('option', { value: '0', key: '0' }),
 	        this.state.beers.map((function (beer) {
 	          return React.createElement(
@@ -32280,7 +32290,40 @@
 	        { htmlFor: 'reviewRating' },
 	        'Your Rating'
 	      ),
-	      React.createElement('input', { className: 'form-control', type: 'integer', id: 'reviewRating', valueLink: this.linkState('rating') }),
+	      React.createElement(
+	        'select',
+	        { onChange: this.handleRatingChange },
+	        React.createElement(
+	          'option',
+	          { value: '0' },
+	          'rate beer'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: '1' },
+	          '1'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: '2' },
+	          '2'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: '3' },
+	          '3'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: '4' },
+	          '4'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: '5' },
+	          '5'
+	        )
+	      ),
 	      React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Add your review!', onClick: this.handleSubmit })
 	    );
 	  }

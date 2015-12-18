@@ -2,6 +2,7 @@ var React = require('react');
 var BeerStore = require('../stores/beer_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ReviewUtil = require('../util/review_util');
+var ReviewStore = require('../stores/review_store');
 
 
 var ReviewForm = React.createClass({
@@ -24,12 +25,17 @@ var ReviewForm = React.createClass({
 
   _onChange: function(){
     this.setState({
-      beers: BeerStore.all()
+      beers: BeerStore.all(),
+      beer_id: 0,
+      body: "",
+      rating: 0,
+      author_id: this.props.user.id
     });
   },
 
   componentDidMount: function(){
     this.BeerToken = BeerStore.addListener(this._onChange);
+    this.ReviewToken = ReviewStore.addListener(this._onChange);
   },
   componentWillUnmount: function(){
     this.BeerToken.remove();
@@ -42,8 +48,12 @@ var ReviewForm = React.createClass({
     ReviewUtil.createReview(reviewData);
   },
 
-  handleChange: function(event) {
+  handleBeerChange: function(event) {
     this.setState({beer_id: event.target.value});
+  },
+
+  handleRatingChange: function(event) {
+    this.setState({rating: event.target.value});
   },
 
 
@@ -53,7 +63,7 @@ var ReviewForm = React.createClass({
       <form className="form-group reviewForm">
 
           <label htmlFor="reviewBeer">What are you drinking?</label>
-            <select value={this.state.beer_id} onChange={this.handleChange}>
+            <select value={this.state.beer_id} onChange={this.handleBeerChange}>
               <option value="0" key="0"></option>
               {
                 this.state.beers.map(function(beer) {
@@ -70,7 +80,15 @@ var ReviewForm = React.createClass({
           <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
 
           <label htmlFor="reviewRating">Your Rating</label>
-          <input className="form-control" type="integer" id="reviewRating" valueLink={this.linkState('rating')} />
+            <select onChange={this.handleRatingChange}>
+              <option value="0">rate beer</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+
 
           <input className="btn btn-success" type="submit" value="Add your review!" onClick={this.handleSubmit}/>
 

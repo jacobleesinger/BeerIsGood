@@ -9,6 +9,8 @@ var Home = require('./components/home');
 var UserUtil = require('./util/user_util');
 var BeerUtil = require('./util/beer_util');
 var ReviewUtil = require('./util/review_util');
+var CommentUtil = require('./util/comment_util');
+var ToastUtil = require('./util/toast_util');
 
 var App = React.createClass({
   render: function () {
@@ -34,4 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
   UserUtil.fetchAllUsers();
   BeerUtil.fetchAllBeers();
   ReviewUtil.fetchAllReviews();
+  CommentUtil.fetchAllComments();
+  ToastUtil.fetchAllToasts();
 });

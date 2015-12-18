@@ -55,6 +55,8 @@
 	var UserUtil = __webpack_require__(237);
 	var BeerUtil = __webpack_require__(255);
 	var ReviewUtil = __webpack_require__(248);
+	var CommentUtil = __webpack_require__(258);
+	var ToastUtil = __webpack_require__(261);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -89,6 +91,8 @@
 	  UserUtil.fetchAllUsers();
 	  BeerUtil.fetchAllBeers();
 	  ReviewUtil.fetchAllReviews();
+	  CommentUtil.fetchAllComments();
+	  ToastUtil.fetchAllToasts();
 	});
 
 /***/ },
@@ -32280,6 +32284,152 @@
 	};
 	
 	module.exports = SessionStore;
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var CommentActions = __webpack_require__(259);
+	
+	var CommentUtil = {
+	
+	  fetchAllComments: function () {
+	    $.get('api/comments', function (comments) {
+	      CommentActions.receiveAllComments(comments);
+	    });
+	  },
+	
+	  createComment: function (comment) {
+	    $.post('api/comments', { comment: comment }, function (comment) {
+	      CommentActions.receiveSingleComment(comment);
+	    });
+	  },
+	
+	  destroyComment: function (comment) {
+	    $.ajax({
+	      url: "api/comment/" + comment.id,
+	      type: 'DELETE',
+	      success: function (review) {
+	        ReviewActions.receiveSingleReview(review);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = CommentUtil;
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(228);
+	var CommentConstants = __webpack_require__(260);
+	
+	var CommentActions = {
+	
+	  receiveAllComments: function (comments) {
+	    Dispatcher.dispatch({
+	      actionType: CommentConstants.COMMENTS_RECEIVED,
+	      reviews: reviews
+	    });
+	  },
+	
+	  receiveSingleComment: function (comment) {
+	    var action = {
+	      actionType: CommentConstants.Comment_RECEIVED,
+	      comment: comment
+	    };
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = CommentActions;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports) {
+
+	var CommentConstants = {
+	  COMMENT_RECEIVED: "COMMENT_RECEIVED",
+	  COMMENTS_RECEIVED: "COMMENTS_RECEIVED"
+	};
+	
+	module.exports = CommentConstants;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ToastActions = __webpack_require__(262);
+	
+	var ToastUtil = {
+	
+	  fetchAllToasts: function () {
+	    $.get('api/toasts', function (toasts) {
+	      ToastsActions.receiveAllToasts(Toasts);
+	    });
+	  },
+	
+	  createToast: function (toast) {
+	    $.post('api/toast', { toast: toast }, function (toast) {
+	      ToastActions.receiveSingleToast(toast);
+	    });
+	  },
+	
+	  destroyToast: function (toast) {
+	    $.ajax({
+	      url: "api/toast/" + toast.id,
+	      type: 'DELETE',
+	      success: function (review) {
+	        ReviewActions.receiveSingleReview(review);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = ToastUtil;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(228);
+	var ToastConstants = __webpack_require__(263);
+	
+	var ToastActions = {
+	
+	  receiveAllToasts: function (toasts) {
+	    Dispatcher.dispatch({
+	      actionType: ToastConstants.TOASTS_RECEIVED,
+	      toasts: toasts
+	    });
+	  },
+	
+	  receiveSingleToast: function (toast) {
+	    var action = {
+	      actionType: ToastConstants.TOAST_RECEIVED,
+	      toast: toast
+	    };
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = ToastActions;
+
+/***/ },
+/* 263 */
+/***/ function(module, exports) {
+
+	var ToastConstants = {
+	  TOAST_RECEIVED: "TOAST_RECEIVED",
+	  TOASTS_RECEIVED: "TOASTS_RECEIVED"
+	};
+	
+	module.exports = ToastConstants;
 
 /***/ }
 /******/ ]);

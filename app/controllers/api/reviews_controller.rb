@@ -8,7 +8,7 @@ class Api::ReviewsController < ApplicationController
     @review = Review.new(review_params)
     if @review.save
       @user = User.find_by_id(@review.author_id)
-      redirect_to api_user_url(@user.id)
+      render json: @review
     else
       @errors = {errors: ["Error. Please try again."]}
       render json: @errors
@@ -21,9 +21,10 @@ class Api::ReviewsController < ApplicationController
 
     @user = review.author
 
-    review.destroy
+    review.destroy!
+    
 
-    render json: @review
+    render json: Review.all
   end
 
 

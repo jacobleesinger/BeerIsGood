@@ -27,8 +27,6 @@ var ReviewsIndex = React.createClass ({
   },
 
   render: function () {
-    debugger;
-
 
     return (
 

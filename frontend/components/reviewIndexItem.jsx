@@ -35,13 +35,11 @@ var ReviewIndexItem = React.createClass({
 
 
   handleClick: function (review) {
-    debugger;
     ReviewUtil.destroyReview(review);
 
   },
 
   render: function () {
-    debugger;
     return (
       <div className="reviewContainer col-md-12" >
         <div className="reviewContent col-md-12">

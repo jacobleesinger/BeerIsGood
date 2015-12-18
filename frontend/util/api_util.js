@@ -1,5 +1,6 @@
 var ApiActions = require('../actions/api_actions');
 var UserActions = require('../actions/user_actions');
+var BeerActions = require('../actions/beer_actions');
 
 var ApiUtil = {
 
@@ -18,7 +19,7 @@ var ApiUtil = {
  fetchSingleUser: function(user) {
    $.get('api/user/' + user.id, function(user) {
      UserActions.receiveSingleUser(user);
-   })
+   });
  },
 
  fetchAllUsers: function() {
@@ -42,7 +43,19 @@ var ApiUtil = {
        UserActions.destroySession(user);
      }
    });
- }
+ },
+
+ fetchAllBeers: function() {
+   $.get('api/beers', function (beers) {
+     BeerActions.receiveAllBeers(beers);
+   });
+ },
+
+ fetchSingleBeer: function(beer) {
+   $.get('api/beer/' + beer.id, function(beer){
+     BeerActions.receiveSingleBeer(beer)
+   });
+ },
 
 };
 

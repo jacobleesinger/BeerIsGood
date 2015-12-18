@@ -30,4 +30,5 @@ document.addEventListener("DOMContentLoaded", function () {
   ReactDOM.render(<Router>{routes}</Router>, document.getElementById("root"));
 
   ApiUtil.fetchAllUsers();
+  ApiUtil.fetchAllBeers();
 });

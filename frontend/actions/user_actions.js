@@ -1,6 +1,6 @@
 
-var Dispatcher = require('../dispatcher/dispatcher'),
-    UserConstants = require('../constants/user_constants');
+var Dispatcher = require('../dispatcher/dispatcher');
+var UserConstants = require('../constants/user_constants');
 
 var UserActions = {
   receiveSingleUser: function(user){

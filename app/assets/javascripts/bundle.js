@@ -85,6 +85,7 @@
 	  ), document.getElementById("root"));
 	
 	  ApiUtil.fetchAllUsers();
+	  ApiUtil.fetchAllBeers();
 	});
 
 /***/ },
@@ -31327,6 +31328,7 @@
 
 	var ApiActions = __webpack_require__(237);
 	var UserActions = __webpack_require__(238);
+	var BeerActions = __webpack_require__(250);
 	
 	var ApiUtil = {
 	
@@ -31369,6 +31371,18 @@
 	        UserActions.destroySession(user);
 	      }
 	    });
+	  },
+	
+	  fetchAllBeers: function () {
+	    $.get('api/beers', function (beers) {
+	      BeerActions.receiveAllBeers(beers);
+	    });
+	  },
+	
+	  fetchSingleBeer: function (beer) {
+	    $.get('api/beer/' + beer.id, function (beer) {
+	      BeerActions.receiveSingleBeer(beer);
+	    });
 	  }
 	
 	};
@@ -31398,8 +31412,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var Dispatcher = __webpack_require__(228),
-	    UserConstants = __webpack_require__(231);
+	var Dispatcher = __webpack_require__(228);
+	var UserConstants = __webpack_require__(231);
 	
 	var UserActions = {
 	  receiveSingleUser: function (user) {
@@ -31853,40 +31867,159 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var BeerStore = __webpack_require__(248);
 	
 	var ReviewForm = React.createClass({
-	  displayName: "ReviewForm",
+	  displayName: 'ReviewForm',
+	
+	  getInitialState: function () {
+	    return {
+	      beers: BeerStore.all()
+	    };
+	  },
+	
+	  _onChange: function () {
+	    this.setState({
+	      beers: BeerStore.all()
+	    });
+	  },
+	
+	  componentDidMount: function () {
+	    this.BeerToken = BeerStore.addListener(this._onChange);
+	  },
+	  componentWillUnmount: function () {
+	    this.BeerToken.remove();
+	  },
 	
 	  render: function () {
 	
 	    return React.createElement(
-	      "form",
-	      { className: "form-group reviewForm" },
+	      'form',
+	      { className: 'form-group reviewForm' },
 	      React.createElement(
-	        "label",
-	        { htmlFor: "reviewBeer" },
-	        "What are you drinking?"
+	        'label',
+	        { htmlFor: 'reviewBeer' },
+	        'What are you drinking?'
 	      ),
-	      React.createElement("input", { className: "form-control", type: "text", id: "reviewBeer" }),
 	      React.createElement(
-	        "label",
-	        { htmlFor: "reviewBody" },
-	        "What do you think?"
+	        'select',
+	        { className: 'form-control', name: 'select' },
+	        this.state.beers.map((function (beer) {
+	          return React.createElement(
+	            'option',
+	            { key: beer.id },
+	            beer.name
+	          );
+	        }).bind(this))
 	      ),
-	      React.createElement("textarea", { className: "form-control" }),
 	      React.createElement(
-	        "label",
-	        { htmlFor: "reviewRating" },
-	        "Your Rating"
+	        'label',
+	        { htmlFor: 'reviewBody' },
+	        'What do you think?'
 	      ),
-	      React.createElement("input", { className: "form-control", type: "integer", id: "reviewRating" }),
-	      React.createElement("input", { className: "btn btn-success", type: "submit", value: "Add your review!" })
+	      React.createElement('textarea', { className: 'form-control' }),
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'reviewRating' },
+	        'Your Rating'
+	      ),
+	      React.createElement('input', { className: 'form-control', type: 'integer', id: 'reviewRating' }),
+	      React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Add your review!' })
 	    );
 	  }
 	
 	});
 	
 	module.exports = ReviewForm;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(211).Store;
+	var AppDispatcher = __webpack_require__(228);
+	var BeerConstants = __webpack_require__(249);
+	
+	var _beers = {};
+	
+	var BeerStore = new Store(AppDispatcher);
+	
+	var addAllBeers = function (beers) {
+	  beers.forEach(function (beer) {
+	    _beers[beer.id] = beer;
+	  });
+	};
+	
+	var addSingleBeer = function (beer) {
+	  _beers[beer.id] = beer;
+	};
+	
+	BeerStore.all = function () {
+	
+	  var beers = [];
+	  for (key in _beers) {
+	    if (_beers.hasOwnProperty(key)) {
+	      beers.push(_beers[key]);
+	    }
+	  }
+	  return beers;
+	};
+	
+	BeerStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case BeerConstants.BEERS_RECEIVED:
+	      addAllBeers(payload.beers);
+	      BeerStore.__emitChange();
+	      break;
+	    case BeerConstants.BEER_RECEIVED:
+	      addSingleBeer(payload.beer);
+	      BeerStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = BeerStore;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports) {
+
+	var BeerConstants = {
+	  BEER_RECEIVED: "BEER_RECEIVED",
+	  BEERS_RECEIVED: "BEERS_RECEIVED"
+	};
+	
+	module.exports = BeerConstants;
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(228);
+	var BeerConstants = __webpack_require__(249);
+	
+	var BeerActions = {
+	
+	  receiveAllBeers: function (beers) {
+	    Dispatcher.dispatch({
+	      actionType: BeerConstants.BEERS_RECEIVED,
+	      beers: beers
+	    });
+	  },
+	
+	  receiveSingleBeer: function (beer) {
+	    var action = {
+	      actionType: BeerConstants.BEER_RECEIVED,
+	      beer: beer
+	    };
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = BeerActions;
 
 /***/ }
 /******/ ]);

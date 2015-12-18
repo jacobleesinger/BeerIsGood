@@ -1,6 +1,27 @@
 var React = require('react');
+var BeerStore = require('../stores/beer_store');
 
 var ReviewForm = React.createClass({
+
+  getInitialState: function(){
+    return({
+      beers: BeerStore.all()
+    });
+  },
+
+  _onChange: function(){
+    this.setState({
+      beers: BeerStore.all()
+    });
+  },
+
+  componentDidMount: function(){
+    this.BeerToken = BeerStore.addListener(this._onChange);
+  },
+  componentWillUnmount: function(){
+    this.BeerToken.remove();
+  },
+
 
   render: function() {
 
@@ -8,7 +29,16 @@ var ReviewForm = React.createClass({
       <form className="form-group reviewForm">
 
           <label htmlFor="reviewBeer">What are you drinking?</label>
-          <input className="form-control" type="text" id="reviewBeer" />
+            <select className="form-control" name="select">
+              {this.state.beers.map(function(beer){
+                return (
+                  <option key={beer.id}>{beer.name}</option>
+                  )
+              }.bind(this)
+            )}
+
+            </select>
+
 
           <label htmlFor="reviewBody">What do you think?</label>
           <textarea className="form-control"></textarea>

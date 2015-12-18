@@ -1,10 +1,15 @@
 var React = require('react');
 var Comment = require('./comment');
+var ApiUtil = require('../util/api_util');
 
 var ReviewIndexItem = React.createClass({
 
 
+  handleClick: function (review) {
+    debugger;
+    ApiUtil.destroyReview(review);
 
+  },
 
   render: function () {
     return (
@@ -12,6 +17,7 @@ var ReviewIndexItem = React.createClass({
         <div className="reviewContent col-md-12">
           <div className="reviewHeader col-md-12">
             {this.props.review.beer.name}
+            <div onClick={this.handleClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete review</div>
           </div>
 
           <div className="reviewBody col-md-12">

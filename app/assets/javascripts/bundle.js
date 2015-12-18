@@ -31391,6 +31391,18 @@
 	    $.post('api/reviews', { review: review }, function (user) {
 	      UserActions.receiveSingleUser(user);
 	    });
+	  },
+	
+	  destroyReview: function (review) {
+	    debugger;
+	    $.ajax({
+	      url: "api/reviews/" + review.id,
+	      type: 'DELETE',
+	      success: function (user) {
+	        debugger;
+	        UserActions.receiveSingleUser(user);
+	      }
+	    });
 	  }
 	
 	};
@@ -31425,6 +31437,7 @@
 	
 	var UserActions = {
 	  receiveSingleUser: function (user) {
+	    debugger;
 	    if (user.hasOwnProperty("errors")) {
 	      Dispatcher.dispatch({
 	        actionType: UserConstants.USER_ERRORS,
@@ -31822,9 +31835,15 @@
 
 	var React = __webpack_require__(1);
 	var Comment = __webpack_require__(248);
+	var ApiUtil = __webpack_require__(236);
 	
 	var ReviewIndexItem = React.createClass({
 	  displayName: 'ReviewIndexItem',
+	
+	  handleClick: function (review) {
+	    debugger;
+	    ApiUtil.destroyReview(review);
+	  },
 	
 	  render: function () {
 	    return React.createElement(
@@ -31836,7 +31855,12 @@
 	        React.createElement(
 	          'div',
 	          { className: 'reviewHeader col-md-12' },
-	          this.props.review.beer.name
+	          this.props.review.beer.name,
+	          React.createElement(
+	            'div',
+	            { onClick: this.handleClick.bind(this, this.props.review), className: 'deleteReviewButton', value: this.props.review },
+	            'delete review'
+	          )
 	        ),
 	        React.createElement(
 	          'div',

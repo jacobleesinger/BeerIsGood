@@ -4,6 +4,7 @@ var UserConstants = require('../constants/user_constants');
 
 var UserActions = {
   receiveSingleUser: function(user){
+    debugger;
     if (user.hasOwnProperty("errors")) {
       Dispatcher.dispatch({
         actionType: UserConstants.USER_ERRORS,

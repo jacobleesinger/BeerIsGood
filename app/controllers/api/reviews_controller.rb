@@ -11,10 +11,18 @@ class Api::ReviewsController < ApplicationController
 
   end
 
+  def destroy
+    review = Review.find(params[:id])
+    user_id = review.author_id
+    review.destroy
+    redirect_to api_user_url(user_id)
+
+  end
+
 
   private
 
   def review_params
-    params.require(:review).permit(:author_id, :beer_id, :body, :rating)
+    params.require(:review).permit(:author_id, :beer_id, :body, :rating, :id)
   end
 end

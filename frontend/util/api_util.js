@@ -58,12 +58,27 @@ var ApiUtil = {
    });
  },
 
-createReview: function(review) {
+ createReview: function(review) {
 
-  $.post('api/reviews', { review: review }, function(user) {
-    UserActions.receiveSingleUser(user)
-  });
-}
+   $.post('api/reviews', { review: review }, function(user) {
+      UserActions.receiveSingleUser(user)
+    });
+  },
+
+  destroyReview: function(review){
+    debugger;
+    $.ajax({
+      url: "api/reviews/" + review.id,
+      type: 'DELETE',
+      success: function(user){
+        debugger;
+        UserActions.receiveSingleUser(user);
+      }
+    });
+
+  }
+
+
 
 };
 

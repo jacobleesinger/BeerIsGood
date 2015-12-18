@@ -64,3 +64,17 @@ body {
 .commentBody{
   color: black;
 }
+
+.deleteReviewButton {
+  font-size: .5em;
+  color: red;
+  text-decoration: underline;
+  float: right;
+}
+
+.deleteReviewButton:hover {
+  color: blue;
+  font-weight: bold;
+  cursor: pointer;
+
+}

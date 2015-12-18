@@ -4,10 +4,7 @@ var UserConstants = require('../constants/user_constants');
 
 var UserStore = new Store(AppDispatcher);
 
-var _users = {};
-var currentUser = null;
-var session = false;
-var sessionErrors = [];
+var _users = [];
 var userErrors = [];
 
 UserStore.currentUser = function(){
@@ -35,33 +32,21 @@ var resetSession = function() {
 };
 
 var addSingleUser = function(user){
-
     _users[user.id] = user;
-    currentUser = user;
-    session = true;
 };
 
 var addAllUsers = function (users) {
-
   users.forEach(function(user){
     _users[user.id] = user;
   });
 };
 
 var resetErrors = function() {
-  sessionErrors = [];
   userErrors = [];
-};
-
-var addSessionErrors = function(errors) {
-  sessionErrors = errors;
-  session = false;
 };
 
 var addUserErrors = function(errors) {
   userErrors = errors;
-  currentUser = null;
-  session = false;
 };
 
 

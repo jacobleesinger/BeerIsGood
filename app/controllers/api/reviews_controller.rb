@@ -1,4 +1,9 @@
 class Api::ReviewsController < ApplicationController
+
+  def index
+    @reviews = Review.all
+  end
+
   def create
     @review = Review.new(review_params)
     if @review.save
@@ -12,8 +17,6 @@ class Api::ReviewsController < ApplicationController
   end
 
   def destroy
-    p params
-    p "in destroy"
     review = Review.find(params[:id])
 
     @user = review.author
@@ -21,8 +24,6 @@ class Api::ReviewsController < ApplicationController
     review.destroy
 
     render json: @review
-
-
   end
 
 

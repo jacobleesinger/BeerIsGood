@@ -4,6 +4,7 @@ var ReviewConstants = require('../constants/review_constants');
 var ReviewActions = {
 
   receiveAllReviews: function(reviews) {
+    debugger;
     Dispatcher.dispatch({
       actionType: ReviewConstants.REVIEWS_RECEIVED,
       reviews: reviews

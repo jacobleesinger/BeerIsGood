@@ -2,6 +2,12 @@ var ReviewActions = require('../actions/review_actions');
 
 var ReviewUtil = {
 
+  fetchAllReviews: function() {
+    $.get('api/reviews', function (reviews) {
+      ReviewActions.receiveAllReviews(reviews);
+    });
+  },
+  
   createReview: function(review) {
     $.post('api/reviews', { review: review }, function(user) {
        UserActions.receiveSingleUser(user)

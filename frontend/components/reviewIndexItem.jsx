@@ -1,8 +1,29 @@
 var React = require('react');
 var Comment = require('./comment');
 var ReviewUtil = require('../util/review_util');
+var BeerStore = require('../stores/beer_store');
 
 var ReviewIndexItem = React.createClass({
+
+  getInitialState: function () {
+    return ({
+      beer: BeerStore.find(this.props.review.beer_id)
+    });
+  },
+
+  componentDidMount: function() {
+    this.beerToken = BeerStore.addListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    this.beerToken.remove();
+  },
+
+  _onChange: function() {
+    this.setState({
+      beer: BeerStore.find(this.props.review.beer_id)
+    });
+  },
 
 
   handleClick: function (review) {
@@ -17,7 +38,7 @@ var ReviewIndexItem = React.createClass({
       <div className="reviewContainer col-md-12" >
         <div className="reviewContent col-md-12">
           <div className="reviewHeader col-md-12">
-            {this.props.review.beer.name}
+            {this.state.beer.name}
             <div onClick={this.handleClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete review</div>
           </div>
 

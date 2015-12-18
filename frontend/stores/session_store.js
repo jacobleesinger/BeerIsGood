@@ -12,7 +12,6 @@ SessionStore.currentUser = function(){
 };
 
 SessionStore.currentSession = function(){
-  debugger;
   return _session;
 };
 
@@ -21,7 +20,6 @@ SessionStore.sessionErrors = function() {
 };
 
 var newCurrentUser = function(user){
-  debugger;
   currentUser = user;
 };
 
@@ -39,7 +37,6 @@ var addSessionErrors = function(errors) {
 };
 
 var newSession = function(sessionToken){
-  debugger;
   _session = sessionToken;
 }
 

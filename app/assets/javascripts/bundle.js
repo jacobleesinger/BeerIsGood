@@ -54,6 +54,7 @@
 	var Home = __webpack_require__(244);
 	var UserUtil = __webpack_require__(237);
 	var BeerUtil = __webpack_require__(255);
+	var ReviewUtil = __webpack_require__(248);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -87,6 +88,7 @@
 	
 	  UserUtil.fetchAllUsers();
 	  BeerUtil.fetchAllBeers();
+	  ReviewUtil.fetchAllReviews();
 	});
 
 /***/ },
@@ -24158,7 +24160,6 @@
 	  },
 	
 	  _onSessionChange: function () {
-	    debugger;
 	    this.setState({
 	      currentUser: SessionStore.currentUser(),
 	      currentSession: SessionStore.currentSession(),
@@ -24283,10 +24284,7 @@
 	
 	var UserStore = new Store(AppDispatcher);
 	
-	var _users = {};
-	var currentUser = null;
-	var session = false;
-	var sessionErrors = [];
+	var _users = [];
 	var userErrors = [];
 	
 	UserStore.currentUser = function () {
@@ -24314,33 +24312,21 @@
 	};
 	
 	var addSingleUser = function (user) {
-	
 	  _users[user.id] = user;
-	  currentUser = user;
-	  session = true;
 	};
 	
 	var addAllUsers = function (users) {
-	
 	  users.forEach(function (user) {
 	    _users[user.id] = user;
 	  });
 	};
 	
 	var resetErrors = function () {
-	  sessionErrors = [];
 	  userErrors = [];
-	};
-	
-	var addSessionErrors = function (errors) {
-	  sessionErrors = errors;
-	  session = false;
 	};
 	
 	var addUserErrors = function (errors) {
 	  userErrors = errors;
-	  currentUser = null;
-	  session = false;
 	};
 	
 	UserStore.__onDispatch = function (payload) {
@@ -31711,11 +31697,33 @@
 	var React = __webpack_require__(1);
 	var ReviewIndexItem = __webpack_require__(246);
 	var ReviewForm = __webpack_require__(251);
+	var ReviewStore = __webpack_require__(254);
 	
 	var ReviewsIndex = React.createClass({
 	  displayName: 'ReviewsIndex',
 	
+	  getInitialState: function () {
+	    return {
+	      reviews: ReviewStore.filterReviewsByUserId(this.props.user.id)
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.reviewsToken = ReviewStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.reviewsToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({
+	      reviews: ReviewStore.filterReviewsByUserId(this.props.user.id)
+	    });
+	  },
+	
 	  render: function () {
+	    debugger;
 	
 	    return React.createElement(
 	      'div',
@@ -31738,7 +31746,7 @@
 	          null,
 	          'My Reviews'
 	        ),
-	        this.props.user.reviews.map((function (review) {
+	        this.state.reviews.map((function (review) {
 	          return React.createElement(ReviewIndexItem, { review: review, key: review.id });
 	        }).bind(this))
 	      )
@@ -31755,9 +31763,30 @@
 	var React = __webpack_require__(1);
 	var Comment = __webpack_require__(247);
 	var ReviewUtil = __webpack_require__(248);
+	var BeerStore = __webpack_require__(252);
 	
 	var ReviewIndexItem = React.createClass({
 	  displayName: 'ReviewIndexItem',
+	
+	  getInitialState: function () {
+	    return {
+	      beer: BeerStore.find(this.props.review.beer_id)
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.beerToken = BeerStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.beerToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({
+	      beer: BeerStore.find(this.props.review.beer_id)
+	    });
+	  },
 	
 	  handleClick: function (review) {
 	    debugger;
@@ -31775,7 +31804,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'reviewHeader col-md-12' },
-	          this.props.review.beer.name,
+	          this.state.beer.name,
 	          React.createElement(
 	            'div',
 	            { onClick: this.handleClick.bind(this, this.props.review), className: 'deleteReviewButton', value: this.props.review },
@@ -31862,6 +31891,12 @@
 	
 	var ReviewUtil = {
 	
+	  fetchAllReviews: function () {
+	    $.get('api/reviews', function (reviews) {
+	      ReviewActions.receiveAllReviews(reviews);
+	    });
+	  },
+	
 	  createReview: function (review) {
 	    $.post('api/reviews', { review: review }, function (user) {
 	      UserActions.receiveSingleUser(user);
@@ -31892,6 +31927,7 @@
 	var ReviewActions = {
 	
 	  receiveAllReviews: function (reviews) {
+	    debugger;
 	    Dispatcher.dispatch({
 	      actionType: ReviewConstants.REVIEWS_RECEIVED,
 	      reviews: reviews
@@ -32023,7 +32059,7 @@
 	var AppDispatcher = __webpack_require__(228);
 	var BeerConstants = __webpack_require__(253);
 	
-	var _beers = {};
+	var _beers = [];
 	
 	var BeerStore = new Store(AppDispatcher);
 	
@@ -32038,14 +32074,11 @@
 	};
 	
 	BeerStore.all = function () {
+	  return _beers;
+	};
 	
-	  var beers = [];
-	  for (key in _beers) {
-	    if (_beers.hasOwnProperty(key)) {
-	      beers.push(_beers[key]);
-	    }
-	  }
-	  return beers;
+	BeerStore.find = function (beerId) {
+	  return _beers[beerId];
 	};
 	
 	BeerStore.__onDispatch = function (payload) {
@@ -32084,18 +32117,30 @@
 	var AppDispatcher = __webpack_require__(228);
 	var ReviewConstants = __webpack_require__(250);
 	
-	var _reviews = {};
+	var _reviews = [];
 	
 	var ReviewStore = new Store(AppDispatcher);
 	
 	var addAllReviews = function (reviews) {
-	  review.forEach(function (review) {
+	  debugger;
+	  reviews.forEach(function (review) {
 	    _reviews[review.id] = review;
 	  });
 	};
 	
-	var addSingleBeer = function (review) {
+	var addSingleReview = function (review) {
 	  _reviews[review.id] = review;
+	};
+	
+	ReviewStore.all = function () {
+	  return _reviews;
+	};
+	
+	ReviewStore.filterReviewsByUserId = function (userId) {
+	  debugger;
+	  return _reviews.filter(function (review) {
+	    return review.author_id === userId;
+	  });
 	};
 	
 	ReviewStore.__onDispatch = function (payload) {
@@ -32185,7 +32230,6 @@
 	};
 	
 	SessionStore.currentSession = function () {
-	  debugger;
 	  return _session;
 	};
 	
@@ -32194,7 +32238,6 @@
 	};
 	
 	var newCurrentUser = function (user) {
-	  debugger;
 	  currentUser = user;
 	};
 	
@@ -32212,7 +32255,6 @@
 	};
 	
 	var newSession = function (sessionToken) {
-	  debugger;
 	  _session = sessionToken;
 	};
 	

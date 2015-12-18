@@ -7,6 +7,7 @@ var IndexRoute = ReactRouter.IndexRoute;
 var LandingPage = require('./components/landing_page');
 var Home = require('./components/home');
 var ApiUtil = require('./util/api_util');
+var UserUtil = require('./util/user_util');
 
 var App = React.createClass({
   render: function () {

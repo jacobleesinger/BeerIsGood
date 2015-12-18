@@ -53,6 +53,7 @@
 	var LandingPage = __webpack_require__(208);
 	var Home = __webpack_require__(245);
 	var ApiUtil = __webpack_require__(236);
+	var UserUtil = __webpack_require__(254);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -31394,17 +31395,13 @@
 	  },
 	
 	  destroyReview: function (review) {
-	    debugger;
 	    $.ajax({
 	      url: "api/reviews/" + review.id,
 	      type: 'DELETE',
 	      success: function (user) {
-	        debugger;
 	        UserActions.receiveSingleUser(user);
 	      },
-	      error: function (user) {
-	        debugger;
-	      }
+	      error: function (user) {}
 	    });
 	  }
 	
@@ -32158,6 +32155,36 @@
 	};
 	
 	module.exports = ReviewStore;
+
+/***/ },
+/* 254 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var UserActions = __webpack_require__(238);
+	
+	var UserUtil = {
+	
+	  createUser: function (data) {
+	    $.post("api/users", { user: data }, function (user) {
+	      UserActions.receiveSingleUser(user);
+	    });
+	  },
+	
+	  fetchSingleUser: function (user) {
+	    $.get('api/user/' + user.id, function (user) {
+	      UserActions.receiveSingleUser(user);
+	    });
+	  },
+	
+	  fetchAllUsers: function () {
+	    $.get('api/users', function (users) {
+	      UserActions.receiveAllUsers(users);
+	    });
+	  }
+	
+	};
+	
+	module.exports = UserUtil;
 
 /***/ }
 /******/ ]);

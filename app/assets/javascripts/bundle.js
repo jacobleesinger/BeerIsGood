@@ -24128,6 +24128,7 @@
 	var React = __webpack_require__(1);
 	var Auth = __webpack_require__(209);
 	var UserStore = __webpack_require__(210);
+	var SessionStore = __webpack_require__(257);
 	var Home = __webpack_require__(244);
 	
 	var Page;
@@ -24140,6 +24141,7 @@
 	  getInitialState: function () {
 	    return {
 	      currentUser: {},
+	      currentSession: "",
 	      signedIn: false,
 	      button: "",
 	      sessionErrors: [],
@@ -24148,30 +24150,30 @@
 	  },
 	
 	  componentDidMount: function () {
-	    this.userToken = UserStore.addListener(this._onUserChange);
 	    this.sessionToken = SessionStore.addListener(this._onSessionChange);
 	  },
 	
 	  componentWillUnmount: function () {
-	    this.userToken.remove();
-	  },
-	
-	  _onUserChange: function () {
-	    this.setState({
-	      currentUser: UserStore.currentUser(),
-	      signedIn: UserStore.currentStatus(),
-	      sessionErrors: UserStore.sessionErrors(),
-	      userErrors: UserStore.userErrors()
-	    });
+	    this.sessionToken.remove();
 	  },
 	
 	  _onSessionChange: function () {
+	    debugger;
 	    this.setState({
 	      currentUser: SessionStore.currentUser(),
 	      currentSession: SessionStore.currentSession(),
 	      sessionErrors: SessionStore.sessionErrors()
 	
 	    });
+	    this.checkIfSignedIn();
+	  },
+	
+	  checkIfSignedIn: function () {
+	    if (this.state.currentSession === this.state.currentUser.session_token) {
+	      this.setState({ signedIn: true });
+	    } else {
+	      this.setState({ signedIn: false });
+	    }
 	  },
 	
 	  displayErrorMessages: function () {
@@ -31763,6 +31765,7 @@
 	  },
 	
 	  render: function () {
+	    debugger;
 	    return React.createElement(
 	      'div',
 	      { className: 'reviewContainer col-md-12' },
@@ -32163,6 +32166,78 @@
 	};
 	
 	module.exports = BeerActions;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(211).Store;
+	var AppDispatcher = __webpack_require__(228);
+	var SessionConstants = __webpack_require__(241);
+	
+	var _session = "";
+	var currentUser = {};
+	var sessionErrors = [];
+	var SessionStore = new Store(AppDispatcher);
+	
+	SessionStore.currentUser = function () {
+	  return currentUser;
+	};
+	
+	SessionStore.currentSession = function () {
+	  debugger;
+	  return _session;
+	};
+	
+	SessionStore.sessionErrors = function () {
+	  return sessionErrors;
+	};
+	
+	var newCurrentUser = function (user) {
+	  debugger;
+	  currentUser = user;
+	};
+	
+	var resetSession = function () {
+	  _session = "";
+	};
+	
+	var resetErrors = function () {
+	  sessionErrors = [];
+	};
+	
+	var addSessionErrors = function (errors) {
+	  sessionErrors = errors;
+	  _session = "";
+	};
+	
+	var newSession = function (sessionToken) {
+	  debugger;
+	  _session = sessionToken;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.SESSION_CREATED:
+	      resetErrors();
+	      newCurrentUser(payload.user);
+	      newSession(payload.user.session_token);
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.SESSION_DESTROYED:
+	      resetErrors();
+	      resetSession();
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.SESSION_ERRORS:
+	      resetErrors();
+	      addSessionErrors(payload.errors);
+	      break;
+	
+	  }
+	};
+	
+	module.exports = SessionStore;
 
 /***/ }
 /******/ ]);

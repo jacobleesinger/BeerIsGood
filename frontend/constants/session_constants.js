@@ -1,0 +1,7 @@
+var SessionConstants = {
+  SESSION_CREATED: "SESSION_CREATED",
+  SESSION_DESTROYED: "SESSION_DESTROYED",
+  SESSION_ERRORS: "SESSION_ERRORS"
+};
+
+module.exports = SessionConstants;

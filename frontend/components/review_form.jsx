@@ -1,7 +1,7 @@
 var React = require('react');
 var BeerStore = require('../stores/beer_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
-var ApiUtil = require('../util/api_util');
+var ReviewUtil = require('../util/review_util');
 
 
 var ReviewForm = React.createClass({
@@ -39,7 +39,7 @@ var ReviewForm = React.createClass({
     e.preventDefault;
 
     var reviewData = Object.assign({}, this.state)
-    ApiUtil.createReview(reviewData);
+    ReviewUtil.createReview(reviewData);
   },
 
   handleChange: function(event) {

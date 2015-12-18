@@ -1,8 +1,7 @@
 var React = require('react');
 var Auth = require('./auth/auth_component');
-var ApiUtil = require('../util/api_util');
 var UserStore=require('../stores/user_store');
-// var Buttons = require('./auth/buttons');
+var SessionStore = require('../stores/session_store');
 var Home = require('./home');
 
 var Page;
@@ -16,6 +15,7 @@ var LandingPage = React.createClass({
     return(
       {
         currentUser: {},
+        currentSession: "",
         signedIn: false,
         button: "",
         sessionErrors: [],
@@ -24,21 +24,33 @@ var LandingPage = React.createClass({
     )
   },
 
+
   componentDidMount: function(){
-    this.UserToken = UserStore.addListener(this._onChange);
+    this.sessionToken = SessionStore.addListener(this._onSessionChange)
   },
 
   componentWillUnmount: function(){
-    this.userToken.remove();
+    this.sessionToken.remove();
   },
 
-  _onChange: function () {
+
+  _onSessionChange: function() {
     this.setState({
-      currentUser: UserStore.currentUser(),
-      signedIn: UserStore.currentStatus(),
-      sessionErrors: UserStore.sessionErrors(),
-      userErrors: UserStore.userErrors()
+      currentUser: SessionStore.currentUser(),
+      currentSession: SessionStore.currentSession(),
+      sessionErrors: SessionStore.sessionErrors()
+
     });
+    this.checkIfSignedIn();
+  },
+
+  checkIfSignedIn: function() {
+    if (this.state.currentSession === this.state.currentUser.session_token){
+      this.setState({signedIn: true})
+    } else {
+      this.setState({signedIn: false})
+    }
+
   },
 
   displayErrorMessages: function () {

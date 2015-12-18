@@ -1,5 +1,5 @@
 var React = require('react');
-var ApiUtil = require('../util/api_util');
+var SessionUtil = require('../util/session_util');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ReviewsIndex = require('./reviewsIndex');
 var ReviewStore = require('../stores/review_store');
@@ -13,7 +13,7 @@ var Home = React.createClass({
   },
 
   handleSignOut: function () {
-    ApiUtil.destroySession();
+    SessionUtil.destroySession();
   },
 
 

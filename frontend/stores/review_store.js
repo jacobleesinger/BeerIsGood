@@ -2,24 +2,40 @@ var Store = require('flux/utils').Store;
 var AppDispatcher = require('../dispatcher/dispatcher');
 var ReviewConstants = require('../constants/review_constants');
 
-var _reviews = {};
+var _reviews = [];
 
 var ReviewStore = new Store(AppDispatcher);
 
 var addAllReviews = function (reviews) {
-  review.forEach(function(review){
+  reviews.forEach(function(review){
     _reviews[review.id] = review;
   });
 };
 
-var addSingleBeer = function(review) {
+var addSingleReview = function(review) {
   _reviews[review.id] = review;
 };
+
+var resetReviews = function() {
+  _reviews = [];
+};
+
+ReviewStore.all = function() {
+  return _reviews;
+};
+
+ReviewStore.filterReviewsByUserId = function(userId) {
+  return _reviews.filter(function(review){
+    return review.author_id === userId;
+  });
+};
+
 
 ReviewStore.__onDispatch = function(payload) {
 
   switch(payload.actionType) {
     case ReviewConstants.REVIEWS_RECEIVED:
+      resetReviews();
       addAllReviews(payload.reviews)
       ReviewStore.__emitChange();
       break;

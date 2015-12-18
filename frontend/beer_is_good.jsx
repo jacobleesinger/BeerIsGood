@@ -6,7 +6,11 @@ var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 var LandingPage = require('./components/landing_page');
 var Home = require('./components/home');
-var ApiUtil = require('./util/api_util');
+var UserUtil = require('./util/user_util');
+var BeerUtil = require('./util/beer_util');
+var ReviewUtil = require('./util/review_util');
+var CommentUtil = require('./util/comment_util');
+var ToastUtil = require('./util/toast_util');
 
 var App = React.createClass({
   render: function () {
@@ -29,6 +33,9 @@ var routes = (
 document.addEventListener("DOMContentLoaded", function () {
   ReactDOM.render(<Router>{routes}</Router>, document.getElementById("root"));
 
-  ApiUtil.fetchAllUsers();
-  ApiUtil.fetchAllBeers();
+  UserUtil.fetchAllUsers();
+  BeerUtil.fetchAllBeers();
+  ReviewUtil.fetchAllReviews();
+  CommentUtil.fetchAllComments();
+  ToastUtil.fetchAllToasts();
 });

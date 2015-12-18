@@ -66,16 +66,13 @@ var ApiUtil = {
   },
 
   destroyReview: function(review){
-    debugger;
     $.ajax({
       url: "api/reviews/" + review.id,
       type: 'DELETE',
       success: function(user){
-        debugger;
         UserActions.receiveSingleUser(user);
       },
       error: function (user){
-        debugger
       }
     });
 

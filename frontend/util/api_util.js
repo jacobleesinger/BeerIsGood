@@ -1,6 +1,7 @@
 var ApiActions = require('../actions/api_actions');
 var UserActions = require('../actions/user_actions');
 var BeerActions = require('../actions/beer_actions');
+var ReviewActions = require('../actions/review_actions');
 
 var ApiUtil = {
 
@@ -56,6 +57,13 @@ var ApiUtil = {
      BeerActions.receiveSingleBeer(beer)
    });
  },
+
+createReview: function(review) {
+
+  $.post('api/reviews', { review: review }, function(user) {
+    UserActions.receiveSingleUser(user)
+  });
+}
 
 };
 

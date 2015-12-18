@@ -51,7 +51,7 @@
 	var Route = ReactRouter.Route;
 	var IndexRoute = ReactRouter.IndexRoute;
 	var LandingPage = __webpack_require__(208);
-	var Home = __webpack_require__(243);
+	var Home = __webpack_require__(245);
 	var ApiUtil = __webpack_require__(236);
 	
 	var App = React.createClass({
@@ -24129,7 +24129,7 @@
 	var ApiUtil = __webpack_require__(236);
 	var UserStore = __webpack_require__(210);
 	// var Buttons = require('./auth/buttons');
-	var Home = __webpack_require__(243);
+	var Home = __webpack_require__(245);
 	
 	var Page;
 	var modal;
@@ -24237,10 +24237,10 @@
 	var UserStore = __webpack_require__(210);
 	var LinkedStateMixin = __webpack_require__(232);
 	var ApiUtil = __webpack_require__(236);
-	var NewUser = __webpack_require__(239);
-	var NewSession = __webpack_require__(240);
-	var DestroySession = __webpack_require__(241);
-	var Buttons = __webpack_require__(242);
+	var NewUser = __webpack_require__(241);
+	var NewSession = __webpack_require__(242);
+	var DestroySession = __webpack_require__(243);
+	var Buttons = __webpack_require__(244);
 	
 	var AuthForm;
 	var Auth = React.createClass({
@@ -31328,7 +31328,8 @@
 
 	var ApiActions = __webpack_require__(237);
 	var UserActions = __webpack_require__(238);
-	var BeerActions = __webpack_require__(250);
+	var BeerActions = __webpack_require__(239);
+	var ReviewActions = __webpack_require__(251);
 	
 	var ApiUtil = {
 	
@@ -31382,6 +31383,13 @@
 	  fetchSingleBeer: function (beer) {
 	    $.get('api/beer/' + beer.id, function (beer) {
 	      BeerActions.receiveSingleBeer(beer);
+	    });
+	  },
+	
+	  createReview: function (review) {
+	
+	    $.post('api/reviews', { review: review }, function (user) {
+	      UserActions.receiveSingleUser(user);
 	    });
 	  }
 	
@@ -31466,6 +31474,45 @@
 
 /***/ },
 /* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(228);
+	var BeerConstants = __webpack_require__(240);
+	
+	var BeerActions = {
+	
+	  receiveAllBeers: function (beers) {
+	    Dispatcher.dispatch({
+	      actionType: BeerConstants.BEERS_RECEIVED,
+	      beers: beers
+	    });
+	  },
+	
+	  receiveSingleBeer: function (beer) {
+	    var action = {
+	      actionType: BeerConstants.BEER_RECEIVED,
+	      beer: beer
+	    };
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = BeerActions;
+
+/***/ },
+/* 240 */
+/***/ function(module, exports) {
+
+	var BeerConstants = {
+	  BEER_RECEIVED: "BEER_RECEIVED",
+	  BEERS_RECEIVED: "BEERS_RECEIVED"
+	};
+	
+	module.exports = BeerConstants;
+
+/***/ },
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -31570,7 +31617,7 @@
 	module.exports = NewUser;
 
 /***/ },
-/* 240 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -31643,22 +31690,22 @@
 	module.exports = NewSession;
 
 /***/ },
-/* 241 */
+/* 243 */
 /***/ function(module, exports) {
 
 
 
 /***/ },
-/* 242 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var UserStore = __webpack_require__(210);
 	var LinkedStateMixin = __webpack_require__(232);
 	var ApiUtil = __webpack_require__(236);
-	var NewUser = __webpack_require__(239);
-	var NewSession = __webpack_require__(240);
-	var DestroySession = __webpack_require__(241);
+	var NewUser = __webpack_require__(241);
+	var NewSession = __webpack_require__(242);
+	var DestroySession = __webpack_require__(243);
 	
 	// var Buttons = React.createClass({
 	//
@@ -31674,13 +31721,14 @@
 	// module.exports = Buttons;
 
 /***/ },
-/* 243 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(236);
 	var LinkedStateMixin = __webpack_require__(232);
-	var ReviewsIndex = __webpack_require__(244);
+	var ReviewsIndex = __webpack_require__(246);
+	var ReviewStore = __webpack_require__(253);
 	
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -31725,12 +31773,12 @@
 	module.exports = Home;
 
 /***/ },
-/* 244 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReviewIndexItem = __webpack_require__(245);
-	var ReviewForm = __webpack_require__(247);
+	var ReviewIndexItem = __webpack_require__(247);
+	var ReviewForm = __webpack_require__(249);
 	
 	var ReviewsIndex = React.createClass({
 	  displayName: 'ReviewsIndex',
@@ -31769,11 +31817,11 @@
 	module.exports = ReviewsIndex;
 
 /***/ },
-/* 245 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Comment = __webpack_require__(246);
+	var Comment = __webpack_require__(248);
 	
 	var ReviewIndexItem = React.createClass({
 	  displayName: 'ReviewIndexItem',
@@ -31832,7 +31880,7 @@
 	module.exports = ReviewIndexItem;
 
 /***/ },
-/* 246 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -31863,11 +31911,11 @@
 	module.exports = Comment;
 
 /***/ },
-/* 247 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var BeerStore = __webpack_require__(248);
+	var BeerStore = __webpack_require__(250);
 	var LinkedStateMixin = __webpack_require__(232);
 	var ApiUtil = __webpack_require__(236);
 	
@@ -31883,9 +31931,10 @@
 	  getInitialState: function () {
 	    return {
 	      beers: BeerStore.all(),
-	      beer: {},
+	      beer_id: 0,
 	      body: "",
-	      rating: 0
+	      rating: 0,
+	      author_id: this.props.user.id
 	    };
 	  },
 	
@@ -31904,9 +31953,13 @@
 	
 	  handleSubmit: function (e) {
 	    e.preventDefault;
-	    debugger;
 	
-	    var beerData = Object.assign({}, this.state);
+	    var reviewData = Object.assign({}, this.state);
+	    ApiUtil.createReview(reviewData);
+	  },
+	
+	  handleChange: function (event) {
+	    this.setState({ beer_id: event.target.value });
 	  },
 	
 	  render: function () {
@@ -31921,11 +31974,12 @@
 	      ),
 	      React.createElement(
 	        'select',
-	        { className: 'form-control', name: 'select' },
+	        { value: this.state.beer_id, onChange: this.handleChange },
+	        React.createElement('option', { value: '0', key: '0' }),
 	        this.state.beers.map((function (beer) {
 	          return React.createElement(
 	            'option',
-	            { key: beer.id, valueLink: this.linkState('beer') },
+	            { value: beer.id, key: beer.id },
 	            beer.name
 	          );
 	        }).bind(this))
@@ -31951,12 +32005,12 @@
 	module.exports = ReviewForm;
 
 /***/ },
-/* 248 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(211).Store;
 	var AppDispatcher = __webpack_require__(228);
-	var BeerConstants = __webpack_require__(249);
+	var BeerConstants = __webpack_require__(240);
 	
 	var _beers = {};
 	
@@ -32001,43 +32055,82 @@
 	module.exports = BeerStore;
 
 /***/ },
-/* 249 */
-/***/ function(module, exports) {
-
-	var BeerConstants = {
-	  BEER_RECEIVED: "BEER_RECEIVED",
-	  BEERS_RECEIVED: "BEERS_RECEIVED"
-	};
-	
-	module.exports = BeerConstants;
-
-/***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(228);
-	var BeerConstants = __webpack_require__(249);
+	var ReviewConstants = __webpack_require__(252);
 	
-	var BeerActions = {
+	var ReviewActions = {
 	
-	  receiveAllBeers: function (beers) {
+	  receiveAllReviews: function (reviews) {
 	    Dispatcher.dispatch({
-	      actionType: BeerConstants.BEERS_RECEIVED,
-	      beers: beers
+	      actionType: ReviewConstants.REVIEWS_RECEIVED,
+	      reviews: reviews
 	    });
 	  },
 	
-	  receiveSingleBeer: function (beer) {
+	  receiveSingleReview: function (review) {
 	    var action = {
-	      actionType: BeerConstants.BEER_RECEIVED,
-	      beer: beer
+	      actionType: ReviewConstants.REVIEW_RECEIVED,
+	      review: review
 	    };
 	    Dispatcher.dispatch(action);
 	  }
 	
 	};
 	
-	module.exports = BeerActions;
+	module.exports = ReviewActions;
+
+/***/ },
+/* 252 */
+/***/ function(module, exports) {
+
+	var ReviewConstants = {
+	  REVIEW_RECEIVED: "REVIEW_RECEIVED",
+	  REVIEWS_RECEIVED: "REVIEWS_RECEIVED"
+	};
+	
+	module.exports = ReviewConstants;
+
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(211).Store;
+	var AppDispatcher = __webpack_require__(228);
+	var ReviewConstants = __webpack_require__(252);
+	
+	var _reviews = {};
+	
+	var ReviewStore = new Store(AppDispatcher);
+	
+	var addAllReviews = function (reviews) {
+	  review.forEach(function (review) {
+	    _reviews[review.id] = review;
+	  });
+	};
+	
+	var addSingleBeer = function (review) {
+	  _reviews[review.id] = review;
+	};
+	
+	ReviewStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case ReviewConstants.REVIEWS_RECEIVED:
+	      addAllReviews(payload.reviews);
+	      ReviewStore.__emitChange();
+	      break;
+	    case ReviewConstants.REVIEW_RECEIVED:
+	      addSingleReview(payload.review);
+	      ReviewStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = ReviewStore;
 
 /***/ }
 /******/ ]);

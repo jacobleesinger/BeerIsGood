@@ -15,9 +15,10 @@ var ReviewForm = React.createClass({
   getInitialState: function(){
     return({
       beers: BeerStore.all(),
-      beer: {},
+      beer_id: 0,
       body: "",
-      rating: 0
+      rating: 0,
+      author_id: this.props.user.id
     });
   },
 
@@ -36,9 +37,13 @@ var ReviewForm = React.createClass({
 
   handleSubmit: function(e) {
     e.preventDefault;
-    debugger;
 
-    var beerData = Object.assign({}, this.state)
+    var reviewData = Object.assign({}, this.state)
+    ApiUtil.createReview(reviewData);
+  },
+
+  handleChange: function(event) {
+    this.setState({beer_id: event.target.value});
   },
 
 
@@ -48,16 +53,18 @@ var ReviewForm = React.createClass({
       <form className="form-group reviewForm">
 
           <label htmlFor="reviewBeer">What are you drinking?</label>
-            <select className="form-control" name="select" >
-              {this.state.beers.map(function(beer){
-                return (
-                  <option key={beer.id} valueLink={this.linkState('beer')}>{beer.name}</option>
-                  )
-              }.bind(this)
-            )}
+            <select value={this.state.beer_id} onChange={this.handleChange}>
+              <option value="0" key="0"></option>
+              {
+                this.state.beers.map(function(beer) {
+                  return(
+                    <option value={beer.id} key={beer.id}>{beer.name}</option>
+                    )
+                  }.bind(this)
+                )
+              }
 
             </select>
-
 
           <label htmlFor="reviewBody">What do you think?</label>
           <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>

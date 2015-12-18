@@ -16,7 +16,7 @@ var ReviewsIndex = React.createClass ({
         <div className="col-md-6 reviewsIndexContainer">
 
           <h3>Review a Beer</h3>
-          
+
           <div className="newReviewFormContainer col-md-12">
             <ReviewForm user={this.props.user} />
           </div>

@@ -1,4 +1,5 @@
 class Review < ActiveRecord::Base
+  
   belongs_to(
   :beer,
   class_name: "Beer",

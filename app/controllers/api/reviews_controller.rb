@@ -10,10 +10,19 @@ class Api::ReviewsController < ApplicationController
       @user = User.find_by_id(@review.author_id)
       render json: @review
     else
-      @errors = {errors: ["Error. Please try again."]}
+      @errors = {errors: [@review.errors.full_messages]}
       render json: @errors
     end
+  end
 
+  def update
+    @review = Review.find(params:[:id])
+    if @review.update_attributes(review_params)
+      render json: @review
+    else
+      @errors = {errors: [@review.errors.full_messages]}
+      render json: @errors
+    end
   end
 
   def destroy
@@ -22,7 +31,7 @@ class Api::ReviewsController < ApplicationController
     @user = review.author
 
     review.destroy!
-    
+
 
     render json: Review.all
   end

@@ -65,14 +65,15 @@ body {
   color: black;
 }
 
-.deleteReviewButton {
-  font-size: .5em;
+.deleteReviewButton, .editReviewButton{
+  font-size: 12px;
   color: red;
   text-decoration: underline;
   float: right;
+  margin: 10px;
 }
 
-.deleteReviewButton:hover {
+.deleteReviewButton:hover, .editReviewButton:hover {
   color: blue;
   font-weight: bold;
   cursor: pointer;

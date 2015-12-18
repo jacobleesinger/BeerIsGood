@@ -4,6 +4,10 @@ var ReviewUtil = require('../util/review_util');
 var BeerStore = require('../stores/beer_store');
 var CommentStore = require('../stores/comment_store');
 var ToastStore = require('../stores/toast_store');
+var Modal = require('react-bootstrap/lib/Modal');
+var Button = require('react-bootstrap/lib/Button');
+var EditForm = require('./review_edit_form');
+
 
 var ReviewIndexItem = React.createClass({
 
@@ -11,8 +15,17 @@ var ReviewIndexItem = React.createClass({
     return ({
       beer: BeerStore.find(this.props.review.beer_id),
       comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
-      toasts: ToastStore.filterToastsByReviewId(this.props.review.id)
+      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
+      showModal: false
     });
+  },
+
+  closeEdit() {
+    this.setState({ showModal: false });
+    },
+
+  openEdit() {
+    this.setState({ showModal: true });
   },
 
   componentDidMount: function() {
@@ -34,19 +47,46 @@ var ReviewIndexItem = React.createClass({
   },
 
 
-  handleClick: function (review) {
+  handleDeleteClick: function (review) {
     ReviewUtil.destroyReview(review);
+  },
 
+  handleEditClick: function (review) {
+    this.openEdit();
   },
 
   render: function () {
+    debugger;
     return (
       <div className="reviewContainer col-md-12" >
         <div className="reviewContent col-md-12">
           <div className="reviewHeader col-md-12">
             {this.state.beer.name}
-            <div onClick={this.handleClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete review</div>
+
+            <div onClick={this.handleDeleteClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete </div>
+
+            <div onClick={this.handleEditClick}
+              className="editReviewButton"
+              value={this.props.review}>edit
+            </div>
+
           </div>
+
+          <Modal show={this.state.showModal} onHide={this.closeEdit}>
+
+            <Modal.Header closeButton>
+              <Modal.Title>Edit Review</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+              <EditForm user={this.props.user}/>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button onClick={this.closeEdit}>Close</Button>
+            </Modal.Footer>
+
+          </Modal>
 
           <div className="reviewBody col-md-12">
             Review: {this.props.review.body}
@@ -78,5 +118,7 @@ var ReviewIndexItem = React.createClass({
     );
   }
 });
+
+
 
 module.exports = ReviewIndexItem;

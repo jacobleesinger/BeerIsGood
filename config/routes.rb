@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     resources :reviews, only: [:index, :new, :show, :create, :edit, :update, :destroy]
     resources :beers, only: [:create, :new, :index, :show]
     resource :session, only: [:create, :destroy]
+    resources :comments
+    resources :toasts
   end
 
   resources :users

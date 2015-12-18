@@ -24,6 +24,12 @@ CommentStore.find = function (commentId) {
   return _comments[commentId];
 }
 
+CommentStore.filterCommentsByReviewId = function (reviewId) {
+  return _comments.filter(function(comment){
+    return comment.review_id === reviewId;
+  });
+}
+
 CommentStore.__onDispatch = function(payload) {
 
   switch(payload.actionType) {

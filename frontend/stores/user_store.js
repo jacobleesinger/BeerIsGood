@@ -7,28 +7,13 @@ var UserStore = new Store(AppDispatcher);
 var _users = [];
 var userErrors = [];
 
-UserStore.currentUser = function(){
-  return currentUser;
-};
-
-UserStore.currentStatus = function(){
-  return session;
-};
-
-UserStore.sessionErrors = function() {
-  return sessionErrors;
-};
 
 UserStore.userErrors = function() {
   return userErrors;
 };
 
-var resetUser = function(){
-  currentUser = null;
-};
-
-var resetSession = function() {
-  session = false;
+UserStore.findById = function(id) {
+  return _users[id];
 };
 
 var addSingleUser = function(user){

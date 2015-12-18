@@ -24,6 +24,12 @@ ToastStore.find = function (toastId) {
   return _toasts[toastId];
 }
 
+ToastStore.filterToastsByReviewId = function(reviewId) {
+  return _toasts.filter(function(toast) {
+    return toast.review_id === reviewId;
+  });
+}
+
 ToastStore.__onDispatch = function(payload) {
 
   switch(payload.actionType) {

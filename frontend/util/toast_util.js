@@ -4,7 +4,7 @@ var ToastUtil = {
 
   fetchAllToasts: function() {
     $.get('api/toasts', function (toasts) {
-      ToastsActions.receiveAllToasts(Toasts);
+      ToastActions.receiveAllToasts(toasts);
     });
   },
 

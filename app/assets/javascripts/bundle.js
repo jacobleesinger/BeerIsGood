@@ -24291,28 +24291,12 @@
 	var _users = [];
 	var userErrors = [];
 	
-	UserStore.currentUser = function () {
-	  return currentUser;
-	};
-	
-	UserStore.currentStatus = function () {
-	  return session;
-	};
-	
-	UserStore.sessionErrors = function () {
-	  return sessionErrors;
-	};
-	
 	UserStore.userErrors = function () {
 	  return userErrors;
 	};
 	
-	var resetUser = function () {
-	  currentUser = null;
-	};
-	
-	var resetSession = function () {
-	  session = false;
+	UserStore.findById = function (id) {
+	  return _users[id];
 	};
 	
 	var addSingleUser = function (user) {
@@ -31768,18 +31752,24 @@
 	var Comment = __webpack_require__(247);
 	var ReviewUtil = __webpack_require__(248);
 	var BeerStore = __webpack_require__(252);
+	var CommentStore = __webpack_require__(264);
+	var ToastStore = __webpack_require__(265);
 	
 	var ReviewIndexItem = React.createClass({
 	  displayName: 'ReviewIndexItem',
 	
 	  getInitialState: function () {
 	    return {
-	      beer: BeerStore.find(this.props.review.beer_id)
+	      beer: BeerStore.find(this.props.review.beer_id),
+	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id)
 	    };
 	  },
 	
 	  componentDidMount: function () {
 	    this.beerToken = BeerStore.addListener(this._onChange);
+	    this.commentToken = CommentStore.addListener(this._onChange);
+	    this.toastToken = ToastStore.addListener(this._onChange);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -31788,7 +31778,9 @@
 	
 	  _onChange: function () {
 	    this.setState({
-	      beer: BeerStore.find(this.props.review.beer_id)
+	      beer: BeerStore.find(this.props.review.beer_id),
+	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id)
 	    });
 	  },
 	
@@ -31834,7 +31826,7 @@
 	            'div',
 	            { className: 'reviewFooterItem col-md-4' },
 	            'toasts: ',
-	            this.props.review.toasts.length
+	            this.state.toasts.length
 	          )
 	        )
 	      ),
@@ -31846,7 +31838,7 @@
 	          null,
 	          'Comments'
 	        ),
-	        this.props.review.comments.map((function (comment) {
+	        this.state.comments.map((function (comment) {
 	          return React.createElement(Comment, { comment: comment, key: comment.id });
 	        }).bind(this))
 	      )
@@ -31861,23 +31853,44 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(210);
 	
 	var Comment = React.createClass({
-	  displayName: "Comment",
+	  displayName: 'Comment',
+	
+	  getInitialState: function () {
+	    return {
+	      author: UserStore.findById(this.props.comment.author_id)
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.authorToken = UserStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.authorToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({
+	      author: UserStore.findById(this.props.comment.author_id)
+	    });
+	  },
 	
 	  render: function () {
 	
 	    return React.createElement(
-	      "div",
-	      { className: "commentContainer" },
+	      'div',
+	      { className: 'commentContainer' },
 	      React.createElement(
-	        "h5",
+	        'h5',
 	        null,
-	        this.props.comment.author.username
+	        this.state.author.username
 	      ),
 	      React.createElement(
-	        "div",
-	        { className: "commentBody" },
+	        'div',
+	        { className: 'commentBody' },
 	        this.props.comment.body
 	      )
 	    );
@@ -32331,13 +32344,13 @@
 	  receiveAllComments: function (comments) {
 	    Dispatcher.dispatch({
 	      actionType: CommentConstants.COMMENTS_RECEIVED,
-	      reviews: reviews
+	      comments: comments
 	    });
 	  },
 	
 	  receiveSingleComment: function (comment) {
 	    var action = {
-	      actionType: CommentConstants.Comment_RECEIVED,
+	      actionType: CommentConstants.COMMENT_RECEIVED,
 	      comment: comment
 	    };
 	    Dispatcher.dispatch(action);
@@ -32368,7 +32381,7 @@
 	
 	  fetchAllToasts: function () {
 	    $.get('api/toasts', function (toasts) {
-	      ToastsActions.receiveAllToasts(Toasts);
+	      ToastActions.receiveAllToasts(toasts);
 	    });
 	  },
 	
@@ -32430,6 +32443,112 @@
 	};
 	
 	module.exports = ToastConstants;
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(211).Store;
+	var AppDispatcher = __webpack_require__(228);
+	var CommentConstants = __webpack_require__(260);
+	
+	var _comments = [];
+	
+	var CommentStore = new Store(AppDispatcher);
+	
+	var addAllComments = function (comments) {
+	  comments.forEach(function (comment) {
+	    _comments[comment.id] = comment;
+	  });
+	};
+	
+	var addSingleComment = function (comment) {
+	  _comments[comment.id] = comment;
+	};
+	
+	CommentStore.all = function () {
+	  return _comments;
+	};
+	
+	CommentStore.find = function (commentId) {
+	  return _comments[commentId];
+	};
+	
+	CommentStore.filterCommentsByReviewId = function (reviewId) {
+	  return _comments.filter(function (comment) {
+	    return comment.review_id === reviewId;
+	  });
+	};
+	
+	CommentStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case CommentConstants.COMMENTS_RECEIVED:
+	      addAllComments(payload.comments);
+	      CommentStore.__emitChange();
+	      break;
+	    case CommentConstants.COMMENT_RECEIVED:
+	      addSingleComment(payload.comment);
+	      CommentStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = CommentStore;
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(211).Store;
+	var AppDispatcher = __webpack_require__(228);
+	var ToastConstants = __webpack_require__(263);
+	
+	var _toasts = [];
+	
+	var ToastStore = new Store(AppDispatcher);
+	
+	var addAllToasts = function (toasts) {
+	  toasts.forEach(function (toast) {
+	    _toasts[toast.id] = toast;
+	  });
+	};
+	
+	var addSingleToast = function (toast) {
+	  _toasts[toast.id] = toast;
+	};
+	
+	ToastStore.all = function () {
+	  return _toasts;
+	};
+	
+	ToastStore.find = function (toastId) {
+	  return _toasts[toastId];
+	};
+	
+	ToastStore.filterToastsByReviewId = function (reviewId) {
+	  return _toasts.filter(function (toast) {
+	    return toast.review_id === reviewId;
+	  });
+	};
+	
+	ToastStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case ToastConstants.TOASTS_RECEIVED:
+	      addAllToasts(payload.toasts);
+	      ToastStore.__emitChange();
+	      break;
+	    case ToastConstants.TOAST_RECEIVED:
+	      addSingleToast(payload.toast);
+	      ToastStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = ToastStore;
 
 /***/ }
 /******/ ]);

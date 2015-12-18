@@ -6,13 +6,13 @@ var CommentActions = {
   receiveAllComments: function(comments) {
     Dispatcher.dispatch({
       actionType: CommentConstants.COMMENTS_RECEIVED,
-      reviews: reviews
+      comments: comments
     });
   },
 
   receiveSingleComment: function(comment) {
     var action = {
-      actionType: CommentConstants.Comment_RECEIVED,
+      actionType: CommentConstants.COMMENT_RECEIVED,
       comment: comment
     };
     Dispatcher.dispatch(action);

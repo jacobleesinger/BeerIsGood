@@ -7,7 +7,6 @@ var ReviewIndexItem = React.createClass({
 
 
   render: function () {
-debugger;
     return (
       <div className="reviewContainer col-md-12" >
         <div className="reviewContent col-md-12">

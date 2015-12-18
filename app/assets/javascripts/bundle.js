@@ -24269,9 +24269,9 @@
 /* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(211).Store,
-	    AppDispatcher = __webpack_require__(228),
-	    UserConstants = __webpack_require__(231);
+	var Store = __webpack_require__(211).Store;
+	var AppDispatcher = __webpack_require__(228);
+	var UserConstants = __webpack_require__(231);
 	
 	var UserStore = new Store(AppDispatcher);
 	
@@ -31716,6 +31716,7 @@
 
 	var React = __webpack_require__(1);
 	var ReviewIndexItem = __webpack_require__(245);
+	var ReviewForm = __webpack_require__(247);
 	
 	var ReviewsIndex = React.createClass({
 	  displayName: 'ReviewsIndex',
@@ -31728,6 +31729,16 @@
 	      React.createElement(
 	        'div',
 	        { className: 'col-md-6 reviewsIndexContainer' },
+	        React.createElement(
+	          'h3',
+	          null,
+	          'Review a Beer'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'newReviewFormContainer col-md-12' },
+	          React.createElement(ReviewForm, { user: this.props.user })
+	        ),
 	        React.createElement(
 	          'h3',
 	          null,
@@ -31754,7 +31765,6 @@
 	  displayName: 'ReviewIndexItem',
 	
 	  render: function () {
-	    debugger;
 	    return React.createElement(
 	      'div',
 	      { className: 'reviewContainer col-md-12' },
@@ -31814,26 +31824,69 @@
 	var React = __webpack_require__(1);
 	
 	var Comment = React.createClass({
-	  displayName: 'Comment',
+	  displayName: "Comment",
 	
 	  render: function () {
 	
 	    return React.createElement(
-	      'div',
-	      null,
+	      "div",
+	      { className: "commentContainer" },
 	      React.createElement(
-	        'h5',
+	        "h5",
 	        null,
-	        this.props.comment.author.username,
-	        ':'
+	        this.props.comment.author.username
 	      ),
-	      this.props.comment.body
+	      React.createElement(
+	        "div",
+	        { className: "commentBody" },
+	        this.props.comment.body
+	      )
 	    );
 	  }
 	
 	});
 	
 	module.exports = Comment;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var ReviewForm = React.createClass({
+	  displayName: "ReviewForm",
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      "form",
+	      { className: "form-group reviewForm" },
+	      React.createElement(
+	        "label",
+	        { htmlFor: "reviewBeer" },
+	        "What are you drinking?"
+	      ),
+	      React.createElement("input", { className: "form-control", type: "text", id: "reviewBeer" }),
+	      React.createElement(
+	        "label",
+	        { htmlFor: "reviewBody" },
+	        "What do you think?"
+	      ),
+	      React.createElement("textarea", { className: "form-control" }),
+	      React.createElement(
+	        "label",
+	        { htmlFor: "reviewRating" },
+	        "Your Rating"
+	      ),
+	      React.createElement("input", { className: "form-control", type: "integer", id: "reviewRating" }),
+	      React.createElement("input", { className: "btn btn-success", type: "submit", value: "Add your review!" })
+	    );
+	  }
+	
+	});
+	
+	module.exports = ReviewForm;
 
 /***/ }
 /******/ ]);

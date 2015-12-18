@@ -42,6 +42,7 @@ body {
 
 .reviewBody {
   color: black;
+  border: 1px solid black;
 }
 
 .reviewCommentsIndex {
@@ -49,4 +50,17 @@ body {
   border: 1px solid black;
   border-radius: 5px;
 
+}
+
+.newReviewFormContainer {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.commentContainer{
+  border: 1px solid black;
+}
+
+.commentBody{
+  color: black;
 }

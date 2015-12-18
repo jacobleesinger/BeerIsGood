@@ -31401,6 +31401,9 @@
 	      success: function (user) {
 	        debugger;
 	        UserActions.receiveSingleUser(user);
+	      },
+	      error: function (user) {
+	        debugger;
 	      }
 	    });
 	  }

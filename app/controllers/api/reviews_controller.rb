@@ -12,10 +12,16 @@ class Api::ReviewsController < ApplicationController
   end
 
   def destroy
+    p params
+    p "in destroy"
     review = Review.find(params[:id])
-    user_id = review.author_id
+
+    @user = review.author
+
     review.destroy
-    redirect_to api_user_url(user_id)
+
+    render json: @user
+
 
   end
 

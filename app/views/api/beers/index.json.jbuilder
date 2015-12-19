@@ -1,3 +1,3 @@
 json.array! @beers do |beer|
-    json.partial! 'api/beers/beer', beer: beer
+    json.extract! beer, :id, :name
 end

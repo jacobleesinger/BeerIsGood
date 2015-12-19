@@ -1,3 +1,3 @@
 json.array! @comments do |comment|
-    json.partial! 'api/comments/comment', comment: comment
+    json.extract! comment, :id, :body, :author_id, :review_id, :created_at
 end

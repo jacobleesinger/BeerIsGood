@@ -2,7 +2,7 @@ var Store = require('flux/utils').Store;
 var AppDispatcher = require('../dispatcher/dispatcher');
 var CommentConstants = require('../constants/comment_constants');
 
-var _comments = [];
+var _comments = {};
 
 var CommentStore = new Store(AppDispatcher);
 
@@ -17,6 +17,12 @@ var addSingleComment = function(comment) {
 };
 
 CommentStore.all = function() {
+  var comments = [];
+  for (key in _comments) {
+    if (_comments.hasOwnProperty(key)){
+      comments.push(_comments[key]);
+    }
+  }
   return _comments;
 };
 

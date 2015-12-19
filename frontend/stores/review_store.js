@@ -2,7 +2,7 @@ var Store = require('flux/utils').Store;
 var AppDispatcher = require('../dispatcher/dispatcher');
 var ReviewConstants = require('../constants/review_constants');
 
-var _reviews = [];
+var _reviews = {};
 
 var ReviewStore = new Store(AppDispatcher);
 
@@ -21,6 +21,12 @@ var resetReviews = function() {
 };
 
 ReviewStore.all = function() {
+  var reviews = [];
+  for (key in _reviews) {
+    if (_reviews.hasOwnProperty(key)){
+      reviews.push(_reviews[key]);
+    }
+  }
   return _reviews;
 };
 

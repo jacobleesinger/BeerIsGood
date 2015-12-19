@@ -4,7 +4,7 @@ var UserConstants = require('../constants/user_constants');
 
 var UserStore = new Store(AppDispatcher);
 
-var _users = [];
+var _users = {};
 var userErrors = [];
 
 

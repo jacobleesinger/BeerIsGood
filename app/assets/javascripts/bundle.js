@@ -25492,7 +25492,7 @@
 	
 	var UserStore = new Store(AppDispatcher);
 	
-	var _users = [];
+	var _users = {};
 	var userErrors = [];
 	
 	UserStore.userErrors = function () {
@@ -32430,7 +32430,7 @@
 	var AppDispatcher = __webpack_require__(219);
 	var BeerConstants = __webpack_require__(254);
 	
-	var _beers = [];
+	var _beers = {};
 	
 	var BeerStore = new Store(AppDispatcher);
 	
@@ -32445,6 +32445,12 @@
 	};
 	
 	BeerStore.all = function () {
+	  var beers = [];
+	  for (key in _beers) {
+	    if (_beers.hasOwnProperty(key)) {
+	      beers.push(_beers[key]);
+	    }
+	  }
 	  return _beers;
 	};
 	
@@ -32488,7 +32494,7 @@
 	var AppDispatcher = __webpack_require__(219);
 	var CommentConstants = __webpack_require__(256);
 	
-	var _comments = [];
+	var _comments = {};
 	
 	var CommentStore = new Store(AppDispatcher);
 	
@@ -32503,6 +32509,12 @@
 	};
 	
 	CommentStore.all = function () {
+	  var comments = [];
+	  for (key in _comments) {
+	    if (_comments.hasOwnProperty(key)) {
+	      comments.push(_comments[key]);
+	    }
+	  }
 	  return _comments;
 	};
 	
@@ -32552,7 +32564,7 @@
 	var AppDispatcher = __webpack_require__(219);
 	var ToastConstants = __webpack_require__(258);
 	
-	var _toasts = [];
+	var _toasts = {};
 	
 	var ToastStore = new Store(AppDispatcher);
 	
@@ -32567,6 +32579,12 @@
 	};
 	
 	ToastStore.all = function () {
+	  var toasts = [];
+	  for (key in _toasts) {
+	    if (_toasts.hasOwnProperty(key)) {
+	      toasts.push(_toasts[key]);
+	    }
+	  }
 	  return _toasts;
 	};
 	
@@ -37766,7 +37784,7 @@
 	var AppDispatcher = __webpack_require__(219);
 	var ReviewConstants = __webpack_require__(252);
 	
-	var _reviews = [];
+	var _reviews = {};
 	
 	var ReviewStore = new Store(AppDispatcher);
 	
@@ -37785,6 +37803,12 @@
 	};
 	
 	ReviewStore.all = function () {
+	  var reviews = [];
+	  for (key in _reviews) {
+	    if (_reviews.hasOwnProperty(key)) {
+	      reviews.push(_reviews[key]);
+	    }
+	  }
 	  return _reviews;
 	};
 	

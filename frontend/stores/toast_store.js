@@ -2,7 +2,7 @@ var Store = require('flux/utils').Store;
 var AppDispatcher = require('../dispatcher/dispatcher');
 var ToastConstants = require('../constants/toast_constants');
 
-var _toasts = [];
+var _toasts = {};
 
 var ToastStore = new Store(AppDispatcher);
 
@@ -17,6 +17,12 @@ var addSingleToast = function(toast) {
 };
 
 ToastStore.all = function() {
+  var toasts = [];
+  for (key in _toasts) {
+    if (_toasts.hasOwnProperty(key)){
+      toasts.push(_toasts[key]);
+    }
+  }
   return _toasts;
 };
 

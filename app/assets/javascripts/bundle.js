@@ -32194,6 +32194,7 @@
 	
 	  render: function () {
 	    debugger;
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'reviewContainer col-md-12' },
@@ -32232,7 +32233,7 @@
 	          React.createElement(
 	            Modal.Body,
 	            null,
-	            React.createElement(EditForm, { user: this.props.user })
+	            React.createElement(EditForm, { user: this.props.user, review: this.props.review })
 	          ),
 	          React.createElement(
 	            Modal.Footer,
@@ -32373,6 +32374,7 @@
 	    $.ajax({
 	      url: "/api/reviews/" + review.id,
 	      type: "PATCH",
+	      data: { review: review },
 	      success: function (review) {
 	        ReviewActions.receiveSingleReview(review);
 	      }
@@ -32451,7 +32453,7 @@
 	      beers.push(_beers[key]);
 	    }
 	  }
-	  return _beers;
+	  return beers;
 	};
 	
 	BeerStore.find = function (beerId) {
@@ -32515,7 +32517,7 @@
 	      comments.push(_comments[key]);
 	    }
 	  }
-	  return _comments;
+	  return comments;
 	};
 	
 	CommentStore.find = function (commentId) {
@@ -32523,7 +32525,7 @@
 	};
 	
 	CommentStore.filterCommentsByReviewId = function (reviewId) {
-	  return _comments.filter(function (comment) {
+	  return this.all().filter(function (comment) {
 	    return comment.review_id === reviewId;
 	  });
 	};
@@ -32585,7 +32587,7 @@
 	      toasts.push(_toasts[key]);
 	    }
 	  }
-	  return _toasts;
+	  return toasts;
 	};
 	
 	ToastStore.find = function (toastId) {
@@ -32593,7 +32595,7 @@
 	};
 	
 	ToastStore.filterToastsByReviewId = function (reviewId) {
-	  return _toasts.filter(function (toast) {
+	  return this.all().filter(function (toast) {
 	    return toast.review_id === reviewId;
 	  });
 	};
@@ -37665,6 +37667,7 @@
 	var LinkedStateMixin = __webpack_require__(212);
 	var ReviewUtil = __webpack_require__(250);
 	var ReviewStore = __webpack_require__(375);
+	var reviewIndexItem = __webpack_require__(248);
 	
 	var ReviewEditForm = React.createClass({
 	  displayName: 'ReviewEditForm',
@@ -37681,7 +37684,9 @@
 	      beer_id: 0,
 	      body: "",
 	      rating: 0,
-	      author_id: this.props.user.id
+	      author_id: this.props.user.id,
+	      id: this.props.review.id
+	
 	    };
 	  },
 	
@@ -37703,11 +37708,25 @@
 	    this.BeerToken.remove();
 	  },
 	
+	  filteredState: function () {
+	    filteredState = {};
+	    for (key in this.state) {
+	      if (this.state.hasOwnProperty(key)) {
+	
+	        if (key !== "beers") {
+	          filteredState[key] = this.state[key];
+	        }
+	      }
+	    }
+	    return filteredState;
+	  },
+	
 	  handleSubmit: function (e) {
 	    e.preventDefault;
 	
 	    var reviewData = Object.assign({}, this.state);
-	    ReviewUtil.UpdateReview(reviewData);
+	    ReviewUtil.updateReview(this.filteredState());
+	    ReviewIndexItem.closeEdit();
 	  },
 	
 	  handleBeerChange: function (event) {
@@ -37813,7 +37832,7 @@
 	};
 	
 	ReviewStore.filterReviewsByUserId = function (userId) {
-	  return _reviews.filter(function (review) {
+	  return this.all().filter(function (review) {
 	    return review.author_id === userId;
 	  });
 	};

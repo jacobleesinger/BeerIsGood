@@ -3,6 +3,7 @@ var BeerStore = require('../stores/beer_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ReviewUtil = require('../util/review_util');
 var ReviewStore = require('../stores/review_store');
+var reviewIndexItem = require('./reviewIndexItem');
 
 
 var ReviewEditForm = React.createClass({
@@ -19,7 +20,9 @@ var ReviewEditForm = React.createClass({
       beer_id: 0,
       body: "",
       rating: 0,
-      author_id: this.props.user.id
+      author_id: this.props.user.id,
+      id: this.props.review.id,
+
     });
   },
 
@@ -41,11 +44,25 @@ var ReviewEditForm = React.createClass({
     this.BeerToken.remove();
   },
 
+  filteredState: function() {
+    filteredState = {};
+    for (key in this.state) {
+      if (this.state.hasOwnProperty(key)){
+
+        if (key !== "beers") {
+          filteredState[key] = this.state[key];
+        }
+      }
+    }
+    return filteredState;
+  },
+
   handleSubmit: function(e) {
     e.preventDefault;
 
-    var reviewData = Object.assign({}, this.state)
-    ReviewUtil.UpdateReview(reviewData);
+    var reviewData = Object.assign({}, this.state);
+    ReviewUtil.updateReview(this.filteredState());
+    ReviewIndexItem.closeEdit();
   },
 
   handleBeerChange: function(event) {

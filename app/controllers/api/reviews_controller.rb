@@ -16,7 +16,8 @@ class Api::ReviewsController < ApplicationController
   end
 
   def update
-    @review = Review.find(params:[:id])
+p params
+    @review = Review.find(params[:id])
     if @review.update_attributes(review_params)
       render json: @review
     else

@@ -57,6 +57,7 @@ var ReviewIndexItem = React.createClass({
 
   render: function () {
     debugger;
+
     return (
       <div className="reviewContainer col-md-12" >
         <div className="reviewContent col-md-12">
@@ -79,7 +80,7 @@ var ReviewIndexItem = React.createClass({
             </Modal.Header>
 
             <Modal.Body>
-              <EditForm user={this.props.user}/>
+              <EditForm user={this.props.user} review={this.props.review}/>
             </Modal.Body>
 
             <Modal.Footer>

@@ -31,7 +31,7 @@ ReviewStore.all = function() {
 };
 
 ReviewStore.filterReviewsByUserId = function(userId) {
-  return _reviews.filter(function(review){
+  return this.all().filter(function(review){
     return review.author_id === userId;
   });
 };

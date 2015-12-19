@@ -23,7 +23,7 @@ BeerStore.all = function() {
       beers.push(_beers[key]);
     }
   }
-  return _beers;
+  return beers;
 };
 
 BeerStore.find = function (beerId) {

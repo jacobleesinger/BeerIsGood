@@ -1,5 +1,7 @@
 class Review < ActiveRecord::Base
-  
+  validates :body, :rating, :beer_id, :author_id, presence: true
+  validates :rating, inclusion: { in: [1, 2, 3, 4, 5]}
+
   belongs_to(
   :beer,
   class_name: "Beer",

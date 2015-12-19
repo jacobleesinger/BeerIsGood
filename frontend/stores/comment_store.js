@@ -23,7 +23,7 @@ CommentStore.all = function() {
       comments.push(_comments[key]);
     }
   }
-  return _comments;
+  return comments;
 };
 
 CommentStore.find = function (commentId) {
@@ -31,7 +31,7 @@ CommentStore.find = function (commentId) {
 }
 
 CommentStore.filterCommentsByReviewId = function (reviewId) {
-  return _comments.filter(function(comment){
+  return this.all().filter(function(comment){
     return comment.review_id === reviewId;
   });
 }

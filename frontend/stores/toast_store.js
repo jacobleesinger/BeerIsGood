@@ -23,7 +23,7 @@ ToastStore.all = function() {
       toasts.push(_toasts[key]);
     }
   }
-  return _toasts;
+  return toasts;
 };
 
 ToastStore.find = function (toastId) {
@@ -31,7 +31,7 @@ ToastStore.find = function (toastId) {
 }
 
 ToastStore.filterToastsByReviewId = function(reviewId) {
-  return _toasts.filter(function(toast) {
+  return this.all().filter(function(toast) {
     return toast.review_id === reviewId;
   });
 }

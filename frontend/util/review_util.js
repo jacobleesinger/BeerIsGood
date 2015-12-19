@@ -30,6 +30,7 @@ var ReviewUtil = {
     $.ajax({
       url: "/api/reviews/" + review.id,
       type: "PATCH",
+      data: { review: review },
       success: function(review) {
         ReviewActions.receiveSingleReview(review);
       }

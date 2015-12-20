@@ -27,7 +27,7 @@ var NewUser = React.createClass({
     e.preventDefault();
     var user = Object.assign({}, this.state);
     UserUtil.createUser(user);
-    SessionUtil.createSession({username: user.username, password: user.password});
+
   },
 
   render: function () {

@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
 
     validates :username, :email, :birthday, :password_digest, :session_token, :location,  presence: true
 
+    validates :username, :email, uniqueness: true
+
     validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
 
     validates :password, length: {minimum: 6, allow_nil: true}
@@ -16,9 +18,11 @@ class User < ActiveRecord::Base
 
     def is_valid_birthday?
       if self.birthday > 21.years.ago
-        errors.add(:birthday, "You must be over 21 to sign up for BeerIsGood")
+        errors.add(:birthday, "is invalid. You must be at least 21 years old to sign up for BeerIsGood")
       end
     end
+
+
 
   # attrs
 

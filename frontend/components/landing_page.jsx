@@ -1,7 +1,7 @@
 var React = require('react');
 var Auth = require('./auth/auth_component');
-var UserStore=require('../stores/user_store');
 var SessionStore = require('../stores/session_store');
+var ErrorStore = require('../stores/error_store');
 var Home = require('./home');
 
 var Page;
@@ -18,19 +18,20 @@ var LandingPage = React.createClass({
         currentSession: "",
         signedIn: false,
         button: "",
-        sessionErrors: [],
-        userErrors: []
+        errors: []
       }
     )
   },
 
 
   componentDidMount: function(){
-    this.sessionToken = SessionStore.addListener(this._onSessionChange)
+    this.sessionToken = SessionStore.addListener(this._onSessionChange);
+    this.errorToken = ErrorStore.addListener(this._onErrorChange);
   },
 
   componentWillUnmount: function(){
     this.sessionToken.remove();
+    this.errorToken.remover();
   },
 
 
@@ -38,10 +39,15 @@ var LandingPage = React.createClass({
     this.setState({
       currentUser: SessionStore.currentUser(),
       currentSession: SessionStore.currentSession(),
-      sessionErrors: SessionStore.sessionErrors()
 
     });
     this.checkIfSignedIn();
+  },
+
+  _onErrorChange: function() {
+    this.setState({
+      errors: ErrorStore.all()
+    })
   },
 
   checkIfSignedIn: function() {
@@ -54,7 +60,7 @@ var LandingPage = React.createClass({
   },
 
   displayErrorMessages: function () {
-    var errorMessages = this.state.sessionErrors.concat(this.state.userErrors);
+    var errorMessages = this.state.errors;
     return(
       errorMessages.map(function(error, idx){
         return (<div key={idx}>{error}</div>);

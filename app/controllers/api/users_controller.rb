@@ -14,7 +14,7 @@ class Api::UsersController < ApplicationController
       render json: @user
     else
       @errors = @user.errors.full_messages
-      render json: @errors
+      render json: @errors, status: 400
     end
 
   end

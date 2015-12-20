@@ -72,7 +72,9 @@ var ApiUtil = {
       success: function(user){
         UserActions.receiveSingleUser(user);
       },
-      error: function (user){
+      error: function (errors){
+        debugger;
+        ErrorActions.receiveAllErrors(errors);
       }
     });
 

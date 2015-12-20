@@ -1,12 +1,35 @@
 var UserActions = require('../actions/user_actions');
+var SessionActions = require('../actions/session_actions');
+var ErrorActions = require('../actions/error_actions');
 
 var UserUtil = {
 
-  createUser: function (data) {
-    $.post("api/users", { user: data }, function (user) {
-      UserActions.receiveSingleUser(user);
-    });
+  createUser: function(user) {
+    $.ajax({
+      url: "api/users",
+      type: "POST",
+      data: { user: user},
+      success: function (user) {
+        UserActions.receiveSingleUser(user);
+        SessionActions.createSession(user);
+      },
+      error: function(errors) {
+        ErrorActions.receiveAllErrors(errors);
+        debugger;
+      }
+    })
   },
+
+  // createUser: function (data) {
+  //   debugger;
+  //   $.post("api/users", { user: data } ).done(function (user) {
+  //     UserActions.receiveSingleUser(user);
+  //     SessionActions.createSession(user);
+  //   })
+  //   .fail(function (errors) {
+  //     debugger;
+  //   });
+  // },
 
  fetchSingleUser: function(user) {
    $.get('api/user/' + user.id, function(user) {

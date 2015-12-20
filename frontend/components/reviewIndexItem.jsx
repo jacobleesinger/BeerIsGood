@@ -87,7 +87,14 @@ var ReviewIndexItem = React.createClass({
     this.openEdit();
   },
 
+  handleRatingChange: function(event) {
+    this.setState({rating: event.target.value});
+  },
+
   render: function () {
+
+    var option;
+
 
     return (
       <div className="reviewContainer col-md-12" >
@@ -113,30 +120,21 @@ var ReviewIndexItem = React.createClass({
             <Modal.Body>
               <form className="form-group reviewForm">
 
-                <label htmlFor="reviewBeer">What are you drinking?</label>
-                  <select defaultValue={this.state.beer_id} onChange={this.handleBeerChange}>
-                    <option defaultValue="0" key="0"></option>
-                    {
-                      this.state.beers.map(function(beer) {
-                        return(
-                          <option defaultValue={beer.id} key={beer.id}>{beer.name}</option>
-                          )
-                        }.bind(this)
-                      )
-                    }
-                  </select>
+
+
 
                   <label htmlFor="reviewBody">What do you think?</label>
                   <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
 
                   <label htmlFor="reviewRating">Your Rating</label>
-                    <select onChange={this.handleRatingChange}>
-                      <option defaultValue="0">rate beer</option>
-                      <option defaultValue="1">1</option>
-                      <option defaultValue="2">2</option>
-                      <option defaultValue="3">3</option>
-                      <option defaultValue="4">4</option>
-                      <option defaultValue="5">5</option>
+                    <select onChange={this.handleRatingChange} value={this.state.rating} onChange={this.handleRatingChange}>
+
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+
                     </select>
 
                   <input className="btn btn-success" type="submit" defaultValue="Update Review" onClick={this.handleSubmit}/>

@@ -6,27 +6,59 @@ var CommentStore = require('../stores/comment_store');
 var ToastStore = require('../stores/toast_store');
 var Modal = require('react-bootstrap/lib/Modal');
 var Button = require('react-bootstrap/lib/Button');
-var EditForm = require('./review_edit_form');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 
 var ReviewIndexItem = React.createClass({
 
+  mixins: [LinkedStateMixin],
+
+  contextTypes: {
+    router: React.PropTypes.func
+  },
+
+  filteredState: function() {
+    filteredState = {};
+    for (key in this.state) {
+      if (this.state.hasOwnProperty(key)){
+
+        if (key !== "beers") {
+          filteredState[key] = this.state[key];
+        }
+      }
+    }
+    return filteredState;
+  },
+
+  handleSubmit: function(e) {
+    e.preventDefault;
+    Object.assign({}, this.state);
+    ReviewUtil.updateReview(this.filteredState());
+    this.closeEdit();
+  },
+
   getInitialState: function () {
     return ({
+      beers: BeerStore.all(),
       beer: BeerStore.find(this.props.review.beer_id),
       comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
       toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
-      showModal: false
+      showModal: false,
+      beer_id: this.props.review.beer_id,
+      body: this.props.review.body,
+      rating: this.props.review.rating,
+      author_id: this.props.review.author_id,
+      id: this.props.review.id
     });
   },
 
-  closeEdit() {
-    this.setState({ showModal: false });
-    },
-
-  openEdit() {
+  openEdit: function() {
     this.setState({ showModal: true });
   },
+
+  closeEdit: function() {
+    this.setState({ showModal: false });
+    },
 
   componentDidMount: function() {
     this.beerToken = BeerStore.addListener(this._onChange);
@@ -56,7 +88,6 @@ var ReviewIndexItem = React.createClass({
   },
 
   render: function () {
-    debugger;
 
     return (
       <div className="reviewContainer col-md-12" >
@@ -80,12 +111,42 @@ var ReviewIndexItem = React.createClass({
             </Modal.Header>
 
             <Modal.Body>
-              <EditForm user={this.props.user} review={this.props.review}/>
+              <form className="form-group reviewForm">
+
+                <label htmlFor="reviewBeer">What are you drinking?</label>
+                  <select defaultValue={this.state.beer_id} onChange={this.handleBeerChange}>
+                    <option defaultValue="0" key="0"></option>
+                    {
+                      this.state.beers.map(function(beer) {
+                        return(
+                          <option defaultValue={beer.id} key={beer.id}>{beer.name}</option>
+                          )
+                        }.bind(this)
+                      )
+                    }
+                  </select>
+
+                  <label htmlFor="reviewBody">What do you think?</label>
+                  <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
+
+                  <label htmlFor="reviewRating">Your Rating</label>
+                    <select onChange={this.handleRatingChange}>
+                      <option defaultValue="0">rate beer</option>
+                      <option defaultValue="1">1</option>
+                      <option defaultValue="2">2</option>
+                      <option defaultValue="3">3</option>
+                      <option defaultValue="4">4</option>
+                      <option defaultValue="5">5</option>
+                    </select>
+
+                  <input className="btn btn-success" type="submit" defaultValue="Update Review" onClick={this.handleSubmit}/>
+
+              </form>
             </Modal.Body>
 
-            <Modal.Footer>
-              <Button onClick={this.closeEdit}>Close</Button>
-            </Modal.Footer>
+          <Modal.Footer>
+            <Button onClick={this.closeEdit}>Close</Button>
+          </Modal.Footer>
 
           </Modal>
 

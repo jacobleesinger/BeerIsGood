@@ -3,7 +3,9 @@ var BeerStore = require('../stores/beer_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ReviewUtil = require('../util/review_util');
 var ReviewStore = require('../stores/review_store');
-var reviewIndexItem = require('./reviewIndexItem');
+var ReviewIndexItem = require('./reviewIndexItem');
+var Modal = require('react-bootstrap/lib/Modal');
+var Button = require('react-bootstrap/lib/Button');
 
 
 var ReviewEditForm = React.createClass({
@@ -17,32 +19,15 @@ var ReviewEditForm = React.createClass({
   getInitialState: function(){
     return({
       beers: BeerStore.all(),
-      beer_id: 0,
-      body: "",
-      rating: 0,
-      author_id: this.props.user.id,
-      id: this.props.review.id,
+      beer_id: this.props.review.beer_id,
+      body: this.props.review.body,
+      rating: this.props.review.rating,
+      author_id: this.props.review.author_id,
+      id: this.props.review.id
 
     });
   },
 
-  _onChange: function(){
-    this.setState({
-      beers: BeerStore.all(),
-      beer_id: 0,
-      body: "",
-      rating: 0,
-      author_id: this.props.user.id
-    });
-  },
-
-  componentDidMount: function(){
-    this.BeerToken = BeerStore.addListener(this._onChange);
-    this.ReviewToken = ReviewStore.addListener(this._onChange);
-  },
-  componentWillUnmount: function(){
-    this.BeerToken.remove();
-  },
 
   filteredState: function() {
     filteredState = {};
@@ -59,8 +44,8 @@ var ReviewEditForm = React.createClass({
 
   handleSubmit: function(e) {
     e.preventDefault;
-
-    var reviewData = Object.assign({}, this.state);
+debugger;
+    Object.assign({}, this.state);
     ReviewUtil.updateReview(this.filteredState());
     ReviewIndexItem.closeEdit();
   },
@@ -73,29 +58,63 @@ var ReviewEditForm = React.createClass({
     this.setState({rating: event.target.value});
   },
 
+  closeEdit: function() {
+    this.setState({ showModal: false });
+    },
+
+    openEdit: function() {
+      this.setState({ showModal: true });
+    },
 
   render: function() {
 
     return(
-      <form className="form-group reviewForm">
 
-          <label htmlFor="reviewBody">What do you think?</label>
-          <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
+      <Modal show={this.state.showModal} onHide={this.closeEdit}>
 
-          <label htmlFor="reviewRating">Your Rating</label>
-            <select onChange={this.handleRatingChange}>
-              <option value="0">rate beer</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Review</Modal.Title>
+        </Modal.Header>
 
+        <Modal.Body>
+          <form className="form-group reviewForm">
 
-          <input className="btn btn-success" type="submit" value="Update Review" onClick={this.handleSubmit}/>
+            <label htmlFor="reviewBeer">What are you drinking?</label>
+              <select value={this.state.beer_id} onChange={this.handleBeerChange}>
+                <option value="0" key="0"></option>
+                {
+                  this.state.beers.map(function(beer) {
+                    return(
+                      <option value={beer.id} key={beer.id}>{beer.name}</option>
+                      )
+                    }.bind(this)
+                  )
+                }
+              </select>
 
-      </form>
+              <label htmlFor="reviewBody">What do you think?</label>
+              <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
+
+              <label htmlFor="reviewRating">Your Rating</label>
+                <select onChange={this.handleRatingChange}>
+                  <option value="0">rate beer</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+
+              <input className="btn btn-success" type="submit" value="Update Review" onClick={this.handleSubmit}/>
+
+          </form>
+        </Modal.Body>
+
+      <Modal.Footer>
+        <Button onClick={this.closeEdit}>Close</Button>
+      </Modal.Footer>
+
+      </Modal>
     );
 
   }

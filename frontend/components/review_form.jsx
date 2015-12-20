@@ -44,7 +44,7 @@ var ReviewForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault;
 
-    var reviewData = Object.assign({}, this.state)
+    reviewData = Object.assign({}, this.state)
     ReviewUtil.createReview(reviewData);
   },
 

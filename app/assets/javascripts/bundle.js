@@ -53,10 +53,10 @@
 	var LandingPage = __webpack_require__(210);
 	var Home = __webpack_require__(246);
 	var UserUtil = __webpack_require__(217);
-	var BeerUtil = __webpack_require__(377);
+	var BeerUtil = __webpack_require__(376);
 	var ReviewUtil = __webpack_require__(250);
-	var CommentUtil = __webpack_require__(379);
-	var ToastUtil = __webpack_require__(381);
+	var CommentUtil = __webpack_require__(378);
+	var ToastUtil = __webpack_require__(380);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -32073,7 +32073,7 @@
 
 	var React = __webpack_require__(1);
 	var ReviewIndexItem = __webpack_require__(248);
-	var ReviewForm = __webpack_require__(376);
+	var ReviewForm = __webpack_require__(374);
 	var ReviewStore = __webpack_require__(375);
 	
 	var ReviewsIndex = React.createClass({
@@ -32144,26 +32144,58 @@
 	var ToastStore = __webpack_require__(257);
 	var Modal = __webpack_require__(259);
 	var Button = __webpack_require__(373);
-	var EditForm = __webpack_require__(374);
+	var LinkedStateMixin = __webpack_require__(212);
 	
 	var ReviewIndexItem = React.createClass({
 	  displayName: 'ReviewIndexItem',
 	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  filteredState: function () {
+	    filteredState = {};
+	    for (key in this.state) {
+	      if (this.state.hasOwnProperty(key)) {
+	
+	        if (key !== "beers") {
+	          filteredState[key] = this.state[key];
+	        }
+	      }
+	    }
+	    return filteredState;
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault;
+	    Object.assign({}, this.state);
+	    ReviewUtil.updateReview(this.filteredState());
+	    this.closeEdit();
+	  },
+	
 	  getInitialState: function () {
 	    return {
+	      beers: BeerStore.all(),
 	      beer: BeerStore.find(this.props.review.beer_id),
 	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
 	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
-	      showModal: false
+	      showModal: false,
+	      beer_id: this.props.review.beer_id,
+	      body: this.props.review.body,
+	      rating: this.props.review.rating,
+	      author_id: this.props.review.author_id,
+	      id: this.props.review.id
 	    };
 	  },
 	
-	  closeEdit() {
-	    this.setState({ showModal: false });
+	  openEdit: function () {
+	    this.setState({ showModal: true });
 	  },
 	
-	  openEdit() {
-	    this.setState({ showModal: true });
+	  closeEdit: function () {
+	    this.setState({ showModal: false });
 	  },
 	
 	  componentDidMount: function () {
@@ -32193,7 +32225,6 @@
 	  },
 	
 	  render: function () {
-	    debugger;
 	
 	    return React.createElement(
 	      'div',
@@ -32233,7 +32264,73 @@
 	          React.createElement(
 	            Modal.Body,
 	            null,
-	            React.createElement(EditForm, { user: this.props.user, review: this.props.review })
+	            React.createElement(
+	              'form',
+	              { className: 'form-group reviewForm' },
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'reviewBeer' },
+	                'What are you drinking?'
+	              ),
+	              React.createElement(
+	                'select',
+	                { defaultValue: this.state.beer_id, onChange: this.handleBeerChange },
+	                React.createElement('option', { defaultValue: '0', key: '0' }),
+	                this.state.beers.map((function (beer) {
+	                  return React.createElement(
+	                    'option',
+	                    { defaultValue: beer.id, key: beer.id },
+	                    beer.name
+	                  );
+	                }).bind(this))
+	              ),
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'reviewBody' },
+	                'What do you think?'
+	              ),
+	              React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'reviewRating' },
+	                'Your Rating'
+	              ),
+	              React.createElement(
+	                'select',
+	                { onChange: this.handleRatingChange },
+	                React.createElement(
+	                  'option',
+	                  { defaultValue: '0' },
+	                  'rate beer'
+	                ),
+	                React.createElement(
+	                  'option',
+	                  { defaultValue: '1' },
+	                  '1'
+	                ),
+	                React.createElement(
+	                  'option',
+	                  { defaultValue: '2' },
+	                  '2'
+	                ),
+	                React.createElement(
+	                  'option',
+	                  { defaultValue: '3' },
+	                  '3'
+	                ),
+	                React.createElement(
+	                  'option',
+	                  { defaultValue: '4' },
+	                  '4'
+	                ),
+	                React.createElement(
+	                  'option',
+	                  { defaultValue: '5' },
+	                  '5'
+	                )
+	              ),
+	              React.createElement('input', { className: 'btn btn-success', type: 'submit', defaultValue: 'Update Review', onClick: this.handleSubmit })
+	            )
 	          ),
 	          React.createElement(
 	            Modal.Footer,
@@ -32371,11 +32468,13 @@
 	  },
 	
 	  updateReview: function (review) {
+	    debugger;
 	    $.ajax({
 	      url: "/api/reviews/" + review.id,
 	      type: "PATCH",
 	      data: { review: review },
 	      success: function (review) {
+	        debugger;
 	        ReviewActions.receiveSingleReview(review);
 	      }
 	    });
@@ -37667,203 +37766,6 @@
 	var LinkedStateMixin = __webpack_require__(212);
 	var ReviewUtil = __webpack_require__(250);
 	var ReviewStore = __webpack_require__(375);
-	var reviewIndexItem = __webpack_require__(248);
-	
-	var ReviewEditForm = React.createClass({
-	  displayName: 'ReviewEditForm',
-	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      beers: BeerStore.all(),
-	      beer_id: 0,
-	      body: "",
-	      rating: 0,
-	      author_id: this.props.user.id,
-	      id: this.props.review.id
-	
-	    };
-	  },
-	
-	  _onChange: function () {
-	    this.setState({
-	      beers: BeerStore.all(),
-	      beer_id: 0,
-	      body: "",
-	      rating: 0,
-	      author_id: this.props.user.id
-	    });
-	  },
-	
-	  componentDidMount: function () {
-	    this.BeerToken = BeerStore.addListener(this._onChange);
-	    this.ReviewToken = ReviewStore.addListener(this._onChange);
-	  },
-	  componentWillUnmount: function () {
-	    this.BeerToken.remove();
-	  },
-	
-	  filteredState: function () {
-	    filteredState = {};
-	    for (key in this.state) {
-	      if (this.state.hasOwnProperty(key)) {
-	
-	        if (key !== "beers") {
-	          filteredState[key] = this.state[key];
-	        }
-	      }
-	    }
-	    return filteredState;
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault;
-	
-	    var reviewData = Object.assign({}, this.state);
-	    ReviewUtil.updateReview(this.filteredState());
-	    ReviewIndexItem.closeEdit();
-	  },
-	
-	  handleBeerChange: function (event) {
-	    this.setState({ beer_id: event.target.value });
-	  },
-	
-	  handleRatingChange: function (event) {
-	    this.setState({ rating: event.target.value });
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'form',
-	      { className: 'form-group reviewForm' },
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'reviewBody' },
-	        'What do you think?'
-	      ),
-	      React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'reviewRating' },
-	        'Your Rating'
-	      ),
-	      React.createElement(
-	        'select',
-	        { onChange: this.handleRatingChange },
-	        React.createElement(
-	          'option',
-	          { value: '0' },
-	          'rate beer'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: '1' },
-	          '1'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: '2' },
-	          '2'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: '3' },
-	          '3'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: '4' },
-	          '4'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: '5' },
-	          '5'
-	        )
-	      ),
-	      React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Update Review', onClick: this.handleSubmit })
-	    );
-	  }
-	
-	});
-	
-	module.exports = ReviewEditForm;
-
-/***/ },
-/* 375 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(229).Store;
-	var AppDispatcher = __webpack_require__(219);
-	var ReviewConstants = __webpack_require__(252);
-	
-	var _reviews = {};
-	
-	var ReviewStore = new Store(AppDispatcher);
-	
-	var addAllReviews = function (reviews) {
-	  reviews.forEach(function (review) {
-	    _reviews[review.id] = review;
-	  });
-	};
-	
-	var addSingleReview = function (review) {
-	  _reviews[review.id] = review;
-	};
-	
-	var resetReviews = function () {
-	  _reviews = [];
-	};
-	
-	ReviewStore.all = function () {
-	  var reviews = [];
-	  for (key in _reviews) {
-	    if (_reviews.hasOwnProperty(key)) {
-	      reviews.push(_reviews[key]);
-	    }
-	  }
-	  return _reviews;
-	};
-	
-	ReviewStore.filterReviewsByUserId = function (userId) {
-	  return this.all().filter(function (review) {
-	    return review.author_id === userId;
-	  });
-	};
-	
-	ReviewStore.__onDispatch = function (payload) {
-	
-	  switch (payload.actionType) {
-	    case ReviewConstants.REVIEWS_RECEIVED:
-	      resetReviews();
-	      addAllReviews(payload.reviews);
-	      ReviewStore.__emitChange();
-	      break;
-	    case ReviewConstants.REVIEW_RECEIVED:
-	      addSingleReview(payload.review);
-	      ReviewStore.__emitChange();
-	      break;
-	
-	  };
-	};
-	
-	module.exports = ReviewStore;
-
-/***/ },
-/* 376 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var BeerStore = __webpack_require__(253);
-	var LinkedStateMixin = __webpack_require__(212);
-	var ReviewUtil = __webpack_require__(250);
-	var ReviewStore = __webpack_require__(375);
 	
 	var ReviewForm = React.createClass({
 	  displayName: 'ReviewForm',
@@ -37905,7 +37807,7 @@
 	  handleSubmit: function (e) {
 	    e.preventDefault;
 	
-	    var reviewData = Object.assign({}, this.state);
+	    reviewData = Object.assign({}, this.state);
 	    ReviewUtil.createReview(reviewData);
 	  },
 	
@@ -37993,10 +37895,70 @@
 	module.exports = ReviewForm;
 
 /***/ },
-/* 377 */
+/* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BeerActions = __webpack_require__(378);
+	var Store = __webpack_require__(229).Store;
+	var AppDispatcher = __webpack_require__(219);
+	var ReviewConstants = __webpack_require__(252);
+	
+	var _reviews = {};
+	
+	var ReviewStore = new Store(AppDispatcher);
+	
+	var addAllReviews = function (reviews) {
+	  reviews.forEach(function (review) {
+	    _reviews[review.id] = review;
+	  });
+	};
+	
+	var addSingleReview = function (review) {
+	  _reviews[review.id] = review;
+	};
+	
+	var resetReviews = function () {
+	  _reviews = [];
+	};
+	
+	ReviewStore.all = function () {
+	  var reviews = [];
+	  for (key in _reviews) {
+	    if (_reviews.hasOwnProperty(key)) {
+	      reviews.push(_reviews[key]);
+	    }
+	  }
+	  return _reviews;
+	};
+	
+	ReviewStore.filterReviewsByUserId = function (userId) {
+	  return this.all().filter(function (review) {
+	    return review.author_id === userId;
+	  });
+	};
+	
+	ReviewStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case ReviewConstants.REVIEWS_RECEIVED:
+	      resetReviews();
+	      addAllReviews(payload.reviews);
+	      ReviewStore.__emitChange();
+	      break;
+	    case ReviewConstants.REVIEW_RECEIVED:
+	      addSingleReview(payload.review);
+	      ReviewStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = ReviewStore;
+
+/***/ },
+/* 376 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BeerActions = __webpack_require__(377);
 	
 	var BeerUtil = {
 	
@@ -38017,7 +37979,7 @@
 	module.exports = BeerUtil;
 
 /***/ },
-/* 378 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -38045,10 +38007,10 @@
 	module.exports = BeerActions;
 
 /***/ },
-/* 379 */
+/* 378 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var CommentActions = __webpack_require__(380);
+	var CommentActions = __webpack_require__(379);
 	
 	var CommentUtil = {
 	
@@ -38079,7 +38041,7 @@
 	module.exports = CommentUtil;
 
 /***/ },
-/* 380 */
+/* 379 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -38107,10 +38069,10 @@
 	module.exports = CommentActions;
 
 /***/ },
-/* 381 */
+/* 380 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ToastActions = __webpack_require__(382);
+	var ToastActions = __webpack_require__(381);
 	
 	var ToastUtil = {
 	
@@ -38141,7 +38103,7 @@
 	module.exports = ToastUtil;
 
 /***/ },
-/* 382 */
+/* 381 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);

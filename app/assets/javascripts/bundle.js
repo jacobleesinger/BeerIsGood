@@ -24961,21 +24961,9 @@
 	      },
 	      error: function (errors) {
 	        ErrorActions.receiveAllErrors(errors);
-	        debugger;
 	      }
 	    });
 	  },
-	
-	  // createUser: function (data) {
-	  //   debugger;
-	  //   $.post("api/users", { user: data } ).done(function (user) {
-	  //     UserActions.receiveSingleUser(user);
-	  //     SessionActions.createSession(user);
-	  //   })
-	  //   .fail(function (errors) {
-	  //     debugger;
-	  //   });
-	  // },
 	
 	  fetchSingleUser: function (user) {
 	    $.get('api/user/' + user.id, function (user) {
@@ -25426,6 +25414,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SessionActions = __webpack_require__(224);
+	var ErrorActions = __webpack_require__(226);
 	
 	var SessionUtil = {
 	
@@ -25435,10 +25424,17 @@
 	    });
 	  },
 	
-	  createSession: function (data) {
-	
-	    $.post('api/session', { user: data }, function (user) {
-	      SessionActions.createSession(user);
+	  createSession: function (user) {
+	    $.ajax({
+	      url: "api/session",
+	      type: "POST",
+	      data: { user: user },
+	      success: function (user) {
+	        SessionActions.createSession(user);
+	      },
+	      error: function (errors) {
+	        ErrorActions.receiveAllErrors(errors);
+	      }
 	    });
 	  },
 	
@@ -31998,11 +31994,13 @@
 	var _errors = [];
 	
 	var receiveAllErrors = function (payload) {
-	  debugger;
+	  _errors = [];
 	  var errorMessages = payload.errors.responseJSON;
-	  errorMessages.forEach(function (errorMessage) {
-	    _errors.push(errorMessage);
-	  });
+	  if (errorMessages) {
+	    errorMessages.forEach(function (errorMessage) {
+	      _errors.push(errorMessage);
+	    });
+	  }
 	};
 	
 	ErrorStore.all = function () {

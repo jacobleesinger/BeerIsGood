@@ -6,7 +6,7 @@ class Api::SessionsController < ApplicationController
       redirect_to api_user_url(@user.id)
     else
       @errors = {errors: ["Invalid username/password. Please Try Again."]}
-      render json: @errors, status: 400
+      render json: @errors[:errors], status: 400
     end
   end
 

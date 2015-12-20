@@ -15,21 +15,10 @@ var UserUtil = {
       },
       error: function(errors) {
         ErrorActions.receiveAllErrors(errors);
-        debugger;
       }
     })
   },
 
-  // createUser: function (data) {
-  //   debugger;
-  //   $.post("api/users", { user: data } ).done(function (user) {
-  //     UserActions.receiveSingleUser(user);
-  //     SessionActions.createSession(user);
-  //   })
-  //   .fail(function (errors) {
-  //     debugger;
-  //   });
-  // },
 
  fetchSingleUser: function(user) {
    $.get('api/user/' + user.id, function(user) {

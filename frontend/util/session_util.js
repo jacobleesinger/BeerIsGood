@@ -1,4 +1,5 @@
 var SessionActions = require('../actions/session_actions');
+var ErrorActions = require('../actions/error_actions');
 
 var SessionUtil = {
 
@@ -8,11 +9,18 @@ var SessionUtil = {
    });
  },
 
- createSession: function(data){
-
-   $.post('api/session', { user: data }, function(user){
-     SessionActions.createSession(user);
-   });
+ createSession: function (user) {
+   $.ajax({
+     url: "api/session",
+     type: "POST",
+     data: {user: user},
+     success: function(user) {
+       SessionActions.createSession(user);
+      },
+      error: function(errors) {
+        ErrorActions.receiveAllErrors(errors);
+      }
+   })
  },
 
  destroySession: function(){

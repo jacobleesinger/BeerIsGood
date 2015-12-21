@@ -7,6 +7,7 @@ var ErrorStore = new Store(AppDispatcher);
 var _errors = [];
 
 var receiveAllErrors = function(payload) {
+  debugger;
   _errors = [];
   var errorMessages = payload.errors.responseJSON;
   if (errorMessages) {
@@ -21,6 +22,7 @@ ErrorStore.all = function() {
 };
 
 ErrorStore.__onDispatch = function(payload) {
+
   switch(payload.actionType) {
     case ErrorConstants.ERRORS_RECEIVED:
       receiveAllErrors(payload);

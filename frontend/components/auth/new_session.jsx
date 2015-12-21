@@ -3,6 +3,7 @@ var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var SessionUtil = require('../../util/session_util');
 
 
+
 var NewSession = React.createClass ({
   mixins: [LinkedStateMixin],
 
@@ -47,6 +48,9 @@ var NewSession = React.createClass ({
           </form>
         </div>
       </div>
+
+
+
     );
   }
 

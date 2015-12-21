@@ -23,7 +23,9 @@ var Auth = React.createClass({
     this.GetAppropriateAuthForm();
 
     return (
-      <AuthForm />
+      <div className="container">
+        <AuthForm />
+      </div>
     );
 
   }

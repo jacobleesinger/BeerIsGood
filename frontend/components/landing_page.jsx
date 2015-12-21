@@ -4,6 +4,7 @@ var SessionStore = require('../stores/session_store');
 var ErrorStore = require('../stores/error_store');
 var Home = require('./home');
 
+
 var Page;
 var modal;
 var buttons;
@@ -31,7 +32,7 @@ var LandingPage = React.createClass({
 
   componentWillUnmount: function(){
     this.sessionToken.remove();
-    this.errorToken.remover();
+    this.errorToken.remove();
   },
 
 
@@ -78,7 +79,9 @@ var LandingPage = React.createClass({
     );
   },
 
+
   render: function () {
+
 
     if (this.state.auth) {
       modal = <Auth button={this.state.button} callback={this.finishAuth} />;
@@ -93,20 +96,24 @@ var LandingPage = React.createClass({
 
 
     if (this.state.signedIn) {
-      Page = <Home currentUser={this.state.currentUser}/>
+      Page = <Home currentUser={this.state.currentUser} errors={this.displayErrorMessages()}/>
     } else {
       var errors = this.displayErrorMessages();
       Page =
-       <div>
-        {errors}
-        {buttons}
-        {modal}
+      <div className="container landingPageContainer">
+       <div className="row">
+         <div className="col-md-3 col-offset-6">
+          {errors}
+          {buttons}
+          {modal}
+        </div>
       </div>
+    </div>
     }
 
     return (
-      <div>
 
+      <div>
         {Page}
       </div>
     );

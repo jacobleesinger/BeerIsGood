@@ -10,8 +10,8 @@ class Api::ReviewsController < ApplicationController
       @user = User.find_by_id(@review.author_id)
       render json: @review
     else
-      @errors = {errors: [@review.errors.full_messages]}
-      render json: @errors
+      @errors = @review.errors.full_messages
+      render json: @errors , status: 400
     end
   end
 

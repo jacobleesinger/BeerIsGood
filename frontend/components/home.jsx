@@ -3,6 +3,7 @@ var SessionUtil = require('../util/session_util');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ReviewsIndex = require('./reviewsIndex');
 var ReviewStore = require('../stores/review_store');
+var NavbarInstance = require('./navbar');
 
 var Home = React.createClass({
 
@@ -19,22 +20,26 @@ var Home = React.createClass({
 
 
   render: function () {
+    debugger;
     var name = this.props.currentUser.username;
 
     return(
-      <div className="row">
+      <div>
+        {NavbarInstance}
+        <div className="row">
 
-        <div className="col-md-4 col-offset-4">
-          Cheers, {name}!
+          <div className="col-md-4 col-offset-4">
+            Cheers, {name}!
+            <br />
+            <button
+              className="btn btn-primary" onClick={this.handleSignOut}>Sign Out
+            </button>
+          </div>
+
           <br />
-          <button
-            className="btn btn-primary" onClick={this.handleSignOut}>Sign Out
-          </button>
+          {this.props.errors}
+          <ReviewsIndex user={this.props.currentUser} />
         </div>
-
-        <br />
-
-        <ReviewsIndex user={this.props.currentUser} />
       </div>
     );
   }

@@ -1,4 +1,5 @@
 var ReviewActions = require('../actions/review_actions');
+var ErrorActions = require('../actions/error_actions');
 
 var ReviewUtil = {
 
@@ -10,10 +11,21 @@ var ReviewUtil = {
 
   createReview: function(review) {
     delete review.beers
-    console.log(review);
-    $.post('api/reviews', {review: review}, function(review) {
-      ReviewActions.receiveSingleReview(review);
+
+
+    $.ajax({
+      url: "api/reviews",
+      type: "POST",
+      data: {review: review},
+      success: function(review) {
+        ReviewActions.receiveSingleReview(review);
+      },
+      error: function(errors) {
+        ErrorActions.receiveAllErrors(errors);
+      }
     });
+
+
   },
 
   destroyReview: function(review){

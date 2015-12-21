@@ -4,6 +4,11 @@ var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ReviewsIndex = require('./reviewsIndex');
 var ReviewStore = require('../stores/review_store');
 var NavbarInstance = require('./navbar');
+var Navbar = require('react-bootstrap').Navbar;
+var NavItem = require('react-bootstrap').NavItem;
+var NavDropdown = require('react-bootstrap').NavDropdown;
+var Nav = require('react-bootstrap').Nav;
+var MenuItem = require('react-bootstrap').MenuItem;
 
 var Home = React.createClass({
 
@@ -12,6 +17,7 @@ var Home = React.createClass({
   contextTypes: {
     router: React.PropTypes.func
   },
+
 
   handleSignOut: function () {
     SessionUtil.destroySession();
@@ -23,9 +29,10 @@ var Home = React.createClass({
     debugger;
     var name = this.props.currentUser.username;
 
+
     return(
       <div>
-        {NavbarInstance}
+        <NavbarInstance />
         <div className="row">
 
           <div className="col-md-4 col-offset-4">

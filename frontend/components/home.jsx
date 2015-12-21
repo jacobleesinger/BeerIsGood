@@ -4,11 +4,7 @@ var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ReviewsIndex = require('./reviewsIndex');
 var ReviewStore = require('../stores/review_store');
 var NavbarInstance = require('./navbar');
-var Navbar = require('react-bootstrap').Navbar;
-var NavItem = require('react-bootstrap').NavItem;
-var NavDropdown = require('react-bootstrap').NavDropdown;
-var Nav = require('react-bootstrap').Nav;
-var MenuItem = require('react-bootstrap').MenuItem;
+
 
 var Home = React.createClass({
 

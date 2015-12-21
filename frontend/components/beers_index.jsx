@@ -1,9 +1,16 @@
 var React = require('react');
+var Navbar = require('./navbar.jsx');
 
 var BeersIndex = React.createClass({
 
   render: function () {
-    return <div>THIS IS THE BEERS INDEX PAGE</div>;
+    return (
+
+      <div>
+        <Navbar />
+        THIS IS THE BEERS INDEX PAGE
+      </div>
+    );
   }
 
 });

@@ -1,41 +1,40 @@
 var React = require('react');
-var Navbar = require('react-bootstrap').Navbar;
-var NavItem = require('react-bootstrap').NavItem;
-var NavDropdown = require('react-bootstrap').NavDropdown;
-var Nav = require('react-bootstrap').Nav;
-var MenuItem = require('react-bootstrap').MenuItem;
-var BeersIndex = require('./beers_index');
 var ReactRouter = require('react-router');
+var Link = ReactRouter.Link;
+
 
 
 var NavbarInstance = React.createClass({
   render: function () {
     debugger;
     return (
-    <Navbar>
-      <Navbar.Header>
-        <Navbar.Brand>
-          <a href="#">BeerIsGood</a>
-        </Navbar.Brand>
-        <Navbar.Toggle />
-      </Navbar.Header>
-      <Navbar.Collapse>
-        <Nav>
-          <ul>
-            <li>
-              <Link to="beers">BeersIndex</Link>
-            </li>
-            <li>
-              <Link to="#">FriendsIndex</Link>
-            </li>
-            <li>
-              <Link to="/">UserShow</Link>
-            </li>
-          </ul>
-          <NavItem eventKey={2} href="#">FriendsIndex</NavItem>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+    <div classsName="navbar navbar-default">
+      <div className="navbar-header">
+
+          <Link className="navbar-brand" to="#">BeerIsGood</Link>
+
+        <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span className="sr-only">Toggle navigation</span>
+        <span className="icon-bar"></span>
+        <span className="icon-bar"></span>
+        <span className="icon-bar"></span>
+      </button>
+
+      </div>
+      <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul className="nav navbar-nav">
+          <li>
+            <Link to="beers">BeersIndex</Link>
+          </li>
+          <li>
+            <Link to="#">FriendsIndex</Link>
+          </li>
+          <li>
+            <Link to="/">UserShow</Link>
+          </li>
+        </ul>
+      </div>
+    </div>
   );
   }
 });

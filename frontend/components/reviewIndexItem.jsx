@@ -4,9 +4,9 @@ var ReviewUtil = require('../util/review_util');
 var BeerStore = require('../stores/beer_store');
 var CommentStore = require('../stores/comment_store');
 var ToastStore = require('../stores/toast_store');
-var Modal = require('react-bootstrap/lib/Modal');
-var Button = require('react-bootstrap/lib/Button');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
+var ReviewDisplay = require('./review_display');
+var ReviewEditForm = require('./review_edit_form');
 
 
 var ReviewIndexItem = React.createClass({
@@ -48,7 +48,8 @@ var ReviewIndexItem = React.createClass({
       body: this.props.review.body,
       rating: this.props.review.rating,
       author_id: this.props.review.author_id,
-      id: this.props.review.id
+      id: this.props.review.id,
+      editing: false
     });
   },
 
@@ -84,11 +85,21 @@ var ReviewIndexItem = React.createClass({
   },
 
   handleEditClick: function (review) {
-    this.openEdit();
+    this.setState({
+      editing: true
+    });
   },
 
   handleRatingChange: function(event) {
     this.setState({rating: event.target.value});
+  },
+
+  isEditing: function () {
+    if (this.state.editing){
+      Display = <ReviewEditForm review={this.props.review}
+    } else {
+      Display = <ReviewDisplay review={this.props.review}
+    }
   },
 
   render: function () {
@@ -102,51 +113,54 @@ var ReviewIndexItem = React.createClass({
           <div className="reviewHeader col-md-12">
             {this.state.beer.name}
 
-            <div onClick={this.handleDeleteClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete </div>
+            <div onClick={this.handleDeleteClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete</div>
 
-            <div onClick={this.handleEditClick}
-              className="editReviewButton"
-              value={this.props.review}>edit
-            </div>
+            <div onClick={this.handleEditClick.bind(this, this.props.review)} className="editReviewButton" value={this.props.review}>edit</div>
 
           </div>
 
-          <Modal show={this.state.showModal} onHide={this.closeEdit}>
+          <div className="modal fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
 
-            <Modal.Header closeButton>
-              <Modal.Title>Edit Review</Modal.Title>
-            </Modal.Header>
+                <div className="modal-header">
+                  <h4 className="modal-title" id="myModalLabel">Edit Review</h4>
+                </div>
 
-            <Modal.Body>
-              <form className="form-group reviewForm">
-
-
+                <div className="modal-body">
+                  <form className="form-group reviewForm">
 
 
-                  <label htmlFor="reviewBody">What do you think?</label>
-                  <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
 
-                  <label htmlFor="reviewRating">Your Rating</label>
-                    <select onChange={this.handleRatingChange} value={this.state.rating} onChange={this.handleRatingChange}>
 
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
+                    <label htmlFor="reviewBody">What do you think?</label>
+                    <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
 
-                    </select>
+                    <label htmlFor="reviewRating">Your Rating</label>
+                      <select onChange={this.handleRatingChange} value={this.state.rating} onChange={this.handleRatingChange}>
 
-                  <input className="btn btn-success" type="submit" defaultValue="Update Review" onClick={this.handleSubmit}/>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
 
-              </form>
-            </Modal.Body>
+                      </select>
 
-          <Modal.Footer>
-            <Button onClick={this.closeEdit}>Close</Button>
-          </Modal.Footer>
+                    <input className="btn btn-success" type="submit" defaultValue="Update Review" onClick={this.handleSubmit}/>
 
-          </Modal>
+                </form>
+            </div>
+
+          <div className="modal-footer">
+
+              <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
 
           <div className="reviewBody col-md-12">
             Review: {this.props.review.body}

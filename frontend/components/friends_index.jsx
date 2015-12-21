@@ -6,7 +6,7 @@ var FriendsIndex = React.createClass({
   render: function () {
     return (
 
-      <div>
+      <div className="fixedWidth">
         THIS IS THE FRIENDS INDEX PAGE
       </div>
     );

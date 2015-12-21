@@ -40,7 +40,8 @@ var NavbarInstance = React.createClass({
     <div className="navbar">
       <div className="fixedWidth">
         <div className="navbarHeader">
-            <Link className="navbarLogo" to="#"><h3>BeerIsGood</h3></Link>
+            <div className="navbarLogo" to="#"><h1>BeerIsGood</h1></div>
+
         </div>
 
         <div className="navbarContent">
@@ -66,7 +67,7 @@ var NavbarInstance = React.createClass({
             </li>
             <li>
               <button
-                className="btn btn-primary" onClick={this.handleSignOut}>Sign Out
+                className="btn btn-sm btn-primary" onClick={this.handleSignOut}>Sign Out
               </button>
             </li>
           </ul>

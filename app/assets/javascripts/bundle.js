@@ -32124,10 +32124,10 @@
 	          'div',
 	          { className: 'navbarHeader' },
 	          React.createElement(
-	            Link,
+	            'div',
 	            { className: 'navbarLogo', to: '#' },
 	            React.createElement(
-	              'h3',
+	              'h1',
 	              null,
 	              'BeerIsGood'
 	            )
@@ -32176,7 +32176,7 @@
 	              React.createElement(
 	                'button',
 	                {
-	                  className: 'btn btn-primary', onClick: this.handleSignOut },
+	                  className: 'btn btn-sm btn-primary', onClick: this.handleSignOut },
 	                'Sign Out'
 	              )
 	            )
@@ -33319,15 +33319,46 @@
 
 	var React = __webpack_require__(1);
 	var Navbar = __webpack_require__(249);
+	var BeerStore = __webpack_require__(258);
+	var BeerShow = __webpack_require__(274);
 	
 	var BeersIndex = React.createClass({
 	  displayName: 'BeersIndex',
 	
+	  getInitialState: function () {
+	    return {
+	      beers: BeerStore.all()
+	
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    var beerToken = BeerStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    beerToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({
+	      beers: BeerStore.all()
+	    });
+	  },
+	
 	  render: function () {
+	    debugger;
+	
 	    return React.createElement(
 	      'div',
-	      null,
-	      'THIS IS THE BEERS INDEX PAGE'
+	      { className: 'fixedWidth' },
+	      this.state.beers.map((function (beer) {
+	        return React.createElement(
+	          'div',
+	          { beer: beer, key: beer.id },
+	          beer.name
+	        );
+	      }).bind(this))
 	    );
 	  }
 	
@@ -33348,7 +33379,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'fixedWidth' },
 	      'THIS IS THE FRIENDS INDEX PAGE'
 	    );
 	  }
@@ -33356,6 +33387,26 @@
 	});
 	
 	module.exports = FriendsIndex;
+
+/***/ },
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var BeerShow = React.createClass({
+	  displayName: 'BeerShow',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      this.props.beer.name
+	    );
+	  }
+	});
+	
+	module.exports = BeerShow;
 
 /***/ }
 /******/ ]);

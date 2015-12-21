@@ -19,7 +19,7 @@ var ReviewForm = React.createClass({
       beer_id: 0,
       body: "",
       rating: 0,
-      author_id: this.props.user.id
+      author_id: this.props.currentUser.id
     });
   },
 
@@ -29,7 +29,7 @@ var ReviewForm = React.createClass({
       beer_id: 0,
       body: "",
       rating: 0,
-      author_id: this.props.user.id
+      author_id: this.props.currentUser.id
     });
   },
 

@@ -7,8 +7,9 @@ var ReviewStore = require('../stores/review_store');
 var ReviewsIndex = React.createClass ({
 
   getInitialState: function () {
+    debugger;
     return ({
-      reviews: ReviewStore.filterReviewsByUserId(this.props.user.id)
+      reviews: ReviewStore.filterReviewsByUserId(this.props.currentUser.id)
     });
   },
 
@@ -22,7 +23,7 @@ var ReviewsIndex = React.createClass ({
 
   _onChange: function () {
     this.setState({
-      reviews: ReviewStore.filterReviewsByUserId(this.props.user.id)
+      reviews: ReviewStore.filterReviewsByUserId(this.props.currentUser.id)
     });
   },
 
@@ -37,14 +38,14 @@ var ReviewsIndex = React.createClass ({
           <h3>Review a Beer</h3>
 
           <div className="newReviewFormContainer col-md-12">
-            <ReviewForm user={this.props.user} />
+            <ReviewForm currentUser={this.props.currentUser} />
           </div>
 
           <h3>My Reviews</h3>
 
           {this.state.reviews.map(function(review) {
               return (
-                <ReviewIndexItem user={this.props.user} review={review} key={review.id} />
+                <ReviewIndexItem currentUser={this.props.currentUser} review={review} key={review.id} />
               );
             }.bind(this)
           )}

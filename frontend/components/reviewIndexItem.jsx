@@ -6,9 +6,7 @@ var CommentStore = require('../stores/comment_store');
 var ToastStore = require('../stores/toast_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
-
 var Display;
-
 
 var ReviewIndexItem = React.createClass({
 
@@ -53,13 +51,7 @@ var ReviewIndexItem = React.createClass({
     });
   },
 
-  openEdit: function() {
-    this.setState({ showModal: true });
-  },
 
-  closeEdit: function() {
-    this.setState({ showModal: false });
-    },
 
   componentDidMount: function() {
     this.beerToken = BeerStore.addListener(this._onChange);
@@ -171,9 +163,6 @@ var ReviewIndexItem = React.createClass({
 
   render: function () {
     this.isEditing();
-
-    var option;
-
 
     return (
       <div>

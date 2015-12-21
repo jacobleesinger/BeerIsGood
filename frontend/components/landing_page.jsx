@@ -37,6 +37,7 @@ var LandingPage = React.createClass({
 
 
   _onSessionChange: function() {
+    debugger;
     this.setState({
       currentUser: SessionStore.currentUser(),
       currentSession: SessionStore.currentSession(),

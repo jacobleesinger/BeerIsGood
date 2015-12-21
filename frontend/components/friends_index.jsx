@@ -1,18 +1,18 @@
 var React = require('react');
 var Navbar = require('./navbar.jsx');
 
-var BeersIndex = React.createClass({
+var FriendsIndex = React.createClass({
 
   render: function () {
     return (
 
       <div>
-      
-        THIS IS THE BEERS INDEX PAGE
+        <Navbar />
+        THIS IS THE FRIENDS INDEX PAGE
       </div>
     );
   }
 
 });
 
-module.exports = BeersIndex;
+module.exports = FriendsIndex;

@@ -2,31 +2,37 @@ var React = require('react');
 var Navbar = require('./navbar');
 var UserShow = require('./user_show');
 
-var Header = React.createClass({
-  render: function (){
-    debugger;
-    return(
-      <Navbar currentUser={this.props.currentUser}/>
-    )
-  }
-});
+
 
 var MainContent = React.createClass({
+
+
   render:function () {
+    debugger;
     return(
-      <UserShow currentUser={this.props.currentUser} />
+      <this.props.subPage currentUser={this.props.currentUser} />
     )
   }
 })
 
 var Home = React.createClass({
 
+  getInitialState: function () {
+    return ({subPage: UserShow});
+  },
+
+  navbarChangeHandler: function(newSubPage) {
+    debugger;
+    this.setState({subPage: newSubPage}
+    )
+  },
+
   render: function () {
-debugger;
     return(
       <div>
-        <Header currentUser={this.props.currentUser}/>
-        <UserShow currentUser={this.props.currentUser}/>
+        <Navbar currentUser={this.props.currentUser} subPage={this.state.subPage}
+          onChange={this.navbarChangeHandler}/>
+        <MainContent currentUser={this.props.currentUser} subPage={this.state.subPage}/>
       </div>
     );
   }

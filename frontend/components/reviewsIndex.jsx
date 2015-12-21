@@ -7,7 +7,6 @@ var ReviewStore = require('../stores/review_store');
 var ReviewsIndex = React.createClass ({
 
   getInitialState: function () {
-    debugger;
     return ({
       reviews: ReviewStore.filterReviewsByUserId(this.props.currentUser.id)
     });

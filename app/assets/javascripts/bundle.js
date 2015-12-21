@@ -32208,19 +32208,7 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'row' },
-	      React.createElement(
-	        'div',
-	        { className: 'col-md-4 col-offset-4' },
-	        React.createElement('br', null),
-	        React.createElement(
-	          'button',
-	          {
-	            className: 'btn btn-primary', onClick: this.handleSignOut },
-	          'Sign Out'
-	        )
-	      ),
-	      React.createElement('br', null),
+	      { className: 'row fixedWidth' },
 	      this.props.errors,
 	      React.createElement(ReviewsIndex, { currentUser: this.props.currentUser })
 	    );

@@ -22,7 +22,7 @@ var Home = React.createClass({
 
 
   render: function () {
-    debugger;
+
     var name = this.props.currentUser.username;
 
 

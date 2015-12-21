@@ -5,8 +5,9 @@ var BeerStore = require('../stores/beer_store');
 var CommentStore = require('../stores/comment_store');
 var ToastStore = require('../stores/toast_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
-var ReviewDisplay = require('./review_display');
-var ReviewEditForm = require('./review_edit_form');
+
+
+var Display;
 
 
 var ReviewIndexItem = React.createClass({
@@ -34,7 +35,7 @@ var ReviewIndexItem = React.createClass({
     e.preventDefault;
     Object.assign({}, this.state);
     ReviewUtil.updateReview(this.filteredState());
-    this.closeEdit();
+    this.setState({editing: false});
   },
 
   getInitialState: function () {
@@ -43,7 +44,6 @@ var ReviewIndexItem = React.createClass({
       beer: BeerStore.find(this.props.review.beer_id),
       comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
       toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
-      showModal: false,
       beer_id: this.props.review.beer_id,
       body: this.props.review.body,
       rating: this.props.review.rating,
@@ -69,6 +69,8 @@ var ReviewIndexItem = React.createClass({
 
   componentWillUnmount: function() {
     this.beerToken.remove();
+    this.commentToken.remove();
+    this.toastToken.remove();
   },
 
   _onChange: function() {
@@ -94,102 +96,90 @@ var ReviewIndexItem = React.createClass({
     this.setState({rating: event.target.value});
   },
 
+  handleBeerChange: function(event) {
+    this.setState({beer_id: event.target.value});
+  },
+
   isEditing: function () {
     if (this.state.editing){
-      Display = <ReviewEditForm review={this.props.review}
+      Display =
+      <div className="">
+        <form className="form-group reviewForm">
+
+            <label htmlFor="reviewBody">What do you think?</label>
+            <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
+
+            <label htmlFor="reviewRating">Your Rating</label>
+              <select onChange={this.handleRatingChange}>
+                <option value="0">rate beer</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+
+            <input className="btn btn-success" type="submit" value="Update Review" onClick={this.handleSubmit}/>
+
+        </form>
+      </div>
     } else {
-      Display = <ReviewDisplay review={this.props.review}
+      Display =
+        <div className="row">
+          <div className="reviewContainer col-md-12" >
+            <div className="reviewContent col-md-12">
+              <div className="reviewHeader col-md-12">
+                {this.state.beer.name}
+
+                <div onClick={this.handleDeleteClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete</div>
+
+                <div onClick={this.handleEditClick.bind(this, this.props.review)} className="editReviewButton" value={this.props.review}>edit</div>
+
+              </div>
+
+
+              <div className="reviewBody col-md-12">
+                Review: {this.props.review.body}
+              </div>
+
+              <div className="reviewFooter col-md-12">
+                <div className="reviewFooterItem col-md-4">
+                  Rating: {this.props.review.rating}
+                </div>
+
+                <div className="reviewFooterItem col-md-4">
+                  toasts: {this.state.toasts.length}
+                </div>
+
+              </div>
+            </div>
+
+            <div className="reviewCommentsIndex col-md-12">
+              <h4>Comments</h4>
+              {
+                this.state.comments.map(function(comment) {
+                    return (<Comment comment={comment} key={comment.id} />);
+                  }.bind(this)
+                )
+              }
+            </div>
+
+          </div>
+        </div>
     }
   },
 
   render: function () {
+    this.isEditing();
 
     var option;
 
 
     return (
-      <div className="reviewContainer col-md-12" >
-        <div className="reviewContent col-md-12">
-          <div className="reviewHeader col-md-12">
-            {this.state.beer.name}
-
-            <div onClick={this.handleDeleteClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete</div>
-
-            <div onClick={this.handleEditClick.bind(this, this.props.review)} className="editReviewButton" value={this.props.review}>edit</div>
-
-          </div>
-
-          <div className="modal fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div className="modal-dialog" role="document">
-              <div className="modal-content">
-
-                <div className="modal-header">
-                  <h4 className="modal-title" id="myModalLabel">Edit Review</h4>
-                </div>
-
-                <div className="modal-body">
-                  <form className="form-group reviewForm">
-
-
-
-
-                    <label htmlFor="reviewBody">What do you think?</label>
-                    <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
-
-                    <label htmlFor="reviewRating">Your Rating</label>
-                      <select onChange={this.handleRatingChange} value={this.state.rating} onChange={this.handleRatingChange}>
-
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-
-                      </select>
-
-                    <input className="btn btn-success" type="submit" defaultValue="Update Review" onClick={this.handleSubmit}/>
-
-                </form>
-            </div>
-
-          <div className="modal-footer">
-
-              <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
-
-          </div>
-
-        </div>
+      <div>
+        {Display}
       </div>
-    </div>
-
-          <div className="reviewBody col-md-12">
-            Review: {this.props.review.body}
-          </div>
-
-          <div className="reviewFooter col-md-12">
-            <div className="reviewFooterItem col-md-4">
-              Rating: {this.props.review.rating}
-            </div>
-
-            <div className="reviewFooterItem col-md-4">
-              toasts: {this.state.toasts.length}
-            </div>
-
-          </div>
-        </div>
-
-        <div className="reviewCommentsIndex col-md-12">
-          <h4>Comments</h4>
-          {
-            this.state.comments.map(function(comment) {
-                return (<Comment comment={comment} key={comment.id} />);
-              }.bind(this)
-            )
-          }
-        </div>
-
-      </div>
-    );
+    )
   }
 });
 

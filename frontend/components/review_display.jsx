@@ -2,88 +2,93 @@ var React = require('react');
 
 
 var ReviewDisplay = React.createClass({
-<div className="reviewContainer col-md-12" >
-  <div className="reviewContent col-md-12">
-    <div className="reviewHeader col-md-12">
-      {this.state.beer.name}
 
-      <div onClick={this.handleDeleteClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete</div>
+  getInitialState: function () {
+    return ({
+      beers: BeerStore.all(),
+      beer: BeerStore.find(this.props.review.beer_id),
+      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
+      beer_id: this.props.review.beer_id,
+      body: this.props.review.body,
+      rating: this.props.review.rating,
+      author_id: this.props.review.author_id,
+      id: this.props.review.id,
+      editing: false
+    });
+  },
 
-      <div onClick={this.handleEditClick.bind(this, this.props.review)} className="editReviewButton" value={this.props.review}>edit</div>
+  componentDidMount: function() {
+    this.beerToken = BeerStore.addListener(this._onChange);
+    this.commentToken = CommentStore.addListener(this._onChange);
+    this.toastToken = ToastStore.addListener(this._onChange);
+  },
 
-    </div>
+  componentWillUnmount: function() {
+    this.beerToken.remove();
+    this.commentToken.remove();
+    this.toastToken.remove();
+  },
 
-    <div className="modal fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div className="modal-dialog" role="document">
-        <div className="modal-content">
+  _onChange: function() {
+    this.setState({
+      beer: BeerStore.find(this.props.review.beer_id),
+      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+      toasts: ToastStore.filterToastsByReviewId(this.props.review.id)
+    });
+  },
 
-          <div className="modal-header">
-            <h4 className="modal-title" id="myModalLabel">Edit Review</h4>
+  handleDeleteClick: function (review) {
+    ReviewUtil.destroyReview(review);
+  },
+
+  render: function() {
+
+    return (
+      <div className="row">
+      <div className="reviewContainer col-md-12" >
+        <div className="reviewContent col-md-12">
+          <div className="reviewHeader col-md-12">
+            {this.state.beer.name}
+
+            <div onClick={this.handleDeleteClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete</div>
+
+            <div onClick={this.handleEditClick.bind(this, this.props.review)} className="editReviewButton" value={this.props.review}>edit</div>
+
           </div>
 
-          <div className="modal-body">
-            <form className="form-group reviewForm">
 
+          <div className="reviewBody col-md-12">
+            Review: {this.props.review.body}
+          </div>
 
+          <div className="reviewFooter col-md-12">
+            <div className="reviewFooterItem col-md-4">
+              Rating: {this.props.review.rating}
+            </div>
 
+            <div className="reviewFooterItem col-md-4">
+              toasts: {this.state.toasts.length}
+            </div>
 
-              <label htmlFor="reviewBody">What do you think?</label>
-              <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
+          </div>
+        </div>
 
-              <label htmlFor="reviewRating">Your Rating</label>
-                <select onChange={this.handleRatingChange} value={this.state.rating} onChange={this.handleRatingChange}>
+        <div className="reviewCommentsIndex col-md-12">
+          <h4>Comments</h4>
+          {
+            this.state.comments.map(function(comment) {
+                return (<Comment comment={comment} key={comment.id} />);
+              }.bind(this)
+            )
+          }
+        </div>
 
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-
-                </select>
-
-              <input className="btn btn-success" type="submit" defaultValue="Update Review" onClick={this.handleSubmit}/>
-
-          </form>
       </div>
-
-    <div className="modal-footer">
-
-        <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
-
     </div>
-
-  </div>
-</div>
-</div>
-
-    <div className="reviewBody col-md-12">
-      Review: {this.props.review.body}
-    </div>
-
-    <div className="reviewFooter col-md-12">
-      <div className="reviewFooterItem col-md-4">
-        Rating: {this.props.review.rating}
-      </div>
-
-      <div className="reviewFooterItem col-md-4">
-        toasts: {this.state.toasts.length}
-      </div>
-
-    </div>
-  </div>
-
-  <div className="reviewCommentsIndex col-md-12">
-    <h4>Comments</h4>
-    {
-      this.state.comments.map(function(comment) {
-          return (<Comment comment={comment} key={comment.id} />);
-        }.bind(this)
-      )
-    }
-  </div>
-
-</div>
+    )
+  }
 
 });
 
-module.exports = ReactDisplay;
+module.exports = ReviewDisplay;

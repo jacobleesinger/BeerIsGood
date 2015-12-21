@@ -39,13 +39,13 @@ var ReviewUtil = {
   },
 
   updateReview: function(review) {
-    debugger;
+
     $.ajax({
       url: "/api/reviews/" + review.id,
       type: "PATCH",
       data: { review: review },
       success: function(review) {
-        debugger;
+
         ReviewActions.receiveSingleReview(review);
       }
     });

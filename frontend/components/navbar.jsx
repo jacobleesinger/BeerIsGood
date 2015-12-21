@@ -6,7 +6,7 @@ var Link = ReactRouter.Link;
 
 var NavbarInstance = React.createClass({
   render: function () {
-    debugger;
+
     return (
     <div classsName="navbar navbar-default">
       <div className="navbar-header">

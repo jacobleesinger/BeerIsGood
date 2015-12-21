@@ -4,8 +4,6 @@ var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ReviewUtil = require('../util/review_util');
 var ReviewStore = require('../stores/review_store');
 var ReviewIndexItem = require('./reviewIndexItem');
-var Modal = require('react-bootstrap/lib/Modal');
-var Button = require('react-bootstrap/lib/Button');
 
 
 var ReviewEditForm = React.createClass({
@@ -70,13 +68,7 @@ debugger;
 
     return(
 
-      <Modal show={this.state.showModal} onHide={this.closeEdit}>
-
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Review</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
+        <div className="">
           <form className="form-group reviewForm">
 
             <label htmlFor="reviewBeer">What are you drinking?</label>
@@ -108,13 +100,8 @@ debugger;
               <input className="btn btn-success" type="submit" value="Update Review" onClick={this.handleSubmit}/>
 
           </form>
-        </Modal.Body>
+        </div>
 
-      <Modal.Footer>
-        <Button onClick={this.closeEdit}>Close</Button>
-      </Modal.Footer>
-
-      </Modal>
     );
 
   }

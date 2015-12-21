@@ -53,12 +53,12 @@
 	var LandingPage = __webpack_require__(210);
 	var Home = __webpack_require__(248);
 	var UserUtil = __webpack_require__(217);
-	var BeerUtil = __webpack_require__(265);
+	var BeerUtil = __webpack_require__(267);
 	var ReviewUtil = __webpack_require__(253);
-	var CommentUtil = __webpack_require__(267);
-	var ToastUtil = __webpack_require__(269);
+	var CommentUtil = __webpack_require__(269);
+	var ToastUtil = __webpack_require__(271);
 	// var BeerShow = require("./components/beer_show");
-	var BeersIndex = __webpack_require__(271);
+	var BeersIndex = __webpack_require__(273);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -32039,8 +32039,8 @@
 	var SessionUtil = __webpack_require__(228);
 	var LinkedStateMixin = __webpack_require__(212);
 	var ReviewsIndex = __webpack_require__(249);
-	var ReviewStore = __webpack_require__(263);
-	var NavbarInstance = __webpack_require__(264);
+	var ReviewStore = __webpack_require__(264);
+	var NavbarInstance = __webpack_require__(266);
 	
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -32056,7 +32056,7 @@
 	  },
 	
 	  render: function () {
-	    debugger;
+	
 	    var name = this.props.currentUser.username;
 	
 	    return React.createElement(
@@ -32096,9 +32096,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReviewIndexItem = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./reviewIndexItem\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-	var ReviewForm = __webpack_require__(262);
-	var ReviewStore = __webpack_require__(263);
+	var ReviewIndexItem = __webpack_require__(250);
+	var ReviewForm = __webpack_require__(265);
+	var ReviewStore = __webpack_require__(264);
 	
 	var ReviewsIndex = React.createClass({
 	  displayName: 'ReviewsIndex',
@@ -32157,9 +32157,373 @@
 	module.exports = ReviewsIndex;
 
 /***/ },
-/* 250 */,
-/* 251 */,
-/* 252 */,
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Comment = __webpack_require__(251);
+	var ReviewUtil = __webpack_require__(253);
+	var BeerStore = __webpack_require__(256);
+	var CommentStore = __webpack_require__(258);
+	var ToastStore = __webpack_require__(260);
+	var LinkedStateMixin = __webpack_require__(212);
+	
+	var Display;
+	
+	var ReviewIndexItem = React.createClass({
+	  displayName: 'ReviewIndexItem',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  filteredState: function () {
+	    filteredState = {};
+	    for (key in this.state) {
+	      if (this.state.hasOwnProperty(key)) {
+	
+	        if (key !== "beers") {
+	          filteredState[key] = this.state[key];
+	        }
+	      }
+	    }
+	    return filteredState;
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault;
+	    Object.assign({}, this.state);
+	    ReviewUtil.updateReview(this.filteredState());
+	    this.setState({ editing: false });
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      beers: BeerStore.all(),
+	      beer: BeerStore.find(this.props.review.beer_id),
+	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
+	      beer_id: this.props.review.beer_id,
+	      body: this.props.review.body,
+	      rating: this.props.review.rating,
+	      author_id: this.props.review.author_id,
+	      id: this.props.review.id,
+	      editing: false
+	    };
+	  },
+	
+	  openEdit: function () {
+	    this.setState({ showModal: true });
+	  },
+	
+	  closeEdit: function () {
+	    this.setState({ showModal: false });
+	  },
+	
+	  componentDidMount: function () {
+	    this.beerToken = BeerStore.addListener(this._onChange);
+	    this.commentToken = CommentStore.addListener(this._onChange);
+	    this.toastToken = ToastStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.beerToken.remove();
+	    this.commentToken.remove();
+	    this.toastToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({
+	      beer: BeerStore.find(this.props.review.beer_id),
+	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id)
+	    });
+	  },
+	
+	  handleDeleteClick: function (review) {
+	    ReviewUtil.destroyReview(review);
+	  },
+	
+	  handleEditClick: function (review) {
+	    this.setState({
+	      editing: true
+	    });
+	  },
+	
+	  handleRatingChange: function (event) {
+	    this.setState({ rating: event.target.value });
+	  },
+	
+	  handleBeerChange: function (event) {
+	    this.setState({ beer_id: event.target.value });
+	  },
+	
+	  isEditing: function () {
+	    if (this.state.editing) {
+	      Display = React.createElement(
+	        'div',
+	        { className: '' },
+	        React.createElement(
+	          'form',
+	          { className: 'form-group reviewForm' },
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'reviewBody' },
+	            'What do you think?'
+	          ),
+	          React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'reviewRating' },
+	            'Your Rating'
+	          ),
+	          React.createElement(
+	            'select',
+	            { onChange: this.handleRatingChange },
+	            React.createElement(
+	              'option',
+	              { value: '0' },
+	              'rate beer'
+	            ),
+	            React.createElement(
+	              'option',
+	              { value: '1' },
+	              '1'
+	            ),
+	            React.createElement(
+	              'option',
+	              { value: '2' },
+	              '2'
+	            ),
+	            React.createElement(
+	              'option',
+	              { value: '3' },
+	              '3'
+	            ),
+	            React.createElement(
+	              'option',
+	              { value: '4' },
+	              '4'
+	            ),
+	            React.createElement(
+	              'option',
+	              { value: '5' },
+	              '5'
+	            )
+	          ),
+	          React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Update Review', onClick: this.handleSubmit })
+	        )
+	      );
+	    } else {
+	      Display = React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'reviewContainer col-md-12' },
+	          React.createElement(
+	            'div',
+	            { className: 'reviewContent col-md-12' },
+	            React.createElement(
+	              'div',
+	              { className: 'reviewHeader col-md-12' },
+	              this.state.beer.name,
+	              React.createElement(
+	                'div',
+	                { onClick: this.handleDeleteClick.bind(this, this.props.review), className: 'deleteReviewButton', value: this.props.review },
+	                'delete'
+	              ),
+	              React.createElement(
+	                'div',
+	                { onClick: this.handleEditClick.bind(this, this.props.review), className: 'editReviewButton', value: this.props.review },
+	                'edit'
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'reviewBody col-md-12' },
+	              'Review: ',
+	              this.props.review.body
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'reviewFooter col-md-12' },
+	              React.createElement(
+	                'div',
+	                { className: 'reviewFooterItem col-md-4' },
+	                'Rating: ',
+	                this.props.review.rating
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'reviewFooterItem col-md-4' },
+	                'toasts: ',
+	                this.state.toasts.length
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'reviewCommentsIndex col-md-12' },
+	            React.createElement(
+	              'h4',
+	              null,
+	              'Comments'
+	            ),
+	            this.state.comments.map((function (comment) {
+	              return React.createElement(Comment, { comment: comment, key: comment.id });
+	            }).bind(this))
+	          )
+	        )
+	      );
+	    }
+	  },
+	
+	  render: function () {
+	    this.isEditing();
+	
+	    var option;
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      Display
+	    );
+	  }
+	});
+	
+	module.exports = ReviewIndexItem;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(252);
+	
+	var Comment = React.createClass({
+	  displayName: 'Comment',
+	
+	  getInitialState: function () {
+	    return {
+	      author: UserStore.findById(this.props.comment.author_id)
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.authorToken = UserStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.authorToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({
+	      author: UserStore.findById(this.props.comment.author_id)
+	    });
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'commentContainer' },
+	      React.createElement(
+	        'h5',
+	        null,
+	        this.state.author.username
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'commentBody' },
+	        this.props.comment.body
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = Comment;
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(231).Store;
+	var AppDispatcher = __webpack_require__(219);
+	var UserConstants = __webpack_require__(223);
+	
+	var UserStore = new Store(AppDispatcher);
+	
+	var _users = {};
+	var userErrors = [];
+	
+	UserStore.userErrors = function () {
+	  return userErrors;
+	};
+	
+	UserStore.findById = function (id) {
+	  return _users[id];
+	};
+	
+	var addSingleUser = function (user) {
+	  _users[user.id] = user;
+	};
+	
+	var addAllUsers = function (users) {
+	  users.forEach(function (user) {
+	    _users[user.id] = user;
+	  });
+	};
+	
+	var resetErrors = function () {
+	  userErrors = [];
+	};
+	
+	var addUserErrors = function (errors) {
+	  userErrors = errors;
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case UserConstants.USER_RECEIVED:
+	      addSingleUser(payload.user);
+	      UserStore.__emitChange();
+	      break;
+	    case UserConstants.USERS_RECEIVED:
+	
+	      addAllUsers(payload.users);
+	      UserStore.__emitChange();
+	      break;
+	    case UserConstants.SESSION_DESTROYED:
+	      resetUser();
+	      resetSession();
+	      resetErrors();
+	      UserStore.__emitChange();
+	      break;
+	    case UserConstants.SESSION_CREATED:
+	      addSingleUser(payload.user);
+	      UserStore.__emitChange();
+	      break;
+	    case UserConstants.SESSION_ERRORS:
+	      resetErrors();
+	      addSessionErrors(payload.errors);
+	      UserStore.__emitChange();
+	      break;
+	    case UserConstants.USER_ERRORS:
+	      resetErrors();
+	      addUserErrors(payload.errors);
+	      UserStore.__emitChange();
+	      break;
+	  };
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
 /* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -32201,13 +32565,13 @@
 	  },
 	
 	  updateReview: function (review) {
-	    debugger;
+	
 	    $.ajax({
 	      url: "/api/reviews/" + review.id,
 	      type: "PATCH",
 	      data: { review: review },
 	      success: function (review) {
-	        debugger;
+	
 	        ReviewActions.receiveSingleReview(review);
 	      }
 	    });
@@ -32321,7 +32685,65 @@
 	module.exports = BeerConstants;
 
 /***/ },
-/* 258 */,
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(231).Store;
+	var AppDispatcher = __webpack_require__(219);
+	var CommentConstants = __webpack_require__(259);
+	
+	var _comments = {};
+	
+	var CommentStore = new Store(AppDispatcher);
+	
+	var addAllComments = function (comments) {
+	  comments.forEach(function (comment) {
+	    _comments[comment.id] = comment;
+	  });
+	};
+	
+	var addSingleComment = function (comment) {
+	  _comments[comment.id] = comment;
+	};
+	
+	CommentStore.all = function () {
+	  var comments = [];
+	  for (key in _comments) {
+	    if (_comments.hasOwnProperty(key)) {
+	      comments.push(_comments[key]);
+	    }
+	  }
+	  return comments;
+	};
+	
+	CommentStore.find = function (commentId) {
+	  return _comments[commentId];
+	};
+	
+	CommentStore.filterCommentsByReviewId = function (reviewId) {
+	  return this.all().filter(function (comment) {
+	    return comment.review_id === reviewId;
+	  });
+	};
+	
+	CommentStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case CommentConstants.COMMENTS_RECEIVED:
+	      addAllComments(payload.comments);
+	      CommentStore.__emitChange();
+	      break;
+	    case CommentConstants.COMMENT_RECEIVED:
+	      addSingleComment(payload.comment);
+	      CommentStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = CommentStore;
+
+/***/ },
 /* 259 */
 /***/ function(module, exports) {
 
@@ -32333,7 +32755,65 @@
 	module.exports = CommentConstants;
 
 /***/ },
-/* 260 */,
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(231).Store;
+	var AppDispatcher = __webpack_require__(219);
+	var ToastConstants = __webpack_require__(261);
+	
+	var _toasts = {};
+	
+	var ToastStore = new Store(AppDispatcher);
+	
+	var addAllToasts = function (toasts) {
+	  toasts.forEach(function (toast) {
+	    _toasts[toast.id] = toast;
+	  });
+	};
+	
+	var addSingleToast = function (toast) {
+	  _toasts[toast.id] = toast;
+	};
+	
+	ToastStore.all = function () {
+	  var toasts = [];
+	  for (key in _toasts) {
+	    if (_toasts.hasOwnProperty(key)) {
+	      toasts.push(_toasts[key]);
+	    }
+	  }
+	  return toasts;
+	};
+	
+	ToastStore.find = function (toastId) {
+	  return _toasts[toastId];
+	};
+	
+	ToastStore.filterToastsByReviewId = function (reviewId) {
+	  return this.all().filter(function (toast) {
+	    return toast.review_id === reviewId;
+	  });
+	};
+	
+	ToastStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case ToastConstants.TOASTS_RECEIVED:
+	      addAllToasts(payload.toasts);
+	      ToastStore.__emitChange();
+	      break;
+	    case ToastConstants.TOAST_RECEIVED:
+	      addSingleToast(payload.toast);
+	      ToastStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = ToastStore;
+
+/***/ },
 /* 261 */
 /***/ function(module, exports) {
 
@@ -32345,14 +32825,76 @@
 	module.exports = ToastConstants;
 
 /***/ },
-/* 262 */
+/* 262 */,
+/* 263 */,
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(231).Store;
+	var AppDispatcher = __webpack_require__(219);
+	var ReviewConstants = __webpack_require__(255);
+	
+	var _reviews = {};
+	
+	var ReviewStore = new Store(AppDispatcher);
+	
+	var addAllReviews = function (reviews) {
+	  reviews.forEach(function (review) {
+	    _reviews[review.id] = review;
+	  });
+	};
+	
+	var addSingleReview = function (review) {
+	  _reviews[review.id] = review;
+	};
+	
+	var resetReviews = function () {
+	  _reviews = [];
+	};
+	
+	ReviewStore.all = function () {
+	  var reviews = [];
+	  for (key in _reviews) {
+	    if (_reviews.hasOwnProperty(key)) {
+	      reviews.push(_reviews[key]);
+	    }
+	  }
+	  return _reviews;
+	};
+	
+	ReviewStore.filterReviewsByUserId = function (userId) {
+	  return this.all().filter(function (review) {
+	    return review.author_id === userId;
+	  });
+	};
+	
+	ReviewStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case ReviewConstants.REVIEWS_RECEIVED:
+	      resetReviews();
+	      addAllReviews(payload.reviews);
+	      ReviewStore.__emitChange();
+	      break;
+	    case ReviewConstants.REVIEW_RECEIVED:
+	      addSingleReview(payload.review);
+	      ReviewStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = ReviewStore;
+
+/***/ },
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var BeerStore = __webpack_require__(256);
 	var LinkedStateMixin = __webpack_require__(212);
 	var ReviewUtil = __webpack_require__(253);
-	var ReviewStore = __webpack_require__(263);
+	var ReviewStore = __webpack_require__(264);
 	
 	var ReviewForm = React.createClass({
 	  displayName: 'ReviewForm',
@@ -32482,67 +33024,7 @@
 	module.exports = ReviewForm;
 
 /***/ },
-/* 263 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(219);
-	var ReviewConstants = __webpack_require__(255);
-	
-	var _reviews = {};
-	
-	var ReviewStore = new Store(AppDispatcher);
-	
-	var addAllReviews = function (reviews) {
-	  reviews.forEach(function (review) {
-	    _reviews[review.id] = review;
-	  });
-	};
-	
-	var addSingleReview = function (review) {
-	  _reviews[review.id] = review;
-	};
-	
-	var resetReviews = function () {
-	  _reviews = [];
-	};
-	
-	ReviewStore.all = function () {
-	  var reviews = [];
-	  for (key in _reviews) {
-	    if (_reviews.hasOwnProperty(key)) {
-	      reviews.push(_reviews[key]);
-	    }
-	  }
-	  return _reviews;
-	};
-	
-	ReviewStore.filterReviewsByUserId = function (userId) {
-	  return this.all().filter(function (review) {
-	    return review.author_id === userId;
-	  });
-	};
-	
-	ReviewStore.__onDispatch = function (payload) {
-	
-	  switch (payload.actionType) {
-	    case ReviewConstants.REVIEWS_RECEIVED:
-	      resetReviews();
-	      addAllReviews(payload.reviews);
-	      ReviewStore.__emitChange();
-	      break;
-	    case ReviewConstants.REVIEW_RECEIVED:
-	      addSingleReview(payload.review);
-	      ReviewStore.__emitChange();
-	      break;
-	
-	  };
-	};
-	
-	module.exports = ReviewStore;
-
-/***/ },
-/* 264 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32553,7 +33035,7 @@
 	  displayName: 'NavbarInstance',
 	
 	  render: function () {
-	    debugger;
+	
 	    return React.createElement(
 	      'div',
 	      { classsName: 'navbar navbar-default' },
@@ -32620,10 +33102,10 @@
 	module.exports = NavbarInstance;
 
 /***/ },
-/* 265 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BeerActions = __webpack_require__(266);
+	var BeerActions = __webpack_require__(268);
 	
 	var BeerUtil = {
 	
@@ -32644,7 +33126,7 @@
 	module.exports = BeerUtil;
 
 /***/ },
-/* 266 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -32672,10 +33154,10 @@
 	module.exports = BeerActions;
 
 /***/ },
-/* 267 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var CommentActions = __webpack_require__(268);
+	var CommentActions = __webpack_require__(270);
 	
 	var CommentUtil = {
 	
@@ -32706,7 +33188,7 @@
 	module.exports = CommentUtil;
 
 /***/ },
-/* 268 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -32734,10 +33216,10 @@
 	module.exports = CommentActions;
 
 /***/ },
-/* 269 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ToastActions = __webpack_require__(270);
+	var ToastActions = __webpack_require__(272);
 	
 	var ToastUtil = {
 	
@@ -32768,7 +33250,7 @@
 	module.exports = ToastUtil;
 
 /***/ },
-/* 270 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -32796,11 +33278,11 @@
 	module.exports = ToastActions;
 
 /***/ },
-/* 271 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Navbar = __webpack_require__(264);
+	var Navbar = __webpack_require__(266);
 	
 	var BeersIndex = React.createClass({
 	  displayName: 'BeersIndex',

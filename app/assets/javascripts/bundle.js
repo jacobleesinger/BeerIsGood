@@ -76,7 +76,8 @@
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(IndexRoute, { component: LandingPage }),
-	  React.createElement(Route, { path: '/beers', component: BeersIndex })
+	  React.createElement(Route, { path: '/beers', component: BeersIndex }),
+	  React.createElement(Route, { path: '/home', component: Home })
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
@@ -24606,7 +24607,7 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'container' },
+	      null,
 	      React.createElement(AuthForm, null)
 	    );
 	  }
@@ -33038,59 +33039,55 @@
 	
 	    return React.createElement(
 	      'div',
-	      { classsName: 'navbar navbar-default' },
+	      { className: 'navbar' },
 	      React.createElement(
 	        'div',
-	        { className: 'navbar-header' },
+	        { className: 'fixedWidth' },
 	        React.createElement(
-	          Link,
-	          { className: 'navbar-brand', to: '#' },
-	          'BeerIsGood'
+	          'div',
+	          { className: 'navbarHeader' },
+	          React.createElement(
+	            Link,
+	            { className: 'navbarLogo', to: '#' },
+	            React.createElement(
+	              'h3',
+	              null,
+	              'BeerIsGood'
+	            )
+	          )
 	        ),
 	        React.createElement(
-	          'button',
-	          { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1', 'aria-expanded': 'false' },
+	          'div',
+	          { className: 'navbarContent' },
 	          React.createElement(
-	            'span',
-	            { className: 'sr-only' },
-	            'Toggle navigation'
-	          ),
-	          React.createElement('span', { className: 'icon-bar' }),
-	          React.createElement('span', { className: 'icon-bar' }),
-	          React.createElement('span', { className: 'icon-bar' })
-	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'collapse navbar-collapse', id: 'bs-example-navbar-collapse-1' },
-	        React.createElement(
-	          'ul',
-	          { className: 'nav navbar-nav' },
-	          React.createElement(
-	            'li',
-	            null,
+	            'ul',
+	            { className: 'navbarLinksUl' },
 	            React.createElement(
-	              Link,
-	              { to: 'beers' },
-	              'BeersIndex'
-	            )
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: 'beers' },
+	                'BeersIndex'
+	              )
+	            ),
 	            React.createElement(
-	              Link,
-	              { to: '#' },
-	              'FriendsIndex'
-	            )
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: '#' },
+	                'FriendsIndex'
+	              )
+	            ),
 	            React.createElement(
-	              Link,
-	              { to: '/' },
-	              'UserShow'
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: 'home' },
+	                'UserShow'
+	              )
 	            )
 	          )
 	        )

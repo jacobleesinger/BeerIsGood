@@ -83,3 +83,31 @@ body {
 .landingPageContainer {
   margin: auto;
 }
+
+.navbarLinksUl {
+  list-style-type: none;
+  float: left;
+}
+
+.navbarLinksUl li {
+  float: left;
+  font-size: 18px;
+  margin: 5px;
+}
+
+.navbar {
+  background-color: #eee;
+}
+
+.navbarHeader {
+  float: left;
+
+}
+
+.navbarContent {
+  float: left;
+}
+
+.fixedWidth {
+  width: 1000px;
+}

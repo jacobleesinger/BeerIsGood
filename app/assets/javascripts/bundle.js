@@ -24889,7 +24889,7 @@
 	      { className: 'row' },
 	      React.createElement(
 	        'div',
-	        { className: 'col-md-8', id: 'newUserFormDiv' },
+	        { className: '', id: 'newUserFormDiv' },
 	        React.createElement(
 	          'form',
 	          { id: 'newUserForm', className: 'form-group' },
@@ -24898,7 +24898,7 @@
 	            { className: 'row' },
 	            React.createElement(
 	              'div',
-	              { className: 'col-md-4' },
+	              { className: 'col-md-12' },
 	              React.createElement(
 	                'label',
 	                { htmlFor: 'newUsername' },
@@ -24920,7 +24920,7 @@
 	            ),
 	            React.createElement(
 	              'div',
-	              { className: 'col-md-4' },
+	              { className: 'col-md-12' },
 	              React.createElement(
 	                'label',
 	                { htmlFor: 'newEmail' },
@@ -25501,7 +25501,7 @@
 	      { className: 'row' },
 	      React.createElement(
 	        'div',
-	        { className: 'col-md-8', id: 'newSessionFormDiv' },
+	        { className: 'col-md-12', id: 'newSessionFormDiv' },
 	        React.createElement(
 	          'form',
 	          { id: 'newSessionForm', className: 'form-group' },
@@ -25510,7 +25510,7 @@
 	            { className: 'row' },
 	            React.createElement(
 	              'div',
-	              { className: 'col-md-4' },
+	              { className: 'col-md-12' },
 	              React.createElement(
 	                'label',
 	                { htmlFor: 'sessionUsername' },

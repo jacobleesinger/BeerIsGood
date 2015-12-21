@@ -28,12 +28,12 @@ var NewSession = React.createClass ({
 
   render: function () {
     return (
-      <div  className="row">
-        <div className="col-md-8" id="newSessionFormDiv">
+      <div className="row">
+        <div className="col-md-12" id="newSessionFormDiv">
           <form id="newSessionForm" className="form-group">
             <div className="row">
 
-              <div className="col-md-4">
+              <div className="col-md-12">
 
                 <label htmlFor="sessionUsername">Username</label>
                 <input type="text" className="form-control" id="sessionUsername" valueLink={this.linkState('username')}/>

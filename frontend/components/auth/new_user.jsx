@@ -37,11 +37,11 @@ var NewUser = React.createClass({
     return(
 
       <div  className="row">
-        <div className="col-md-8" id="newUserFormDiv">
+        <div className="" id="newUserFormDiv">
           <form id="newUserForm" className="form-group">
             <div className="row">
 
-              <div className="col-md-4">
+              <div className="col-md-12">
 
                 <label htmlFor="newUsername">Username</label>
                 <input type="text" className="form-control" id="newUsername" valueLink={this.linkState('username')}/>
@@ -54,7 +54,7 @@ var NewUser = React.createClass({
 
               </div>
 
-              <div className="col-md-4">
+              <div className="col-md-12">
                 <label htmlFor="newEmail">Email</label>
                 <input type="email" className="form-control" id="newEmail" valueLink={this.linkState('email')}/>
 

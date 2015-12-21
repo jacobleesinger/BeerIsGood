@@ -6,6 +6,7 @@ var BeersIndex = require('./beers_index');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var FriendsIndex = require('./friends_index');
 var UserShow = require('./user_show');
+var BeerShow = require('./beer_show');
 
 
 

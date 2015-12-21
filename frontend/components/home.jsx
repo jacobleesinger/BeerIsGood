@@ -9,7 +9,10 @@ var MainContent = React.createClass({
 
   render:function () {
     return(
-      <this.props.subPage currentUser={this.props.currentUser} />
+      <this.props.subPage
+        currentUser={this.props.currentUser}
+        onSubPageChange={this.props.onSubPageChange}
+        beer={this.props.beer} />
     )
   }
 })
@@ -17,12 +20,17 @@ var MainContent = React.createClass({
 var Home = React.createClass({
 
   getInitialState: function () {
-    return ({subPage: UserShow});
+    return ({
+      subPage: UserShow,
+      beer: {}
+    });
   },
 
-  navbarChangeHandler: function(newSubPage) {
-    this.setState({subPage: newSubPage}
-    )
+  navbarChangeHandler: function(newSubPage, beer) {
+    this.setState({
+      subPage: newSubPage,
+      beer: beer
+    })
   },
 
   render: function () {
@@ -30,7 +38,11 @@ var Home = React.createClass({
       <div>
         <Navbar currentUser={this.props.currentUser} subPage={this.state.subPage}
           onChange={this.navbarChangeHandler}/>
-        <MainContent currentUser={this.props.currentUser} subPage={this.state.subPage}/>
+        <MainContent
+          currentUser={this.props.currentUser}
+          subPage={this.state.subPage}
+          onSubPageChange={this.navbarChangeHandler}
+          beer={this.state.beer}/>
       </div>
     );
   }

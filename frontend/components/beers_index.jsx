@@ -17,9 +17,7 @@ var BeersIndex = React.createClass({
     var beerToken = BeerStore.addListener(this._onChange);
   },
 
-  componentWillUnmount: function () {
-    beerToken.remove();
-  },
+
 
   _onChange: function () {
     this.setState({
@@ -27,17 +25,20 @@ var BeersIndex = React.createClass({
     });
   },
 
+  handleClick: function(newSubPage, beer) {
+    this.props.onSubPageChange(newSubPage, beer);
+  },
 
 
   render: function () {
-    debugger;
+
 
     return (
 
       <div className="fixedWidth">
         {this.state.beers.map(function(beer) {
             return(
-              <div beer={beer} key={beer.id}>{beer.name}</div>
+              <div beer={beer} key={beer.id} onClick={this.handleClick.bind(this, BeerShow, beer)}>{beer.name}</div>
             );
           }.bind(this))
         }

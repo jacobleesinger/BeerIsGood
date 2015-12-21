@@ -32046,7 +32046,10 @@
 	  displayName: 'MainContent',
 	
 	  render: function () {
-	    return React.createElement(this.props.subPage, { currentUser: this.props.currentUser });
+	    return React.createElement(this.props.subPage, {
+	      currentUser: this.props.currentUser,
+	      onSubPageChange: this.props.onSubPageChange,
+	      beer: this.props.beer });
 	  }
 	});
 	
@@ -32054,11 +32057,17 @@
 	  displayName: 'Home',
 	
 	  getInitialState: function () {
-	    return { subPage: UserShow };
+	    return {
+	      subPage: UserShow,
+	      beer: {}
+	    };
 	  },
 	
-	  navbarChangeHandler: function (newSubPage) {
-	    this.setState({ subPage: newSubPage });
+	  navbarChangeHandler: function (newSubPage, beer) {
+	    this.setState({
+	      subPage: newSubPage,
+	      beer: beer
+	    });
 	  },
 	
 	  render: function () {
@@ -32067,7 +32076,11 @@
 	      null,
 	      React.createElement(Navbar, { currentUser: this.props.currentUser, subPage: this.state.subPage,
 	        onChange: this.navbarChangeHandler }),
-	      React.createElement(MainContent, { currentUser: this.props.currentUser, subPage: this.state.subPage })
+	      React.createElement(MainContent, {
+	        currentUser: this.props.currentUser,
+	        subPage: this.state.subPage,
+	        onSubPageChange: this.navbarChangeHandler,
+	        beer: this.state.beer })
 	    );
 	  }
 	
@@ -32087,6 +32100,7 @@
 	var LinkedStateMixin = __webpack_require__(212);
 	var FriendsIndex = __webpack_require__(273);
 	var UserShow = __webpack_require__(250);
+	var BeerShow = __webpack_require__(274);
 	
 	var NavbarInstance = React.createClass({
 	  displayName: 'NavbarInstance',
@@ -32379,6 +32393,7 @@
 	  },
 	
 	  isEditing: function () {
+	    debugger;
 	    if (this.state.editing) {
 	      Display = React.createElement(
 	        'div',
@@ -33119,6 +33134,12 @@
 	  });
 	};
 	
+	ReviewStore.filterReviewsByBeerId = function (beerId) {
+	  return this.all().filter(function (review) {
+	    return review.beer_id === beerId;
+	  });
+	};
+	
 	ReviewStore.__onDispatch = function (payload) {
 	
 	  switch (payload.actionType) {
@@ -33336,18 +33357,17 @@
 	    var beerToken = BeerStore.addListener(this._onChange);
 	  },
 	
-	  componentWillUnmount: function () {
-	    beerToken.remove();
-	  },
-	
 	  _onChange: function () {
 	    this.setState({
 	      beers: BeerStore.all()
 	    });
 	  },
 	
+	  handleClick: function (newSubPage, beer) {
+	    this.props.onSubPageChange(newSubPage, beer);
+	  },
+	
 	  render: function () {
-	    debugger;
 	
 	    return React.createElement(
 	      'div',
@@ -33355,7 +33375,7 @@
 	      this.state.beers.map((function (beer) {
 	        return React.createElement(
 	          'div',
-	          { beer: beer, key: beer.id },
+	          { beer: beer, key: beer.id, onClick: this.handleClick.bind(this, BeerShow, beer) },
 	          beer.name
 	        );
 	      }).bind(this))
@@ -33393,20 +33413,384 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var BeerReviewsIndex = __webpack_require__(275);
 	
 	var BeerShow = React.createClass({
 	  displayName: 'BeerShow',
 	
 	  render: function () {
+	
 	    return React.createElement(
 	      'div',
 	      null,
-	      this.props.beer.name
+	      React.createElement(
+	        'h1',
+	        null,
+	        this.props.beer.name
+	      ),
+	      React.createElement(BeerReviewsIndex, { beer: this.props.beer, currentUser: this.props.currentUser })
 	    );
 	  }
 	});
 	
 	module.exports = BeerShow;
+
+/***/ },
+/* 275 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReviewStore = __webpack_require__(265);
+	var BeerReviewIndexItem = __webpack_require__(277);
+	var BeerReviewForm = __webpack_require__(276);
+	var LinkedStateMixin = __webpack_require__(212);
+	var ReviewUtil = __webpack_require__(255);
+	
+	var BeerReviewsIndex = React.createClass({
+	  displayName: 'BeerReviewsIndex',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
+	      beer_id: this.props.beer.id,
+	      body: "",
+	      rating: 0,
+	      author_id: this.props.currentUser.id
+	    };
+	  },
+	
+	  getFilteredState: function () {
+	    return {
+	      beer_id: this.state.beer_id,
+	      body: this.state.body,
+	      rating: this.state.rating,
+	      author_id: this.state.author_id
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	
+	    this.reviewsToken = ReviewStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.reviewsToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({
+	      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id)
+	    });
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault;
+	
+	    Object.assign({}, this.state);
+	    ReviewUtil.createReview(this.getFilteredState());
+	  },
+	
+	  handleBeerChange: function (event) {
+	    this.setState({ beer_id: event.target.value });
+	  },
+	
+	  handleRatingChange: function (event) {
+	    this.setState({ rating: event.target.value });
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-md-6 reviewsIndexContainer' },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Write a Review!'
+	          ),
+	          React.createElement(
+	            'form',
+	            { className: 'form-group reviewForm' },
+	            React.createElement(
+	              'label',
+	              { htmlFor: 'reviewBody' },
+	              'What do you think?'
+	            ),
+	            React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
+	            React.createElement(
+	              'label',
+	              { htmlFor: 'reviewRating' },
+	              'Your Rating'
+	            ),
+	            React.createElement(
+	              'select',
+	              { onChange: this.handleRatingChange },
+	              React.createElement(
+	                'option',
+	                { value: '0' },
+	                'rate beer'
+	              ),
+	              React.createElement(
+	                'option',
+	                { value: '1' },
+	                '1'
+	              ),
+	              React.createElement(
+	                'option',
+	                { value: '2' },
+	                '2'
+	              ),
+	              React.createElement(
+	                'option',
+	                { value: '3' },
+	                '3'
+	              ),
+	              React.createElement(
+	                'option',
+	                { value: '4' },
+	                '4'
+	              ),
+	              React.createElement(
+	                'option',
+	                { value: '5' },
+	                '5'
+	              )
+	            ),
+	            React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Add Your Review', onClick: this.handleSubmit })
+	          ),
+	          React.createElement(
+	            'h3',
+	            null,
+	            'All Reviews'
+	          ),
+	          this.state.reviews.map((function (review) {
+	            return React.createElement(BeerReviewIndexItem, { beer: this.props.beer, review: review, key: review.id });
+	          }).bind(this))
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = BeerReviewsIndex;
+
+/***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var BeerReviewForm = React.createClass({
+	  displayName: "BeerReviewForm",
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      "div",
+	      { className: "" },
+	      React.createElement(
+	        "form",
+	        { className: "form-group reviewForm" },
+	        React.createElement(
+	          "label",
+	          { htmlFor: "reviewBody" },
+	          "What do you think?"
+	        ),
+	        React.createElement("textarea", { className: "form-control", id: "reviewBody", valueLink: this.linkState('body') }),
+	        React.createElement(
+	          "label",
+	          { htmlFor: "reviewRating" },
+	          "Your Rating"
+	        ),
+	        React.createElement(
+	          "select",
+	          { onChange: this.handleRatingChange },
+	          React.createElement(
+	            "option",
+	            { value: "0" },
+	            "rate beer"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "1" },
+	            "1"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "2" },
+	            "2"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "3" },
+	            "3"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "4" },
+	            "4"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "5" },
+	            "5"
+	          )
+	        ),
+	        React.createElement("input", { className: "btn btn-success", type: "submit", value: "Update Review", onClick: this.handleSubmit })
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = BeerReviewForm;
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Comment = __webpack_require__(253);
+	var ReviewUtil = __webpack_require__(255);
+	var BeerStore = __webpack_require__(258);
+	var CommentStore = __webpack_require__(260);
+	var ToastStore = __webpack_require__(262);
+	var LinkedStateMixin = __webpack_require__(212);
+	
+	var Display;
+	
+	var BeerReviewIndexItem = React.createClass({
+	  displayName: 'BeerReviewIndexItem',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  filteredState: function () {
+	    filteredState = {};
+	    for (key in this.state) {
+	      if (this.state.hasOwnProperty(key)) {
+	
+	        if (key !== "beers") {
+	          filteredState[key] = this.state[key];
+	        }
+	      }
+	    }
+	    return filteredState;
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault;
+	    Object.assign({}, this.state);
+	    ReviewUtil.updateReview(this.filteredState());
+	    this.setState({ editing: false });
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      beers: BeerStore.all(),
+	      beer: this.props.beer,
+	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
+	      beer_id: this.props.beer.id,
+	      body: this.props.review.body,
+	      rating: this.props.review.rating,
+	      author_id: this.props.review.author_id,
+	      id: this.props.review.id
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.beerToken = BeerStore.addListener(this._onChange);
+	    this.commentToken = CommentStore.addListener(this._onChange);
+	    this.toastToken = ToastStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.beerToken.remove();
+	    this.commentToken.remove();
+	    this.toastToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({
+	      beer: BeerStore.find(this.props.review.beer_id),
+	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id)
+	    });
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { className: 'reviewContainer col-md-12' },
+	        React.createElement(
+	          'div',
+	          { className: 'reviewContent col-md-12' },
+	          React.createElement(
+	            'div',
+	            { className: 'reviewHeader col-md-12' },
+	            this.state.beer.name
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'reviewBody col-md-12' },
+	            'Review: ',
+	            this.props.review.body
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'reviewFooter col-md-12' },
+	            React.createElement(
+	              'div',
+	              { className: 'reviewFooterItem col-md-4' },
+	              'Rating: ',
+	              this.props.review.rating
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'reviewFooterItem col-md-4' },
+	              'toasts: ',
+	              this.state.toasts.length
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'reviewCommentsIndex col-md-12' },
+	          React.createElement(
+	            'h4',
+	            null,
+	            'Comments'
+	          ),
+	          this.state.comments.map((function (comment) {
+	            return React.createElement(Comment, { comment: comment, key: comment.id });
+	          }).bind(this))
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = BeerReviewIndexItem;
 
 /***/ }
 /******/ ]);

@@ -36,6 +36,12 @@ ReviewStore.filterReviewsByUserId = function(userId) {
   });
 };
 
+ReviewStore.filterReviewsByBeerId = function(beerId) {
+  return this.all().filter(function(review){
+    return review.beer_id === beerId;
+  });
+};
+
 
 ReviewStore.__onDispatch = function(payload) {
 

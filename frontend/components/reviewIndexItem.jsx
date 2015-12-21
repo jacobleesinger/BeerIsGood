@@ -93,6 +93,7 @@ var ReviewIndexItem = React.createClass({
   },
 
   isEditing: function () {
+    debugger;
     if (this.state.editing){
       Display =
       <div className="">

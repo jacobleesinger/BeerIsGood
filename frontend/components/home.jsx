@@ -8,7 +8,6 @@ var MainContent = React.createClass({
 
 
   render:function () {
-    debugger;
     return(
       <this.props.subPage currentUser={this.props.currentUser} />
     )
@@ -22,7 +21,6 @@ var Home = React.createClass({
   },
 
   navbarChangeHandler: function(newSubPage) {
-    debugger;
     this.setState({subPage: newSubPage}
     )
   },

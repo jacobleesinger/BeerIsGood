@@ -4,6 +4,8 @@ var Link = ReactRouter.Link;
 var SessionUtil = require('../util/session_util');
 var BeersIndex = require('./beers_index');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
+var FriendsIndex = require('./friends_index');
+var UserShow = require('./user_show');
 
 
 
@@ -27,14 +29,12 @@ var NavbarInstance = React.createClass({
   },
 
   handleClick: function(newSubPage) {
-    debugger;
 
     this.props.onChange(newSubPage);
   },
 
 
   render: function () {
-    debugger;
 
     return (
     <div className="navbar">
@@ -53,13 +53,14 @@ var NavbarInstance = React.createClass({
               </div>
             </li>
             <li>
-              <div
-                to="#">
+              <div onClick={this.handleClick.bind(this, FriendsIndex)}
+              value={FriendsIndex}>
                 FriendsIndex
               </div>
             </li>
             <li>
-              <div to="#">
+              <div onClick={this.handleClick.bind(this, UserShow)}
+              value={UserShow}>
                 UserShow
               </div>
             </li>

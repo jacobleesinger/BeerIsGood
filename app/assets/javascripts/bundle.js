@@ -32046,7 +32046,6 @@
 	  displayName: 'MainContent',
 	
 	  render: function () {
-	    debugger;
 	    return React.createElement(this.props.subPage, { currentUser: this.props.currentUser });
 	  }
 	});
@@ -32059,7 +32058,6 @@
 	  },
 	
 	  navbarChangeHandler: function (newSubPage) {
-	    debugger;
 	    this.setState({ subPage: newSubPage });
 	  },
 	
@@ -32087,6 +32085,8 @@
 	var SessionUtil = __webpack_require__(228);
 	var BeersIndex = __webpack_require__(272);
 	var LinkedStateMixin = __webpack_require__(212);
+	var FriendsIndex = __webpack_require__(273);
+	var UserShow = __webpack_require__(250);
 	
 	var NavbarInstance = React.createClass({
 	  displayName: 'NavbarInstance',
@@ -32108,13 +32108,11 @@
 	  },
 	
 	  handleClick: function (newSubPage) {
-	    debugger;
 	
 	    this.props.onChange(newSubPage);
 	  },
 	
 	  render: function () {
-	    debugger;
 	
 	    return React.createElement(
 	      'div',
@@ -32157,8 +32155,8 @@
 	              null,
 	              React.createElement(
 	                'div',
-	                {
-	                  to: '#' },
+	                { onClick: this.handleClick.bind(this, FriendsIndex),
+	                  value: FriendsIndex },
 	                'FriendsIndex'
 	              )
 	            ),
@@ -32167,7 +32165,8 @@
 	              null,
 	              React.createElement(
 	                'div',
-	                { to: '#' },
+	                { onClick: this.handleClick.bind(this, UserShow),
+	                  value: UserShow },
 	                'UserShow'
 	              )
 	            ),
@@ -33347,6 +33346,28 @@
 	});
 	
 	module.exports = BeersIndex;
+
+/***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Navbar = __webpack_require__(249);
+	
+	var FriendsIndex = React.createClass({
+	  displayName: 'FriendsIndex',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'THIS IS THE FRIENDS INDEX PAGE'
+	    );
+	  }
+	
+	});
+	
+	module.exports = FriendsIndex;
 
 /***/ }
 /******/ ]);

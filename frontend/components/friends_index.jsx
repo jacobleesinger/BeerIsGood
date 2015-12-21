@@ -7,7 +7,6 @@ var FriendsIndex = React.createClass({
     return (
 
       <div>
-        <Navbar />
         THIS IS THE FRIENDS INDEX PAGE
       </div>
     );

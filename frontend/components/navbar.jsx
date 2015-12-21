@@ -5,6 +5,7 @@ var NavDropdown = require('react-bootstrap').NavDropdown;
 var Nav = require('react-bootstrap').Nav;
 var MenuItem = require('react-bootstrap').MenuItem;
 var BeersIndex = require('./beers_index');
+var ReactRouter = require('react-router');
 
 
 var NavbarInstance = React.createClass({
@@ -20,7 +21,17 @@ var NavbarInstance = React.createClass({
       </Navbar.Header>
       <Navbar.Collapse>
         <Nav>
-          <NavItem eventKey={1} href="#">BeersIndex</NavItem>
+          <ul>
+            <li>
+              <Link to="beers">BeersIndex</Link>
+            </li>
+            <li>
+              <Link to="#">FriendsIndex</Link>
+            </li>
+            <li>
+              <Link to="/">UserShow</Link>
+            </li>
+          </ul>
           <NavItem eventKey={2} href="#">FriendsIndex</NavItem>
         </Nav>
       </Navbar.Collapse>

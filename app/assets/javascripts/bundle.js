@@ -32008,7 +32008,7 @@
 	var _errors = [];
 	
 	var receiveAllErrors = function (payload) {
-	  debugger;
+	
 	  _errors = [];
 	  var errorMessages = payload.errors.responseJSON;
 	  if (errorMessages) {
@@ -33340,7 +33340,15 @@
 	      'div',
 	      { className: 'row fixedWidth' },
 	      this.props.errors,
-	      React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.user })
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-md-6 reviewsIndexContainer' },
+	          React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.user })
+	        )
+	      )
 	    );
 	  }
 	});
@@ -33384,29 +33392,10 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'row' },
-	      React.createElement(
-	        'div',
-	        { className: 'col-md-6 reviewsIndexContainer' },
-	        React.createElement(
-	          'h3',
-	          null,
-	          'Review a Beer'
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'newReviewFormContainer col-md-12' },
-	          React.createElement(ReviewForm, { currentUser: this.props.user })
-	        ),
-	        React.createElement(
-	          'h3',
-	          null,
-	          'My Reviews'
-	        ),
-	        this.state.reviews.map((function (review) {
-	          return React.createElement(ReviewIndexItem, { currentUser: this.props.user, review: review, key: review.id });
-	        }).bind(this))
-	      )
+	      null,
+	      this.state.reviews.map((function (review) {
+	        return React.createElement(ReviewIndexItem, { currentUser: this.props.user, review: review, key: review.id });
+	      }).bind(this))
 	    );
 	  }
 	});
@@ -33788,6 +33777,7 @@
 	var React = __webpack_require__(1);
 	var ReviewsIndex = __webpack_require__(271);
 	var ReviewStore = __webpack_require__(255);
+	var ReviewForm = __webpack_require__(273);
 	
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
@@ -33802,7 +33792,30 @@
 	      'div',
 	      { className: 'row fixedWidth' },
 	      this.props.errors,
-	      React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.user })
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-md-6 reviewsIndexContainer' },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Review a Beer'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'newReviewFormContainer col-md-12' },
+	            React.createElement(ReviewForm, { currentUser: this.props.currentUser })
+	          ),
+	          React.createElement(
+	            'h3',
+	            null,
+	            'My Reviews'
+	          ),
+	          React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.user })
+	        )
+	      )
 	    );
 	  }
 	});

@@ -14,8 +14,12 @@ var UserShow = React.createClass({
     return(
       <div className="row fixedWidth">
         {this.props.errors}
+        <div className="row">
+          <div className="col-md-6 reviewsIndexContainer">
         <ReviewsIndex currentUser={this.props.currentUser} user={this.props.user}/>
       </div>
+    </div>
+  </div>
 
     );
   }

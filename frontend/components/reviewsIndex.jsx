@@ -31,25 +31,13 @@ var ReviewsIndex = React.createClass ({
 
     return (
 
-      <div className="row">
-
-        <div className="col-md-6 reviewsIndexContainer">
-
-          <h3>Review a Beer</h3>
-
-          <div className="newReviewFormContainer col-md-12">
-            <ReviewForm currentUser={this.props.user} />
-          </div>
-
-          <h3>My Reviews</h3>
-
-          {this.state.reviews.map(function(review) {
-              return (
-                <ReviewIndexItem currentUser={this.props.user} review={review} key={review.id} />
-              );
-            }.bind(this)
-          )}
-        </div>
+      <div>
+        {this.state.reviews.map(function(review) {
+            return (
+              <ReviewIndexItem currentUser={this.props.user} review={review} key={review.id} />
+            );
+          }.bind(this)
+        )}
       </div>
 
     );

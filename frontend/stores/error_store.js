@@ -7,7 +7,7 @@ var ErrorStore = new Store(AppDispatcher);
 var _errors = [];
 
 var receiveAllErrors = function(payload) {
-  debugger;
+
   _errors = [];
   var errorMessages = payload.errors.responseJSON;
   if (errorMessages) {

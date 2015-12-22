@@ -5,6 +5,7 @@ var BeerStore = require('../stores/beer_store');
 var CommentStore = require('../stores/comment_store');
 var ToastStore = require('../stores/toast_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
+var UserStore = require('../stores/user_store');
 
 var Display;
 
@@ -79,7 +80,7 @@ var BeerReviewIndexItem = React.createClass({
         <div className="reviewContainer col-md-12" >
           <div className="reviewContent col-md-12">
             <div className="reviewHeader col-md-12">
-              {this.state.beer.name}
+              {UserStore.findById(this.props.review.author_id).username}
             </div>
 
 

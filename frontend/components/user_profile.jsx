@@ -14,7 +14,7 @@ var UserProfile = React.createClass({
     return(
       <div className="row fixedWidth">
         {this.props.errors}
-        <ReviewsIndex currentUser={this.props.currentUser} user={this.props.arg}/>
+        <ReviewsIndex currentUser={this.props.currentUser} user={this.props.user}/>
       </div>
 
     );

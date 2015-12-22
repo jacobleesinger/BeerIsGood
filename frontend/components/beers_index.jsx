@@ -25,20 +25,19 @@ var BeersIndex = React.createClass({
     });
   },
 
-  handleClick: function(newSubPage, beer) {
-    this.props.onSubPageChange(newSubPage, beer);
+  handleClick: function(newSubPage, user, beer) {
+    this.props.onSubPageChange(newSubPage, user, beer);
   },
 
 
   render: function () {
-
 
     return (
 
       <div className="fixedWidth">
         {this.state.beers.map(function(beer) {
             return(
-              <div beer={beer} key={beer.id} onClick={this.handleClick.bind(this, BeerShow, beer)}>{beer.name}</div>
+              <div beer={beer} key={beer.id} onClick={this.handleClick.bind(this, BeerShow, this.props.currentUser, beer)}>{beer.name}</div>
             );
           }.bind(this))
         }

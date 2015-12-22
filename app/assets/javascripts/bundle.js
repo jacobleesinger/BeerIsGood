@@ -53,13 +53,13 @@
 	var LandingPage = __webpack_require__(210);
 	var Home = __webpack_require__(248);
 	var UserUtil = __webpack_require__(217);
-	var BeerUtil = __webpack_require__(272);
+	var BeerUtil = __webpack_require__(275);
 	var ReviewUtil = __webpack_require__(260);
-	var CommentUtil = __webpack_require__(274);
-	var ToastUtil = __webpack_require__(276);
+	var CommentUtil = __webpack_require__(277);
+	var ToastUtil = __webpack_require__(279);
 	// var BeerShow = require("./components/beer_show");
 	var BeersIndex = __webpack_require__(250);
-	var UserShow = __webpack_require__(268);
+	var UserShow = __webpack_require__(270);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -25402,7 +25402,7 @@
 	var ErrorActions = {
 	
 	  receiveAllErrors: function (errors) {
-	    debugger;
+	
 	    Dispatcher.dispatch({
 	      actionType: ErrorConstants.ERRORS_RECEIVED,
 	      errors: errors
@@ -32040,8 +32040,8 @@
 
 	var React = __webpack_require__(1);
 	var Navbar = __webpack_require__(249);
-	var UserShow = __webpack_require__(268);
-	var UserProfile = __webpack_require__(280);
+	var UserShow = __webpack_require__(270);
+	var UserProfile = __webpack_require__(274);
 	
 	var MainContent = React.createClass({
 	  displayName: 'MainContent',
@@ -32050,6 +32050,7 @@
 	    return React.createElement(this.props.subPage, {
 	      currentUser: this.props.currentUser,
 	      onSubPageChange: this.props.onSubPageChange,
+	      user: this.props.user,
 	      beer: this.props.beer });
 	  }
 	});
@@ -32060,14 +32061,17 @@
 	  getInitialState: function () {
 	    return {
 	      subPage: UserProfile,
-	      arg: {}
+	      user: this.props.currentUser,
+	      beer: {}
 	    };
 	  },
 	
-	  navbarChangeHandler: function (newSubPage, arg) {
+	  navbarChangeHandler: function (newSubPage, user, beer) {
+	
 	    this.setState({
 	      subPage: newSubPage,
-	      arg: arg
+	      user: user,
+	      beer: beer
 	    });
 	  },
 	
@@ -32081,7 +32085,8 @@
 	        currentUser: this.props.currentUser,
 	        subPage: this.state.subPage,
 	        onSubPageChange: this.navbarChangeHandler,
-	        beer: this.state.beer })
+	        beer: this.state.beer,
+	        user: this.state.user })
 	    );
 	  }
 	
@@ -32101,8 +32106,8 @@
 	var LinkedStateMixin = __webpack_require__(212);
 	var FriendsIndex = __webpack_require__(267);
 	var BeerShow = __webpack_require__(253);
-	var UsersIndex = __webpack_require__(278);
-	var User = __webpack_require__(279);
+	var UsersIndex = __webpack_require__(268);
+	var User = __webpack_require__(269);
 	
 	var NavbarInstance = React.createClass({
 	  displayName: 'NavbarInstance',
@@ -32245,8 +32250,8 @@
 	    });
 	  },
 	
-	  handleClick: function (newSubPage, beer) {
-	    this.props.onSubPageChange(newSubPage, beer);
+	  handleClick: function (newSubPage, user, beer) {
+	    this.props.onSubPageChange(newSubPage, user, beer);
 	  },
 	
 	  render: function () {
@@ -32257,7 +32262,7 @@
 	      this.state.beers.map((function (beer) {
 	        return React.createElement(
 	          'div',
-	          { beer: beer, key: beer.id, onClick: this.handleClick.bind(this, BeerShow, beer) },
+	          { beer: beer, key: beer.id, onClick: this.handleClick.bind(this, BeerShow, this.props.currentUser, beer) },
 	          beer.name
 	        );
 	      }).bind(this))
@@ -32350,9 +32355,9 @@
 	      React.createElement(
 	        'h1',
 	        null,
-	        this.props.arg.name
+	        this.props.beer.name
 	      ),
-	      React.createElement(BeerReviewsIndex, { beer: this.props.arg, currentUser: this.props.currentUser })
+	      React.createElement(BeerReviewsIndex, { beer: this.props.beer, currentUser: this.props.currentUser })
 	    );
 	  }
 	});
@@ -32602,6 +32607,7 @@
 	var CommentStore = __webpack_require__(262);
 	var ToastStore = __webpack_require__(264);
 	var LinkedStateMixin = __webpack_require__(212);
+	var UserStore = __webpack_require__(259);
 	
 	var Display;
 	
@@ -32682,7 +32688,7 @@
 	          React.createElement(
 	            'div',
 	            { className: 'reviewHeader col-md-12' },
-	            this.state.beer.name
+	            UserStore.findById(this.props.review.author_id).username
 	          ),
 	          React.createElement(
 	            'div',
@@ -33224,7 +33230,101 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReviewsIndex = __webpack_require__(269);
+	var Navbar = __webpack_require__(249);
+	var UserStore = __webpack_require__(259);
+	var User = __webpack_require__(269);
+	
+	var userToken;
+	
+	var UsersIndex = React.createClass({
+	  displayName: 'UsersIndex',
+	
+	  getInitialState: function () {
+	    return {
+	      users: UserStore.all()
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	
+	    userToken = UserStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    userToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({
+	      users: UserStore.all()
+	    });
+	  },
+	
+	  handleClick: function (newSubPage, user, beer) {
+	
+	    this.props.onSubPageChange(newSubPage, user, beer);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'fixedWidth' },
+	      this.state.users.map((function (user) {
+	        return React.createElement(
+	          'div',
+	          { user: user, key: user.id,
+	            onClick: this.handleClick.bind(this, User, user, this.props.beer) },
+	          user.username
+	        );
+	      }).bind(this))
+	    );
+	  }
+	
+	});
+	
+	module.exports = UsersIndex;
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserShow = __webpack_require__(270);
+	var UserProfile = __webpack_require__(274);
+	
+	var UserPage;
+	
+	var User = React.createClass({
+	  displayName: 'User',
+	
+	  getUserPage: function () {
+	    if (this.props.currentUser.id === this.props.user.id) {
+	      UserPage = React.createElement(UserProfile, { currentUser: this.props.currentUser, user: this.props.user });
+	    } else {
+	      UserPage = React.createElement(UserShow, { currentUser: this.props.currentUser, user: this.props.user });
+	    }
+	  },
+	
+	  render: function () {
+	    this.getUserPage();
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      UserPage
+	    );
+	  }
+	
+	});
+	
+	module.exports = User;
+
+/***/ },
+/* 270 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReviewsIndex = __webpack_require__(271);
 	var ReviewStore = __webpack_require__(255);
 	
 	var UserShow = React.createClass({
@@ -33240,7 +33340,7 @@
 	      'div',
 	      { className: 'row fixedWidth' },
 	      this.props.errors,
-	      React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.arg })
+	      React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.user })
 	    );
 	  }
 	});
@@ -33248,20 +33348,21 @@
 	module.exports = UserShow;
 
 /***/ },
-/* 269 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReviewIndexItem = __webpack_require__(270);
-	var ReviewForm = __webpack_require__(271);
+	var ReviewIndexItem = __webpack_require__(272);
+	var ReviewForm = __webpack_require__(273);
 	var ReviewStore = __webpack_require__(255);
 	
 	var ReviewsIndex = React.createClass({
 	  displayName: 'ReviewsIndex',
 	
 	  getInitialState: function () {
+	
 	    return {
-	      reviews: ReviewStore.filterReviewsByUserId(this.props.currentUser.id)
+	      reviews: ReviewStore.filterReviewsByUserId(this.props.user.id)
 	    };
 	  },
 	
@@ -33275,7 +33376,7 @@
 	
 	  _onChange: function () {
 	    this.setState({
-	      reviews: ReviewStore.filterReviewsByUserId(this.props.currentUser.id)
+	      reviews: ReviewStore.filterReviewsByUserId(this.props.user.id)
 	    });
 	  },
 	
@@ -33295,7 +33396,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'newReviewFormContainer col-md-12' },
-	          React.createElement(ReviewForm, { currentUser: this.props.currentUser })
+	          React.createElement(ReviewForm, { currentUser: this.props.user })
 	        ),
 	        React.createElement(
 	          'h3',
@@ -33303,7 +33404,7 @@
 	          'My Reviews'
 	        ),
 	        this.state.reviews.map((function (review) {
-	          return React.createElement(ReviewIndexItem, { currentUser: this.props.currentUser, review: review, key: review.id });
+	          return React.createElement(ReviewIndexItem, { currentUser: this.props.user, review: review, key: review.id });
 	        }).bind(this))
 	      )
 	    );
@@ -33313,7 +33414,7 @@
 	module.exports = ReviewsIndex;
 
 /***/ },
-/* 270 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -33544,7 +33645,7 @@
 	module.exports = ReviewIndexItem;
 
 /***/ },
-/* 271 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -33681,10 +33782,38 @@
 	module.exports = ReviewForm;
 
 /***/ },
-/* 272 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BeerActions = __webpack_require__(273);
+	var React = __webpack_require__(1);
+	var ReviewsIndex = __webpack_require__(271);
+	var ReviewStore = __webpack_require__(255);
+	
+	var UserProfile = React.createClass({
+	  displayName: 'UserProfile',
+	
+	  handleSignOut: function () {
+	    SessionUtil.destroySession();
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'row fixedWidth' },
+	      this.props.errors,
+	      React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.user })
+	    );
+	  }
+	});
+	
+	module.exports = UserProfile;
+
+/***/ },
+/* 275 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BeerActions = __webpack_require__(276);
 	
 	var BeerUtil = {
 	
@@ -33705,7 +33834,7 @@
 	module.exports = BeerUtil;
 
 /***/ },
-/* 273 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -33733,10 +33862,10 @@
 	module.exports = BeerActions;
 
 /***/ },
-/* 274 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var CommentActions = __webpack_require__(275);
+	var CommentActions = __webpack_require__(278);
 	
 	var CommentUtil = {
 	
@@ -33767,7 +33896,7 @@
 	module.exports = CommentUtil;
 
 /***/ },
-/* 275 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -33795,10 +33924,10 @@
 	module.exports = CommentActions;
 
 /***/ },
-/* 276 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ToastActions = __webpack_require__(277);
+	var ToastActions = __webpack_require__(280);
 	
 	var ToastUtil = {
 	
@@ -33829,7 +33958,7 @@
 	module.exports = ToastUtil;
 
 /***/ },
-/* 277 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -33855,116 +33984,6 @@
 	};
 	
 	module.exports = ToastActions;
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Navbar = __webpack_require__(249);
-	var UserStore = __webpack_require__(259);
-	var User = __webpack_require__(279);
-	
-	var userToken;
-	
-	var UsersIndex = React.createClass({
-	  displayName: 'UsersIndex',
-	
-	  getInitialState: function () {
-	    return {
-	      users: UserStore.all()
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	
-	    userToken = UserStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    userToken.remove();
-	  },
-	
-	  _onChange: function () {
-	    this.setState({
-	      users: UserStore.all()
-	    });
-	  },
-	
-	  handleClick: function (newSubPage, user) {
-	    debugger;
-	    this.props.onSubPageChange(newSubPage, user);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'fixedWidth' },
-	      this.state.users.map((function (user) {
-	        return React.createElement(
-	          'div',
-	          { user: user, key: user.id,
-	            onClick: this.handleClick.bind(this, User, user) },
-	          user.username
-	        );
-	      }).bind(this))
-	    );
-	  }
-	
-	});
-	
-	module.exports = UsersIndex;
-
-/***/ },
-/* 279 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var UserShow = __webpack_require__(268);
-	var UserProfile = __webpack_require__(280);
-	
-	var User = React.createClass({
-	  displayName: 'User',
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      'USER'
-	    );
-	  }
-	
-	});
-	
-	module.exports = User;
-
-/***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReviewsIndex = __webpack_require__(269);
-	var ReviewStore = __webpack_require__(255);
-	
-	var UserProfile = React.createClass({
-	  displayName: 'UserProfile',
-	
-	  handleSignOut: function () {
-	    SessionUtil.destroySession();
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'row fixedWidth' },
-	      this.props.errors,
-	      React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.arg })
-	    );
-	  }
-	});
-	
-	module.exports = UserProfile;
 
 /***/ }
 /******/ ]);

@@ -27,9 +27,9 @@ var UsersIndex = React.createClass({
     });
   },
 
-  handleClick: function(newSubPage, user) {
-    debugger;
-    this.props.onSubPageChange(newSubPage, user);
+  handleClick: function(newSubPage, user, beer) {
+
+    this.props.onSubPageChange(newSubPage, user, beer);
   },
 
   render: function () {
@@ -39,7 +39,7 @@ var UsersIndex = React.createClass({
         {this.state.users.map(function(user) {
             return(
               <div user={user} key={user.id}
-                onClick={this.handleClick.bind(this, User, user)}>{user.username}</div>
+                onClick={this.handleClick.bind(this, User, user, this.props.beer)}>{user.username}</div>
             );
           }.bind(this))
         }

@@ -2,7 +2,7 @@ var React = require('react');
 var ReviewsIndex = require('./reviewsIndex');
 var ReviewStore = require('../stores/review_store');
 
-var UserShow = React.createClass({
+var UserProfile = React.createClass({
 
   handleSignOut: function () {
     SessionUtil.destroySession();
@@ -21,4 +21,4 @@ var UserShow = React.createClass({
   }
 });
 
-module.exports = UserShow;
+module.exports = UserProfile;

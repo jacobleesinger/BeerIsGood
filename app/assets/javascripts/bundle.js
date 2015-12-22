@@ -32041,6 +32041,7 @@
 	var React = __webpack_require__(1);
 	var Navbar = __webpack_require__(249);
 	var UserShow = __webpack_require__(268);
+	var UserProfile = __webpack_require__(280);
 	
 	var MainContent = React.createClass({
 	  displayName: 'MainContent',
@@ -32058,15 +32059,15 @@
 	
 	  getInitialState: function () {
 	    return {
-	      subPage: UserShow,
-	      beer: {}
+	      subPage: UserProfile,
+	      arg: {}
 	    };
 	  },
 	
-	  navbarChangeHandler: function (newSubPage, beer) {
+	  navbarChangeHandler: function (newSubPage, arg) {
 	    this.setState({
 	      subPage: newSubPage,
-	      beer: beer
+	      arg: arg
 	    });
 	  },
 	
@@ -32099,9 +32100,9 @@
 	var BeersIndex = __webpack_require__(250);
 	var LinkedStateMixin = __webpack_require__(212);
 	var FriendsIndex = __webpack_require__(267);
-	var UserShow = __webpack_require__(268);
 	var BeerShow = __webpack_require__(253);
 	var UsersIndex = __webpack_require__(278);
+	var User = __webpack_require__(279);
 	
 	var NavbarInstance = React.createClass({
 	  displayName: 'NavbarInstance',
@@ -32180,9 +32181,9 @@
 	              null,
 	              React.createElement(
 	                'div',
-	                { onClick: this.handleClick.bind(this, UserShow),
-	                  value: UserShow },
-	                'UserShow'
+	                { onClick: this.handleClick.bind(this, User),
+	                  value: User },
+	                'User'
 	              )
 	            ),
 	            React.createElement(
@@ -32349,9 +32350,9 @@
 	      React.createElement(
 	        'h1',
 	        null,
-	        this.props.beer.name
+	        this.props.arg.name
 	      ),
-	      React.createElement(BeerReviewsIndex, { beer: this.props.beer, currentUser: this.props.currentUser })
+	      React.createElement(BeerReviewsIndex, { beer: this.props.arg, currentUser: this.props.currentUser })
 	    );
 	  }
 	});
@@ -33239,7 +33240,7 @@
 	      'div',
 	      { className: 'row fixedWidth' },
 	      this.props.errors,
-	      React.createElement(ReviewsIndex, { currentUser: this.props.currentUser })
+	      React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.arg })
 	    );
 	  }
 	});
@@ -33862,6 +33863,7 @@
 	var React = __webpack_require__(1);
 	var Navbar = __webpack_require__(249);
 	var UserStore = __webpack_require__(259);
+	var User = __webpack_require__(279);
 	
 	var userToken;
 	
@@ -33875,7 +33877,7 @@
 	  },
 	
 	  componentDidMount: function () {
-	    debugger;
+	
 	    userToken = UserStore.addListener(this._onChange);
 	  },
 	
@@ -33889,15 +33891,20 @@
 	    });
 	  },
 	
-	  render: function () {
+	  handleClick: function (newSubPage, user) {
 	    debugger;
+	    this.props.onSubPageChange(newSubPage, user);
+	  },
+	
+	  render: function () {
 	    return React.createElement(
 	      'div',
 	      { className: 'fixedWidth' },
 	      this.state.users.map((function (user) {
 	        return React.createElement(
 	          'div',
-	          { user: user, key: user.id },
+	          { user: user, key: user.id,
+	            onClick: this.handleClick.bind(this, User, user) },
 	          user.username
 	        );
 	      }).bind(this))
@@ -33907,6 +33914,57 @@
 	});
 	
 	module.exports = UsersIndex;
+
+/***/ },
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserShow = __webpack_require__(268);
+	var UserProfile = __webpack_require__(280);
+	
+	var User = React.createClass({
+	  displayName: 'User',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'USER'
+	    );
+	  }
+	
+	});
+	
+	module.exports = User;
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReviewsIndex = __webpack_require__(269);
+	var ReviewStore = __webpack_require__(255);
+	
+	var UserProfile = React.createClass({
+	  displayName: 'UserProfile',
+	
+	  handleSignOut: function () {
+	    SessionUtil.destroySession();
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'row fixedWidth' },
+	      this.props.errors,
+	      React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.arg })
+	    );
+	  }
+	});
+	
+	module.exports = UserProfile;
 
 /***/ }
 /******/ ]);

@@ -7,8 +7,8 @@ var BeerShow = React.createClass({
 
     return (
       <div>
-        <h1>{this.props.beer.name}</h1>
-        <BeerReviewsIndex beer={this.props.beer} currentUser={this.props.currentUser}/>
+        <h1>{this.props.arg.name}</h1>
+        <BeerReviewsIndex beer={this.props.arg} currentUser={this.props.currentUser}/>
       </div>
     )
   }

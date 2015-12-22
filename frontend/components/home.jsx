@@ -1,6 +1,7 @@
 var React = require('react');
 var Navbar = require('./navbar');
 var UserShow = require('./user_show');
+var UserProfile = require('./user_profile');
 
 
 
@@ -21,15 +22,15 @@ var Home = React.createClass({
 
   getInitialState: function () {
     return ({
-      subPage: UserShow,
-      beer: {}
+      subPage: UserProfile,
+      arg: {}
     });
   },
 
-  navbarChangeHandler: function(newSubPage, beer) {
+  navbarChangeHandler: function(newSubPage, arg) {
     this.setState({
       subPage: newSubPage,
-      beer: beer
+      arg: arg
     })
   },
 

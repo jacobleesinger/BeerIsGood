@@ -34,7 +34,7 @@ var ReviewsIndex = React.createClass ({
       <div>
         {this.state.reviews.map(function(review) {
             return (
-              <ReviewIndexItem currentUser={this.props.user} review={review} key={review.id} />
+              <ReviewIndexItem currentUser={this.props.currentUser} user={this.props.user} review={review} key={review.id} />
             );
           }.bind(this)
         )}

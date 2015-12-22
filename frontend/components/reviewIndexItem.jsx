@@ -7,6 +7,7 @@ var ToastStore = require('../stores/toast_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 var Display;
+var Buttons;
 
 var ReviewIndexItem = React.createClass({
 
@@ -92,8 +93,23 @@ var ReviewIndexItem = React.createClass({
     this.setState({beer_id: event.target.value});
   },
 
-  isEditing: function () {
+  checkIfCurrentUser: function () {
+    if(this.props.currentUser.id === this.props.user.id) {
+      Buttons = (
+        <div>
+          <div onClick={this.handleDeleteClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete</div>
 
+          <div onClick={this.handleEditClick.bind(this, this.props.review)} className="editReviewButton" value={this.props.review}>edit</div>
+        </div>
+      );
+
+    } else {
+      Buttons = <div></div>;
+    }
+  },
+
+  isEditing: function () {
+    this.checkIfCurrentUser();
     if (this.state.editing){
       Display =
       <div className="">
@@ -124,9 +140,9 @@ var ReviewIndexItem = React.createClass({
               <div className="reviewHeader col-md-12">
                 {this.state.beer.name}
 
-                <div onClick={this.handleDeleteClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete</div>
+                {Buttons}
 
-                <div onClick={this.handleEditClick.bind(this, this.props.review)} className="editReviewButton" value={this.props.review}>edit</div>
+
 
               </div>
 

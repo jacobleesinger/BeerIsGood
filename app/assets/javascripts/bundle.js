@@ -33394,7 +33394,7 @@
 	      'div',
 	      null,
 	      this.state.reviews.map((function (review) {
-	        return React.createElement(ReviewIndexItem, { currentUser: this.props.user, review: review, key: review.id });
+	        return React.createElement(ReviewIndexItem, { currentUser: this.props.currentUser, user: this.props.user, review: review, key: review.id });
 	      }).bind(this))
 	    );
 	  }
@@ -33415,6 +33415,7 @@
 	var LinkedStateMixin = __webpack_require__(212);
 	
 	var Display;
+	var Buttons;
 	
 	var ReviewIndexItem = React.createClass({
 	  displayName: 'ReviewIndexItem',
@@ -33498,8 +33499,29 @@
 	    this.setState({ beer_id: event.target.value });
 	  },
 	
-	  isEditing: function () {
+	  checkIfCurrentUser: function () {
+	    if (this.props.currentUser.id === this.props.user.id) {
+	      Buttons = React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'div',
+	          { onClick: this.handleDeleteClick.bind(this, this.props.review), className: 'deleteReviewButton', value: this.props.review },
+	          'delete'
+	        ),
+	        React.createElement(
+	          'div',
+	          { onClick: this.handleEditClick.bind(this, this.props.review), className: 'editReviewButton', value: this.props.review },
+	          'edit'
+	        )
+	      );
+	    } else {
+	      Buttons = React.createElement('div', null);
+	    }
+	  },
 	
+	  isEditing: function () {
+	    this.checkIfCurrentUser();
 	    if (this.state.editing) {
 	      Display = React.createElement(
 	        'div',
@@ -33569,16 +33591,7 @@
 	              'div',
 	              { className: 'reviewHeader col-md-12' },
 	              this.state.beer.name,
-	              React.createElement(
-	                'div',
-	                { onClick: this.handleDeleteClick.bind(this, this.props.review), className: 'deleteReviewButton', value: this.props.review },
-	                'delete'
-	              ),
-	              React.createElement(
-	                'div',
-	                { onClick: this.handleEditClick.bind(this, this.props.review), className: 'editReviewButton', value: this.props.review },
-	                'edit'
-	              )
+	              Buttons
 	            ),
 	            React.createElement(
 	              'div',

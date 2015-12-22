@@ -4,14 +4,15 @@ var UserStore = require('../stores/user_store');
 
 var userToken;
 
-var FriendsIndex = React.createClass({
+var UsersIndex = React.createClass({
   getInitialState: function () {
     return({
-      friends: []
+      users: UserStore.all()
     });
   },
 
   componentDidMount: function () {
+    debugger;
     userToken = UserStore.addListener(this._onChange);
   },
 
@@ -21,7 +22,7 @@ var FriendsIndex = React.createClass({
 
   _onChange: function () {
     this.setState({
-      friends: UserStore.getFriendsByUserId(this.props.currentUser.id)
+      users: UserStore.all()
     });
   },
 
@@ -31,14 +32,20 @@ var FriendsIndex = React.createClass({
 
 
   render: function () {
+    debugger;
     return (
 
       <div className="fixedWidth">
-        THIS IS THE FRIENDS INDEX PAGE
+        {this.state.users.map(function(user) {
+            return(
+              <div user={user} key={user.id} >{user.username}</div>
+            );
+          }.bind(this))
+        }
       </div>
     );
   }
 
 });
 
-module.exports = FriendsIndex;
+module.exports = UsersIndex;

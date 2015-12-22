@@ -7,6 +7,7 @@ var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var FriendsIndex = require('./friends_index');
 var UserShow = require('./user_show');
 var BeerShow = require('./beer_show');
+var UsersIndex = require('./users_index');
 
 
 
@@ -64,6 +65,13 @@ var NavbarInstance = React.createClass({
               <div onClick={this.handleClick.bind(this, UserShow)}
               value={UserShow}>
                 UserShow
+              </div>
+            </li>
+            <li>
+              <div
+                onClick={this.handleClick.bind(this, UsersIndex)}
+                value={UsersIndex}>
+                UsersIndex
               </div>
             </li>
             <li>

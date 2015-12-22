@@ -34,6 +34,32 @@ var addUserErrors = function(errors) {
   userErrors = errors;
 };
 
+var allFriendships = function() {
+  var friends = {};
+  for(user_id in _users) {
+    if (_users.hasOwnProperty(user_id)) {
+      friends[user_id] = _users[user_id].friends
+    }
+  }
+  return friends;
+};
+
+UserStore.all = function() {
+  var users = [];
+  for (key in _users) {
+    if (_users.hasOwnProperty(key)){
+      users.push(_users[key]);
+    }
+  }
+  return users;
+};
+
+UserStore.getFriendsByUserId = function(userId) {
+  return allFriendships()[userId]
+};
+
+
+
 
 UserStore.__onDispatch = function(payload){
   switch(payload.actionType) {

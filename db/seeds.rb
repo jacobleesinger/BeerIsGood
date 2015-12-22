@@ -5,3 +5,19 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Beer.create!(
+name: "Pabst Blue Ribbon"
+)
+
+Beer.create!(
+name: "Bud Light"
+)
+
+Beer.create!(
+name: "Blue Moon Belgian White"
+)
+
+Beer.create!(
+name: "Arrogant Bastard Ale"
+)

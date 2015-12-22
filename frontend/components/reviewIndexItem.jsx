@@ -5,9 +5,11 @@ var BeerStore = require('../stores/beer_store');
 var CommentStore = require('../stores/comment_store');
 var ToastStore = require('../stores/toast_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
+var CommentForm = require('./comment_form');
 
 var Display;
 var Buttons;
+var CommentFormDisplay;
 
 var ReviewIndexItem = React.createClass({
 
@@ -48,7 +50,8 @@ var ReviewIndexItem = React.createClass({
       rating: this.props.review.rating,
       author_id: this.props.review.author_id,
       id: this.props.review.id,
-      editing: false
+      editing: false,
+      commenting: false
     });
   },
 
@@ -85,6 +88,13 @@ var ReviewIndexItem = React.createClass({
     });
   },
 
+  handleCommentClick: function (review) {
+    debugger;
+    this.setState({
+      commenting: true
+    });
+  },
+
   handleRatingChange: function(event) {
     this.setState({rating: event.target.value});
   },
@@ -105,6 +115,12 @@ var ReviewIndexItem = React.createClass({
 
     } else {
       Buttons = <div></div>;
+    }
+  },
+
+  isCommenting: function () {
+    if (this.state.commenting) {
+      CommentFormDisplay = <CommentForm review={this.props.review} currentUser={this.props.currentUser} />
     }
   },
 
@@ -165,6 +181,7 @@ var ReviewIndexItem = React.createClass({
 
             <div className="reviewCommentsIndex col-md-12">
               <h4>Comments</h4>
+                <div onClick={this.handleCommentClick.bind(this, this.props.review)} className="createCommentButton" value={this.props.review}>write comment</div>
               {
                 this.state.comments.map(function(comment) {
                     return (<Comment comment={comment} key={comment.id} />);
@@ -180,10 +197,12 @@ var ReviewIndexItem = React.createClass({
 
   render: function () {
     this.isEditing();
+    this.isCommenting();
 
     return (
       <div>
         {Display}
+        {CommentFormDisplay}
       </div>
     )
   }

@@ -25004,7 +25004,7 @@
 	
 	var UserActions = {
 	  receiveSingleUser: function (user) {
-	    debugger;
+	
 	    Dispatcher.dispatch({
 	      actionType: UserConstants.USER_RECEIVED,
 	      user: user
@@ -33324,12 +33324,14 @@
 	var React = __webpack_require__(1);
 	var ReviewsIndex = __webpack_require__(271);
 	var ReviewStore = __webpack_require__(255);
+	var FriendUtil = __webpack_require__(281);
 	
 	var UserShow = React.createClass({
 	  displayName: 'UserShow',
 	
-	  handleSignOut: function () {
-	    SessionUtil.destroySession();
+	  handleFriendClick: function () {
+	    FriendUtil.createFriendshipRequest(this.props.currentUser.id, this.props.user.id);
+	    alert("Friend request sent!");
 	  },
 	
 	  render: function () {
@@ -33344,6 +33346,17 @@
 	        React.createElement(
 	          'div',
 	          { className: 'col-md-6 reviewsIndexContainer' },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Reviews by ',
+	            this.props.user.username
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'btn btn-sm btn-success', onClick: this.handleFriendClick },
+	            'Add Friend'
+	          ),
 	          React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.user })
 	        )
 	      )
@@ -33411,9 +33424,11 @@
 	var CommentStore = __webpack_require__(262);
 	var ToastStore = __webpack_require__(264);
 	var LinkedStateMixin = __webpack_require__(212);
+	var CommentForm = __webpack_require__(285);
 	
 	var Display;
 	var Buttons;
+	var CommentFormDisplay;
 	
 	var ReviewIndexItem = React.createClass({
 	  displayName: 'ReviewIndexItem',
@@ -33455,7 +33470,8 @@
 	      rating: this.props.review.rating,
 	      author_id: this.props.review.author_id,
 	      id: this.props.review.id,
-	      editing: false
+	      editing: false,
+	      commenting: false
 	    };
 	  },
 	
@@ -33489,6 +33505,13 @@
 	    });
 	  },
 	
+	  handleCommentClick: function (review) {
+	    debugger;
+	    this.setState({
+	      commenting: true
+	    });
+	  },
+	
 	  handleRatingChange: function (event) {
 	    this.setState({ rating: event.target.value });
 	  },
@@ -33515,6 +33538,12 @@
 	      );
 	    } else {
 	      Buttons = React.createElement('div', null);
+	    }
+	  },
+	
+	  isCommenting: function () {
+	    if (this.state.commenting) {
+	      CommentFormDisplay = React.createElement(CommentForm, { review: this.props.review, currentUser: this.props.currentUser });
 	    }
 	  },
 	
@@ -33622,6 +33651,11 @@
 	              null,
 	              'Comments'
 	            ),
+	            React.createElement(
+	              'div',
+	              { onClick: this.handleCommentClick.bind(this, this.props.review), className: 'createCommentButton', value: this.props.review },
+	              'write comment'
+	            ),
 	            this.state.comments.map((function (comment) {
 	              return React.createElement(Comment, { comment: comment, key: comment.id });
 	            }).bind(this))
@@ -33633,11 +33667,13 @@
 	
 	  render: function () {
 	    this.isEditing();
+	    this.isCommenting();
 	
 	    return React.createElement(
 	      'div',
 	      null,
-	      Display
+	      Display,
+	      CommentFormDisplay
 	    );
 	  }
 	});
@@ -33789,6 +33825,10 @@
 	var ReviewsIndex = __webpack_require__(271);
 	var ReviewStore = __webpack_require__(255);
 	var ReviewForm = __webpack_require__(273);
+	var FriendStore = __webpack_require__(284);
+	var UserStore = __webpack_require__(259);
+	
+	var PendingRequests;
 	
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
@@ -33797,7 +33837,37 @@
 	    SessionUtil.destroySession();
 	  },
 	
+	  handleConfirm: function () {},
+	
+	  handleDeny: function () {},
+	
+	  getFriendRequests: function () {
+	
+	    var requests = FriendStore.getRequestsById(this.props.currentUser.id);
+	    PendingRequests = requests.map(function (request) {
+	      return React.createElement(
+	        'div',
+	        { key: request },
+	        'Friend request from:',
+	        UserStore.findById(request).username,
+	        React.createElement(
+	          'button',
+	          { className: 'btn btn-sm btn-success',
+	            onclick: this.handleConfirm },
+	          'Confirm'
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'btn btn-sm btn-danger',
+	            onclick: this.handleDeny },
+	          'Deny'
+	        )
+	      );
+	    });
+	  },
+	
 	  render: function () {
+	    this.getFriendRequests();
 	
 	    return React.createElement(
 	      'div',
@@ -33809,6 +33879,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'col-md-6 reviewsIndexContainer' },
+	          PendingRequests,
 	          React.createElement(
 	            'h3',
 	            null,
@@ -34008,6 +34079,149 @@
 	};
 	
 	module.exports = ToastActions;
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var FriendActions = __webpack_require__(282);
+	
+	var FriendUtil = {
+	
+	  createFriendshipRequest: function (userId, friendId) {
+	    FriendActions.receiveFriendshipRequest(userId, friendId);
+	  }
+	};
+	
+	module.exports = FriendUtil;
+
+/***/ },
+/* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(219);
+	var FriendConstants = __webpack_require__(283);
+	
+	var FriendActions = {
+	
+	  receiveFriendshipRequest: function (userId, friendId) {
+	    Dispatcher.dispatch({
+	      actionType: FriendConstants.REQUEST_RECEIVED,
+	      userId: userId,
+	      friendId: friendId
+	    });
+	  }
+	};
+	
+	module.exports = FriendActions;
+
+/***/ },
+/* 283 */
+/***/ function(module, exports) {
+
+	var FriendConstants = {
+	  REQUEST_RECEIVED: "REQUEST_RECEIVED"
+	};
+	
+	module.exports = FriendConstants;
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(231).Store;
+	var AppDispatcher = __webpack_require__(219);
+	var FriendConstants = __webpack_require__(283);
+	
+	var _requests = {};
+	
+	var FriendStore = new Store(AppDispatcher);
+	
+	var newFriendRequest = function (userId, friendId) {
+	  if (_requests[friendId]) {
+	    _requests[friendId].push(userId);
+	  } else {
+	    _requests[friendId] = [];
+	    _requests[friendId].push(userId);
+	  }
+	};
+	
+	FriendStore.getRequestsById = function (userId) {
+	
+	  if (_requests[userId]) {
+	    return _requests[userId];
+	  } else {
+	    return [];
+	  }
+	};
+	
+	FriendStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case FriendConstants.REQUEST_RECEIVED:
+	      newFriendRequest(payload.userId, payload.friendId);
+	      break;
+	  }
+	};
+	
+	module.exports = FriendStore;
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var LinkedStateMixin = __webpack_require__(212);
+	var CommentUtil = __webpack_require__(277);
+	
+	var CommentForm = React.createClass({
+	  displayName: 'CommentForm',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      author_id: this.props.currentUser.id,
+	      review_id: this.props.review.id,
+	      body: ""
+	    };
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault;
+	
+	    var commentData = Object.assign({}, this.state);
+	    CommentUtil.createComment(commentData);
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'col-md-12' },
+	      React.createElement(
+	        'form',
+	        { className: 'form-group commentForm' },
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'commentBody' },
+	          'Comment'
+	        ),
+	        React.createElement('textarea', {
+	          className: 'form-control',
+	          id: 'reviewBody',
+	          valueLink: this.linkState('body') }),
+	        React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Add Comment', onClick: this.handleSubmit })
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = CommentForm;
 
 /***/ }
 /******/ ]);

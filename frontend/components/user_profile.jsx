@@ -2,6 +2,10 @@ var React = require('react');
 var ReviewsIndex = require('./reviewsIndex');
 var ReviewStore = require('../stores/review_store');
 var ReviewForm = require('./review_form');
+var FriendStore = require('../stores/friend_store');
+var UserStore= require('../stores/user_store');
+
+var PendingRequests;
 
 var UserProfile = React.createClass({
 
@@ -9,7 +13,39 @@ var UserProfile = React.createClass({
     SessionUtil.destroySession();
   },
 
+  handleConfirm: function () {
+
+  },
+
+  handleDeny: function () {
+
+  },
+
+  getFriendRequests: function () {
+
+    var requests = FriendStore.getRequestsById(this.props.currentUser.id);
+    PendingRequests = requests.map(function(request) {
+      return (
+        <div key={request}>
+          Friend request from:
+          {UserStore.findById(request).username}
+          <button className="btn btn-sm btn-success"
+            onclick={this.handleConfirm}>
+            Confirm
+          </button>
+          <button className="btn btn-sm btn-danger"
+            onclick={this.handleDeny}>
+            Deny
+          </button>
+
+
+        </div>
+      )
+    })
+  },
+
   render: function(){
+    this.getFriendRequests();
 
 
     return(
@@ -18,6 +54,7 @@ var UserProfile = React.createClass({
         <div className="row">
 
           <div className="col-md-6 reviewsIndexContainer">
+            {PendingRequests}
 
             <h3>Review a Beer</h3>
 

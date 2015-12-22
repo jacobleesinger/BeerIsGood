@@ -33055,6 +33055,7 @@
 	};
 	
 	var addSingleToast = function (toast) {
+	
 	  _toasts[toast.id] = toast;
 	};
 	
@@ -33430,6 +33431,7 @@
 	var Display;
 	var Buttons;
 	var CommentFormDisplay;
+	var ToastButton;
 	
 	var ReviewIndexItem = React.createClass({
 	  displayName: 'ReviewIndexItem',
@@ -33472,8 +33474,18 @@
 	      author_id: this.props.review.author_id,
 	      id: this.props.review.id,
 	      editing: false,
-	      commenting: false
+	      commenting: false,
+	      toastedBy: this.toastedBy()
 	    };
+	  },
+	
+	  toastedBy: function () {
+	    var toasts = ToastStore.filterToastsByReviewId(this.props.review.id);
+	    var toastedBy = {};
+	    toasts.forEach(function (toast) {
+	      toastedBy[toast.user_id] = true;
+	    });
+	    return toastedBy;
 	  },
 	
 	  componentDidMount: function () {
@@ -33518,6 +33530,9 @@
 	      user_id: this.props.currentUser.id
 	    };
 	    ToastUtil.createToast(toast);
+	    this.setState({
+	      toastedBy: this.toastedBy()
+	    });
 	  },
 	
 	  handleRatingChange: function (event) {
@@ -33562,6 +33577,28 @@
 	    this.setState({
 	      commenting: false
 	    });
+	  },
+	
+	  hasToasted: function () {
+	    if (this.state.toastedBy[this.props.currentUser.id]) {
+	
+	      ToastButton = React.createElement(
+	        'div',
+	        null,
+	        'You Toasted this!'
+	      );
+	    } else {
+	
+	      ToastButton = React.createElement(
+	        'div',
+	        { className: 'reviewFooterItem col-md-4' },
+	        React.createElement(
+	          'div',
+	          { onClick: this.handleToastClick.bind(this, this.props.review), className: 'toastReviewButton', value: this.props.review },
+	          'Toast this!'
+	        )
+	      );
+	    }
 	  },
 	
 	  isEditing: function () {
@@ -33658,15 +33695,7 @@
 	                'toasts: ',
 	                this.state.toasts.length
 	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'reviewFooterItem col-md-4' },
-	                React.createElement(
-	                  'div',
-	                  { onClick: this.handleToastClick.bind(this, this.props.review), className: 'toastReviewButton', value: this.props.review },
-	                  'Toast this!'
-	                )
-	              )
+	              ToastButton
 	            )
 	          ),
 	          React.createElement(
@@ -33694,6 +33723,7 @@
 	  render: function () {
 	    this.isEditing();
 	    this.isCommenting();
+	    this.hasToasted();
 	
 	    return React.createElement(
 	      'div',
@@ -34059,7 +34089,7 @@
 	  },
 	
 	  createToast: function (toast) {
-	    debugger;
+	
 	    $.post('api/toasts', { toast: toast }, function (toast) {
 	      ToastActions.receiveSingleToast(toast);
 	    });

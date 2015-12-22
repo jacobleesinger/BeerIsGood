@@ -13,8 +13,10 @@ var addAllToasts = function (toasts) {
 };
 
 var addSingleToast = function(toast) {
+
   _toasts[toast.id] = toast;
 };
+
 
 ToastStore.all = function() {
   var toasts = [];

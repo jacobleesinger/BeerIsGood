@@ -11,6 +11,7 @@ var ToastUtil = require('../util/toast_util');
 var Display;
 var Buttons;
 var CommentFormDisplay;
+var ToastButton;
 
 var ReviewIndexItem = React.createClass({
 
@@ -52,11 +53,19 @@ var ReviewIndexItem = React.createClass({
       author_id: this.props.review.author_id,
       id: this.props.review.id,
       editing: false,
-      commenting: false
+      commenting: false,
+      toastedBy: this.toastedBy()
     });
   },
 
-
+  toastedBy: function () {
+    var toasts = ToastStore.filterToastsByReviewId(this.props.review.id);
+    var toastedBy = {};
+    toasts.forEach(function(toast){
+      toastedBy[toast.user_id] = true
+    });
+    return toastedBy;
+  },
 
   componentDidMount: function() {
     this.beerToken = BeerStore.addListener(this._onChange);
@@ -101,6 +110,9 @@ var ReviewIndexItem = React.createClass({
       user_id: this.props.currentUser.id
     };
     ToastUtil.createToast(toast);
+    this.setState({
+      toastedBy: this.toastedBy()
+    });
   },
 
   handleRatingChange: function(event) {
@@ -141,6 +153,20 @@ var ReviewIndexItem = React.createClass({
     });
   },
 
+  hasToasted: function () {
+    if (this.state.toastedBy[this.props.currentUser.id]){
+
+      ToastButton = <div>You Toasted this!</div>;
+    } else {
+
+      ToastButton = (
+        <div className="reviewFooterItem col-md-4">
+          <div onClick={this.handleToastClick.bind(this, this.props.review)} className="toastReviewButton" value={this.props.review}>Toast this!</div>
+        </div>
+      );
+    }
+  },
+
   isEditing: function () {
     this.checkIfCurrentUser();
     if (this.state.editing){
@@ -175,8 +201,6 @@ var ReviewIndexItem = React.createClass({
 
                 {Buttons}
 
-
-
               </div>
 
 
@@ -193,9 +217,7 @@ var ReviewIndexItem = React.createClass({
                   toasts: {this.state.toasts.length}
                 </div>
 
-                <div className="reviewFooterItem col-md-4">
-                  <div onClick={this.handleToastClick.bind(this, this.props.review)} className="toastReviewButton" value={this.props.review}>Toast this!</div>
-                </div>
+                {ToastButton}
 
               </div>
             </div>
@@ -219,6 +241,7 @@ var ReviewIndexItem = React.createClass({
   render: function () {
     this.isEditing();
     this.isCommenting();
+    this.hasToasted();
 
 
     return (

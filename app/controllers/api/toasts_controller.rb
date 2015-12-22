@@ -9,4 +9,21 @@ class Api::ToastsController < ApplicationController
     render json: @toasts
   end
 
+  def create
+    @toast = Toast.new(toast_params)
+    if @toast.save
+      render json: @toast
+    else
+      @errors = @toast.errors.full_messaages
+      render json: @errors, status: 400
+    end
+
+  end
+
+  private
+
+  def toast_params
+    params.require(:toast).permit(:user_id, :review_id)
+  end
+
 end

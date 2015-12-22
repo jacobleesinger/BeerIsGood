@@ -33425,6 +33425,7 @@
 	var ToastStore = __webpack_require__(264);
 	var LinkedStateMixin = __webpack_require__(212);
 	var CommentForm = __webpack_require__(285);
+	var ToastUtil = __webpack_require__(279);
 	
 	var Display;
 	var Buttons;
@@ -33506,10 +33507,17 @@
 	  },
 	
 	  handleCommentClick: function (review) {
-	    debugger;
 	    this.setState({
 	      commenting: true
 	    });
+	  },
+	
+	  handleToastClick: function (review) {
+	    var toast = {
+	      review_id: review.id,
+	      user_id: this.props.currentUser.id
+	    };
+	    ToastUtil.createToast(toast);
 	  },
 	
 	  handleRatingChange: function (event) {
@@ -33542,7 +33550,6 @@
 	  },
 	
 	  isCommenting: function () {
-	    debugger;
 	    if (this.state.commenting) {
 	      CommentFormDisplay = React.createElement(CommentForm, { review: this.props.review, currentUser: this.props.currentUser, onChange: this.handleCommentFormSubmit });
 	    } else {
@@ -33551,7 +33558,7 @@
 	  },
 	
 	  handleCommentFormSubmit: function () {
-	    debugger;
+	
 	    this.setState({
 	      commenting: false
 	    });
@@ -33650,6 +33657,15 @@
 	                { className: 'reviewFooterItem col-md-4' },
 	                'toasts: ',
 	                this.state.toasts.length
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'reviewFooterItem col-md-4' },
+	                React.createElement(
+	                  'div',
+	                  { onClick: this.handleToastClick.bind(this, this.props.review), className: 'toastReviewButton', value: this.props.review },
+	                  'Toast this!'
+	                )
 	              )
 	            )
 	          ),
@@ -34043,7 +34059,8 @@
 	  },
 	
 	  createToast: function (toast) {
-	    $.post('api/toast', { toast: toast }, function (toast) {
+	    debugger;
+	    $.post('api/toasts', { toast: toast }, function (toast) {
 	      ToastActions.receiveSingleToast(toast);
 	    });
 	  },

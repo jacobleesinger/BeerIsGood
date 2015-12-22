@@ -6,6 +6,7 @@ var CommentStore = require('../stores/comment_store');
 var ToastStore = require('../stores/toast_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var CommentForm = require('./comment_form');
+var ToastUtil = require('../util/toast_util');
 
 var Display;
 var Buttons;
@@ -89,10 +90,17 @@ var ReviewIndexItem = React.createClass({
   },
 
   handleCommentClick: function (review) {
-    debugger;
     this.setState({
       commenting: true
     });
+  },
+
+  handleToastClick: function (review) {
+    var toast = {
+      review_id: review.id,
+      user_id: this.props.currentUser.id
+    };
+    ToastUtil.createToast(toast);
   },
 
   handleRatingChange: function(event) {
@@ -119,7 +127,6 @@ var ReviewIndexItem = React.createClass({
   },
 
   isCommenting: function () {
-    debugger;
     if (this.state.commenting) {
       CommentFormDisplay = <CommentForm review={this.props.review} currentUser={this.props.currentUser} onChange={this.handleCommentFormSubmit}/>
     } else {
@@ -128,7 +135,7 @@ var ReviewIndexItem = React.createClass({
   },
 
   handleCommentFormSubmit: function () {
-    debugger;
+
     this.setState({
       commenting: false
     });
@@ -184,6 +191,10 @@ var ReviewIndexItem = React.createClass({
 
                 <div className="reviewFooterItem col-md-4">
                   toasts: {this.state.toasts.length}
+                </div>
+
+                <div className="reviewFooterItem col-md-4">
+                  <div onClick={this.handleToastClick.bind(this, this.props.review)} className="toastReviewButton" value={this.props.review}>Toast this!</div>
                 </div>
 
               </div>

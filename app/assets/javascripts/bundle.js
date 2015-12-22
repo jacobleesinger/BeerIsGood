@@ -33542,9 +33542,19 @@
 	  },
 	
 	  isCommenting: function () {
+	    debugger;
 	    if (this.state.commenting) {
-	      CommentFormDisplay = React.createElement(CommentForm, { review: this.props.review, currentUser: this.props.currentUser });
+	      CommentFormDisplay = React.createElement(CommentForm, { review: this.props.review, currentUser: this.props.currentUser, onChange: this.handleCommentFormSubmit });
+	    } else {
+	      CommentFormDisplay = React.createElement('div', null);
 	    }
+	  },
+	
+	  handleCommentFormSubmit: function () {
+	    debugger;
+	    this.setState({
+	      commenting: false
+	    });
 	  },
 	
 	  isEditing: function () {
@@ -34195,6 +34205,7 @@
 	
 	    var commentData = Object.assign({}, this.state);
 	    CommentUtil.createComment(commentData);
+	    this.props.onChange();
 	  },
 	
 	  render: function () {

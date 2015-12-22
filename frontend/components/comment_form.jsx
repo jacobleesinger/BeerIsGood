@@ -23,6 +23,7 @@ var CommentForm = React.createClass({
 
     var commentData = Object.assign({}, this.state)
     CommentUtil.createComment(commentData);
+    this.props.onChange();
   },
 
   render: function () {

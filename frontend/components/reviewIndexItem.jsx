@@ -154,7 +154,8 @@ var ReviewIndexItem = React.createClass({
   },
 
   hasToasted: function () {
-    if (this.state.toastedBy[this.props.currentUser.id]){
+  var toastedBy = this.toastedBy();
+    if (toastedBy[this.props.currentUser.id]){
 
       ToastButton = <div>You Toasted this!</div>;
     } else {

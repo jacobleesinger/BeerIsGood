@@ -53,10 +53,10 @@
 	var LandingPage = __webpack_require__(210);
 	var Home = __webpack_require__(248);
 	var UserUtil = __webpack_require__(217);
-	var BeerUtil = __webpack_require__(275);
+	var BeerUtil = __webpack_require__(284);
 	var ReviewUtil = __webpack_require__(260);
-	var CommentUtil = __webpack_require__(277);
-	var ToastUtil = __webpack_require__(279);
+	var CommentUtil = __webpack_require__(274);
+	var ToastUtil = __webpack_require__(276);
 	// var BeerShow = require("./components/beer_show");
 	var BeersIndex = __webpack_require__(250);
 	var UserShow = __webpack_require__(270);
@@ -32041,7 +32041,7 @@
 	var React = __webpack_require__(1);
 	var Navbar = __webpack_require__(249);
 	var UserShow = __webpack_require__(270);
-	var UserProfile = __webpack_require__(274);
+	var UserProfile = __webpack_require__(282);
 	
 	var MainContent = React.createClass({
 	  displayName: 'MainContent',
@@ -33288,7 +33288,7 @@
 
 	var React = __webpack_require__(1);
 	var UserShow = __webpack_require__(270);
-	var UserProfile = __webpack_require__(274);
+	var UserProfile = __webpack_require__(282);
 	
 	var UserPage;
 	
@@ -33325,7 +33325,7 @@
 	var React = __webpack_require__(1);
 	var ReviewsIndex = __webpack_require__(271);
 	var ReviewStore = __webpack_require__(255);
-	var FriendUtil = __webpack_require__(281);
+	var FriendUtil = __webpack_require__(279);
 	
 	var UserShow = React.createClass({
 	  displayName: 'UserShow',
@@ -33373,7 +33373,7 @@
 
 	var React = __webpack_require__(1);
 	var ReviewIndexItem = __webpack_require__(272);
-	var ReviewForm = __webpack_require__(273);
+	var ReviewForm = __webpack_require__(278);
 	var ReviewStore = __webpack_require__(255);
 	
 	var ReviewsIndex = React.createClass({
@@ -33425,8 +33425,8 @@
 	var CommentStore = __webpack_require__(262);
 	var ToastStore = __webpack_require__(264);
 	var LinkedStateMixin = __webpack_require__(212);
-	var CommentForm = __webpack_require__(285);
-	var ToastUtil = __webpack_require__(279);
+	var CommentForm = __webpack_require__(273);
+	var ToastUtil = __webpack_require__(276);
 	
 	var Display;
 	var Buttons;
@@ -33742,6 +33742,190 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var LinkedStateMixin = __webpack_require__(212);
+	var CommentUtil = __webpack_require__(274);
+	
+	var CommentForm = React.createClass({
+	  displayName: 'CommentForm',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      author_id: this.props.currentUser.id,
+	      review_id: this.props.review.id,
+	      body: ""
+	    };
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault;
+	
+	    var commentData = Object.assign({}, this.state);
+	    CommentUtil.createComment(commentData);
+	    this.props.onChange();
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'col-md-12' },
+	      React.createElement(
+	        'form',
+	        { className: 'form-group commentForm' },
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'commentBody' },
+	          'Comment'
+	        ),
+	        React.createElement('textarea', {
+	          className: 'form-control',
+	          id: 'reviewBody',
+	          valueLink: this.linkState('body') }),
+	        React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Add Comment', onClick: this.handleSubmit })
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = CommentForm;
+
+/***/ },
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var CommentActions = __webpack_require__(275);
+	
+	var CommentUtil = {
+	
+	  fetchAllComments: function () {
+	    $.get('api/comments', function (comments) {
+	      CommentActions.receiveAllComments(comments);
+	    });
+	  },
+	
+	  createComment: function (comment) {
+	    $.post('api/comments', { comment: comment }, function (comment) {
+	      CommentActions.receiveSingleComment(comment);
+	    });
+	  },
+	
+	  destroyComment: function (comment) {
+	    $.ajax({
+	      url: "api/comment/" + comment.id,
+	      type: 'DELETE',
+	      success: function (review) {
+	        ReviewActions.receiveSingleReview(review);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = CommentUtil;
+
+/***/ },
+/* 275 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(219);
+	var CommentConstants = __webpack_require__(263);
+	
+	var CommentActions = {
+	
+	  receiveAllComments: function (comments) {
+	    Dispatcher.dispatch({
+	      actionType: CommentConstants.COMMENTS_RECEIVED,
+	      comments: comments
+	    });
+	  },
+	
+	  receiveSingleComment: function (comment) {
+	    var action = {
+	      actionType: CommentConstants.COMMENT_RECEIVED,
+	      comment: comment
+	    };
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = CommentActions;
+
+/***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ToastActions = __webpack_require__(277);
+	
+	var ToastUtil = {
+	
+	  fetchAllToasts: function () {
+	    $.get('api/toasts', function (toasts) {
+	      ToastActions.receiveAllToasts(toasts);
+	    });
+	  },
+	
+	  createToast: function (toast) {
+	
+	    $.post('api/toasts', { toast: toast }, function (toast) {
+	      ToastActions.receiveSingleToast(toast);
+	    });
+	  },
+	
+	  destroyToast: function (toast) {
+	    $.ajax({
+	      url: "api/toast/" + toast.id,
+	      type: 'DELETE',
+	      success: function (review) {
+	        ReviewActions.receiveSingleReview(review);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = ToastUtil;
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(219);
+	var ToastConstants = __webpack_require__(265);
+	
+	var ToastActions = {
+	
+	  receiveAllToasts: function (toasts) {
+	    Dispatcher.dispatch({
+	      actionType: ToastConstants.TOASTS_RECEIVED,
+	      toasts: toasts
+	    });
+	  },
+	
+	  receiveSingleToast: function (toast) {
+	    var action = {
+	      actionType: ToastConstants.TOAST_RECEIVED,
+	      toast: toast
+	    };
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = ToastActions;
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
 	var BeerStore = __webpack_require__(251);
 	var LinkedStateMixin = __webpack_require__(212);
 	var ReviewUtil = __webpack_require__(260);
@@ -33875,14 +34059,59 @@
 	module.exports = ReviewForm;
 
 /***/ },
-/* 274 */
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var FriendActions = __webpack_require__(280);
+	
+	var FriendUtil = {
+	
+	  createFriendshipRequest: function (userId, friendId) {
+	    FriendActions.receiveFriendshipRequest(userId, friendId);
+	  }
+	};
+	
+	module.exports = FriendUtil;
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(219);
+	var FriendConstants = __webpack_require__(281);
+	
+	var FriendActions = {
+	
+	  receiveFriendshipRequest: function (userId, friendId) {
+	    Dispatcher.dispatch({
+	      actionType: FriendConstants.REQUEST_RECEIVED,
+	      userId: userId,
+	      friendId: friendId
+	    });
+	  }
+	};
+	
+	module.exports = FriendActions;
+
+/***/ },
+/* 281 */
+/***/ function(module, exports) {
+
+	var FriendConstants = {
+	  REQUEST_RECEIVED: "REQUEST_RECEIVED"
+	};
+	
+	module.exports = FriendConstants;
+
+/***/ },
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ReviewsIndex = __webpack_require__(271);
 	var ReviewStore = __webpack_require__(255);
-	var ReviewForm = __webpack_require__(273);
-	var FriendStore = __webpack_require__(284);
+	var ReviewForm = __webpack_require__(278);
+	var FriendStore = __webpack_require__(283);
 	var UserStore = __webpack_require__(259);
 	
 	var PendingRequests;
@@ -33962,234 +34191,12 @@
 	module.exports = UserProfile;
 
 /***/ },
-/* 275 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var BeerActions = __webpack_require__(276);
-	
-	var BeerUtil = {
-	
-	  fetchAllBeers: function () {
-	    $.get('api/beers', function (beers) {
-	      BeerActions.receiveAllBeers(beers);
-	    });
-	  },
-	
-	  fetchSingleBeer: function (beer) {
-	    $.get('api/beer/' + beer.id, function (beer) {
-	      BeerActions.receiveSingleBeer(beer);
-	    });
-	  }
-	
-	};
-	
-	module.exports = BeerUtil;
-
-/***/ },
-/* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(219);
-	var BeerConstants = __webpack_require__(252);
-	
-	var BeerActions = {
-	
-	  receiveAllBeers: function (beers) {
-	    Dispatcher.dispatch({
-	      actionType: BeerConstants.BEERS_RECEIVED,
-	      beers: beers
-	    });
-	  },
-	
-	  receiveSingleBeer: function (beer) {
-	    var action = {
-	      actionType: BeerConstants.BEER_RECEIVED,
-	      beer: beer
-	    };
-	    Dispatcher.dispatch(action);
-	  }
-	
-	};
-	
-	module.exports = BeerActions;
-
-/***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var CommentActions = __webpack_require__(278);
-	
-	var CommentUtil = {
-	
-	  fetchAllComments: function () {
-	    $.get('api/comments', function (comments) {
-	      CommentActions.receiveAllComments(comments);
-	    });
-	  },
-	
-	  createComment: function (comment) {
-	    $.post('api/comments', { comment: comment }, function (comment) {
-	      CommentActions.receiveSingleComment(comment);
-	    });
-	  },
-	
-	  destroyComment: function (comment) {
-	    $.ajax({
-	      url: "api/comment/" + comment.id,
-	      type: 'DELETE',
-	      success: function (review) {
-	        ReviewActions.receiveSingleReview(review);
-	      }
-	    });
-	  }
-	
-	};
-	
-	module.exports = CommentUtil;
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(219);
-	var CommentConstants = __webpack_require__(263);
-	
-	var CommentActions = {
-	
-	  receiveAllComments: function (comments) {
-	    Dispatcher.dispatch({
-	      actionType: CommentConstants.COMMENTS_RECEIVED,
-	      comments: comments
-	    });
-	  },
-	
-	  receiveSingleComment: function (comment) {
-	    var action = {
-	      actionType: CommentConstants.COMMENT_RECEIVED,
-	      comment: comment
-	    };
-	    Dispatcher.dispatch(action);
-	  }
-	
-	};
-	
-	module.exports = CommentActions;
-
-/***/ },
-/* 279 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ToastActions = __webpack_require__(280);
-	
-	var ToastUtil = {
-	
-	  fetchAllToasts: function () {
-	    $.get('api/toasts', function (toasts) {
-	      ToastActions.receiveAllToasts(toasts);
-	    });
-	  },
-	
-	  createToast: function (toast) {
-	
-	    $.post('api/toasts', { toast: toast }, function (toast) {
-	      ToastActions.receiveSingleToast(toast);
-	    });
-	  },
-	
-	  destroyToast: function (toast) {
-	    $.ajax({
-	      url: "api/toast/" + toast.id,
-	      type: 'DELETE',
-	      success: function (review) {
-	        ReviewActions.receiveSingleReview(review);
-	      }
-	    });
-	  }
-	
-	};
-	
-	module.exports = ToastUtil;
-
-/***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(219);
-	var ToastConstants = __webpack_require__(265);
-	
-	var ToastActions = {
-	
-	  receiveAllToasts: function (toasts) {
-	    Dispatcher.dispatch({
-	      actionType: ToastConstants.TOASTS_RECEIVED,
-	      toasts: toasts
-	    });
-	  },
-	
-	  receiveSingleToast: function (toast) {
-	    var action = {
-	      actionType: ToastConstants.TOAST_RECEIVED,
-	      toast: toast
-	    };
-	    Dispatcher.dispatch(action);
-	  }
-	
-	};
-	
-	module.exports = ToastActions;
-
-/***/ },
-/* 281 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var FriendActions = __webpack_require__(282);
-	
-	var FriendUtil = {
-	
-	  createFriendshipRequest: function (userId, friendId) {
-	    FriendActions.receiveFriendshipRequest(userId, friendId);
-	  }
-	};
-	
-	module.exports = FriendUtil;
-
-/***/ },
-/* 282 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(219);
-	var FriendConstants = __webpack_require__(283);
-	
-	var FriendActions = {
-	
-	  receiveFriendshipRequest: function (userId, friendId) {
-	    Dispatcher.dispatch({
-	      actionType: FriendConstants.REQUEST_RECEIVED,
-	      userId: userId,
-	      friendId: friendId
-	    });
-	  }
-	};
-	
-	module.exports = FriendActions;
-
-/***/ },
 /* 283 */
-/***/ function(module, exports) {
-
-	var FriendConstants = {
-	  REQUEST_RECEIVED: "REQUEST_RECEIVED"
-	};
-	
-	module.exports = FriendConstants;
-
-/***/ },
-/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(231).Store;
 	var AppDispatcher = __webpack_require__(219);
-	var FriendConstants = __webpack_require__(283);
+	var FriendConstants = __webpack_require__(281);
 	
 	var _requests = {};
 	
@@ -34224,63 +34231,56 @@
 	module.exports = FriendStore;
 
 /***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BeerActions = __webpack_require__(285);
+	
+	var BeerUtil = {
+	
+	  fetchAllBeers: function () {
+	    $.get('api/beers', function (beers) {
+	      BeerActions.receiveAllBeers(beers);
+	    });
+	  },
+	
+	  fetchSingleBeer: function (beer) {
+	    $.get('api/beer/' + beer.id, function (beer) {
+	      BeerActions.receiveSingleBeer(beer);
+	    });
+	  }
+	
+	};
+	
+	module.exports = BeerUtil;
+
+/***/ },
 /* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(212);
-	var CommentUtil = __webpack_require__(277);
+	var Dispatcher = __webpack_require__(219);
+	var BeerConstants = __webpack_require__(252);
 	
-	var CommentForm = React.createClass({
-	  displayName: 'CommentForm',
+	var BeerActions = {
 	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
+	  receiveAllBeers: function (beers) {
+	    Dispatcher.dispatch({
+	      actionType: BeerConstants.BEERS_RECEIVED,
+	      beers: beers
+	    });
 	  },
 	
-	  getInitialState: function () {
-	    return {
-	      author_id: this.props.currentUser.id,
-	      review_id: this.props.review.id,
-	      body: ""
+	  receiveSingleBeer: function (beer) {
+	    var action = {
+	      actionType: BeerConstants.BEER_RECEIVED,
+	      beer: beer
 	    };
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault;
-	
-	    var commentData = Object.assign({}, this.state);
-	    CommentUtil.createComment(commentData);
-	    this.props.onChange();
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'col-md-12' },
-	      React.createElement(
-	        'form',
-	        { className: 'form-group commentForm' },
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'commentBody' },
-	          'Comment'
-	        ),
-	        React.createElement('textarea', {
-	          className: 'form-control',
-	          id: 'reviewBody',
-	          valueLink: this.linkState('body') }),
-	        React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Add Comment', onClick: this.handleSubmit })
-	      )
-	    );
+	    Dispatcher.dispatch(action);
 	  }
 	
-	});
+	};
 	
-	module.exports = CommentForm;
+	module.exports = BeerActions;
 
 /***/ }
 /******/ ]);

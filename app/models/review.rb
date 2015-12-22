@@ -16,6 +16,6 @@ class Review < ActiveRecord::Base
   primary_key: :id
   )
 
-  has_many :comments, dependent: destroy
-  has_many :toasts, dependent: destroy
+  has_many :comments, dependent: :destroy
+  has_many :toasts, dependent: :destroy
 end

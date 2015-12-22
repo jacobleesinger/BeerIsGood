@@ -30,18 +30,20 @@ var Home = React.createClass({
   },
 
   navbarChangeHandler: function(newSubPage, user, beer) {
-
+    if (typeof user !== "undefined"){
+      this.setState({user: user});
+    }
     this.setState({
       subPage: newSubPage,
-      user: user,
-      beer: beer
-    })
+      beer: beer,
+    });
   },
 
   render: function () {
     return(
       <div>
-        <Navbar currentUser={this.props.currentUser} subPage={this.state.subPage}
+        <Navbar currentUser={this.props.currentUser}
+          user={this.props.user} subPage={this.state.subPage}
           onChange={this.navbarChangeHandler}/>
         <MainContent
           currentUser={this.props.currentUser}

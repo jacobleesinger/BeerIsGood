@@ -24550,7 +24550,7 @@
 	    );
 	
 	    if (this.state.signedIn) {
-	      Page = React.createElement(Home, { currentUser: this.state.currentUser, errors: this.displayErrorMessages() });
+	      Page = React.createElement(Home, { currentUser: this.state.currentUser, user: this.state.currentUser, errors: this.displayErrorMessages() });
 	    } else {
 	      var errors = this.displayErrorMessages();
 	      Page = React.createElement(
@@ -32067,10 +32067,11 @@
 	  },
 	
 	  navbarChangeHandler: function (newSubPage, user, beer) {
-	
+	    if (typeof user !== "undefined") {
+	      this.setState({ user: user });
+	    }
 	    this.setState({
 	      subPage: newSubPage,
-	      user: user,
 	      beer: beer
 	    });
 	  },
@@ -32079,7 +32080,8 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(Navbar, { currentUser: this.props.currentUser, subPage: this.state.subPage,
+	      React.createElement(Navbar, { currentUser: this.props.currentUser,
+	        user: this.props.user, subPage: this.state.subPage,
 	        onChange: this.navbarChangeHandler }),
 	      React.createElement(MainContent, {
 	        currentUser: this.props.currentUser,
@@ -32404,12 +32406,7 @@
 	  },
 	
 	  componentDidMount: function () {
-	    console.log("component did mount");
 	    this.reviewsToken = ReviewStore.addListener(this._onChange);
-	  },
-	
-	  componentWillMount: function () {
-	    console.log("component will mount");
 	  },
 	
 	  componentWillUnmount: function () {
@@ -33298,6 +33295,7 @@
 	  displayName: 'User',
 	
 	  getUserPage: function () {
+	
 	    if (this.props.currentUser.id === this.props.user.id) {
 	      UserPage = React.createElement(UserProfile, { currentUser: this.props.currentUser, user: this.props.user });
 	    } else {

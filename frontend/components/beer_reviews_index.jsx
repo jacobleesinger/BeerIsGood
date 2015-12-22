@@ -33,12 +33,7 @@ var BeerReviewsIndex = React.createClass ({
   },
 
   componentDidMount: function() {
-    console.log("component did mount");
     this.reviewsToken = ReviewStore.addListener(this._onChange);
-  },
-
-  componentWillMount: function () {
-    console.log("component will mount");
   },
 
   componentWillUnmount: function() {

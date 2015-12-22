@@ -7,6 +7,7 @@ var UserPage;
 var User = React.createClass({
 
   getUserPage: function () {
+
     if (this.props.currentUser.id === this.props.user.id) {
       UserPage = <UserProfile currentUser={this.props.currentUser} user={this.props.user}/>;
     } else {

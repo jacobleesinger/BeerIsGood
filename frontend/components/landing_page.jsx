@@ -96,7 +96,7 @@ var LandingPage = React.createClass({
 
 
     if (this.state.signedIn) {
-      Page = <Home currentUser={this.state.currentUser} errors={this.displayErrorMessages()}/>
+      Page = <Home currentUser={this.state.currentUser} user={this.state.currentUser} errors={this.displayErrorMessages()}/>
     } else {
       var errors = this.displayErrorMessages();
       Page =

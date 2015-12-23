@@ -24976,6 +24976,7 @@
 	var UserActions = __webpack_require__(218);
 	var SessionActions = __webpack_require__(224);
 	var ErrorActions = __webpack_require__(226);
+	var CurrentUserActions = __webpack_require__(229);
 	
 	var UserUtil = {
 	
@@ -24987,6 +24988,7 @@
 	      success: function (user) {
 	        UserActions.receiveSingleUser(user);
 	        SessionActions.createSession(user);
+	        CurrentUserActions.setCurrentUser(user);
 	      },
 	      error: function (errors) {
 	        ErrorActions.receiveAllErrors(errors);
@@ -25378,7 +25380,6 @@
 	
 	var SessionActions = {
 	  createSession: function (user) {
-	
 	    Dispatcher.dispatch({
 	      actionType: SessionConstants.SESSION_CREATED,
 	      user: user
@@ -33463,7 +33464,7 @@
 	      'div',
 	      null,
 	      this.state.reviews.map((function (review) {
-	        debugger;
+	
 	        return React.createElement(ReviewIndexItem, { currentUser: this.props.currentUser, user: this.props.user, review: review, key: review.id });
 	      }).bind(this))
 	    );

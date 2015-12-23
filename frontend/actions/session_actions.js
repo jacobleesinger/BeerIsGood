@@ -3,7 +3,6 @@ var SessionConstants = require('../constants/session_constants');
 
 var SessionActions = {
   createSession: function(user){
-
     Dispatcher.dispatch({
       actionType: SessionConstants.SESSION_CREATED,
       user: user

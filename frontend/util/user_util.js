@@ -1,6 +1,7 @@
 var UserActions = require('../actions/user_actions');
 var SessionActions = require('../actions/session_actions');
 var ErrorActions = require('../actions/error_actions');
+var CurrentUserActions = require('../actions/current_user_actions');
 
 var UserUtil = {
 
@@ -12,6 +13,7 @@ var UserUtil = {
       success: function (user) {
         UserActions.receiveSingleUser(user);
         SessionActions.createSession(user);
+        CurrentUserActions.setCurrentUser(user);
       },
       error: function(errors) {
         ErrorActions.receiveAllErrors(errors);

@@ -13,6 +13,7 @@ var Buttons;
 var CommentFormDisplay;
 var ToastButton;
 
+
 var ReviewIndexItem = React.createClass({
 
   mixins: [LinkedStateMixin],
@@ -21,38 +22,16 @@ var ReviewIndexItem = React.createClass({
     router: React.PropTypes.func
   },
 
-  toastedBy: function () {
-    var toasts = ToastStore.filterToastsByReviewId(this.props.review.id);
-    var toastedBy = {};
-    toasts.forEach(function(toast){
-      toastedBy[toast.user_id] = true
-    });
-    return toastedBy;
-  },
+
   handleToastClick: function (review) {
+
     var toast = {
       review_id: review.id,
       user_id: this.props.currentUser.id
     };
     ToastUtil.createToast(toast);
-    this.setState({
-      toastedBy: this.toastedBy()
-    });
   },
-  hasToasted: function () {
-    var toastedBy = this.toastedBy();
-    if (toastedBy[this.props.currentUser.id]){
 
-      ToastButton = <div>You Toasted this!</div>;
-      } else {
-
-        ToastButton = (
-          <div className="reviewFooterItem col-md-4">
-            <div onClick={this.handleToastClick.bind(this, this.props.review)} className="toastReviewButton" value={this.props.review}>Toast this!</div>
-          </div>
-        );
-      }
-    },
 
   filteredState: function() {
     filteredState = {};
@@ -74,6 +53,31 @@ var ReviewIndexItem = React.createClass({
     this.setState({editing: false});
   },
 
+  currentUserHasToastedReview: function () {
+    var result = false;
+
+    this.state.toasts.forEach(function(toast) {
+
+      if (toast.user_id === this.props.currentUser.id) {
+        result = true;
+      }
+    }.bind(this))
+    return result;
+  },
+
+  displayToastButton: function () {
+    var currentUserHasToastedReview = this.currentUserHasToastedReview();
+    if(currentUserHasToastedReview){
+      ToastButton = <div>You Toasted this!</div>
+    } else {
+      ToastButton = (
+        <div className="reviewFooterItem col-md-4">
+          <div onClick={this.handleToastClick.bind(this, this.props.review)} className="toastReviewButton" value={this.props.review}>Toast this!</div>
+        </div>
+      )
+    }
+  },
+
   getInitialState: function () {
     return ({
       beers: BeerStore.all(),
@@ -87,7 +91,7 @@ var ReviewIndexItem = React.createClass({
       id: this.props.review.id,
       editing: false,
       commenting: false,
-      toastedBy: this.toastedBy()
+
     });
   },
 
@@ -171,6 +175,7 @@ var ReviewIndexItem = React.createClass({
 
   isEditing: function () {
     this.checkIfCurrentUser();
+    this.displayToastButton();
     if (this.state.editing){
       Display =
       <div className="">
@@ -200,6 +205,7 @@ var ReviewIndexItem = React.createClass({
             <div className="reviewContent col-md-12">
               <div className="reviewHeader col-md-12">
                 {this.state.beer.name}
+
 
                 {Buttons}
 
@@ -241,9 +247,10 @@ var ReviewIndexItem = React.createClass({
   },
 
   render: function () {
+
     this.isEditing();
     this.isCommenting();
-    this.hasToasted();
+
 
 
     return (

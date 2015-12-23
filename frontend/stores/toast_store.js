@@ -38,6 +38,12 @@ ToastStore.filterToastsByReviewId = function(reviewId) {
   });
 }
 
+ToastStore.filterToastsByUserId = function(userId) {
+  return this.all().filter(function(toast) {
+    return toast.user_id === userId;
+  });
+}
+
 ToastStore.__onDispatch = function(payload) {
 
   switch(payload.actionType) {

@@ -30,7 +30,7 @@ var routes = (
   <Route path="/" component={App}>
     <IndexRoute component={LandingPage}/>
     <Route path="/beers" component={BeersIndex} />
-    <Route path="/home" component={Home} />
+    <Route path="/home" component={Home}/>
     <Route path="/user/:id" component={UserShow} />
   </Route>
 );

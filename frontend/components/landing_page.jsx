@@ -47,7 +47,7 @@ var LandingPage = React.createClass({
   },
 
   _onCurrentUserChange: function () {
-    debugger;
+
     this.setState({
       currentUser: CurrentUserStore.currentUser()
     });
@@ -86,6 +86,12 @@ var LandingPage = React.createClass({
         button: button
       }
     );
+  },
+
+  requireSignedIn: function () {
+    if (!this.state.signedIn) {
+      this.replaceWith('newSession')
+    }
   },
 
 

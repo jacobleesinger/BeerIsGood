@@ -1,1 +1,1 @@
-json.extract! toast, :user_id, :review_id
+json.extract! toast, :user_id, :review_id, :user

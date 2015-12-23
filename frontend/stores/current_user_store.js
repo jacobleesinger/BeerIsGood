@@ -25,9 +25,11 @@ CurrentUserStore.__onDispatch = function(payload) {
     case CurrentUserConstants.CURRENT_USER_SET:
       resetCurrentUser();
       setCurrentUser(payload.currentUser);
+      CurrentUserStore.__emitChange();
       break;
     case CurrentUserConstants.CURRENT_USER_RESET:
       resetCurrentUser;
+      CurrentUserStore.__emitChange();
       break;
   }
 };

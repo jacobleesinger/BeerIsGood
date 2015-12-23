@@ -1,5 +1,6 @@
 var SessionActions = require('../actions/session_actions');
 var ErrorActions = require('../actions/error_actions');
+var CurrentUserActions = require('../actions/current_user_actions');
 
 var SessionUtil = {
 

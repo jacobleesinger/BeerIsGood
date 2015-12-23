@@ -47,9 +47,11 @@ var LandingPage = React.createClass({
   },
 
   _onCurrentUserChange: function () {
+    debugger;
     this.setState({
       currentUser: CurrentUserStore.currentUser()
     });
+    this.checkIfSignedIn();
   },
 
   _onErrorChange: function() {
@@ -88,6 +90,7 @@ var LandingPage = React.createClass({
 
 
   render: function () {
+
 
 
     if (this.state.auth) {

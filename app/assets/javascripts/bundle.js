@@ -49,11 +49,12 @@
 	var ReactRouter = __webpack_require__(159);
 	var Router = ReactRouter.Router;
 	var Route = ReactRouter.Route;
+	var BrowserHistory = ReactRouter.browserHistory;
 	var IndexRoute = ReactRouter.IndexRoute;
 	var LandingPage = __webpack_require__(210);
 	var Home = __webpack_require__(248);
 	var UserUtil = __webpack_require__(217);
-	var BeerUtil = __webpack_require__(285);
+	var BeerUtil = __webpack_require__(286);
 	var ReviewUtil = __webpack_require__(260);
 	var CommentUtil = __webpack_require__(274);
 	var ToastUtil = __webpack_require__(276);
@@ -24497,9 +24498,11 @@
 	  },
 	
 	  _onCurrentUserChange: function () {
+	    debugger;
 	    this.setState({
 	      currentUser: CurrentUserStore.currentUser()
 	    });
+	    this.checkIfSignedIn();
 	  },
 	
 	  _onErrorChange: function () {
@@ -25436,6 +25439,7 @@
 
 	var SessionActions = __webpack_require__(224);
 	var ErrorActions = __webpack_require__(226);
+	var CurrentUserActions = __webpack_require__(288);
 	
 	var SessionUtil = {
 	
@@ -32087,6 +32091,7 @@
 	  },
 	
 	  render: function () {
+	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -32399,19 +32404,17 @@
 	  getInitialState: function () {
 	    return {
 	      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
-	      beer_id: this.props.beer.id,
 	      body: "",
-	      rating: 0,
-	      author_id: this.props.currentUser.id
+	      rating: 0
 	    };
 	  },
 	
-	  getFilteredState: function () {
+	  getReviewObject: function () {
 	    return {
-	      beer_id: this.state.beer_id,
+	      beer_id: this.props.beer.id,
 	      body: this.state.body,
 	      rating: this.state.rating,
-	      author_id: this.state.author_id
+	      author_id: this.props.currentUser.id
 	    };
 	  },
 	
@@ -32433,11 +32436,7 @@
 	    e.preventDefault;
 	
 	    Object.assign({}, this.state);
-	    ReviewUtil.createReview(this.getFilteredState());
-	  },
-	
-	  handleBeerChange: function (event) {
-	    this.setState({ beer_id: event.target.value });
+	    ReviewUtil.createReview(this.getReviewObject());
 	  },
 	
 	  handleRatingChange: function (event) {
@@ -34253,7 +34252,7 @@
 
 	var Store = __webpack_require__(231).Store;
 	var AppDispatcher = __webpack_require__(219);
-	var CurrentUserConstants = __webpack_require__(287);
+	var CurrentUserConstants = __webpack_require__(285);
 	
 	var _currentUser = {};
 	
@@ -34276,9 +34275,11 @@
 	    case CurrentUserConstants.CURRENT_USER_SET:
 	      resetCurrentUser();
 	      setCurrentUser(payload.currentUser);
+	      CurrentUserStore.__emitChange();
 	      break;
 	    case CurrentUserConstants.CURRENT_USER_RESET:
 	      resetCurrentUser;
+	      CurrentUserStore.__emitChange();
 	      break;
 	  }
 	};
@@ -34287,9 +34288,20 @@
 
 /***/ },
 /* 285 */
+/***/ function(module, exports) {
+
+	CurrentUserConstants = {
+	  CURRENT_USER_SET: "CURRENT_USER_SET",
+	  CURRENT_USER_RESET: "CURRENT_USER_RESET"
+	};
+	
+	module.exports = CurrentUserConstants;
+
+/***/ },
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BeerActions = __webpack_require__(286);
+	var BeerActions = __webpack_require__(287);
 	
 	var BeerUtil = {
 	
@@ -34310,7 +34322,7 @@
 	module.exports = BeerUtil;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -34338,15 +34350,30 @@
 	module.exports = BeerActions;
 
 /***/ },
-/* 287 */
-/***/ function(module, exports) {
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
 
-	CurrentUserConstants = {
-	  CURRENT_USER_SET: "CURRENT_USER_SET",
-	  CURRENT_USER_RESET: "CURRENT_USER_RESET"
+	var Dispatcher = __webpack_require__(219);
+	var CurrentUserConstants = __webpack_require__(285);
+	
+	var CurrentUserActions = {
+	
+	  setCurrentUser: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: CurrentUserConstants.CURRENT_USER_SET,
+	      currentUser: user
+	    });
+	  },
+	
+	  resetCurrentUser: function () {
+	    Dispatcher.dispatch({
+	      actionType: CurrentUserConstants.CURRENT_USER_RESET
+	    });
+	  }
+	
 	};
 	
-	module.exports = CurrentUserConstants;
+	module.exports = CurrentUserActions;
 
 /***/ }
 /******/ ]);

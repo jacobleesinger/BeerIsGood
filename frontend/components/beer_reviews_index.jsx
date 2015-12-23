@@ -16,19 +16,17 @@ var BeerReviewsIndex = React.createClass ({
   getInitialState: function () {
     return ({
       reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
-      beer_id: this.props.beer.id,
       body: "",
-      rating: 0,
-      author_id: this.props.currentUser.id
+      rating: 0
     });
   },
 
-  getFilteredState: function () {
+  getReviewObject: function () {
     return ({
-      beer_id: this.state.beer_id,
+      beer_id: this.props.beer.id,
       body: this.state.body,
       rating: this.state.rating,
-      author_id: this.state.author_id
+      author_id: this.props.currentUser.id
     })
   },
 
@@ -50,12 +48,9 @@ var BeerReviewsIndex = React.createClass ({
     e.preventDefault;
 
     Object.assign({}, this.state)
-    ReviewUtil.createReview(this.getFilteredState());
+    ReviewUtil.createReview(this.getReviewObject());
   },
 
-  handleBeerChange: function(event) {
-    this.setState({beer_id: event.target.value});
-  },
 
   handleRatingChange: function(event) {
     this.setState({rating: event.target.value});

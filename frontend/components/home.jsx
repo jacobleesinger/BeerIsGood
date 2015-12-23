@@ -29,6 +29,7 @@ var Home = React.createClass({
     });
   },
 
+
   navbarChangeHandler: function(newSubPage, user, beer) {
     if (typeof user !== "undefined"){
       this.setState({user: user});
@@ -40,6 +41,7 @@ var Home = React.createClass({
   },
 
   render: function () {
+    
     return(
       <div>
         <Navbar currentUser={this.props.currentUser}

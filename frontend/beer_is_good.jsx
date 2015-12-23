@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom');
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
+var BrowserHistory = ReactRouter.browserHistory;
 var IndexRoute = ReactRouter.IndexRoute;
 var LandingPage = require('./components/landing_page');
 var Home = require('./components/home');

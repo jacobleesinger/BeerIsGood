@@ -21,6 +21,39 @@ var ReviewIndexItem = React.createClass({
     router: React.PropTypes.func
   },
 
+  toastedBy: function () {
+    var toasts = ToastStore.filterToastsByReviewId(this.props.review.id);
+    var toastedBy = {};
+    toasts.forEach(function(toast){
+      toastedBy[toast.user_id] = true
+    });
+    return toastedBy;
+  },
+  handleToastClick: function (review) {
+    var toast = {
+      review_id: review.id,
+      user_id: this.props.currentUser.id
+    };
+    ToastUtil.createToast(toast);
+    this.setState({
+      toastedBy: this.toastedBy()
+    });
+  },
+  hasToasted: function () {
+    var toastedBy = this.toastedBy();
+    if (toastedBy[this.props.currentUser.id]){
+
+      ToastButton = <div>You Toasted this!</div>;
+      } else {
+
+        ToastButton = (
+          <div className="reviewFooterItem col-md-4">
+            <div onClick={this.handleToastClick.bind(this, this.props.review)} className="toastReviewButton" value={this.props.review}>Toast this!</div>
+          </div>
+        );
+      }
+    },
+
   filteredState: function() {
     filteredState = {};
     for (key in this.state) {
@@ -58,14 +91,6 @@ var ReviewIndexItem = React.createClass({
     });
   },
 
-  toastedBy: function () {
-    var toasts = ToastStore.filterToastsByReviewId(this.props.review.id);
-    var toastedBy = {};
-    toasts.forEach(function(toast){
-      toastedBy[toast.user_id] = true
-    });
-    return toastedBy;
-  },
 
   componentDidMount: function() {
     this.beerToken = BeerStore.addListener(this._onChange);
@@ -104,16 +129,6 @@ var ReviewIndexItem = React.createClass({
     });
   },
 
-  handleToastClick: function (review) {
-    var toast = {
-      review_id: review.id,
-      user_id: this.props.currentUser.id
-    };
-    ToastUtil.createToast(toast);
-    this.setState({
-      toastedBy: this.toastedBy()
-    });
-  },
 
   handleRatingChange: function(event) {
     this.setState({rating: event.target.value});
@@ -153,20 +168,6 @@ var ReviewIndexItem = React.createClass({
     });
   },
 
-  hasToasted: function () {
-  var toastedBy = this.toastedBy();
-    if (toastedBy[this.props.currentUser.id]){
-
-      ToastButton = <div>You Toasted this!</div>;
-    } else {
-
-      ToastButton = (
-        <div className="reviewFooterItem col-md-4">
-          <div onClick={this.handleToastClick.bind(this, this.props.review)} className="toastReviewButton" value={this.props.review}>Toast this!</div>
-        </div>
-      );
-    }
-  },
 
   isEditing: function () {
     this.checkIfCurrentUser();

@@ -10,8 +10,6 @@ var ReviewUtil = {
   },
 
   createReview: function(review) {
-    delete review.beers
-
 
     $.ajax({
       url: "api/reviews",

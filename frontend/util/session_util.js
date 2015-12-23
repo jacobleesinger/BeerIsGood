@@ -16,6 +16,7 @@ var SessionUtil = {
      data: {user: user},
      success: function(user) {
        SessionActions.createSession(user);
+       CurrentUserActions.setCurrentUser(user);
       },
       error: function(errors) {
         ErrorActions.receiveAllErrors(errors);
@@ -29,6 +30,7 @@ var SessionUtil = {
      type: 'DELETE',
      success: function(user){
        SessionActions.destroySession(user);
+       CurrentUserActions.resetCurrentUser;
      }
    });
  },

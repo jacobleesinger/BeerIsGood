@@ -3,6 +3,7 @@ var Auth = require('./auth/auth_component');
 var SessionStore = require('../stores/session_store');
 var ErrorStore = require('../stores/error_store');
 var Home = require('./home');
+var CurrentUserStore = require('../stores/current_user_store');
 
 
 var Page;
@@ -28,6 +29,7 @@ var LandingPage = React.createClass({
   componentDidMount: function(){
     this.sessionToken = SessionStore.addListener(this._onSessionChange);
     this.errorToken = ErrorStore.addListener(this._onErrorChange);
+    this.currentUserToken = CurrentUserStore.addListener(this._onCurrentUserChange);
   },
 
   componentWillUnmount: function(){
@@ -38,11 +40,16 @@ var LandingPage = React.createClass({
 
   _onSessionChange: function() {
     this.setState({
-      currentUser: SessionStore.currentUser(),
       currentSession: SessionStore.currentSession(),
 
     });
     this.checkIfSignedIn();
+  },
+
+  _onCurrentUserChange: function () {
+    this.setState({
+      currentUser: CurrentUserStore.currentUser()
+    });
   },
 
   _onErrorChange: function() {
@@ -52,7 +59,7 @@ var LandingPage = React.createClass({
   },
 
   checkIfSignedIn: function() {
-    if (this.state.currentSession === this.state.currentUser.session_token){
+    if (this.state.currentUser.session_token === this.state.currentSession){
       this.setState({signedIn: true})
     } else {
       this.setState({signedIn: false})

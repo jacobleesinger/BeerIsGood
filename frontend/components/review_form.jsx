@@ -41,11 +41,21 @@ var ReviewForm = React.createClass({
     this.BeerToken.remove();
   },
 
+  filteredState: function () {
+    return {
+      beer_id: this.state.beer_id,
+      body: this.state.body,
+      rating: this.state.rating,
+      author_id: this.state.author_id
+    };
+  },
+
   handleSubmit: function(e) {
     e.preventDefault;
+    debugger;
 
-    reviewData = Object.assign({}, this.state)
-    ReviewUtil.createReview(reviewData);
+    Object.assign({}, this.state)
+    ReviewUtil.createReview(this.filteredState());
   },
 
   handleBeerChange: function(event) {

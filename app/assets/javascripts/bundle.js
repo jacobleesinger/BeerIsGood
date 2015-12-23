@@ -53,7 +53,7 @@
 	var LandingPage = __webpack_require__(210);
 	var Home = __webpack_require__(248);
 	var UserUtil = __webpack_require__(217);
-	var BeerUtil = __webpack_require__(284);
+	var BeerUtil = __webpack_require__(285);
 	var ReviewUtil = __webpack_require__(260);
 	var CommentUtil = __webpack_require__(274);
 	var ToastUtil = __webpack_require__(276);
@@ -24458,6 +24458,7 @@
 	var SessionStore = __webpack_require__(230);
 	var ErrorStore = __webpack_require__(247);
 	var Home = __webpack_require__(248);
+	var CurrentUserStore = __webpack_require__(284);
 	
 	var Page;
 	var modal;
@@ -24479,6 +24480,7 @@
 	  componentDidMount: function () {
 	    this.sessionToken = SessionStore.addListener(this._onSessionChange);
 	    this.errorToken = ErrorStore.addListener(this._onErrorChange);
+	    this.currentUserToken = CurrentUserStore.addListener(this._onCurrentUserChange);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -24488,11 +24490,16 @@
 	
 	  _onSessionChange: function () {
 	    this.setState({
-	      currentUser: SessionStore.currentUser(),
 	      currentSession: SessionStore.currentSession()
 	
 	    });
 	    this.checkIfSignedIn();
+	  },
+	
+	  _onCurrentUserChange: function () {
+	    this.setState({
+	      currentUser: CurrentUserStore.currentUser()
+	    });
 	  },
 	
 	  _onErrorChange: function () {
@@ -24502,7 +24509,7 @@
 	  },
 	
 	  checkIfSignedIn: function () {
-	    if (this.state.currentSession === this.state.currentUser.session_token) {
+	    if (this.state.currentUser.session_token === this.state.currentSession) {
 	      this.setState({ signedIn: true });
 	    } else {
 	      this.setState({ signedIn: false });
@@ -25445,6 +25452,7 @@
 	      data: { user: user },
 	      success: function (user) {
 	        SessionActions.createSession(user);
+	        CurrentUserActions.setCurrentUser(user);
 	      },
 	      error: function (errors) {
 	        ErrorActions.receiveAllErrors(errors);
@@ -25458,6 +25466,7 @@
 	      type: 'DELETE',
 	      success: function (user) {
 	        SessionActions.destroySession(user);
+	        CurrentUserActions.resetCurrentUser;
 	      }
 	    });
 	  }
@@ -32042,6 +32051,7 @@
 	var Navbar = __webpack_require__(249);
 	var UserShow = __webpack_require__(270);
 	var UserProfile = __webpack_require__(282);
+	var CurrentUserStore = __webpack_require__(284);
 	
 	var MainContent = React.createClass({
 	  displayName: 'MainContent',
@@ -32896,7 +32906,6 @@
 	  },
 	
 	  createReview: function (review) {
-	    delete review.beers;
 	
 	    $.ajax({
 	      url: "api/reviews",
@@ -33442,6 +33451,47 @@
 	    router: React.PropTypes.func
 	  },
 	
+	  toastedBy: function () {
+	    var toasts = ToastStore.filterToastsByReviewId(this.props.review.id);
+	    var toastedBy = {};
+	    toasts.forEach(function (toast) {
+	      toastedBy[toast.user_id] = true;
+	    });
+	    return toastedBy;
+	  },
+	  handleToastClick: function (review) {
+	    var toast = {
+	      review_id: review.id,
+	      user_id: this.props.currentUser.id
+	    };
+	    ToastUtil.createToast(toast);
+	    this.setState({
+	      toastedBy: this.toastedBy()
+	    });
+	  },
+	  hasToasted: function () {
+	    var toastedBy = this.toastedBy();
+	    if (toastedBy[this.props.currentUser.id]) {
+	
+	      ToastButton = React.createElement(
+	        'div',
+	        null,
+	        'You Toasted this!'
+	      );
+	    } else {
+	
+	      ToastButton = React.createElement(
+	        'div',
+	        { className: 'reviewFooterItem col-md-4' },
+	        React.createElement(
+	          'div',
+	          { onClick: this.handleToastClick.bind(this, this.props.review), className: 'toastReviewButton', value: this.props.review },
+	          'Toast this!'
+	        )
+	      );
+	    }
+	  },
+	
 	  filteredState: function () {
 	    filteredState = {};
 	    for (key in this.state) {
@@ -33479,15 +33529,6 @@
 	    };
 	  },
 	
-	  toastedBy: function () {
-	    var toasts = ToastStore.filterToastsByReviewId(this.props.review.id);
-	    var toastedBy = {};
-	    toasts.forEach(function (toast) {
-	      toastedBy[toast.user_id] = true;
-	    });
-	    return toastedBy;
-	  },
-	
 	  componentDidMount: function () {
 	    this.beerToken = BeerStore.addListener(this._onChange);
 	    this.commentToken = CommentStore.addListener(this._onChange);
@@ -33521,17 +33562,6 @@
 	  handleCommentClick: function (review) {
 	    this.setState({
 	      commenting: true
-	    });
-	  },
-	
-	  handleToastClick: function (review) {
-	    var toast = {
-	      review_id: review.id,
-	      user_id: this.props.currentUser.id
-	    };
-	    ToastUtil.createToast(toast);
-	    this.setState({
-	      toastedBy: this.toastedBy()
 	    });
 	  },
 	
@@ -33577,29 +33607,6 @@
 	    this.setState({
 	      commenting: false
 	    });
-	  },
-	
-	  hasToasted: function () {
-	    var toastedBy = this.toastedBy();
-	    if (toastedBy[this.props.currentUser.id]) {
-	
-	      ToastButton = React.createElement(
-	        'div',
-	        null,
-	        'You Toasted this!'
-	      );
-	    } else {
-	
-	      ToastButton = React.createElement(
-	        'div',
-	        { className: 'reviewFooterItem col-md-4' },
-	        React.createElement(
-	          'div',
-	          { onClick: this.handleToastClick.bind(this, this.props.review), className: 'toastReviewButton', value: this.props.review },
-	          'Toast this!'
-	        )
-	      );
-	    }
 	  },
 	
 	  isEditing: function () {
@@ -33968,11 +33975,21 @@
 	    this.BeerToken.remove();
 	  },
 	
+	  filteredState: function () {
+	    return {
+	      beer_id: this.state.beer_id,
+	      body: this.state.body,
+	      rating: this.state.rating,
+	      author_id: this.state.author_id
+	    };
+	  },
+	
 	  handleSubmit: function (e) {
 	    e.preventDefault;
+	    debugger;
 	
-	    reviewData = Object.assign({}, this.state);
-	    ReviewUtil.createReview(reviewData);
+	    Object.assign({}, this.state);
+	    ReviewUtil.createReview(this.filteredState());
 	  },
 	
 	  handleBeerChange: function (event) {
@@ -34234,7 +34251,45 @@
 /* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BeerActions = __webpack_require__(285);
+	var Store = __webpack_require__(231).Store;
+	var AppDispatcher = __webpack_require__(219);
+	var CurrentUserConstants = __webpack_require__(287);
+	
+	var _currentUser = {};
+	
+	var CurrentUserStore = new Store(AppDispatcher);
+	
+	var resetCurrentUser = function () {
+	  _currentUser = {};
+	};
+	
+	var setCurrentUser = function (user) {
+	  _currentUser = user;
+	};
+	
+	CurrentUserStore.currentUser = function () {
+	  return _currentUser;
+	};
+	
+	CurrentUserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case CurrentUserConstants.CURRENT_USER_SET:
+	      resetCurrentUser();
+	      setCurrentUser(payload.currentUser);
+	      break;
+	    case CurrentUserConstants.CURRENT_USER_RESET:
+	      resetCurrentUser;
+	      break;
+	  }
+	};
+	
+	module.exports = CurrentUserStore;
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BeerActions = __webpack_require__(286);
 	
 	var BeerUtil = {
 	
@@ -34255,7 +34310,7 @@
 	module.exports = BeerUtil;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -34281,6 +34336,17 @@
 	};
 	
 	module.exports = BeerActions;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports) {
+
+	CurrentUserConstants = {
+	  CURRENT_USER_SET: "CURRENT_USER_SET",
+	  CURRENT_USER_RESET: "CURRENT_USER_RESET"
+	};
+	
+	module.exports = CurrentUserConstants;
 
 /***/ }
 /******/ ]);

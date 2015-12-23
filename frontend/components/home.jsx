@@ -2,7 +2,7 @@ var React = require('react');
 var Navbar = require('./navbar');
 var UserShow = require('./user_show');
 var UserProfile = require('./user_profile');
-
+var CurrentUserStore = require('../stores/current_user_store');
 
 
 var MainContent = React.createClass({

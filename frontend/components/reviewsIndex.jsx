@@ -28,12 +28,12 @@ var ReviewsIndex = React.createClass ({
   },
 
   render: function () {
-
+debugger;
     return (
 
       <div>
         {this.state.reviews.map(function(review) {
-  
+
             return (
               <ReviewIndexItem currentUser={this.props.currentUser} user={this.props.user} review={review} key={review.id} />
             );

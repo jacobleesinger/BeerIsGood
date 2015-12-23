@@ -32169,6 +32169,7 @@
 	var BeerShow = __webpack_require__(255);
 	var UsersIndex = __webpack_require__(270);
 	var User = __webpack_require__(271);
+	var UserProfile = __webpack_require__(284);
 	
 	var NavbarInstance = React.createClass({
 	  displayName: 'NavbarInstance',
@@ -32247,7 +32248,7 @@
 	              null,
 	              React.createElement(
 	                'div',
-	                { onClick: this.handleClick.bind(this, User),
+	                { onClick: this.handleClick.bind(this, UserProfile),
 	                  value: User },
 	                'User'
 	              )
@@ -33459,7 +33460,7 @@
 	  },
 	
 	  render: function () {
-	
+	    debugger;
 	    return React.createElement(
 	      'div',
 	      null,
@@ -34250,7 +34251,7 @@
 	            null,
 	            'My Reviews'
 	          ),
-	          React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.user })
+	          React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.currentUser })
 	        )
 	      )
 	    );

@@ -63,7 +63,7 @@ var UserProfile = React.createClass({
             </div>
 
             <h3>My Reviews</h3>
-              <ReviewsIndex currentUser={this.props.currentUser} user={this.props.user}/>
+              <ReviewsIndex currentUser={this.props.currentUser} user={this.props.currentUser}/>
             </div>
           </div>
         </div>

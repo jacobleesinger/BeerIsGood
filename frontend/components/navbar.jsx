@@ -8,6 +8,7 @@ var FriendsIndex = require('./friends_index');
 var BeerShow = require('./beer_show');
 var UsersIndex = require('./users_index');
 var User = require('./user');
+var UserProfile = require('./user_profile');
 
 
 
@@ -62,7 +63,7 @@ var NavbarInstance = React.createClass({
               </div>
             </li>
             <li>
-              <div onClick={this.handleClick.bind(this, User)}
+              <div onClick={this.handleClick.bind(this, UserProfile)}
               value={User}>
                 User
               </div>

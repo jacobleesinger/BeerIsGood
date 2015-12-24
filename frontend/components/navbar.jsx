@@ -9,6 +9,7 @@ var BeerShow = require('./beer_show');
 var UsersIndex = require('./users_index');
 var User = require('./user');
 var UserProfile = require('./user_profile');
+var Search = require('./search');
 
 
 
@@ -74,6 +75,9 @@ var NavbarInstance = React.createClass({
                 value={UsersIndex}>
                 UsersIndex
               </div>
+            </li>
+            <li>
+              <Search />
             </li>
             <li>
               <button

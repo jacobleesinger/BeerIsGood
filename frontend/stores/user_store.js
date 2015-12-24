@@ -45,6 +45,14 @@ UserStore.all = function() {
   return users;
 };
 
+UserStore.searchable = function () {
+  var searchable = [];
+  UserStore.all().forEach(function(user){
+    searchable.push(user.username);
+  });
+  return searchable;
+};
+
 
 
 

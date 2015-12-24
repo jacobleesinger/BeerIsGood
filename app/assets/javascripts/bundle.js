@@ -32174,6 +32174,7 @@
 	var UsersIndex = __webpack_require__(270);
 	var User = __webpack_require__(271);
 	var UserProfile = __webpack_require__(285);
+	var Search = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./search\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
 	var NavbarInstance = React.createClass({
 	  displayName: 'NavbarInstance',
@@ -32267,6 +32268,11 @@
 	                  value: UsersIndex },
 	                'UsersIndex'
 	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(Search, null)
 	            ),
 	            React.createElement(
 	              'li',
@@ -32886,6 +32892,14 @@
 	    }
 	  }
 	  return users;
+	};
+	
+	UserStore.searchable = function () {
+	  var searchable = [];
+	  UserStore.all().forEach(function (user) {
+	    searchable.push(user.username);
+	  });
+	  return searchable;
 	};
 	
 	UserStore.__onDispatch = function (payload) {

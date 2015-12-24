@@ -39,7 +39,7 @@ var UserProfile = React.createClass({
   },
 
   handleConfirm: function () {
-    debugger;
+
     var requestObj = FriendRequestStore.findById(request);
     FriendUtil.createFriendship(requestObj);
     FriendRequestUtil.destroyFriendRequest(request);
@@ -57,7 +57,7 @@ var UserProfile = React.createClass({
 
     var requests = this.state.friendRequests
     return requests.map(function(request) {
-      debugger;
+
       return (
         <div key={request.id} request={request}>
           Friend request from:

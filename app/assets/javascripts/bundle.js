@@ -34210,7 +34210,6 @@
 	      url: "api/friendrequests/" + requestId,
 	      type: "DELETE",
 	      success: function (friendRequests) {
-	        debugger;
 	        FriendRequestActions.receiveAllFriendRequests(friendRequests);
 	      }
 	    });
@@ -34373,7 +34372,7 @@
 	  },
 	
 	  handleConfirm: function () {
-	    debugger;
+	
 	    var requestObj = FriendRequestStore.findById(request);
 	    FriendUtil.createFriendship(requestObj);
 	    FriendRequestUtil.destroyFriendRequest(request);
@@ -34388,7 +34387,7 @@
 	
 	    var requests = this.state.friendRequests;
 	    return requests.map((function (request) {
-	      debugger;
+	
 	      return React.createElement(
 	        'div',
 	        { key: request.id, request: request },

@@ -27,7 +27,6 @@ var FriendRequestUtil = {
       url: "api/friendrequests/" + requestId,
       type: "DELETE",
       success: function(friendRequests){
-        debugger;
         FriendRequestActions.receiveAllFriendRequests(friendRequests);
       }
     });

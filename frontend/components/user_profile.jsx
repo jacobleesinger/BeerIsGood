@@ -5,6 +5,7 @@ var ReviewForm = require('./review_form');
 var FriendRequestStore = require('../stores/friend_request_store');
 var UserStore= require('../stores/user_store');
 var FriendRequestUtil = require('../util/friend_request_util');
+var FriendUtil = require('../util/friend_util');
 
 
 var UserProfile = React.createClass({
@@ -38,6 +39,10 @@ var UserProfile = React.createClass({
   },
 
   handleConfirm: function () {
+    debugger;
+    var requestObj = FriendRequestStore.findById(request);
+    FriendUtil.createFriendship(requestObj);
+    FriendRequestUtil.destroyFriendRequest(request);
 
   },
 
@@ -52,12 +57,13 @@ var UserProfile = React.createClass({
 
     var requests = this.state.friendRequests
     return requests.map(function(request) {
+      debugger;
       return (
-        <div key={request}>
+        <div key={request.id} request={request}>
           Friend request from:
           {UserStore.findById(request.requester_id).username}
           <button className="btn btn-sm btn-success"
-            onClick={this.handleConfirm(this, request)}>
+            onClick={this.handleConfirm.bind(this, request)}>
             Confirm
           </button>
           <button className="btn btn-sm btn-danger"

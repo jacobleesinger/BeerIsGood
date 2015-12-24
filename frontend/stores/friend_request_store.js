@@ -28,6 +28,10 @@ FriendRequestStore.all = function () {
   return requests;
 };
 
+FriendRequestStore.findById = function(requestId) {
+  return _requests[requestId];
+};
+
 
 
 FriendRequestStore.filterRequestsByRequestedId = function(requestedId) {

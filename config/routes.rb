@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :comments
     resources :toasts
     resources :friendrequests, only: [:create, :index, :destroy]
+    resources :friendships, only: [:create, :index]
   end
 
   resources :users

@@ -15,9 +15,17 @@ class Api::FriendrequestsController < ApplicationController
 
   end
 
+  def destroy
+    friendrequest = Friendrequest.find_by_id(params[:id])
+
+    friendrequest.destroy!
+
+    render json: Friendrequest.all
+  end
+
   private
 
   def friendrequest_params
-    params.require(:friendrequest).permit(:requester_id, :requested_id)
+    params.require(:friendrequest).permit(:id, :requester_id, :requested_id)
   end
 end

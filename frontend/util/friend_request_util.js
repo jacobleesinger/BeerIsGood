@@ -20,6 +20,17 @@ var FriendRequestUtil = {
     $.get('api/friendrequests', function(friendRequests){
       FriendRequestActions.receiveAllFriendRequests(friendRequests);
     });
+  },
+
+  destroyFriendRequest: function (requestId) {
+    $.ajax({
+      url: "api/friendrequests/" + requestId,
+      type: "DELETE",
+      success: function(friendRequests){
+        debugger;
+        FriendRequestActions.receiveAllFriendRequests(friendRequests);
+      }
+    });
   }
 };
 

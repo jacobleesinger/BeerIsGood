@@ -34191,6 +34191,17 @@
 	    $.get('api/friendrequests', function (friendRequests) {
 	      FriendRequestActions.receiveAllFriendRequests(friendRequests);
 	    });
+	  },
+	
+	  destroyFriendRequest: function (requestId) {
+	    $.ajax({
+	      url: "api/friendrequests/" + requestId,
+	      type: "DELETE",
+	      success: function (friendRequests) {
+	        debugger;
+	        FriendRequestActions.receiveAllFriendRequests(friendRequests);
+	      }
+	    });
 	  }
 	};
 	
@@ -34214,6 +34225,7 @@
 	  },
 	
 	  receiveAllFriendRequests: function (friendRequests) {
+	    debugger;
 	    Dispatcher.dispatch({
 	      actionType: FriendRequestConstants.REQUESTS_RECEIVED,
 	      requests: friendRequests
@@ -34317,6 +34329,13 @@
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
 	
+	  getInitialState: function () {
+	    debugger;
+	    return {
+	      friendRequests: FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id)
+	    };
+	  },
+	
 	  handleSignOut: function () {
 	    SessionUtil.destroySession();
 	  },
@@ -34325,12 +34344,13 @@
 	
 	  handleDeny: function () {
 	    debugger;
-	    FriendRequestUtil.destroy(request);
+	    FriendRequestUtil.destroyFriendRequest(request);
 	  },
 	
 	  getFriendRequests: function () {
+	    debugger;
 	
-	    var requests = FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id);
+	    var requests = this.state.friendRequests;
 	    PendingRequests = requests.map((function (request) {
 	      return React.createElement(
 	        'div',

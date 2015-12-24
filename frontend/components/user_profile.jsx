@@ -10,6 +10,14 @@ var PendingRequests;
 
 var UserProfile = React.createClass({
 
+  getInitialState: function () {
+    debugger;
+    return ({
+      friendRequests: FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id)
+    });
+  },
+
+
   handleSignOut: function () {
     SessionUtil.destroySession();
   },
@@ -20,13 +28,14 @@ var UserProfile = React.createClass({
 
   handleDeny: function () {
     debugger;
-    FriendRequestUtil.destroy(request)
+    FriendRequestUtil.destroyFriendRequest(request);
 
   },
 
   getFriendRequests: function () {
+    debugger;
 
-    var requests = FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id);
+    var requests = this.state.friendRequests
     PendingRequests = requests.map(function(request) {
       return (
         <div key={request}>

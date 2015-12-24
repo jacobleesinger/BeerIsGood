@@ -15,6 +15,18 @@ var FriendUtil = {
         FriendActions.receiveSingleFriendship(friendship);
       }
     );
+
+    $.post(
+      "api/friendships",
+        {friendship: {
+          user_id: requestObj.requested_id,
+          friend_id: requestObj.requester_id
+        }
+      },
+      function(friendship) {
+        FriendActions.receiveSingleFriendship(friendship);
+      }
+    );
   },
 
   fetchAllFriendships: function () {

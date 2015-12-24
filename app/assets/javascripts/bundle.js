@@ -33246,12 +33246,24 @@
 	    };
 	  },
 	
+	  // componentDidMount: function() {
+	  //   this.friendshipsToken = FriendStore.addListener(this._onChange);
+	  // },
+	  //
+	  // componentWillUnmount: function() {
+	  //   this.friendshipsToken.remove();
+	  // },
+	  //
+	  // _onChange: function () {
+	  //   this.setState({
+	  //     friends: this.getFriends()
+	  //   })
+	  // },
+	
 	  getFriends: function () {
 	    var friends = [];
 	
 	    var friendships = FriendStore.filterFriendshipsByUserId(this.props.currentUser.id);
-	
-	    friendships.concat(FriendStore.filterFriendshipsByFriendId(this.props.currentUser.id));
 	
 	    friendships.forEach(function (friendship) {
 	      friends.push(UserStore.findById(friendship.friend_id));
@@ -34627,6 +34639,14 @@
 	    $.post("api/friendships", { friendship: {
 	        user_id: requestObj.requester_id,
 	        friend_id: requestObj.requested_id
+	      }
+	    }, function (friendship) {
+	      FriendActions.receiveSingleFriendship(friendship);
+	    });
+	
+	    $.post("api/friendships", { friendship: {
+	        user_id: requestObj.requested_id,
+	        friend_id: requestObj.requester_id
 	      }
 	    }, function (friendship) {
 	      FriendActions.receiveSingleFriendship(friendship);

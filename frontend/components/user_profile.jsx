@@ -4,6 +4,7 @@ var ReviewStore = require('../stores/review_store');
 var ReviewForm = require('./review_form');
 var FriendRequestStore = require('../stores/friend_request_store');
 var UserStore= require('../stores/user_store');
+var FriendRequestUtil = require('../util/friend_request_util');
 
 var PendingRequests;
 
@@ -18,30 +19,32 @@ var UserProfile = React.createClass({
   },
 
   handleDeny: function () {
+    debugger;
+    FriendRequestUtil.destroy(request)
 
   },
 
   getFriendRequests: function () {
 
-    var requests = FriendRequestStore.getAllRequestsByRequestedId(this.props.currentUser.id);
+    var requests = FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id);
     PendingRequests = requests.map(function(request) {
       return (
         <div key={request}>
           Friend request from:
-          {UserStore.findById(request).username}
+          {UserStore.findById(request.requester_id).username}
           <button className="btn btn-sm btn-success"
-            onclick={this.handleConfirm}>
+            onClick={this.handleConfirm(this, request)}>
             Confirm
           </button>
           <button className="btn btn-sm btn-danger"
-            onclick={this.handleDeny}>
+            onClick={this.handleDeny.bind(this, request)}>
             Deny
           </button>
 
 
         </div>
       )
-    })
+    }.bind(this))
   },
 
   render: function(){

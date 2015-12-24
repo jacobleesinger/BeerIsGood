@@ -35,7 +35,7 @@ var UserShow = React.createClass({
 
   handleFriendClick: function () {
     FriendRequestUtil.createFriendRequest(this.props.currentUser.id, this.props.user.id);
-    alert("Friend request sent!")
+
   },
 
 
@@ -56,7 +56,7 @@ var UserShow = React.createClass({
   },
 
   render: function(){
-debugger;
+
 
     return(
       <div className="row fixedWidth">

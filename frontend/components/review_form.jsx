@@ -39,6 +39,7 @@ var ReviewForm = React.createClass({
   },
   componentWillUnmount: function(){
     this.BeerToken.remove();
+    this.ReviewToken.remove();
   },
 
   filteredState: function () {
@@ -52,7 +53,6 @@ var ReviewForm = React.createClass({
 
   handleSubmit: function(e) {
     e.preventDefault;
-    debugger;
 
     Object.assign({}, this.state)
     ReviewUtil.createReview(this.filteredState());

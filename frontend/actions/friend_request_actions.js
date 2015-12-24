@@ -3,12 +3,11 @@ var FriendRequestConstants = require('../constants/friend_request_constants');
 
 var FriendRequestActions = {
 
-  receiveFriendRequest: function (requesterId, requestedId) {
+  receiveFriendRequest: function (request) {
 
     Dispatcher.dispatch({
       actionType: FriendRequestConstants.REQUEST_RECEIVED,
-      requesterId: requesterId,
-      requestedId: requestedId
+      request: request
     });
   },
 

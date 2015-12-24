@@ -33419,7 +33419,6 @@
 	
 	  handleFriendClick: function () {
 	    FriendRequestUtil.createFriendRequest(this.props.currentUser.id, this.props.user.id);
-	    alert("Friend request sent!");
 	  },
 	
 	  displayFriendRequest: function () {
@@ -33440,7 +33439,6 @@
 	  },
 	
 	  render: function () {
-	    debugger;
 	
 	    return React.createElement(
 	      'div',
@@ -34068,6 +34066,7 @@
 	  },
 	  componentWillUnmount: function () {
 	    this.BeerToken.remove();
+	    this.ReviewToken.remove();
 	  },
 	
 	  filteredState: function () {
@@ -34081,7 +34080,6 @@
 	
 	  handleSubmit: function (e) {
 	    e.preventDefault;
-	    debugger;
 	
 	    Object.assign({}, this.state);
 	    ReviewUtil.createReview(this.filteredState());
@@ -34179,12 +34177,18 @@
 	var FriendRequestUtil = {
 	
 	  createFriendRequest: function (requesterId, requestedId) {
+	    $.post('api/friendrequests', { friendrequest: {
+	        requester_id: requesterId,
+	        requested_id: requestedId
+	      }
+	    }, function (friendRequest) {
 	
-	    FriendRequestActions.receiveFriendRequest(requesterId, requestedId);
+	      FriendRequestActions.receiveFriendRequest(friendRequest);
+	    });
 	  },
 	
 	  fetchAllFriendRequests: function () {
-	    $.get('api/friendrequests', function () {
+	    $.get('api/friendrequests', function (friendRequests) {
 	      FriendRequestActions.receiveAllFriendRequests(friendRequests);
 	    });
 	  }
@@ -34201,12 +34205,11 @@
 	
 	var FriendRequestActions = {
 	
-	  receiveFriendRequest: function (requesterId, requestedId) {
+	  receiveFriendRequest: function (request) {
 	
 	    Dispatcher.dispatch({
 	      actionType: FriendRequestConstants.REQUEST_RECEIVED,
-	      requesterId: requesterId,
-	      requestedId: requestedId
+	      request: request
 	    });
 	  },
 	
@@ -34243,41 +34246,38 @@
 	
 	var FriendRequestStore = new Store(AppDispatcher);
 	
-	var addSingleFriendRequest = function (requesterId, requestedId) {
-	  if (_requests[requestedId]) {
-	    _requests[requestedId].push(requesterId);
-	  } else {
-	    _requests[requestedId] = [];
-	    _requests[requestedId].push(requesterId);
-	  }
+	var addSingleFriendRequest = function (request) {
+	
+	  _requests[request.id] = request;
 	};
 	
 	var addAllFriendRequests = function (requests) {
 	  requests.forEach(function (request) {
-	
-	    if (_requests[request.requested_id]) {
-	      _requests[request.requested_id].push(request.requester_id);
-	    } else {
-	      _requests[request.requested_id] = [];
-	      _requests[request.requested_id].push(request.requester_id);
-	    }
+	    _requests[request.id] = request;
 	  });
 	};
 	
-	FriendRequestStore.getAllRequestsByRequestedId = function (requestedId) {
-	
-	  if (_requests[requestedId]) {
-	    return _requests[requestedId];
-	  } else {
-	    return [];
+	FriendRequestStore.all = function () {
+	  var requests = [];
+	  for (request in _requests) {
+	    if (_requests.hasOwnProperty(request)) {
+	      requests.push(_requests[request]);
+	    }
 	  }
+	  return requests;
+	};
+	
+	FriendRequestStore.filterRequestsByRequestedId = function (requestedId) {
+	  return this.all().filter(function (request) {
+	    return request.requested_id === requestedId;
+	  });
 	};
 	
 	FriendRequestStore.getRequestStatus = function (requesterId, requestedId) {
 	  var status = false;
-	  var requests = FriendRequestStore.getAllRequestsByRequestedId(requestedId);
+	  var requests = FriendRequestStore.filterRequestsByRequestedId(requestedId);
 	  requests.forEach(function (request) {
-	    if (request === requesterId) {
+	    if (request.requester_id === requesterId) {
 	      status = true;
 	    }
 	  });
@@ -34287,7 +34287,7 @@
 	FriendRequestStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case FriendRequestConstants.REQUEST_RECEIVED:
-	      addSingleFriendRequest(payload.requesterId, payload.requestedId);
+	      addSingleFriendRequest(payload.request);
 	      FriendRequestStore.__emitChange();
 	      break;
 	    case FriendRequestConstants.REQUESTS_RECEIVED:
@@ -34310,6 +34310,7 @@
 	var ReviewForm = __webpack_require__(280);
 	var FriendRequestStore = __webpack_require__(284);
 	var UserStore = __webpack_require__(261);
+	var FriendRequestUtil = __webpack_require__(281);
 	
 	var PendingRequests;
 	
@@ -34322,31 +34323,34 @@
 	
 	  handleConfirm: function () {},
 	
-	  handleDeny: function () {},
+	  handleDeny: function () {
+	    debugger;
+	    FriendRequestUtil.destroy(request);
+	  },
 	
 	  getFriendRequests: function () {
 	
-	    var requests = FriendRequestStore.getAllRequestsByRequestedId(this.props.currentUser.id);
-	    PendingRequests = requests.map(function (request) {
+	    var requests = FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id);
+	    PendingRequests = requests.map((function (request) {
 	      return React.createElement(
 	        'div',
 	        { key: request },
 	        'Friend request from:',
-	        UserStore.findById(request).username,
+	        UserStore.findById(request.requester_id).username,
 	        React.createElement(
 	          'button',
 	          { className: 'btn btn-sm btn-success',
-	            onclick: this.handleConfirm },
+	            onClick: this.handleConfirm(this, request) },
 	          'Confirm'
 	        ),
 	        React.createElement(
 	          'button',
 	          { className: 'btn btn-sm btn-danger',
-	            onclick: this.handleDeny },
+	            onClick: this.handleDeny.bind(this, request) },
 	          'Deny'
 	        )
 	      );
-	    });
+	    }).bind(this));
 	  },
 	
 	  render: function () {

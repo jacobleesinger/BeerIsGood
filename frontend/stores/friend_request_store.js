@@ -6,41 +6,42 @@ var _requests = {};
 
 var FriendRequestStore = new Store(AppDispatcher);
 
-var addSingleFriendRequest = function(requesterId, requestedId) {
-  if (_requests[requestedId]) {
-    _requests[requestedId].push(requesterId);
-  } else {
-    _requests[requestedId] = [];
-    _requests[requestedId].push(requesterId);
-  }
+var addSingleFriendRequest = function(request) {
+
+  _requests[request.id] = request;
 };
 
 var addAllFriendRequests = function(requests) {
   requests.forEach(function(request) {
-
-    if (_requests[request.requested_id]) {
-      _requests[request.requested_id].push(request.requester_id);
-    } else {
-      _requests[request.requested_id] = [];
-      _requests[request.requested_id].push(request.requester_id);
-    }
+    _requests[request.id] = request;
   });
 };
 
-FriendRequestStore.getAllRequestsByRequestedId = function(requestedId) {
-
-  if(_requests[requestedId]){
-    return _requests[requestedId];
-  } else {
-    return [];
+FriendRequestStore.all = function () {
+  var requests = [];
+  for (request in _requests) {
+    if (_requests.hasOwnProperty(request)) {
+      requests.push(_requests[request]);
+    }
   }
+  return requests;
 };
+
+
+
+FriendRequestStore.filterRequestsByRequestedId = function(requestedId) {
+  return this.all().filter(function(request){
+    return request.requested_id === requestedId;
+  });
+};
+
+
 
 FriendRequestStore.getRequestStatus = function(requesterId, requestedId){
   var status = false;
-  var requests = FriendRequestStore.getAllRequestsByRequestedId(requestedId);
+  var requests = FriendRequestStore.filterRequestsByRequestedId(requestedId);
   requests.forEach(function(request) {
-    if (request === requesterId) {
+    if (request.requester_id === requesterId) {
       status = true;
     }
   })
@@ -50,7 +51,7 @@ FriendRequestStore.getRequestStatus = function(requesterId, requestedId){
 FriendRequestStore.__onDispatch = function(payload) {
   switch(payload.actionType) {
     case FriendRequestConstants.REQUEST_RECEIVED:
-      addSingleFriendRequest(payload.requesterId, payload.requestedId);
+      addSingleFriendRequest(payload.request);
       FriendRequestStore.__emitChange();
       break;
     case FriendRequestConstants.REQUESTS_RECEIVED:

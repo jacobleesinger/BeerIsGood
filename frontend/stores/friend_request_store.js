@@ -6,13 +6,25 @@ var _requests = {};
 
 var FriendRequestStore = new Store(AppDispatcher);
 
-var newFriendRequest = function(requesterId, requestedId) {
+var addSingleFriendRequest = function(requesterId, requestedId) {
   if (_requests[requestedId]) {
     _requests[requestedId].push(requesterId);
   } else {
     _requests[requestedId] = [];
     _requests[requestedId].push(requesterId);
   }
+};
+
+var addAllFriendRequests = function(requests) {
+  requests.forEach(function(request) {
+
+    if (_requests[request.requested_id]) {
+      _requests[request.requested_id].push(request.requester_id);
+    } else {
+      _requests[request.requested_id] = [];
+      _requests[request.requested_id].push(request.requester_id);
+    }
+  });
 };
 
 FriendRequestStore.getAllRequestsByRequestedId = function(requestedId) {
@@ -38,9 +50,14 @@ FriendRequestStore.getRequestStatus = function(requesterId, requestedId){
 FriendRequestStore.__onDispatch = function(payload) {
   switch(payload.actionType) {
     case FriendRequestConstants.REQUEST_RECEIVED:
-      newFriendRequest(payload.requesterId, payload.requestedId);
+      addSingleFriendRequest(payload.requesterId, payload.requestedId);
       FriendRequestStore.__emitChange();
       break;
+    case FriendRequestConstants.REQUESTS_RECEIVED:
+      addAllFriendRequests(payload.requests);
+      FriendRequestStore.__emitChange();
+      break;
+
   }
 };
 

@@ -15,6 +15,7 @@ var ToastUtil = require('./util/toast_util');
 // var BeerShow = require("./components/beer_show");
 var BeersIndex = require("./components/beers_index");
 var UserShow = require('./components/user_show');
+var FriendRequestUtil = require('./util/friend_request_util');
 
 var App = React.createClass({
   render: function () {
@@ -46,4 +47,5 @@ document.addEventListener("DOMContentLoaded", function () {
   ReviewUtil.fetchAllReviews();
   CommentUtil.fetchAllComments();
   ToastUtil.fetchAllToasts();
+  FriendRequestUtil.fetchAllFriendRequests();
 });

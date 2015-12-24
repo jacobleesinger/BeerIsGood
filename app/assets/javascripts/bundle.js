@@ -54,13 +54,14 @@
 	var LandingPage = __webpack_require__(210);
 	var Home = __webpack_require__(250);
 	var UserUtil = __webpack_require__(217);
-	var BeerUtil = __webpack_require__(285);
+	var BeerUtil = __webpack_require__(287);
 	var ReviewUtil = __webpack_require__(262);
-	var CommentUtil = __webpack_require__(277);
-	var ToastUtil = __webpack_require__(279);
+	var CommentUtil = __webpack_require__(276);
+	var ToastUtil = __webpack_require__(278);
 	// var BeerShow = require("./components/beer_show");
 	var BeersIndex = __webpack_require__(252);
 	var UserShow = __webpack_require__(272);
+	var FriendRequestUtil = __webpack_require__(281);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -95,6 +96,7 @@
 	  ReviewUtil.fetchAllReviews();
 	  CommentUtil.fetchAllComments();
 	  ToastUtil.fetchAllToasts();
+	  FriendRequestUtil.fetchAllFriendRequests();
 	});
 
 /***/ },
@@ -24459,7 +24461,7 @@
 	var SessionStore = __webpack_require__(232);
 	var ErrorStore = __webpack_require__(249);
 	var Home = __webpack_require__(250);
-	var CurrentUserStore = __webpack_require__(284);
+	var CurrentUserStore = __webpack_require__(286);
 	
 	var Page;
 	var modal;
@@ -32098,8 +32100,8 @@
 	var React = __webpack_require__(1);
 	var Navbar = __webpack_require__(251);
 	var UserShow = __webpack_require__(272);
-	var UserProfile = __webpack_require__(273);
-	var CurrentUserStore = __webpack_require__(284);
+	var UserProfile = __webpack_require__(285);
+	var CurrentUserStore = __webpack_require__(286);
 	
 	var MainContent = React.createClass({
 	  displayName: 'MainContent',
@@ -32169,7 +32171,7 @@
 	var BeerShow = __webpack_require__(255);
 	var UsersIndex = __webpack_require__(270);
 	var User = __webpack_require__(271);
-	var UserProfile = __webpack_require__(273);
+	var UserProfile = __webpack_require__(285);
 	
 	var NavbarInstance = React.createClass({
 	  displayName: 'NavbarInstance',
@@ -33347,7 +33349,7 @@
 
 	var React = __webpack_require__(1);
 	var UserShow = __webpack_require__(272);
-	var UserProfile = __webpack_require__(273);
+	var UserProfile = __webpack_require__(285);
 	
 	var UserPage;
 	
@@ -33382,10 +33384,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReviewsIndex = __webpack_require__(274);
+	var ReviewsIndex = __webpack_require__(273);
 	var ReviewStore = __webpack_require__(257);
-	var FriendRequestUtil = __webpack_require__(287);
-	var FriendRequestStore = __webpack_require__(282);
+	var FriendRequestUtil = __webpack_require__(281);
+	var FriendRequestStore = __webpack_require__(284);
 	
 	var friendRequest;
 	
@@ -33471,95 +33473,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReviewsIndex = __webpack_require__(274);
-	var ReviewStore = __webpack_require__(257);
-	var ReviewForm = __webpack_require__(281);
-	var FriendRequestStore = __webpack_require__(282);
-	var UserStore = __webpack_require__(261);
-	
-	var PendingRequests;
-	
-	var UserProfile = React.createClass({
-	  displayName: 'UserProfile',
-	
-	  handleSignOut: function () {
-	    SessionUtil.destroySession();
-	  },
-	
-	  handleConfirm: function () {},
-	
-	  handleDeny: function () {},
-	
-	  getFriendRequests: function () {
-	
-	    var requests = FriendRequestStore.getAllRequestsByRequestedId(this.props.currentUser.id);
-	    PendingRequests = requests.map(function (request) {
-	      return React.createElement(
-	        'div',
-	        { key: request },
-	        'Friend request from:',
-	        UserStore.findById(request).username,
-	        React.createElement(
-	          'button',
-	          { className: 'btn btn-sm btn-success',
-	            onclick: this.handleConfirm },
-	          'Confirm'
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'btn btn-sm btn-danger',
-	            onclick: this.handleDeny },
-	          'Deny'
-	        )
-	      );
-	    });
-	  },
-	
-	  render: function () {
-	    this.getFriendRequests();
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'row fixedWidth' },
-	      this.props.errors,
-	      React.createElement(
-	        'div',
-	        { className: 'row' },
-	        React.createElement(
-	          'div',
-	          { className: 'col-md-6 reviewsIndexContainer' },
-	          PendingRequests,
-	          React.createElement(
-	            'h3',
-	            null,
-	            'Review a Beer'
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'newReviewFormContainer col-md-12' },
-	            React.createElement(ReviewForm, { currentUser: this.props.currentUser })
-	          ),
-	          React.createElement(
-	            'h3',
-	            null,
-	            'My Reviews'
-	          ),
-	          React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.currentUser })
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = UserProfile;
-
-/***/ },
-/* 274 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReviewIndexItem = __webpack_require__(275);
-	var ReviewForm = __webpack_require__(281);
+	var ReviewIndexItem = __webpack_require__(274);
+	var ReviewForm = __webpack_require__(280);
 	var ReviewStore = __webpack_require__(257);
 	
 	var ReviewsIndex = React.createClass({
@@ -33602,7 +33517,7 @@
 	module.exports = ReviewsIndex;
 
 /***/ },
-/* 275 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -33612,8 +33527,8 @@
 	var CommentStore = __webpack_require__(264);
 	var ToastStore = __webpack_require__(266);
 	var LinkedStateMixin = __webpack_require__(212);
-	var CommentForm = __webpack_require__(276);
-	var ToastUtil = __webpack_require__(279);
+	var CommentForm = __webpack_require__(275);
+	var ToastUtil = __webpack_require__(278);
 	
 	var Display;
 	var Buttons;
@@ -33925,12 +33840,12 @@
 	module.exports = ReviewIndexItem;
 
 /***/ },
-/* 276 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var LinkedStateMixin = __webpack_require__(212);
-	var CommentUtil = __webpack_require__(277);
+	var CommentUtil = __webpack_require__(276);
 	
 	var CommentForm = React.createClass({
 	  displayName: 'CommentForm',
@@ -33984,10 +33899,10 @@
 	module.exports = CommentForm;
 
 /***/ },
-/* 277 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var CommentActions = __webpack_require__(278);
+	var CommentActions = __webpack_require__(277);
 	
 	var CommentUtil = {
 	
@@ -34018,7 +33933,7 @@
 	module.exports = CommentUtil;
 
 /***/ },
-/* 278 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -34046,10 +33961,10 @@
 	module.exports = CommentActions;
 
 /***/ },
-/* 279 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ToastActions = __webpack_require__(280);
+	var ToastActions = __webpack_require__(279);
 	
 	var ToastUtil = {
 	
@@ -34081,7 +33996,7 @@
 	module.exports = ToastUtil;
 
 /***/ },
-/* 280 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -34109,7 +34024,7 @@
 	module.exports = ToastActions;
 
 /***/ },
-/* 281 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34256,7 +34171,68 @@
 	module.exports = ReviewForm;
 
 /***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var FriendRequestActions = __webpack_require__(282);
+	
+	var FriendRequestUtil = {
+	
+	  createFriendRequest: function (requesterId, requestedId) {
+	
+	    FriendRequestActions.receiveFriendRequest(requesterId, requestedId);
+	  },
+	
+	  fetchAllFriendRequests: function () {
+	    $.get('api/friendrequests', function () {
+	      FriendRequestActions.receiveAllFriendRequests(friendRequests);
+	    });
+	  }
+	};
+	
+	module.exports = FriendRequestUtil;
+
+/***/ },
 /* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(219);
+	var FriendRequestConstants = __webpack_require__(283);
+	
+	var FriendRequestActions = {
+	
+	  receiveFriendRequest: function (requesterId, requestedId) {
+	
+	    Dispatcher.dispatch({
+	      actionType: FriendRequestConstants.REQUEST_RECEIVED,
+	      requesterId: requesterId,
+	      requestedId: requestedId
+	    });
+	  },
+	
+	  receiveAllFriendRequests: function (friendRequests) {
+	    Dispatcher.dispatch({
+	      actionType: FriendRequestConstants.REQUESTS_RECEIVED,
+	      requests: friendRequests
+	    });
+	  }
+	};
+	
+	module.exports = FriendRequestActions;
+
+/***/ },
+/* 283 */
+/***/ function(module, exports) {
+
+	var FriendRequestConstants = {
+	  REQUEST_RECEIVED: "REQUEST_RECEIVED",
+	  REQUESTS_RECEIVED: "REQUESTS_RECEIVED"
+	};
+	
+	module.exports = FriendRequestConstants;
+
+/***/ },
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(233).Store;
@@ -34267,13 +34243,25 @@
 	
 	var FriendRequestStore = new Store(AppDispatcher);
 	
-	var newFriendRequest = function (requesterId, requestedId) {
+	var addSingleFriendRequest = function (requesterId, requestedId) {
 	  if (_requests[requestedId]) {
 	    _requests[requestedId].push(requesterId);
 	  } else {
 	    _requests[requestedId] = [];
 	    _requests[requestedId].push(requesterId);
 	  }
+	};
+	
+	var addAllFriendRequests = function (requests) {
+	  requests.forEach(function (request) {
+	
+	    if (_requests[request.requested_id]) {
+	      _requests[request.requested_id].push(request.requester_id);
+	    } else {
+	      _requests[request.requested_id] = [];
+	      _requests[request.requested_id].push(request.requester_id);
+	    }
+	  });
 	};
 	
 	FriendRequestStore.getAllRequestsByRequestedId = function (requestedId) {
@@ -34299,26 +34287,108 @@
 	FriendRequestStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case FriendRequestConstants.REQUEST_RECEIVED:
-	      newFriendRequest(payload.requesterId, payload.requestedId);
+	      addSingleFriendRequest(payload.requesterId, payload.requestedId);
 	      FriendRequestStore.__emitChange();
 	      break;
+	    case FriendRequestConstants.REQUESTS_RECEIVED:
+	      addAllFriendRequests(payload.requests);
+	      FriendRequestStore.__emitChange();
+	      break;
+	
 	  }
 	};
 	
 	module.exports = FriendRequestStore;
 
 /***/ },
-/* 283 */
-/***/ function(module, exports) {
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
 
-	var FriendRequestConstants = {
-	  REQUEST_RECEIVED: "REQUEST_RECEIVED"
-	};
+	var React = __webpack_require__(1);
+	var ReviewsIndex = __webpack_require__(273);
+	var ReviewStore = __webpack_require__(257);
+	var ReviewForm = __webpack_require__(280);
+	var FriendRequestStore = __webpack_require__(284);
+	var UserStore = __webpack_require__(261);
 	
-	module.exports = FriendRequestConstants;
+	var PendingRequests;
+	
+	var UserProfile = React.createClass({
+	  displayName: 'UserProfile',
+	
+	  handleSignOut: function () {
+	    SessionUtil.destroySession();
+	  },
+	
+	  handleConfirm: function () {},
+	
+	  handleDeny: function () {},
+	
+	  getFriendRequests: function () {
+	
+	    var requests = FriendRequestStore.getAllRequestsByRequestedId(this.props.currentUser.id);
+	    PendingRequests = requests.map(function (request) {
+	      return React.createElement(
+	        'div',
+	        { key: request },
+	        'Friend request from:',
+	        UserStore.findById(request).username,
+	        React.createElement(
+	          'button',
+	          { className: 'btn btn-sm btn-success',
+	            onclick: this.handleConfirm },
+	          'Confirm'
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'btn btn-sm btn-danger',
+	            onclick: this.handleDeny },
+	          'Deny'
+	        )
+	      );
+	    });
+	  },
+	
+	  render: function () {
+	    this.getFriendRequests();
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'row fixedWidth' },
+	      this.props.errors,
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-md-6 reviewsIndexContainer' },
+	          PendingRequests,
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Review a Beer'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'newReviewFormContainer col-md-12' },
+	            React.createElement(ReviewForm, { currentUser: this.props.currentUser })
+	          ),
+	          React.createElement(
+	            'h3',
+	            null,
+	            'My Reviews'
+	          ),
+	          React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.currentUser })
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = UserProfile;
 
 /***/ },
-/* 284 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(233).Store;
@@ -34358,10 +34428,10 @@
 	module.exports = CurrentUserStore;
 
 /***/ },
-/* 285 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BeerActions = __webpack_require__(286);
+	var BeerActions = __webpack_require__(288);
 	
 	var BeerUtil = {
 	
@@ -34382,7 +34452,7 @@
 	module.exports = BeerUtil;
 
 /***/ },
-/* 286 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(219);
@@ -34408,43 +34478,6 @@
 	};
 	
 	module.exports = BeerActions;
-
-/***/ },
-/* 287 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var FriendRequestActions = __webpack_require__(288);
-	
-	var FriendRequestUtil = {
-	
-	  createFriendRequest: function (requesterId, requestedId) {
-	
-	    FriendRequestActions.receiveFriendRequest(requesterId, requestedId);
-	  }
-	};
-	
-	module.exports = FriendRequestUtil;
-
-/***/ },
-/* 288 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(219);
-	var FriendRequestConstants = __webpack_require__(283);
-	
-	var FriendRequestActions = {
-	
-	  receiveFriendRequest: function (requesterId, requestedId) {
-	
-	    Dispatcher.dispatch({
-	      actionType: FriendRequestConstants.REQUEST_RECEIVED,
-	      requesterId: requesterId,
-	      requestedId: requestedId
-	    });
-	  }
-	};
-	
-	module.exports = FriendRequestActions;
 
 /***/ }
 /******/ ]);

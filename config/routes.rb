@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resource :session, only: [:create, :destroy]
     resources :comments
     resources :toasts
+    resources :friendrequests, only: [:create, :index]
   end
 
   resources :users

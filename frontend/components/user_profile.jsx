@@ -2,7 +2,7 @@ var React = require('react');
 var ReviewsIndex = require('./reviewsIndex');
 var ReviewStore = require('../stores/review_store');
 var ReviewForm = require('./review_form');
-var FriendStore = require('../stores/friend_store');
+var FriendRequestStore = require('../stores/friend_request_store');
 var UserStore= require('../stores/user_store');
 
 var PendingRequests;
@@ -23,7 +23,7 @@ var UserProfile = React.createClass({
 
   getFriendRequests: function () {
 
-    var requests = FriendStore.getRequestsById(this.props.currentUser.id);
+    var requests = FriendRequestStore.getAllRequestsByRequestedId(this.props.currentUser.id);
     PendingRequests = requests.map(function(request) {
       return (
         <div key={request}>

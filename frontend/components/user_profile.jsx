@@ -6,14 +6,29 @@ var FriendRequestStore = require('../stores/friend_request_store');
 var UserStore= require('../stores/user_store');
 var FriendRequestUtil = require('../util/friend_request_util');
 
-var PendingRequests;
 
 var UserProfile = React.createClass({
 
   getInitialState: function () {
-    debugger;
+
     return ({
       friendRequests: FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id)
+    });
+  },
+
+  componentDidMount: function () {
+    this.RequestToken = FriendRequestStore.addListener(this._onChange);
+  },
+
+  componentWillUnmount: function () {
+    this.RequestToken.remove();
+  },
+
+  _onChange: function () {
+
+    this.setState({
+      friendRequests: FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id)
+
     });
   },
 
@@ -27,16 +42,16 @@ var UserProfile = React.createClass({
   },
 
   handleDeny: function () {
-    debugger;
+
     FriendRequestUtil.destroyFriendRequest(request);
 
   },
 
   getFriendRequests: function () {
-    debugger;
+
 
     var requests = this.state.friendRequests
-    PendingRequests = requests.map(function(request) {
+    return requests.map(function(request) {
       return (
         <div key={request}>
           Friend request from:
@@ -57,7 +72,8 @@ var UserProfile = React.createClass({
   },
 
   render: function(){
-    this.getFriendRequests();
+
+
 
 
     return(
@@ -66,7 +82,7 @@ var UserProfile = React.createClass({
         <div className="row">
 
           <div className="col-md-6 reviewsIndexContainer">
-            {PendingRequests}
+            {this.getFriendRequests()}
 
             <h3>Review a Beer</h3>
 

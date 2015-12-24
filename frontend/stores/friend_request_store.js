@@ -12,6 +12,7 @@ var addSingleFriendRequest = function(request) {
 };
 
 var addAllFriendRequests = function(requests) {
+  _requests = {};
   requests.forEach(function(request) {
     _requests[request.id] = request;
   });

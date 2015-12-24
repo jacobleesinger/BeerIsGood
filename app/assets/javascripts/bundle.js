@@ -34225,7 +34225,7 @@
 	  },
 	
 	  receiveAllFriendRequests: function (friendRequests) {
-	    debugger;
+	
 	    Dispatcher.dispatch({
 	      actionType: FriendRequestConstants.REQUESTS_RECEIVED,
 	      requests: friendRequests
@@ -34264,6 +34264,7 @@
 	};
 	
 	var addAllFriendRequests = function (requests) {
+	  _requests = {};
 	  requests.forEach(function (request) {
 	    _requests[request.id] = request;
 	  });
@@ -34324,16 +34325,30 @@
 	var UserStore = __webpack_require__(261);
 	var FriendRequestUtil = __webpack_require__(281);
 	
-	var PendingRequests;
-	
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
 	
 	  getInitialState: function () {
-	    debugger;
+	
 	    return {
 	      friendRequests: FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id)
 	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.RequestToken = FriendRequestStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.RequestToken.remove();
+	  },
+	
+	  _onChange: function () {
+	
+	    this.setState({
+	      friendRequests: FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id)
+	
+	    });
 	  },
 	
 	  handleSignOut: function () {
@@ -34343,15 +34358,14 @@
 	  handleConfirm: function () {},
 	
 	  handleDeny: function () {
-	    debugger;
+	
 	    FriendRequestUtil.destroyFriendRequest(request);
 	  },
 	
 	  getFriendRequests: function () {
-	    debugger;
 	
 	    var requests = this.state.friendRequests;
-	    PendingRequests = requests.map((function (request) {
+	    return requests.map((function (request) {
 	      return React.createElement(
 	        'div',
 	        { key: request },
@@ -34374,7 +34388,6 @@
 	  },
 	
 	  render: function () {
-	    this.getFriendRequests();
 	
 	    return React.createElement(
 	      'div',
@@ -34386,7 +34399,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'col-md-6 reviewsIndexContainer' },
-	          PendingRequests,
+	          this.getFriendRequests(),
 	          React.createElement(
 	            'h3',
 	            null,

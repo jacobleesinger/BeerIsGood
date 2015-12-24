@@ -12,7 +12,7 @@ var FriendRequestActions = {
   },
 
   receiveAllFriendRequests: function(friendRequests) {
-    debugger;
+
     Dispatcher.dispatch({
       actionType: FriendRequestConstants.REQUESTS_RECEIVED,
       requests: friendRequests

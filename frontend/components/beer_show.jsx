@@ -1,10 +1,11 @@
 var React = require('react');
 var BeerReviewsIndex = require('./beer_reviews_index');
+var BeerStore = require('../stores/beer_store');
 
 
 var BeerShow = React.createClass({
   render: function () {
-
+debugger;
     return (
       <div>
         <h1>{this.props.beer.name}</h1>

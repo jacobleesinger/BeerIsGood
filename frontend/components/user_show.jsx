@@ -3,6 +3,7 @@ var ReviewsIndex = require('./reviewsIndex');
 var ReviewStore = require('../stores/review_store');
 var FriendRequestUtil = require('../util/friend_request_util');
 var FriendRequestStore = require('../stores/friend_request_store');
+var FriendStore = require('../stores/friend_store');
 
 var friendRequest;
 
@@ -10,7 +11,8 @@ var UserShow = React.createClass({
 
   getInitialState: function() {
     return ({
-      friendRequestStatus: FriendRequestStore.getRequestStatus(this.props.currentUser.id, this.props.user.id)
+      friendRequestStatus: FriendRequestStore.getRequestStatus(this.props.currentUser.id, this.props.user.id),
+      friendStatus: FriendStore.getFriendshipStatus(this.props.currentUser.id, this.props.user.id)
     });
   },
 
@@ -40,8 +42,9 @@ var UserShow = React.createClass({
 
 
   displayFriendRequest: function () {
-
-    if (this.state.friendRequestStatus) {
+    if (this.state.friendStatus) {
+      return <div></div>;
+    } else if (this.state.friendRequestStatus) {
       return (
         <div>
           Friend Request Sent!

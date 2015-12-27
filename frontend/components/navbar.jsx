@@ -32,9 +32,8 @@ var NavbarInstance = React.createClass({
     SessionUtil.destroySession();
   },
 
-  handleClick: function(newSubPage) {
-
-    this.props.onChange(newSubPage);
+  handleClick: function(newSubPage, user, beer) {
+    this.props.onChange(newSubPage, user, beer);
   },
 
 
@@ -76,9 +75,7 @@ var NavbarInstance = React.createClass({
                 UsersIndex
               </div>
             </li>
-            <li>
-              <Search />
-            </li>
+          
             <li>
               <button
                 className="btn btn-sm btn-primary" onClick={this.handleSignOut}>Sign Out

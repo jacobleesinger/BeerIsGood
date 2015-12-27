@@ -49,10 +49,11 @@ FriendStore.filterFriendshipsByFriendId = function(friendId) {
 
 
 FriendStore.getFriendshipStatus = function(userId, friendId){
+
   var status = false;
-  var requests = FriendStore.filterFriendshipsByUserId(userId);
+  var friendships = FriendStore.filterFriendshipsByUserId(userId);
   friendships.forEach(function(friendship) {
-    if (friendship.user_id === userId) {
+    if (friendship.friend_id === friendId) {
       status = true;
     }
   })

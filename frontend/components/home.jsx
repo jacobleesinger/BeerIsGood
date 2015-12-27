@@ -9,6 +9,7 @@ var MainContent = React.createClass({
 
 
   render:function () {
+
     return(
       <this.props.subPage
         currentUser={this.props.currentUser}
@@ -41,7 +42,7 @@ var Home = React.createClass({
   },
 
   render: function () {
-    
+
     return(
       <div>
         <Navbar currentUser={this.props.currentUser}

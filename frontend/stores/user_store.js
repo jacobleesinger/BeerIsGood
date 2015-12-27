@@ -48,7 +48,7 @@ UserStore.all = function() {
 UserStore.searchable = function () {
   var searchable = [];
   UserStore.all().forEach(function(user){
-    searchable.push(user.username);
+    searchable.push(user);
   });
   return searchable;
 };

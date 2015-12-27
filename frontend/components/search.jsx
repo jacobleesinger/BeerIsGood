@@ -1,5 +1,5 @@
 var React = require('react');
-var UserStore = require('../stores/user_store');
+var BeerStore = require('../stores/beer_store');
 var Select = require('react-select');
 require('react-select/dist/react-select.css');
 
@@ -43,14 +43,17 @@ var Search = React.createClass({
   	},
   	render: function () {
 
-      var options = [
-          { value: 'one', label: 'One' },
-          { value: 'two', label: 'Two' }
-      ];
+      var options = [];
+      var Searchable = BeerStore.all();
+
+      Searchable.forEach(function(user) {
+        options.push({value: user.id, label: user.name});
+      });
+
   		return (
   			<div className="section">
-  				<h3 className="section-heading">{this.props.label}</h3>
-  				<Select ref="stateSelect" autofocus options={options} simpleValue clearable={this.state.clearable} name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
+
+  				<Select className="select" ref="stateSelect" autofocus options={options} simpleValue clearable={this.state.clearable} name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
 
 
 

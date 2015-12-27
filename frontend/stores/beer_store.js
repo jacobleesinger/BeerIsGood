@@ -28,7 +28,9 @@ BeerStore.all = function() {
 
 BeerStore.find = function (beerId) {
   return _beers[beerId];
-}
+};
+
+
 
 
 BeerStore.__onDispatch = function(payload) {

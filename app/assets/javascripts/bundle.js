@@ -32897,7 +32897,7 @@
 	UserStore.searchable = function () {
 	  var searchable = [];
 	  UserStore.all().forEach(function (user) {
-	    searchable.push(user.username);
+	    searchable.push(user);
 	  });
 	  return searchable;
 	};
@@ -34617,59 +34617,60 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(261);
+	var BeerStore = __webpack_require__(253);
 	var Select = __webpack_require__(291);
 	__webpack_require__(297);
 	
 	var Search = React.createClass({
-	    displayName: 'search',
-	    propTypes: {
-	        label: React.PropTypes.string,
-	        searchable: React.PropTypes.bool
-	    },
-	    getDefaultProps: function () {
-	        return {
-	            label: 'values:',
-	            searchable: true
-	        };
-	    },
-	    getInitialState: function () {
-	        return {
-	            disabled: false,
-	            searchable: this.props.searchable,
-	            selectValue: '',
-	            clearable: true
-	        };
-	    },
+	  displayName: 'search',
+	  propTypes: {
+	    label: React.PropTypes.string,
+	    searchable: React.PropTypes.bool
+	  },
+	  getDefaultProps: function () {
+	    return {
+	      label: 'values:',
+	      searchable: true
+	    };
+	  },
+	  getInitialState: function () {
+	    return {
+	      disabled: false,
+	      searchable: this.props.searchable,
+	      selectValue: '',
+	      clearable: true
+	    };
+	  },
 	
-	    updateValue: function (newValue) {
-	        console.log('Value changed to ' + newValue);
-	        this.setState({
-	            selectValue: newValue
-	        });
-	    },
-	    focusStateSelect: function () {
-	        this.refs.stateSelect.focus();
-	    },
-	    toggleCheckbox: function (e) {
-	        var newState = {};
-	        newState[e.target.name] = e.target.checked;
-	        this.setState(newState);
-	    },
-	    render: function () {
+	  updateValue: function (newValue) {
+	    console.log('Value changed to ' + newValue);
+	    this.setState({
+	      selectValue: newValue
+	    });
+	  },
+	  focusStateSelect: function () {
+	    this.refs.stateSelect.focus();
+	  },
+	  toggleCheckbox: function (e) {
+	    var newState = {};
+	    newState[e.target.name] = e.target.checked;
+	    this.setState(newState);
+	  },
+	  render: function () {
 	
-	        var options = [{ value: 'one', label: 'One' }, { value: 'two', label: 'Two' }];
-	        return React.createElement(
-	            'div',
-	            { className: 'section' },
-	            React.createElement(
-	                'h3',
-	                { className: 'section-heading' },
-	                this.props.label
-	            ),
-	            React.createElement(Select, { ref: 'stateSelect', autofocus: true, options: options, simpleValue: true, clearable: this.state.clearable, name: 'selected-state', disabled: this.state.disabled, value: this.state.selectValue, onChange: this.updateValue, searchable: this.state.searchable })
-	        );
-	    }
+	    var options = [];
+	    var Searchable = BeerStore.all();
+	
+	    Searchable.forEach(function (user) {
+	      options.push({ value: user.id, label: user.name });
+	    });
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'section' },
+	      React.createElement(Select, { className: 'select', ref: 'stateSelect', autofocus: true, options: options, simpleValue: true, clearable: this.state.clearable, name: 'selected-state', disabled: this.state.disabled, value: this.state.selectValue, onChange: this.updateValue, searchable: this.state.searchable })
+	    );
+	  }
 	});
 	
 	module.exports = Search;

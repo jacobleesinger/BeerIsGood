@@ -19,7 +19,8 @@ module.exports = {
         query: {
           presets: ['react']
         }
-      }
+      },
+      { test: /\.css$/, loader: "style!css" }
     ]
   },
   devtool: 'source-maps',

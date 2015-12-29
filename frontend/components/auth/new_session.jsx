@@ -33,7 +33,7 @@ var NewSession = React.createClass ({
           <form id="newSessionForm" className="form-group">
             <div className="row">
 
-              <div className="col-md-12">
+              <div className="col-md-6 col-md-offset-3">
 
                 <label htmlFor="sessionUsername">Username</label>
                 <input type="text" className="form-control" id="sessionUsername" valueLink={this.linkState('username')}/>
@@ -43,7 +43,7 @@ var NewSession = React.createClass ({
               </div>
             </div>
 
-            <input type="submit" onClick={this.handleSubmit} value="Sign In" className="btn btn-primary"/>
+            <input type="submit" onClick={this.handleSubmit} value="Log In" className="btn btn-lg btn-primary authButton"/>
 
           </form>
         </div>

@@ -51,31 +51,37 @@ var NavbarInstance = React.createClass({
           <ul className="navbarLinksUl">
             <li>
               <div
+                className="navbarLinks"
                 onClick={this.handleClick.bind(this, BeersIndex)}
                 value={BeersIndex}>
                 BeersIndex
               </div>
             </li>
             <li>
-              <div onClick={this.handleClick.bind(this, FriendsIndex)}
-              value={FriendsIndex}>
+              <div
+                className="navbarLinks"
+                onClick={this.handleClick.bind(this, FriendsIndex)}
+                value={FriendsIndex}>
                 FriendsIndex
               </div>
             </li>
             <li>
-              <div onClick={this.handleClick.bind(this, UserProfile)}
-              value={User}>
+              <div
+                className="navbarLinks"
+                onClick={this.handleClick.bind(this, UserProfile)}
+                value={User}>
                 User
               </div>
             </li>
             <li>
               <div
+                className="navbarLinks"
                 onClick={this.handleClick.bind(this, UsersIndex)}
                 value={UsersIndex}>
                 UsersIndex
               </div>
             </li>
-          
+
             <li>
               <button
                 className="btn btn-sm btn-primary" onClick={this.handleSignOut}>Sign Out

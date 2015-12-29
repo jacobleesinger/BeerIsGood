@@ -44,11 +44,12 @@ var Home = React.createClass({
   render: function () {
 
     return(
-      <div>
+      <div className="homeDiv">
         <Navbar currentUser={this.props.currentUser}
           user={this.props.user} subPage={this.state.subPage}
           onChange={this.navbarChangeHandler}/>
         <MainContent
+          className="MainContent"
           currentUser={this.props.currentUser}
           subPage={this.state.subPage}
           onSubPageChange={this.navbarChangeHandler}

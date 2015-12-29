@@ -16,22 +16,33 @@
  @import "bootstrap";
 
 body {
-  color: red;
+  color: rgb(40,12,2);
   background-color: #ddd;
 }
 
 .reviewsIndexContainer {
   border: 1px solid black;
+  background-color: rgba(45,5,0,.3);
+
 }
 
 .reviewContainer {
   border: 1px solid black;
+  color: saddlebrown;
+}
+
+.reviewForm select{
+  color: saddlebrown;
 }
 
 .reviewContent {
   border: 1px solid black;
   background-color: white;
   border-radius: 5px;
+}
+
+.MainContent {
+  color: cornsilk;
 }
 
 .reviewHeader {
@@ -81,7 +92,64 @@ body {
 }
 
 .landingPageContainer {
-  margin: auto;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.landingPage {
+  background: url("http://res.cloudinary.com/dbkzwcps1/image/upload/v1451354175/pouring_beer_sm_t0ruln.jpg") no-repeat center center;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+    min-height: 800px;
+    width: 100%;
+    color: cornsilk;
+}
+
+.homeDiv {
+  background: url("http://res.cloudinary.com/dbkzwcps1/image/upload/v1451354129/2beers_sm_eirv74.jpg") no-repeat center center fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+    width: 100%;
+    color: cornsilk;
+
+}
+
+.landingPageStuff {
+  margin-top: 100px;
+  // border: 1px solid wheat;
+  border-radius: 15px;
+
+
+}
+.landingPageButtons {
+
+}
+
+.landingPageButtons ul {
+  list-style-type: none;
+  margin-left: -35px;
+  margin-top: 50px;
+}
+
+.landingPageButtons li {
+  float: left;
+  margin: 2px;
+  text-align: center;
+}
+
+.authButton {
+  margin-top: 15px;
+}
+
+.landingPageForm {
+  color: black;
+  font-weight: 200;
+  background-color: rgba(255,255,255,.8);
+  padding: 0 20px 0 20px;
 }
 
 .navbarLinksUl {
@@ -91,12 +159,23 @@ body {
 
 .navbarLinksUl li {
   float: left;
-  font-size: 18px;
+  font-size: 24px;
+  padding: 5px;
   margin: 5px;
 }
 
+.navbarLinksUl li:hover {
+
+}
+
+.navbarLinks:hover {
+  cursor: pointer;
+  font-size: 28px;
+  color: rgba(0,0,0,.5);
+}
+
 .navbar {
-  background-color: #eee;
+  background-color: rgba(245,245,245,.3);
 }
 
 .navbarHeader {
@@ -110,9 +189,37 @@ body {
 
 .fixedWidth {
   width: 1100px;
-  margin: auto;
+  margin:  0 auto;
 }
 
 .select {
   width: 150px;
+}
+
+.centered {
+  display: inline-block;
+}
+
+.or {
+  color: white;
+  border: 1px solid #ddd;
+  background-color: rgba(160,82,45,.5);
+  border-radius: 50%;
+  margin: 10px;
+
+}
+
+.landingPageLogo {
+  font-size: 5em;
+  margin-top: 0px;
+  padding-top: 0px;
+}
+
+.landingPageSubLogo {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+.landingPageTag {
+  padding-top: 40px;
 }

@@ -41,7 +41,7 @@ var NewUser = React.createClass({
           <form id="newUserForm" className="form-group">
             <div className="row">
 
-              <div className="col-md-12">
+              <div className="col-md-6">
 
                 <label htmlFor="newUsername">Username</label>
                 <input type="text" className="form-control" id="newUsername" valueLink={this.linkState('username')}/>
@@ -54,7 +54,7 @@ var NewUser = React.createClass({
 
               </div>
 
-              <div className="col-md-12">
+              <div className="col-md-6">
                 <label htmlFor="newEmail">Email</label>
                 <input type="email" className="form-control" id="newEmail" valueLink={this.linkState('email')}/>
 
@@ -68,7 +68,7 @@ var NewUser = React.createClass({
 
             </div>
 
-            <input type="submit" onClick={this.handleSubmit} value="Sign Up" className="btn btn-primary"/>
+            <input type="submit" onClick={this.handleSubmit} value="Create Your Account" className="btn btn-lg btn-primary authButton"/>
 
 
           </form>

@@ -4,11 +4,17 @@ var SessionStore = require('../stores/session_store');
 var ErrorStore = require('../stores/error_store');
 var Home = require('./home');
 var CurrentUserStore = require('../stores/current_user_store');
+var SessionUtil = require('../util/session_util');
+
 
 
 var Page;
 var modal;
 var buttons;
+var guestUser = {
+  username: "Guest",
+  password: "password"
+};
 
 
 var LandingPage = React.createClass({
@@ -94,6 +100,11 @@ var LandingPage = React.createClass({
     }
   },
 
+  handleGuest: function (e) {
+    e.preventDefault;
+    SessionUtil.createSession(guestUser);
+  },
+
 
   render: function () {
 
@@ -104,9 +115,20 @@ var LandingPage = React.createClass({
     }
 
     buttons = (
-      <div>
-        <button onClick={this.handleAuth.bind(this, "signup")}>Sign Up</button>
-        <button onClick={this.handleAuth.bind(this, "signin")}>Sign In</button>
+      <div className="centered">
+        <ul className="">
+          <li>
+            <button className="btn btn-lg btn-primary" onClick={this.handleAuth.bind(this, "signup")}>Sign Up</button>
+          </li>
+          <li>
+            <div className="or">OR</div>
+          </li>
+          <li>
+            <button className="btn btn-lg btn-primary" onClick={this.handleAuth.bind(this, "signin")}>Sign In</button>
+          </li>
+        </ul>
+        <div>Just here to look?</div>
+        <div className="guest" onClick={this.handleGuest}>Sign in as a guest!</div>
       </div>
     );
 
@@ -116,12 +138,18 @@ var LandingPage = React.createClass({
     } else {
       var errors = this.displayErrorMessages();
       Page =
-      <div className="container landingPageContainer">
-       <div className="row">
-         <div className="col-md-3 col-offset-6">
-          {errors}
-          {buttons}
-          {modal}
+      <div className="landingPage">
+        <div className="container landingPageContainer">
+         <div className="row">
+           <div className="col-md-6 col-md-offset-3 landingPageStuff">
+             <h6 className="landingPageSubLogo">Good beers, good friends, good times.</h6>
+             <h1 className="landingPageLogo">Beerisgood</h1>
+             <h2 className="landingPageTag">Welcome!</h2>
+             <h2 className="landingPageTag">Discover & Share your favorite beers</h2>
+             <div className="landingPageErrors">{errors}</div>
+             <div className="landingPageForm">{modal}</div>
+             <div className="landingPageButtons ">{buttons}</div>
+          </div>
         </div>
       </div>
     </div>

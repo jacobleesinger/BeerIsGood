@@ -14,16 +14,27 @@
  *= require_self
  */
  @import "bootstrap";
+ @import url(https://fonts.googleapis.com/css?family=Oxygen|Francois+One);
 
 body {
   color: rgb(40,12,2);
   background-color: #ddd;
+  font-family: 'Oxygen', sans-serif;
+}
+
+.logo {
+  font-family: 'Francois One', sans-serif;
 }
 
 .reviewsIndexContainer {
   border: 1px solid black;
-  background-color: rgba(45,5,0,.3);
+  background-color: rgba(245,235,225,.9);
+  color: black;
 
+}
+
+.reviewFormItem {
+  margin: 10px;
 }
 
 .reviewContainer {
@@ -53,23 +64,23 @@ body {
 
 .reviewBody {
   color: black;
-  border: 1px solid black;
+  // border: 1px solid black;
 }
 
 .reviewCommentsIndex {
   background-color: white;
-  border: 1px solid black;
+  // border: 1px solid black;
   border-radius: 5px;
 
 }
 
 .newReviewFormContainer {
-  border: 1px solid black;
+  // border: 1px solid black;
   border-radius: 5px;
 }
 
 .commentContainer{
-  border: 1px solid black;
+  // border: 1px solid black;
 }
 
 .commentBody{
@@ -120,7 +131,7 @@ background-size: cover;
 }
 
 .landingPageStuff {
-  margin-top: 100px;
+  margin-top: 30px;
   // border: 1px solid wheat;
   border-radius: 15px;
 
@@ -162,7 +173,7 @@ background-size: cover;
   float: left;
   font-size: 24px;
   padding: 5px;
-  margin: 5px;
+  margin: 0 10px 10px 10px;
 }
 
 .navbarLinksUl li:hover {
@@ -171,12 +182,15 @@ background-size: cover;
 
 .navbarLinks:hover {
   cursor: pointer;
-  font-size: 28px;
-  color: rgba(0,0,0,.5);
+  text-shadow: 0 0 3px saddlebrown;
+  color: black;
+
 }
 
 .navbar {
   background-color: rgba(245,245,245,.3);
+  height: 50px;
+  color: rgba(0,0,0,.5);
 }
 
 .navbarHeader {
@@ -211,16 +225,36 @@ background-size: cover;
 }
 
 .landingPageLogo {
-  font-size: 5em;
+  font-size: 100px;;
   margin-top: 0px;
   padding-top: 0px;
 }
 
 .landingPageSubLogo {
+  margin-top: 0px;
   margin-bottom: 0px;
   padding-bottom: 0px;
 }
 
 .landingPageTag {
   padding-top: 40px;
+}
+
+.guest1{
+  padding-top: 10px;
+}
+
+.guest2{
+  margin-top: 10px;
+  text-shadow: 2px 2px 0 black;
+  font-size: 20px;
+
+}
+
+.guest2:hover {
+  text-shadow: 2px 2px 3px navy;
+  cursor: pointer;
+  color: white;
+  // text-decoration: underline;
+
 }

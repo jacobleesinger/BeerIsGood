@@ -80,7 +80,7 @@ var BeerReviewIndexItem = React.createClass({
         <div className="reviewContainer col-md-12" >
           <div className="reviewContent col-md-12">
             <div className="reviewHeader col-md-12">
-              {UserStore.findById(this.props.review.author_id).username}
+              {UserStore.findById(this.props.review.author_id).username} is drinking {this.state.beer.name}
             </div>
 
 

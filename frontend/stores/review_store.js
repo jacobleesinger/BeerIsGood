@@ -27,7 +27,7 @@ ReviewStore.all = function() {
       reviews.push(_reviews[key]);
     }
   }
-  return _reviews;
+  return reviews;
 };
 
 ReviewStore.filterReviewsByUserId = function(userId) {

@@ -29,7 +29,7 @@ var Comment = React.createClass({
     return (
       <div className="commentContainer">
 
-        <h5>{this.state.author.username}</h5>
+        <h5>{this.state.author.username} says:</h5>
 
         <div className ="commentBody">
           {this.props.comment.body}

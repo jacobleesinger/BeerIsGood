@@ -43,7 +43,7 @@ var NavbarInstance = React.createClass({
     <div className="navbar">
       <div className="fixedWidth">
         <div className="navbarHeader">
-            <div className="navbarLogo" to="#"><h1>BeerIsGood</h1></div>
+            <div className="navbarLogo logo" to="#"><h1>BeerIsGood</h1></div>
 
         </div>
 
@@ -54,7 +54,7 @@ var NavbarInstance = React.createClass({
                 className="navbarLinks"
                 onClick={this.handleClick.bind(this, BeersIndex)}
                 value={BeersIndex}>
-                BeersIndex
+                Find Beers
               </div>
             </li>
             <li>
@@ -62,7 +62,7 @@ var NavbarInstance = React.createClass({
                 className="navbarLinks"
                 onClick={this.handleClick.bind(this, FriendsIndex)}
                 value={FriendsIndex}>
-                FriendsIndex
+                My Friends
               </div>
             </li>
             <li>
@@ -70,7 +70,7 @@ var NavbarInstance = React.createClass({
                 className="navbarLinks"
                 onClick={this.handleClick.bind(this, UserProfile)}
                 value={User}>
-                User
+                My Profile
               </div>
             </li>
             <li>
@@ -78,7 +78,7 @@ var NavbarInstance = React.createClass({
                 className="navbarLinks"
                 onClick={this.handleClick.bind(this, UsersIndex)}
                 value={UsersIndex}>
-                UsersIndex
+                Find Friends
               </div>
             </li>
 

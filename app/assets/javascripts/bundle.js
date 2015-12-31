@@ -24292,12 +24292,12 @@
 	      ),
 	      React.createElement(
 	        'div',
-	        null,
+	        { className: 'guest1' },
 	        'Just here to look?'
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'guest', onClick: this.handleGuest },
+	        { className: 'guest2', onClick: this.handleGuest },
 	        'Sign in as a guest!'
 	      )
 	    );
@@ -24320,12 +24320,12 @@
 	              { className: 'col-md-6 col-md-offset-3 landingPageStuff' },
 	              React.createElement(
 	                'h6',
-	                { className: 'landingPageSubLogo' },
+	                { className: 'landingPageSubLogo logo' },
 	                'Good beers, good friends, good times.'
 	              ),
 	              React.createElement(
 	                'h1',
-	                { className: 'landingPageLogo' },
+	                { className: 'landingPageLogo logo' },
 	                'Beerisgood'
 	              ),
 	              React.createElement(
@@ -31983,7 +31983,7 @@
 	          { className: 'navbarHeader' },
 	          React.createElement(
 	            'div',
-	            { className: 'navbarLogo', to: '#' },
+	            { className: 'navbarLogo logo', to: '#' },
 	            React.createElement(
 	              'h1',
 	              null,
@@ -32006,7 +32006,7 @@
 	                  className: 'navbarLinks',
 	                  onClick: this.handleClick.bind(this, BeersIndex),
 	                  value: BeersIndex },
-	                'BeersIndex'
+	                'Find Beers'
 	              )
 	            ),
 	            React.createElement(
@@ -32018,7 +32018,7 @@
 	                  className: 'navbarLinks',
 	                  onClick: this.handleClick.bind(this, FriendsIndex),
 	                  value: FriendsIndex },
-	                'FriendsIndex'
+	                'My Friends'
 	              )
 	            ),
 	            React.createElement(
@@ -32030,7 +32030,7 @@
 	                  className: 'navbarLinks',
 	                  onClick: this.handleClick.bind(this, UserProfile),
 	                  value: User },
-	                'User'
+	                'My Profile'
 	              )
 	            ),
 	            React.createElement(
@@ -32042,7 +32042,7 @@
 	                  className: 'navbarLinks',
 	                  onClick: this.handleClick.bind(this, UsersIndex),
 	                  value: UsersIndex },
-	                'UsersIndex'
+	                'Find Friends'
 	              )
 	            ),
 	            React.createElement(
@@ -32192,7 +32192,7 @@
 	  displayName: 'BeerShow',
 	
 	  render: function () {
-	    debugger;
+	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -32271,7 +32271,7 @@
 	  },
 	
 	  render: function () {
-	    debugger;
+	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -32385,7 +32385,7 @@
 	      reviews.push(_reviews[key]);
 	    }
 	  }
-	  return _reviews;
+	  return reviews;
 	};
 	
 	ReviewStore.filterReviewsByUserId = function (userId) {
@@ -32521,7 +32521,9 @@
 	          React.createElement(
 	            'div',
 	            { className: 'reviewHeader col-md-12' },
-	            UserStore.findById(this.props.review.author_id).username
+	            UserStore.findById(this.props.review.author_id).username,
+	            ' is drinking ',
+	            this.state.beer.name
 	          ),
 	          React.createElement(
 	            'div',
@@ -32603,7 +32605,8 @@
 	      React.createElement(
 	        'h5',
 	        null,
-	        this.state.author.username
+	        this.state.author.username,
+	        ' says:'
 	      ),
 	      React.createElement(
 	        'div',
@@ -33603,7 +33606,10 @@
 	            React.createElement(
 	              'div',
 	              { className: 'reviewHeader col-md-12' },
+	              this.props.user.username,
+	              ' is drinking ',
 	              this.state.beer.name,
+	              '!',
 	              Buttons
 	            ),
 	            React.createElement(
@@ -33634,14 +33640,9 @@
 	            'div',
 	            { className: 'reviewCommentsIndex col-md-12' },
 	            React.createElement(
-	              'h4',
-	              null,
-	              'Comments'
-	            ),
-	            React.createElement(
-	              'div',
-	              { onClick: this.handleCommentClick.bind(this, this.props.review), className: 'createCommentButton', value: this.props.review },
-	              'write comment'
+	              'button',
+	              { onClick: this.handleCommentClick.bind(this, this.props.review), className: 'btn btn-primary createCommentButton', value: this.props.review },
+	              'add comment'
 	            ),
 	            this.state.comments.map((function (comment) {
 	              return React.createElement(Comment, { comment: comment, key: comment.id });
@@ -33954,12 +33955,12 @@
 	      React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
 	      React.createElement(
 	        'label',
-	        { htmlFor: 'reviewRating' },
-	        'Your Rating'
+	        { className: 'reviewFormItem', htmlFor: 'reviewRating' },
+	        'Rate it!'
 	      ),
 	      React.createElement(
 	        'select',
-	        { onChange: this.handleRatingChange },
+	        { className: 'reviewFormItem', onChange: this.handleRatingChange },
 	        React.createElement(
 	          'option',
 	          { value: '0' },
@@ -33991,7 +33992,7 @@
 	          '5'
 	        )
 	      ),
-	      React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Add your review!', onClick: this.handleSubmit })
+	      React.createElement('input', { className: 'btn btn-success reviewFormItem', type: 'submit', value: 'Add your review!', onClick: this.handleSubmit })
 	    );
 	  }
 	

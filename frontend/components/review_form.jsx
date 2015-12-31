@@ -89,8 +89,8 @@ var ReviewForm = React.createClass({
           <label htmlFor="reviewBody">What do you think?</label>
           <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
 
-          <label htmlFor="reviewRating">Your Rating</label>
-            <select onChange={this.handleRatingChange}>
+          <label className="reviewFormItem" htmlFor="reviewRating">Rate it!</label>
+            <select className="reviewFormItem" onChange={this.handleRatingChange}>
               <option value="0">rate beer</option>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -100,7 +100,7 @@ var ReviewForm = React.createClass({
             </select>
 
 
-          <input className="btn btn-success" type="submit" value="Add your review!" onClick={this.handleSubmit}/>
+          <input className="btn btn-success reviewFormItem" type="submit" value="Add your review!" onClick={this.handleSubmit}/>
 
       </form>
     );

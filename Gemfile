@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 gem 'bcrypt'
-
+gem 'faker'
 gem 'bootstrap'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

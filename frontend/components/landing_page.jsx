@@ -127,8 +127,9 @@ var LandingPage = React.createClass({
             <button className="btn btn-lg btn-primary" onClick={this.handleAuth.bind(this, "signin")}>Sign In</button>
           </li>
         </ul>
-        <div>Just here to look?</div>
-        <div className="guest" onClick={this.handleGuest}>Sign in as a guest!</div>
+
+        <div className="guest1">Just here to look?</div>
+        <div className="guest2" onClick={this.handleGuest}>Sign in as a guest!</div>
       </div>
     );
 
@@ -142,8 +143,8 @@ var LandingPage = React.createClass({
         <div className="container landingPageContainer">
          <div className="row">
            <div className="col-md-6 col-md-offset-3 landingPageStuff">
-             <h6 className="landingPageSubLogo">Good beers, good friends, good times.</h6>
-             <h1 className="landingPageLogo">Beerisgood</h1>
+             <h6 className="landingPageSubLogo logo">Good beers, good friends, good times.</h6>
+             <h1 className="landingPageLogo logo">Beerisgood</h1>
              <h2 className="landingPageTag">Welcome!</h2>
              <h2 className="landingPageTag">Discover & Share your favorite beers</h2>
              <div className="landingPageErrors">{errors}</div>

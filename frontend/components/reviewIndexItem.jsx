@@ -204,7 +204,7 @@ var ReviewIndexItem = React.createClass({
           <div className="reviewContainer col-md-12" >
             <div className="reviewContent col-md-12">
               <div className="reviewHeader col-md-12">
-                {this.state.beer.name}
+                {this.props.user.username} is drinking {this.state.beer.name}!
 
 
                 {Buttons}
@@ -231,8 +231,8 @@ var ReviewIndexItem = React.createClass({
             </div>
 
             <div className="reviewCommentsIndex col-md-12">
-              <h4>Comments</h4>
-                <div onClick={this.handleCommentClick.bind(this, this.props.review)} className="createCommentButton" value={this.props.review}>write comment</div>
+
+                <button onClick={this.handleCommentClick.bind(this, this.props.review)} className="btn btn-primary createCommentButton" value={this.props.review}>add comment</button>
               {
                 this.state.comments.map(function(comment) {
                     return (<Comment comment={comment} key={comment.id} />);

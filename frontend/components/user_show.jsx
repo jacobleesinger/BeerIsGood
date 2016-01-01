@@ -52,7 +52,7 @@ var UserShow = React.createClass({
       );
     } else{
       return(
-        <button className="btn btn-sm btn-success" onClick={this.handleFriendClick}>Add Friend</button>
+        <button className="btn btn-sm btn-1" onClick={this.handleFriendClick}>Add Friend</button>
       );
 
     }

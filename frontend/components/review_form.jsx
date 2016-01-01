@@ -100,7 +100,7 @@ var ReviewForm = React.createClass({
             </select>
 
 
-          <input className="btn btn-success reviewFormItem" type="submit" value="Add your review!" onClick={this.handleSubmit}/>
+          <input className="btn btn-2 reviewFormItem" type="submit" value="Add your review!" onClick={this.handleSubmit}/>
 
       </form>
     );

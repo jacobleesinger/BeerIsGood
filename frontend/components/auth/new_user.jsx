@@ -68,7 +68,7 @@ var NewUser = React.createClass({
 
             </div>
 
-            <input type="submit" onClick={this.handleSubmit} value="Create Your Account" className="btn btn-lg btn-primary authButton"/>
+            <input type="submit" onClick={this.handleSubmit} value="Create My Account!" className="btn btn-lg btn-1 authButton"/>
 
 
           </form>

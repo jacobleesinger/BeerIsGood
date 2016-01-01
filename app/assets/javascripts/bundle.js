@@ -24267,7 +24267,7 @@
 	          null,
 	          React.createElement(
 	            'button',
-	            { className: 'btn btn-lg btn-primary', onClick: this.handleAuth.bind(this, "signup") },
+	            { className: 'btn btn-lg btn-1', onClick: this.handleAuth.bind(this, "signup") },
 	            'Sign Up'
 	          )
 	        ),
@@ -24285,7 +24285,7 @@
 	          null,
 	          React.createElement(
 	            'button',
-	            { className: 'btn btn-lg btn-primary', onClick: this.handleAuth.bind(this, "signin") },
+	            { className: 'btn btn-lg btn-1', onClick: this.handleAuth.bind(this, "signin") },
 	            'Sign In'
 	          )
 	        )
@@ -24296,7 +24296,7 @@
 	        'Just here to look?'
 	      ),
 	      React.createElement(
-	        'div',
+	        'p',
 	        { className: 'guest2', onClick: this.handleGuest },
 	        'Sign in as a guest!'
 	      )
@@ -24732,7 +24732,7 @@
 	              React.createElement('input', { type: 'date', className: 'form-control', id: 'newBirthday', valueLink: this.linkState('birthday') })
 	            )
 	          ),
-	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Create Your Account', className: 'btn btn-lg btn-primary authButton' })
+	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Create My Account!', className: 'btn btn-lg btn-1 authButton' })
 	        )
 	      )
 	    );
@@ -25357,7 +25357,7 @@
 	              React.createElement('input', { type: 'password', className: 'form-control', id: 'sessionPassword', valueLink: this.linkState('password') })
 	            )
 	          ),
-	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Log In', className: 'btn btn-lg btn-primary authButton' })
+	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Log In', className: 'btn btn-lg btn-1 authButton' })
 	        )
 	      )
 	    );
@@ -33266,7 +33266,7 @@
 	    } else {
 	      return React.createElement(
 	        'button',
-	        { className: 'btn btn-sm btn-success', onClick: this.handleFriendClick },
+	        { className: 'btn btn-sm btn-1', onClick: this.handleFriendClick },
 	        'Add Friend'
 	      );
 	    }
@@ -33641,7 +33641,7 @@
 	            { className: 'reviewCommentsIndex col-md-12' },
 	            React.createElement(
 	              'button',
-	              { onClick: this.handleCommentClick.bind(this, this.props.review), className: 'btn btn-primary createCommentButton', value: this.props.review },
+	              { onClick: this.handleCommentClick.bind(this, this.props.review), className: 'btn btn-1 createCommentButton', value: this.props.review },
 	              'add comment'
 	            ),
 	            this.state.comments.map((function (comment) {
@@ -33992,7 +33992,7 @@
 	          '5'
 	        )
 	      ),
-	      React.createElement('input', { className: 'btn btn-success reviewFormItem', type: 'submit', value: 'Add your review!', onClick: this.handleSubmit })
+	      React.createElement('input', { className: 'btn btn-2 reviewFormItem', type: 'submit', value: 'Add your review!', onClick: this.handleSubmit })
 	    );
 	  }
 	
@@ -34215,13 +34215,13 @@
 	        UserStore.findById(request.requester_id).username,
 	        React.createElement(
 	          'button',
-	          { className: 'btn btn-sm btn-success',
+	          { className: 'btn btn-sm btn-2',
 	            onClick: this.handleConfirm.bind(this, request) },
 	          'Confirm'
 	        ),
 	        React.createElement(
 	          'button',
-	          { className: 'btn btn-sm btn-danger',
+	          { className: 'btn btn-sm btn-3',
 	            onClick: this.handleDeny.bind(this, request) },
 	          'Deny'
 	        )

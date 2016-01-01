@@ -118,18 +118,18 @@ var LandingPage = React.createClass({
       <div className="centered">
         <ul className="">
           <li>
-            <button className="btn btn-lg btn-primary" onClick={this.handleAuth.bind(this, "signup")}>Sign Up</button>
+            <button className="btn btn-lg btn-1" onClick={this.handleAuth.bind(this, "signup")}>Sign Up</button>
           </li>
           <li>
             <div className="or">OR</div>
           </li>
           <li>
-            <button className="btn btn-lg btn-primary" onClick={this.handleAuth.bind(this, "signin")}>Sign In</button>
+            <button className="btn btn-lg btn-1" onClick={this.handleAuth.bind(this, "signin")}>Sign In</button>
           </li>
         </ul>
 
         <div className="guest1">Just here to look?</div>
-        <div className="guest2" onClick={this.handleGuest}>Sign in as a guest!</div>
+        <p className="guest2" onClick={this.handleGuest}>Sign in as a guest!</p>
       </div>
     );
 

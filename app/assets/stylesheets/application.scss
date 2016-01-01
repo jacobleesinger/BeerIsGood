@@ -26,6 +26,39 @@ body {
   font-family: 'Francois One', sans-serif;
 }
 
+.btn-1{
+  background-color: rgba(129,59,9,.5);
+  color: cornsilk;
+  border: 1px solid rgba(129, 59, 9,.5);
+
+}
+
+.btn-2{
+  background-color: rgba(222,184,135,.5);
+  color: cornsilk;
+  border: 1px solid rgba(222,184,135,.5);
+}
+
+.btn-3{
+  background-color: rgba(128,0,0,.5);
+  color: cornsilk;
+  border: 1px solid rgba(128,0,0,.4);
+}
+
+.btn-1:hover{
+  background-color: rgba(129,59,9,1);
+  border: 1px solid rgba(129, 59, 9,1);
+  color: rgb(255,252,240);
+}
+
+.btn-2:hover{
+  background-color: rgba(222,184,135,1);
+  border: 1px solid rgba(222,184,135,1);
+  color: saddlebrown;
+}
+
+
+
 .reviewsIndexContainer {
   border: 1px solid black;
   background-color: rgba(245,235,225,.9);
@@ -57,7 +90,7 @@ body {
 }
 
 .reviewHeader {
-  color: blue;
+  color: saddlebrown;
   font-weight: bold;
   font-size: 1.2em;
 }
@@ -89,14 +122,14 @@ body {
 
 .deleteReviewButton, .editReviewButton{
   font-size: 12px;
-  color: red;
+  color: saddlebrown;
   text-decoration: underline;
   float: right;
   margin: 10px;
 }
 
 .deleteReviewButton:hover, .editReviewButton:hover {
-  color: blue;
+  color: red;
   font-weight: bold;
   cursor: pointer;
 
@@ -182,7 +215,7 @@ background-size: cover;
 
 .navbarLinks:hover {
   cursor: pointer;
-  text-shadow: 0 0 3px saddlebrown;
+  text-shadow: 0 0 5px sienna;
   color: black;
 
 }
@@ -191,6 +224,7 @@ background-size: cover;
   background-color: rgba(245,245,245,.3);
   height: 50px;
   color: rgba(0,0,0,.5);
+  text-shadow: 0 0 2px saddlebrown;
 }
 
 .navbarHeader {
@@ -248,11 +282,12 @@ background-size: cover;
   margin-top: 10px;
   text-shadow: 2px 2px 0 black;
   font-size: 20px;
+  padding: 0;
 
 }
 
 .guest2:hover {
-  text-shadow: 2px 2px 3px navy;
+  text-shadow: 2px 2px 3px black;
   cursor: pointer;
   color: white;
   // text-decoration: underline;

@@ -43,7 +43,7 @@ var NewSession = React.createClass ({
               </div>
             </div>
 
-            <input type="submit" onClick={this.handleSubmit} value="Log In" className="btn btn-lg btn-primary authButton"/>
+            <input type="submit" onClick={this.handleSubmit} value="Log In" className="btn btn-lg btn-1 authButton"/>
 
           </form>
         </div>

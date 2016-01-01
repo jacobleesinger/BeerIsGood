@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
   # Validations
 
-    validates :username, :email, :birthday, :password_digest, :session_token, :location,  presence: true
+    validates :username, :birthday, :password_digest, :session_token, :location,  presence: true
 
     validates :username, :email, uniqueness: true
 

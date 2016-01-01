@@ -62,11 +62,11 @@ var UserProfile = React.createClass({
         <div key={request.id} request={request}>
           Friend request from:
           {UserStore.findById(request.requester_id).username}
-          <button className="btn btn-sm btn-success"
+          <button className="btn btn-sm btn-2"
             onClick={this.handleConfirm.bind(this, request)}>
             Confirm
           </button>
-          <button className="btn btn-sm btn-danger"
+          <button className="btn btn-sm btn-3"
             onClick={this.handleDeny.bind(this, request)}>
             Deny
           </button>

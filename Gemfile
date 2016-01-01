@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'bcrypt'
 gem 'faker'
 gem 'bootstrap'
+gem 'newrelic_rpm'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'

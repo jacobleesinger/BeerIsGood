@@ -71,7 +71,7 @@ body {
 }
 
 .reviewContainer {
-  border: 1px solid black;
+  // border: 1px solid black;
   color: saddlebrown;
 }
 
@@ -80,9 +80,9 @@ body {
 }
 
 .reviewContent {
-  border: 1px solid black;
+  // border: 1px solid black;
   background-color: white;
-  border-radius: 5px;
+  // border-radius: 5px;
 }
 
 .MainContent {
@@ -97,7 +97,7 @@ body {
 
 .reviewBody {
   color: black;
-  // border: 1px solid black;
+  border: 1px solid black;
 }
 
 .reviewCommentsIndex {
@@ -308,4 +308,14 @@ background-size: cover;
 .indexContainer {
 
 
+}
+
+.friendApproveButton {
+  margin: 5px;
+}
+
+.toastReviewButton:hover {
+  cursor: pointer;
+  color: black;
+  text-shadow: 1px 1px 2px saddlebrown;
 }

@@ -60,13 +60,12 @@ var UserProfile = React.createClass({
 
       return (
         <div key={request.id} request={request}>
-          Friend request from:
-          {UserStore.findById(request.requester_id).username}
-          <button className="btn btn-sm btn-2"
+          {UserStore.findById(request.requester_id).username} wants to be your friend!
+          <button className="btn btn-sm btn-2 friendApproveButton"
             onClick={this.handleConfirm.bind(this, request)}>
             Confirm
           </button>
-          <button className="btn btn-sm btn-3"
+          <button className="btn btn-sm btn-3 friendApproveButton"
             onClick={this.handleDeny.bind(this, request)}>
             Deny
           </button>

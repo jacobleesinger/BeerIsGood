@@ -54,7 +54,7 @@
 	var LandingPage = __webpack_require__(208);
 	var Home = __webpack_require__(248);
 	var UserUtil = __webpack_require__(215);
-	var BeerUtil = __webpack_require__(290);
+	var BeerUtil = __webpack_require__(288);
 	var ReviewUtil = __webpack_require__(260);
 	var CommentUtil = __webpack_require__(275);
 	var ToastUtil = __webpack_require__(277);
@@ -62,7 +62,7 @@
 	var BeersIndex = __webpack_require__(250);
 	var UserShow = __webpack_require__(271);
 	var FriendRequestUtil = __webpack_require__(280);
-	var FriendUtil = __webpack_require__(285);
+	var FriendUtil = __webpack_require__(290);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -24155,7 +24155,7 @@
 	var SessionStore = __webpack_require__(230);
 	var ErrorStore = __webpack_require__(247);
 	var Home = __webpack_require__(248);
-	var CurrentUserStore = __webpack_require__(289);
+	var CurrentUserStore = __webpack_require__(287);
 	var SessionUtil = __webpack_require__(228);
 	
 	var Page;
@@ -31872,7 +31872,7 @@
 	var Navbar = __webpack_require__(249);
 	var UserShow = __webpack_require__(271);
 	var UserProfile = __webpack_require__(284);
-	var CurrentUserStore = __webpack_require__(289);
+	var CurrentUserStore = __webpack_require__(287);
 	
 	var MainContent = React.createClass({
 	  displayName: 'MainContent',
@@ -31942,10 +31942,10 @@
 	var LinkedStateMixin = __webpack_require__(210);
 	var FriendsIndex = __webpack_require__(267);
 	var BeerShow = __webpack_require__(253);
-	var UsersIndex = __webpack_require__(287);
+	var UsersIndex = __webpack_require__(285);
 	var User = __webpack_require__(270);
 	var UserProfile = __webpack_require__(284);
-	var Search = __webpack_require__(288);
+	var Search = __webpack_require__(286);
 	
 	var NavbarInstance = React.createClass({
 	  displayName: 'NavbarInstance',
@@ -32385,7 +32385,7 @@
 	      reviews.push(_reviews[key]);
 	    }
 	  }
-	  return reviews;
+	  return reviews.reverse();
 	};
 	
 	ReviewStore.filterReviewsByUserId = function (userId) {
@@ -33590,7 +33590,7 @@
 	              '5'
 	            )
 	          ),
-	          React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Update Review', onClick: this.handleSubmit })
+	          React.createElement('input', { className: 'btn btn-2', type: 'submit', value: 'Update Review', onClick: this.handleSubmit })
 	        )
 	      );
 	    } else {
@@ -33615,7 +33615,6 @@
 	            React.createElement(
 	              'div',
 	              { className: 'reviewBody col-md-12' },
-	              'Review: ',
 	              this.props.review.body
 	            ),
 	            React.createElement(
@@ -33624,8 +33623,8 @@
 	              React.createElement(
 	                'div',
 	                { className: 'reviewFooterItem col-md-4' },
-	                'Rating: ',
-	                this.props.review.rating
+	                this.props.review.rating,
+	                ' Stars!'
 	              ),
 	              React.createElement(
 	                'div',
@@ -34159,7 +34158,7 @@
 	var FriendRequestStore = __webpack_require__(283);
 	var UserStore = __webpack_require__(259);
 	var FriendRequestUtil = __webpack_require__(280);
-	var FriendUtil = __webpack_require__(285);
+	var FriendUtil = __webpack_require__(290);
 	
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
@@ -34211,17 +34210,17 @@
 	      return React.createElement(
 	        'div',
 	        { key: request.id, request: request },
-	        'Friend request from:',
 	        UserStore.findById(request.requester_id).username,
+	        ' wants to be your friend!',
 	        React.createElement(
 	          'button',
-	          { className: 'btn btn-sm btn-2',
+	          { className: 'btn btn-sm btn-2 friendApproveButton',
 	            onClick: this.handleConfirm.bind(this, request) },
 	          'Confirm'
 	        ),
 	        React.createElement(
 	          'button',
-	          { className: 'btn btn-sm btn-3',
+	          { className: 'btn btn-sm btn-3 friendApproveButton',
 	            onClick: this.handleDeny.bind(this, request) },
 	          'Deny'
 	        )
@@ -34268,70 +34267,6 @@
 
 /***/ },
 /* 285 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var FriendActions = __webpack_require__(286);
-	
-	var FriendUtil = {
-	
-	  createFriendship: function (requestObj) {
-	    $.post("api/friendships", { friendship: {
-	        user_id: requestObj.requester_id,
-	        friend_id: requestObj.requested_id
-	      }
-	    }, function (friendship) {
-	      FriendActions.receiveSingleFriendship(friendship);
-	    });
-	
-	    $.post("api/friendships", { friendship: {
-	        user_id: requestObj.requested_id,
-	        friend_id: requestObj.requester_id
-	      }
-	    }, function (friendship) {
-	      FriendActions.receiveSingleFriendship(friendship);
-	    });
-	  },
-	
-	  fetchAllFriendships: function () {
-	    $.get('api/friendships', function (friendships) {
-	      FriendActions.receiveAllFriendships(friendships);
-	    });
-	  }
-	
-	};
-	
-	module.exports = FriendUtil;
-
-/***/ },
-/* 286 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(217);
-	var FriendConstants = __webpack_require__(269);
-	
-	var FriendActions = {
-	
-	  receiveSingleFriendship: function (friendship) {
-	
-	    Dispatcher.dispatch({
-	      actionType: FriendConstants.FRIENDSHIP_RECEIVED,
-	      friendship: friendship
-	    });
-	  },
-	
-	  receiveAllFriendships: function (friendships) {
-	
-	    Dispatcher.dispatch({
-	      actionType: FriendConstants.FRIENDSHIPS_RECEIVED,
-	      friendships: friendships
-	    });
-	  }
-	};
-	
-	module.exports = FriendActions;
-
-/***/ },
-/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34391,7 +34326,7 @@
 	module.exports = UsersIndex;
 
 /***/ },
-/* 288 */
+/* 286 */
 /***/ function(module, exports) {
 
 	// var React = require('react');
@@ -34465,7 +34400,7 @@
 	// module.exports = Search;
 
 /***/ },
-/* 289 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(231).Store;
@@ -34505,10 +34440,10 @@
 	module.exports = CurrentUserStore;
 
 /***/ },
-/* 290 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BeerActions = __webpack_require__(291);
+	var BeerActions = __webpack_require__(289);
 	
 	var BeerUtil = {
 	
@@ -34529,7 +34464,7 @@
 	module.exports = BeerUtil;
 
 /***/ },
-/* 291 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(217);
@@ -34555,6 +34490,70 @@
 	};
 	
 	module.exports = BeerActions;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var FriendActions = __webpack_require__(291);
+	
+	var FriendUtil = {
+	
+	  createFriendship: function (requestObj) {
+	    $.post("api/friendships", { friendship: {
+	        user_id: requestObj.requester_id,
+	        friend_id: requestObj.requested_id
+	      }
+	    }, function (friendship) {
+	      FriendActions.receiveSingleFriendship(friendship);
+	    });
+	
+	    $.post("api/friendships", { friendship: {
+	        user_id: requestObj.requested_id,
+	        friend_id: requestObj.requester_id
+	      }
+	    }, function (friendship) {
+	      FriendActions.receiveSingleFriendship(friendship);
+	    });
+	  },
+	
+	  fetchAllFriendships: function () {
+	    $.get('api/friendships', function (friendships) {
+	      FriendActions.receiveAllFriendships(friendships);
+	    });
+	  }
+	
+	};
+	
+	module.exports = FriendUtil;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(217);
+	var FriendConstants = __webpack_require__(269);
+	
+	var FriendActions = {
+	
+	  receiveSingleFriendship: function (friendship) {
+	
+	    Dispatcher.dispatch({
+	      actionType: FriendConstants.FRIENDSHIP_RECEIVED,
+	      friendship: friendship
+	    });
+	  },
+	
+	  receiveAllFriendships: function (friendships) {
+	
+	    Dispatcher.dispatch({
+	      actionType: FriendConstants.FRIENDSHIPS_RECEIVED,
+	      friendships: friendships
+	    });
+	  }
+	};
+	
+	module.exports = FriendActions;
 
 /***/ }
 /******/ ]);

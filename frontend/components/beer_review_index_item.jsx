@@ -85,12 +85,12 @@ var BeerReviewIndexItem = React.createClass({
 
 
             <div className="reviewBody col-md-12">
-              Review: {this.props.review.body}
+              {this.props.review.body}
             </div>
 
             <div className="reviewFooter col-md-12">
               <div className="reviewFooterItem col-md-4">
-                Rating: {this.props.review.rating}
+                {this.props.review.rating} Stars!
               </div>
 
               <div className="reviewFooterItem col-md-4">

@@ -32195,7 +32195,7 @@
 	
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'col-md-12' },
 	      React.createElement(
 	        'h1',
 	        null,
@@ -32334,7 +32334,7 @@
 	                '5'
 	              )
 	            ),
-	            React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Add Your Review', onClick: this.handleSubmit })
+	            React.createElement('input', { className: 'btn btn-2', type: 'submit', value: 'Add Your Review', onClick: this.handleSubmit })
 	          ),
 	          React.createElement(
 	            'h3',
@@ -32528,7 +32528,6 @@
 	          React.createElement(
 	            'div',
 	            { className: 'reviewBody col-md-12' },
-	            'Review: ',
 	            this.props.review.body
 	          ),
 	          React.createElement(
@@ -32537,8 +32536,8 @@
 	            React.createElement(
 	              'div',
 	              { className: 'reviewFooterItem col-md-4' },
-	              'Rating: ',
-	              this.props.review.rating
+	              this.props.review.rating,
+	              ' Stars!'
 	            ),
 	            React.createElement(
 	              'div',
@@ -33007,7 +33006,7 @@
 	            "5"
 	          )
 	        ),
-	        React.createElement("input", { className: "btn btn-success", type: "submit", value: "Update Review", onClick: this.handleSubmit })
+	        React.createElement("input", { className: "btn btn-2", type: "submit", value: "Update Review", onClick: this.handleSubmit })
 	      )
 	    );
 	  }

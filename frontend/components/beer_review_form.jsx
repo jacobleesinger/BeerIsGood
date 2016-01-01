@@ -21,7 +21,7 @@ var BeerReviewForm = React.createClass({
                 <option value="5">5</option>
               </select>
 
-            <input className="btn btn-success" type="submit" value="Update Review" onClick={this.handleSubmit}/>
+            <input className="btn btn-2" type="submit" value="Update Review" onClick={this.handleSubmit}/>
 
         </form>
       </div>

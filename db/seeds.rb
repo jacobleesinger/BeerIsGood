@@ -24,7 +24,6 @@ Beer.create!(
 name: "Arrogant Bastard Ale"
 )
 
-User.create!(username: "Guest", email: "Guest@guest.guest", password: "password", birthday: "01-01-1989", location: "San Francisco")
 
 10.times do
   Beer.create(name: Faker::Commerce.product_name)
@@ -35,3 +34,5 @@ end
 20.times do
   User.create(username: Faker::Internet.user_name, email: Faker::Internet.email, password: "password", birthday: '01-01-1989', location: "San Francisco")
 end
+
+User.create(username: "Guest", email: "Guest@guest.guest", password: "password", birthday: "01-01-1989", location: "San Francisco")

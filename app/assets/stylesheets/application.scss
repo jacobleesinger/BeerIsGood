@@ -35,14 +35,14 @@ body {
 
 .btn-2{
   background-color: rgba(222,184,135,.5);
-  color: cornsilk;
+  color: sienna;
   border: 1px solid rgba(222,184,135,.5);
 }
 
 .btn-3{
-  background-color: rgba(128,0,0,.5);
+  background-color: rgba(165,42,42,.5);
   color: cornsilk;
-  border: 1px solid rgba(128,0,0,.4);
+  border: 1px solid rgba(165,42,42,.5);
 }
 
 .btn-1:hover{
@@ -291,5 +291,21 @@ background-size: cover;
   cursor: pointer;
   color: white;
   // text-decoration: underline;
+
+}
+
+.indexItem {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.indexItem:hover {
+  cursor: pointer;
+  font-size: 20px;
+  text-shadow: 2px 2px 3px saddlebrown;
+}
+
+.indexContainer {
+
 
 }

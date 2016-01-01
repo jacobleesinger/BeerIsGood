@@ -84,7 +84,7 @@ var NavbarInstance = React.createClass({
 
             <li>
               <button
-                className="btn btn-sm btn-primary" onClick={this.handleSignOut}>Sign Out
+                className="btn btn-sm btn-1" onClick={this.handleSignOut}>Sign Out
               </button>
             </li>
           </ul>

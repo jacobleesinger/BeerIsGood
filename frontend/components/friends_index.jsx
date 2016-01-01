@@ -48,10 +48,10 @@ var FriendsIndex = React.createClass({
   render: function () {
     return (
 
-      <div className="fixedWidth">
+      <div className="fixedWidth row">
         {this.state.friends.map(function(friend) {
             return(
-              <div friend={friend} key={friend.id}
+              <div className="col-md-12 indexItem" friend={friend} key={friend.id}
                 onClick={this.handleClick.bind(this, User, friend, this.props.beer)}>{friend.username}</div>
             );
           }.bind(this))

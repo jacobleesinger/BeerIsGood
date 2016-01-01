@@ -33,17 +33,19 @@ var UsersIndex = React.createClass({
   },
 
   render: function () {
+
     return (
 
-      <div className="fixedWidth">
-    
-        {this.state.users.map(function(user) {
-            return(
-              <div user={user} key={user.id}
-                onClick={this.handleClick.bind(this, User, user, this.props.beer)}>{user.username}</div>
-            );
-          }.bind(this))
-        }
+      <div className="fixedWidth row">
+
+          {this.state.users.map(function(user) {
+              return(
+                <div className="indexItem col-md-12" user={user} key={user.id}
+                  onClick={this.handleClick.bind(this, User, user, this.props.beer)}>{user.username}</div>
+              );
+            }.bind(this))
+          }
+
       </div>
     );
   }

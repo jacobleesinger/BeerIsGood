@@ -32051,7 +32051,7 @@
 	              React.createElement(
 	                'button',
 	                {
-	                  className: 'btn btn-sm btn-primary', onClick: this.handleSignOut },
+	                  className: 'btn btn-sm btn-1', onClick: this.handleSignOut },
 	                'Sign Out'
 	              )
 	            )
@@ -32101,11 +32101,11 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'fixedWidth' },
+	      { className: 'indexContainer fixedWidth row' },
 	      this.state.beers.map((function (beer) {
 	        return React.createElement(
 	          'div',
-	          { beer: beer, key: beer.id, onClick: this.handleClick.bind(this, BeerShow, this.props.currentUser, beer) },
+	          { className: 'indexItem col-md-12', beer: beer, key: beer.id, onClick: this.handleClick.bind(this, BeerShow, this.props.currentUser, beer) },
 	          beer.name
 	        );
 	      }).bind(this))
@@ -33069,11 +33069,11 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'fixedWidth' },
+	      { className: 'fixedWidth row' },
 	      this.state.friends.map((function (friend) {
 	        return React.createElement(
 	          'div',
-	          { friend: friend, key: friend.id,
+	          { className: 'col-md-12 indexItem', friend: friend, key: friend.id,
 	            onClick: this.handleClick.bind(this, User, friend, this.props.beer) },
 	          friend.username
 	        );
@@ -34371,13 +34371,14 @@
 	  },
 	
 	  render: function () {
+	
 	    return React.createElement(
 	      'div',
-	      { className: 'fixedWidth' },
+	      { className: 'fixedWidth row' },
 	      this.state.users.map((function (user) {
 	        return React.createElement(
 	          'div',
-	          { user: user, key: user.id,
+	          { className: 'indexItem col-md-12', user: user, key: user.id,
 	            onClick: this.handleClick.bind(this, User, user, this.props.beer) },
 	          user.username
 	        );

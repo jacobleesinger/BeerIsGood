@@ -32196,7 +32196,7 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'indexContainer fixedWidth row' },
+	      { className: 'index fixedWidth row' },
 	      this.state.beers.map((function (beer) {
 	        return React.createElement(
 	          'div',
@@ -34467,7 +34467,7 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'fixedWidth row' },
+	      { className: 'fixedWidth row index' },
 	      this.state.users.map((function (user) {
 	        return React.createElement(
 	          'div',

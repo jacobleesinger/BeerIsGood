@@ -36,7 +36,7 @@ var UsersIndex = React.createClass({
 
     return (
 
-      <div className="fixedWidth row">
+      <div className="fixedWidth row index">
 
           {this.state.users.map(function(user) {
               return(

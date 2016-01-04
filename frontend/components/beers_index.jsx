@@ -34,7 +34,7 @@ var BeersIndex = React.createClass({
 
     return (
 
-      <div className="indexContainer fixedWidth row">
+      <div className="index fixedWidth row">
         {this.state.beers.map(function(beer) {
             return(
               <div className="indexItem col-md-12" beer={beer} key={beer.id} onClick={this.handleClick.bind(this, BeerShow, this.props.currentUser, beer)}>{beer.name}</div>

@@ -41,7 +41,7 @@ var CommentForm = React.createClass({
             id="reviewBody"
             valueLink={this.linkState('body')} ></textarea>
 
-          <input className="btn btn-success" type="submit" value="Add Comment" onClick={this.handleSubmit}/>
+          <input className="btn btn-2" type="submit" value="Add Comment" onClick={this.handleSubmit}/>
         </form>
 
       </div>

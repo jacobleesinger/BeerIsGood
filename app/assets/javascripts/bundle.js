@@ -33812,7 +33812,7 @@
 	          className: 'form-control',
 	          id: 'reviewBody',
 	          valueLink: this.linkState('body') }),
-	        React.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Add Comment', onClick: this.handleSubmit })
+	        React.createElement('input', { className: 'btn btn-2', type: 'submit', value: 'Add Comment', onClick: this.handleSubmit })
 	      )
 	    );
 	  }

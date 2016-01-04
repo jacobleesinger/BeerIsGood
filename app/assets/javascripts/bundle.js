@@ -54,7 +54,7 @@
 	var LandingPage = __webpack_require__(208);
 	var Home = __webpack_require__(248);
 	var UserUtil = __webpack_require__(215);
-	var BeerUtil = __webpack_require__(288);
+	var BeerUtil = __webpack_require__(290);
 	var ReviewUtil = __webpack_require__(260);
 	var CommentUtil = __webpack_require__(275);
 	var ToastUtil = __webpack_require__(277);
@@ -62,7 +62,7 @@
 	var BeersIndex = __webpack_require__(250);
 	var UserShow = __webpack_require__(271);
 	var FriendRequestUtil = __webpack_require__(280);
-	var FriendUtil = __webpack_require__(290);
+	var FriendUtil = __webpack_require__(285);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -24155,7 +24155,7 @@
 	var SessionStore = __webpack_require__(230);
 	var ErrorStore = __webpack_require__(247);
 	var Home = __webpack_require__(248);
-	var CurrentUserStore = __webpack_require__(287);
+	var CurrentUserStore = __webpack_require__(289);
 	var SessionUtil = __webpack_require__(228);
 	
 	var Page;
@@ -24311,47 +24311,72 @@
 	        { className: 'landingPage' },
 	        React.createElement(
 	          'div',
-	          { className: 'container landingPageContainer' },
+	          { className: 'landingPage-1' },
 	          React.createElement(
 	            'div',
-	            { className: 'row' },
+	            { className: 'container landingPageContainer' },
 	            React.createElement(
 	              'div',
-	              { className: 'col-md-6 col-md-offset-3 landingPageStuff' },
-	              React.createElement(
-	                'h6',
-	                { className: 'landingPageSubLogo logo' },
-	                'Good beers, good friends, good times.'
-	              ),
-	              React.createElement(
-	                'h1',
-	                { className: 'landingPageLogo logo' },
-	                'Beerisgood'
-	              ),
-	              React.createElement(
-	                'h2',
-	                { className: 'landingPageTag' },
-	                'Welcome!'
-	              ),
-	              React.createElement(
-	                'h2',
-	                { className: 'landingPageTag' },
-	                'Discover & Share your favorite beers'
-	              ),
+	              { className: 'row' },
 	              React.createElement(
 	                'div',
-	                { className: 'landingPageErrors' },
-	                errors
-	              ),
+	                { className: 'col-md-6 col-md-offset-3 landingPageStuff' },
+	                React.createElement(
+	                  'h6',
+	                  { className: 'landingPageSubLogo logo' },
+	                  'Good beers, good friends, good times.'
+	                ),
+	                React.createElement(
+	                  'h1',
+	                  { className: 'landingPageLogo logo' },
+	                  'Beerisgood'
+	                ),
+	                React.createElement(
+	                  'h2',
+	                  { className: 'landingPageTag' },
+	                  'Welcome!'
+	                ),
+	                React.createElement(
+	                  'h2',
+	                  { className: 'landingPageTag' },
+	                  'Discover & Share your favorite beers'
+	                ),
+	                React.createElement(
+	                  'div',
+	                  { className: 'landingPageErrors' },
+	                  errors
+	                ),
+	                React.createElement(
+	                  'div',
+	                  { className: 'landingPageForm' },
+	                  modal
+	                ),
+	                React.createElement(
+	                  'div',
+	                  { className: 'landingPageButtons ' },
+	                  buttons
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'landingPage-2' },
+	          React.createElement(
+	            'div',
+	            { className: 'container landingPageContainer' },
+	            React.createElement(
+	              'div',
+	              { className: 'row' },
 	              React.createElement(
 	                'div',
-	                { className: 'landingPageForm' },
-	                modal
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'landingPageButtons ' },
-	                buttons
+	                { className: 'col-md-8 col-md-offset-2 landingPageStuff' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'landingPageTag-2' },
+	                  'BeerIsGood is an Untappd-inspired social media web application for craft beer enthusiasts built using Ruby on Rails and React.js.'
+	                )
 	              )
 	            )
 	          )
@@ -31872,7 +31897,7 @@
 	var Navbar = __webpack_require__(249);
 	var UserShow = __webpack_require__(271);
 	var UserProfile = __webpack_require__(284);
-	var CurrentUserStore = __webpack_require__(287);
+	var CurrentUserStore = __webpack_require__(289);
 	
 	var MainContent = React.createClass({
 	  displayName: 'MainContent',
@@ -31942,10 +31967,10 @@
 	var LinkedStateMixin = __webpack_require__(210);
 	var FriendsIndex = __webpack_require__(267);
 	var BeerShow = __webpack_require__(253);
-	var UsersIndex = __webpack_require__(285);
+	var UsersIndex = __webpack_require__(287);
 	var User = __webpack_require__(270);
 	var UserProfile = __webpack_require__(284);
-	var Search = __webpack_require__(286);
+	var Search = __webpack_require__(288);
 	
 	var NavbarInstance = React.createClass({
 	  displayName: 'NavbarInstance',
@@ -34157,7 +34182,7 @@
 	var FriendRequestStore = __webpack_require__(283);
 	var UserStore = __webpack_require__(259);
 	var FriendRequestUtil = __webpack_require__(280);
-	var FriendUtil = __webpack_require__(290);
+	var FriendUtil = __webpack_require__(285);
 	
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
@@ -34268,6 +34293,70 @@
 /* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var FriendActions = __webpack_require__(286);
+	
+	var FriendUtil = {
+	
+	  createFriendship: function (requestObj) {
+	    $.post("api/friendships", { friendship: {
+	        user_id: requestObj.requester_id,
+	        friend_id: requestObj.requested_id
+	      }
+	    }, function (friendship) {
+	      FriendActions.receiveSingleFriendship(friendship);
+	    });
+	
+	    $.post("api/friendships", { friendship: {
+	        user_id: requestObj.requested_id,
+	        friend_id: requestObj.requester_id
+	      }
+	    }, function (friendship) {
+	      FriendActions.receiveSingleFriendship(friendship);
+	    });
+	  },
+	
+	  fetchAllFriendships: function () {
+	    $.get('api/friendships', function (friendships) {
+	      FriendActions.receiveAllFriendships(friendships);
+	    });
+	  }
+	
+	};
+	
+	module.exports = FriendUtil;
+
+/***/ },
+/* 286 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(217);
+	var FriendConstants = __webpack_require__(269);
+	
+	var FriendActions = {
+	
+	  receiveSingleFriendship: function (friendship) {
+	
+	    Dispatcher.dispatch({
+	      actionType: FriendConstants.FRIENDSHIP_RECEIVED,
+	      friendship: friendship
+	    });
+	  },
+	
+	  receiveAllFriendships: function (friendships) {
+	
+	    Dispatcher.dispatch({
+	      actionType: FriendConstants.FRIENDSHIPS_RECEIVED,
+	      friendships: friendships
+	    });
+	  }
+	};
+	
+	module.exports = FriendActions;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1);
 	var Navbar = __webpack_require__(249);
 	var UserStore = __webpack_require__(259);
@@ -34325,7 +34414,7 @@
 	module.exports = UsersIndex;
 
 /***/ },
-/* 286 */
+/* 288 */
 /***/ function(module, exports) {
 
 	// var React = require('react');
@@ -34399,7 +34488,7 @@
 	// module.exports = Search;
 
 /***/ },
-/* 287 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(231).Store;
@@ -34439,10 +34528,10 @@
 	module.exports = CurrentUserStore;
 
 /***/ },
-/* 288 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BeerActions = __webpack_require__(289);
+	var BeerActions = __webpack_require__(291);
 	
 	var BeerUtil = {
 	
@@ -34463,7 +34552,7 @@
 	module.exports = BeerUtil;
 
 /***/ },
-/* 289 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(217);
@@ -34489,70 +34578,6 @@
 	};
 	
 	module.exports = BeerActions;
-
-/***/ },
-/* 290 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var FriendActions = __webpack_require__(291);
-	
-	var FriendUtil = {
-	
-	  createFriendship: function (requestObj) {
-	    $.post("api/friendships", { friendship: {
-	        user_id: requestObj.requester_id,
-	        friend_id: requestObj.requested_id
-	      }
-	    }, function (friendship) {
-	      FriendActions.receiveSingleFriendship(friendship);
-	    });
-	
-	    $.post("api/friendships", { friendship: {
-	        user_id: requestObj.requested_id,
-	        friend_id: requestObj.requester_id
-	      }
-	    }, function (friendship) {
-	      FriendActions.receiveSingleFriendship(friendship);
-	    });
-	  },
-	
-	  fetchAllFriendships: function () {
-	    $.get('api/friendships', function (friendships) {
-	      FriendActions.receiveAllFriendships(friendships);
-	    });
-	  }
-	
-	};
-	
-	module.exports = FriendUtil;
-
-/***/ },
-/* 291 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(217);
-	var FriendConstants = __webpack_require__(269);
-	
-	var FriendActions = {
-	
-	  receiveSingleFriendship: function (friendship) {
-	
-	    Dispatcher.dispatch({
-	      actionType: FriendConstants.FRIENDSHIP_RECEIVED,
-	      friendship: friendship
-	    });
-	  },
-	
-	  receiveAllFriendships: function (friendships) {
-	
-	    Dispatcher.dispatch({
-	      actionType: FriendConstants.FRIENDSHIPS_RECEIVED,
-	      friendships: friendships
-	    });
-	  }
-	};
-	
-	module.exports = FriendActions;
 
 /***/ }
 /******/ ]);

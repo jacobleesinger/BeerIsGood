@@ -140,16 +140,27 @@ var LandingPage = React.createClass({
       var errors = this.displayErrorMessages();
       Page =
       <div className="landingPage">
-        <div className="container landingPageContainer">
-         <div className="row">
-           <div className="col-md-6 col-md-offset-3 landingPageStuff">
-             <h6 className="landingPageSubLogo logo">Good beers, good friends, good times.</h6>
-             <h1 className="landingPageLogo logo">Beerisgood</h1>
-             <h2 className="landingPageTag">Welcome!</h2>
-             <h2 className="landingPageTag">Discover & Share your favorite beers</h2>
-             <div className="landingPageErrors">{errors}</div>
-             <div className="landingPageForm">{modal}</div>
-             <div className="landingPageButtons ">{buttons}</div>
+        <div className="landingPage-1">
+          <div className="container landingPageContainer">
+           <div className="row">
+             <div className="col-md-6 col-md-offset-3 landingPageStuff">
+               <h6 className="landingPageSubLogo logo">Good beers, good friends, good times.</h6>
+               <h1 className="landingPageLogo logo">Beerisgood</h1>
+               <h2 className="landingPageTag">Welcome!</h2>
+               <h2 className="landingPageTag">Discover & Share your favorite beers</h2>
+               <div className="landingPageErrors">{errors}</div>
+               <div className="landingPageForm">{modal}</div>
+               <div className="landingPageButtons ">{buttons}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="landingPage-2">
+        <div className="container landingPageContainer" >
+          <div className="row">
+            <div className="col-md-8 col-md-offset-2 landingPageStuff">
+              <div className="landingPageTag-2">BeerIsGood is an Untappd-inspired social media web application for craft beer enthusiasts built using Ruby on Rails and React.js.</div>
+            </div>
           </div>
         </div>
       </div>

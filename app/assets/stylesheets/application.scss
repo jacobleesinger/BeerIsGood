@@ -140,16 +140,29 @@ body {
   text-align: center;
 }
 
-.landingPage {
+.landingPage-1 {
   background: url("http://res.cloudinary.com/dbkzwcps1/image/upload/v1451354175/pouring_beer_sm_t0ruln.jpg") no-repeat center center;
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;
 background-size: cover;
-    min-height: 800px;
+    height: 100vh;
     width: 100%;
     color: cornsilk;
 }
+
+.landingPage-2 {
+  background: url("  http://res.cloudinary.com/dbkzwcps1/image/upload/v1451868529/cold_beers_sm_dc6vo8.jpg") no-repeat center center;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+    height: 100vh;
+    width: 100%;
+    color: cornsilk;
+}
+
+
 
 .homeDiv {
   background: url("http://res.cloudinary.com/dbkzwcps1/image/upload/v1451354129/2beers_sm_eirv74.jpg") no-repeat center center fixed;
@@ -273,6 +286,18 @@ background-size: cover;
 .landingPageTag {
   padding-top: 40px;
 }
+
+.landingPageTag-2 {
+  // color: black;
+  position: relative;
+  color: cornsilk;
+  top: 50%;
+  transform: translateY(75%);
+  text-shadow: 0 0 3px darkslateblue;
+  font-size: 36px;
+  font-weight: 400;
+}
+
 
 .guest1{
   padding-top: 10px;

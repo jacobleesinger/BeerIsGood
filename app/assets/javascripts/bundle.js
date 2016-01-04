@@ -54,7 +54,7 @@
 	var LandingPage = __webpack_require__(208);
 	var Home = __webpack_require__(248);
 	var UserUtil = __webpack_require__(215);
-	var BeerUtil = __webpack_require__(290);
+	var BeerUtil = __webpack_require__(291);
 	var ReviewUtil = __webpack_require__(260);
 	var CommentUtil = __webpack_require__(275);
 	var ToastUtil = __webpack_require__(277);
@@ -24157,7 +24157,7 @@
 	var Home = __webpack_require__(248);
 	var CurrentUserStore = __webpack_require__(289);
 	var SessionUtil = __webpack_require__(228);
-	var Footer = __webpack_require__(292);
+	var Footer = __webpack_require__(290);
 	
 	var Page;
 	var modal;
@@ -31966,7 +31966,7 @@
 	var UserShow = __webpack_require__(271);
 	var UserProfile = __webpack_require__(284);
 	var CurrentUserStore = __webpack_require__(289);
-	var Footer = __webpack_require__(292);
+	var Footer = __webpack_require__(290);
 	
 	var MainContent = React.createClass({
 	  displayName: 'MainContent',
@@ -32290,13 +32290,17 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'col-md-12' },
+	      { className: 'row fixedWidth' },
 	      React.createElement(
-	        'h1',
-	        null,
-	        this.props.beer.name
-	      ),
-	      React.createElement(BeerReviewsIndex, { beer: this.props.beer, currentUser: this.props.currentUser })
+	        'div',
+	        { className: 'col-md-12' },
+	        React.createElement(
+	          'h1',
+	          null,
+	          this.props.beer.name
+	        ),
+	        React.createElement(BeerReviewsIndex, { beer: this.props.beer, currentUser: this.props.currentUser })
+	      )
 	    );
 	  }
 	});
@@ -34303,20 +34307,28 @@
 	
 	      return React.createElement(
 	        'div',
-	        { key: request.id, request: request },
-	        UserStore.findById(request.requester_id).username,
-	        ' wants to be your friend!',
+	        { className: '', key: request.id, request: request },
 	        React.createElement(
-	          'button',
-	          { className: 'btn btn-sm btn-2 friendApproveButton',
-	            onClick: this.handleConfirm.bind(this, request) },
-	          'Confirm'
+	          'div',
+	          { className: 'friendRequestNotifcation' },
+	          UserStore.findById(request.requester_id).username,
+	          ' wants to be your friend!'
 	        ),
 	        React.createElement(
-	          'button',
-	          { className: 'btn btn-sm btn-3 friendApproveButton',
-	            onClick: this.handleDeny.bind(this, request) },
-	          'Deny'
+	          'div',
+	          { className: 'friendApproveButtons' },
+	          React.createElement(
+	            'button',
+	            { className: 'btn btn-sm btn-2 friendApproveButton',
+	              onClick: this.handleConfirm.bind(this, request) },
+	            'Confirm'
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'btn btn-sm btn-3 friendApproveButton',
+	              onClick: this.handleDeny.bind(this, request) },
+	            'Deny'
+	          )
 	        )
 	      );
 	    }).bind(this));
@@ -34327,13 +34339,20 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'row fixedWidth' },
-	      this.props.errors,
 	      React.createElement(
 	        'div',
 	        { className: 'row' },
 	        React.createElement(
 	          'div',
 	          { className: 'col-md-6 reviewsIndexContainer' },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Welcome, ',
+	            this.props.currentUser.username,
+	            '!'
+	          ),
+	          this.props.errors,
 	          this.getFriendRequests(),
 	          React.createElement(
 	            'h3',
@@ -34601,58 +34620,6 @@
 /* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BeerActions = __webpack_require__(291);
-	
-	var BeerUtil = {
-	
-	  fetchAllBeers: function () {
-	    $.get('api/beers', function (beers) {
-	      BeerActions.receiveAllBeers(beers);
-	    });
-	  },
-	
-	  fetchSingleBeer: function (beer) {
-	    $.get('api/beer/' + beer.id, function (beer) {
-	      BeerActions.receiveSingleBeer(beer);
-	    });
-	  }
-	
-	};
-	
-	module.exports = BeerUtil;
-
-/***/ },
-/* 291 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(217);
-	var BeerConstants = __webpack_require__(252);
-	
-	var BeerActions = {
-	
-	  receiveAllBeers: function (beers) {
-	    Dispatcher.dispatch({
-	      actionType: BeerConstants.BEERS_RECEIVED,
-	      beers: beers
-	    });
-	  },
-	
-	  receiveSingleBeer: function (beer) {
-	    var action = {
-	      actionType: BeerConstants.BEER_RECEIVED,
-	      beer: beer
-	    };
-	    Dispatcher.dispatch(action);
-	  }
-	
-	};
-	
-	module.exports = BeerActions;
-
-/***/ },
-/* 292 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var React = __webpack_require__(1);
 	
 	var Footer = React.createClass({
@@ -34698,6 +34665,58 @@
 	  }
 	});
 	module.exports = Footer;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BeerActions = __webpack_require__(292);
+	
+	var BeerUtil = {
+	
+	  fetchAllBeers: function () {
+	    $.get('api/beers', function (beers) {
+	      BeerActions.receiveAllBeers(beers);
+	    });
+	  },
+	
+	  fetchSingleBeer: function (beer) {
+	    $.get('api/beer/' + beer.id, function (beer) {
+	      BeerActions.receiveSingleBeer(beer);
+	    });
+	  }
+	
+	};
+	
+	module.exports = BeerUtil;
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(217);
+	var BeerConstants = __webpack_require__(252);
+	
+	var BeerActions = {
+	
+	  receiveAllBeers: function (beers) {
+	    Dispatcher.dispatch({
+	      actionType: BeerConstants.BEERS_RECEIVED,
+	      beers: beers
+	    });
+	  },
+	
+	  receiveSingleBeer: function (beer) {
+	    var action = {
+	      actionType: BeerConstants.BEER_RECEIVED,
+	      beer: beer
+	    };
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = BeerActions;
 
 /***/ }
 /******/ ]);

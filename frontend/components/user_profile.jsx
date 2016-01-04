@@ -59,16 +59,20 @@ var UserProfile = React.createClass({
     return requests.map(function(request) {
 
       return (
-        <div key={request.id} request={request}>
-          {UserStore.findById(request.requester_id).username} wants to be your friend!
-          <button className="btn btn-sm btn-2 friendApproveButton"
-            onClick={this.handleConfirm.bind(this, request)}>
-            Confirm
-          </button>
-          <button className="btn btn-sm btn-3 friendApproveButton"
-            onClick={this.handleDeny.bind(this, request)}>
-            Deny
-          </button>
+        <div className="" key={request.id} request={request}>
+          <div className="friendRequestNotifcation">
+            {UserStore.findById(request.requester_id).username} wants to be your friend!
+          </div>
+          <div className="friendApproveButtons">
+            <button className="btn btn-sm btn-2 friendApproveButton"
+              onClick={this.handleConfirm.bind(this, request)}>
+              Confirm
+            </button>
+            <button className="btn btn-sm btn-3 friendApproveButton"
+              onClick={this.handleDeny.bind(this, request)}>
+              Deny
+            </button>
+          </div>
 
 
         </div>
@@ -83,10 +87,12 @@ var UserProfile = React.createClass({
 
     return(
       <div className="row fixedWidth">
-        {this.props.errors}
+
         <div className="row">
 
           <div className="col-md-6 reviewsIndexContainer">
+            <h3>Welcome, {this.props.currentUser.username}!</h3>
+            {this.props.errors}
             {this.getFriendRequests()}
 
             <h3>Review a Beer</h3>

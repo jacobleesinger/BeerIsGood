@@ -3,6 +3,7 @@ var Navbar = require('./navbar');
 var UserShow = require('./user_show');
 var UserProfile = require('./user_profile');
 var CurrentUserStore = require('../stores/current_user_store');
+var Footer = require('./footer');
 
 
 var MainContent = React.createClass({
@@ -55,6 +56,7 @@ var Home = React.createClass({
           onSubPageChange={this.navbarChangeHandler}
           beer={this.state.beer}
           user={this.state.user}/>
+        <Footer />
       </div>
     );
   }

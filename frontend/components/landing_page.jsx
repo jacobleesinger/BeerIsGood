@@ -5,6 +5,7 @@ var ErrorStore = require('../stores/error_store');
 var Home = require('./home');
 var CurrentUserStore = require('../stores/current_user_store');
 var SessionUtil = require('../util/session_util');
+var Footer = require('./footer');
 
 
 
@@ -164,13 +165,39 @@ var LandingPage = React.createClass({
           </div>
         </div>
       </div>
+      <div className="landingPage-3">
+        <div className="container landingPageContainer" >
+          <div className="row landingPageBlurbs">
+            <div className="col-md-4 landingPageStuff">
+              <div className="landingPageBlurb">
+                <h1 className="landingPageBlurbHeader">Good Beers</h1>
+                <div className="landingPageBlurbContent">Drinking an awesome beer? Let the world know by writing a review!</div>
+              </div>
+            </div>
+            <div className="col-md-4 landingPageStuff">
+              <div className="landingPageBlurb">
+                <h1 className="landingPageBlurbHeader">Good Friends</h1>
+                <div className="landingPageBlurbContent">Interact with your friends by commenting on and Toasting their reviews!</div>
+              </div>
+            </div>
+            <div className="col-md-4 landingPageStuff">
+              <div className="landingPageBlurb">
+                <h1 className="landingPageBlurbHeader">Good Times</h1>
+                <div className="landingPageBlurbContent">Sign In as a Guest User for quick access to demo content!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     }
 
     return (
 
-      <div>
+      <div className="main">
         {Page}
+        <Footer />
+
       </div>
     );
   }

@@ -24157,6 +24157,7 @@
 	var Home = __webpack_require__(248);
 	var CurrentUserStore = __webpack_require__(289);
 	var SessionUtil = __webpack_require__(228);
+	var Footer = __webpack_require__(292);
 	
 	var Page;
 	var modal;
@@ -24380,14 +24381,81 @@
 	              )
 	            )
 	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'landingPage-3' },
+	          React.createElement(
+	            'div',
+	            { className: 'container landingPageContainer' },
+	            React.createElement(
+	              'div',
+	              { className: 'row landingPageBlurbs' },
+	              React.createElement(
+	                'div',
+	                { className: 'col-md-4 landingPageStuff' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'landingPageBlurb' },
+	                  React.createElement(
+	                    'h1',
+	                    { className: 'landingPageBlurbHeader' },
+	                    'Good Beers'
+	                  ),
+	                  React.createElement(
+	                    'div',
+	                    { className: 'landingPageBlurbContent' },
+	                    'Drinking an awesome beer? Let the world know by writing a review!'
+	                  )
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'col-md-4 landingPageStuff' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'landingPageBlurb' },
+	                  React.createElement(
+	                    'h1',
+	                    { className: 'landingPageBlurbHeader' },
+	                    'Good Friends'
+	                  ),
+	                  React.createElement(
+	                    'div',
+	                    { className: 'landingPageBlurbContent' },
+	                    'Interact with your friends by commenting on and Toasting their reviews!'
+	                  )
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'col-md-4 landingPageStuff' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'landingPageBlurb' },
+	                  React.createElement(
+	                    'h1',
+	                    { className: 'landingPageBlurbHeader' },
+	                    'Good Times'
+	                  ),
+	                  React.createElement(
+	                    'div',
+	                    { className: 'landingPageBlurbContent' },
+	                    'Sign In as a Guest User for quick access to demo content!'
+	                  )
+	                )
+	              )
+	            )
+	          )
 	        )
 	      );
 	    }
 	
 	    return React.createElement(
 	      'div',
-	      null,
-	      Page
+	      { className: 'main' },
+	      Page,
+	      React.createElement(Footer, null)
 	    );
 	  }
 	
@@ -31898,6 +31966,7 @@
 	var UserShow = __webpack_require__(271);
 	var UserProfile = __webpack_require__(284);
 	var CurrentUserStore = __webpack_require__(289);
+	var Footer = __webpack_require__(292);
 	
 	var MainContent = React.createClass({
 	  displayName: 'MainContent',
@@ -31947,7 +32016,8 @@
 	        subPage: this.state.subPage,
 	        onSubPageChange: this.navbarChangeHandler,
 	        beer: this.state.beer,
-	        user: this.state.user })
+	        user: this.state.user }),
+	      React.createElement(Footer, null)
 	    );
 	  }
 	
@@ -34578,6 +34648,56 @@
 	};
 	
 	module.exports = BeerActions;
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Footer = React.createClass({
+	  displayName: "Footer",
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      "div",
+	      { className: "footer" },
+	      React.createElement(
+	        "div",
+	        { className: "" },
+	        React.createElement(
+	          "div",
+	          { className: "col-md-4" },
+	          React.createElement(
+	            "a",
+	            { href: "https://github.com/jacobleesinger/BeerIsGood" },
+	            "Github"
+	          )
+	        ),
+	        React.createElement(
+	          "div",
+	          { className: "col-md-4" },
+	          React.createElement(
+	            "a",
+	            { href: "https://www.linkedin.com/in/jacobleesinger" },
+	            "LinkedIn"
+	          )
+	        ),
+	        React.createElement(
+	          "div",
+	          { className: "col-md-4" },
+	          React.createElement(
+	            "a",
+	            { href: "#" },
+	            "Personal Site"
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = Footer;
 
 /***/ }
 /******/ ]);

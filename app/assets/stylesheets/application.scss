@@ -60,6 +60,8 @@ body {
 
 
 .reviewsIndexContainer {
+  position: absolute;
+  bottom: 30px;
   border: 1px solid black;
   background-color: rgba(245,235,225,.9);
   color: black;
@@ -162,9 +164,25 @@ background-size: cover;
     color: cornsilk;
 }
 
+.landingPage-3 {
+  position: relative;
+  background: url("  http://res.cloudinary.com/dbkzwcps1/image/upload/v1451874524/beer_vxpdak.jpg") no-repeat center center;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+    height: 100vh;
+    width: 100%;
+    color: cornsilk;
+
+
+
+}
+
 
 
 .homeDiv {
+  position: relative;
   background: url("http://res.cloudinary.com/dbkzwcps1/image/upload/v1451354129/2beers_sm_eirv74.jpg") no-repeat center center fixed;
 -webkit-background-size: cover;
 -moz-background-size: cover;
@@ -298,6 +316,18 @@ background-size: cover;
   font-weight: 400;
 }
 
+.landingPageBlurb {
+  position: relative;
+  top: 0%;
+  transform: translateY(250%);
+  text-shadow: 0 0 3px black;
+}
+
+.landingPageBlurbHeader {
+  font-family: 'Francois One', sans-serif;
+  text-shadow: 0 0 3px black;
+
+}
 
 .guest1{
   padding-top: 10px;
@@ -343,4 +373,26 @@ background-size: cover;
   cursor: pointer;
   color: black;
   text-shadow: 1px 1px 2px saddlebrown;
+}
+
+.footer {
+  width:100%;
+  position: absolute;
+  bottom: 0;
+  background-color: rgba(245,245,245,.3);
+  text-align: center;
+}
+
+.footer a {
+  color: cornsilk;
+}
+
+.footer a:hover {
+  cursor: pointer;
+  text-shadow: 1px 1px 2px black;
+  text-decoration: none;
+}
+
+.main {
+  position: relative;
 }

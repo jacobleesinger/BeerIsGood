@@ -23,6 +23,7 @@ var FriendRequestUtil = {
   },
 
   destroyFriendRequest: function (requestId) {
+    debugger;
     $.ajax({
       url: "api/friendrequests/" + requestId,
       type: "DELETE",

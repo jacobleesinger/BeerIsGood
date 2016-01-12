@@ -112,6 +112,7 @@ body {
 }
 
 .commentContainer{
+  margin: 10px;
 }
 
 .commentBody{
@@ -198,24 +199,10 @@ min-height: 100vh;
 
 }
 .landingPageButtons {
-
-}
-
-.landingPageButtons ul {
-  list-style-type: none;
-  margin-left: -35px;
+  text-align: center;
   margin-top: 50px;
 }
 
-.landingPageButtons li {
-  float: left;
-  margin: 2px;
-  text-align: center;
-}
-
-.authButton {
-  margin-top: 15px;
-}
 
 .landingPageForm {
   color: black;
@@ -227,13 +214,18 @@ min-height: 100vh;
 .navbarLinksUl {
   list-style-type: none;
   float: left;
+  margin:0;
+  // padding-top: 10px;
+  padding-bottom: 9px;
 }
 
 .navbarLinksUl li {
   float: left;
   font-size: 24px;
   padding: 5px;
-  margin: 0 10px 10px 10px;
+  padding-bottom: 11px;
+  margin: 0 10px 0 10px;
+
 }
 
 .navbarLinksUl li:hover {
@@ -241,17 +233,22 @@ min-height: 100vh;
 }
 
 .navbarLinks:hover {
+  outline: 1px solid rgba(0,0,0,.5);
   cursor: pointer;
-  text-shadow: 0 0 5px sienna;
-  color: black;
+  // text-shadow: 0 0 5px sienna;
+  // color: cornsilk;
+  background-color: rgba(0,0,0,.3);
 
 }
 
 .navbar {
-  background-color: rgba(245,245,245,.3);
-  height: 50px;
+  background-color: rgba(245,245,245,.9);
+  height: 62px;
   color: rgba(0,0,0,.5);
   text-shadow: 0 0 2px saddlebrown;
+  // padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-radius: 0;
 }
 
 .navbarHeader {
@@ -266,6 +263,7 @@ min-height: 100vh;
 .fixedWidth {
   width: 1100px;
   margin:  0 auto;
+  height: 100%;
 }
 
 .select {
@@ -326,6 +324,7 @@ min-height: 100vh;
 
 .guest1{
   padding-top: 10px;
+  margin-top: 10px;
 }
 
 .guest2{
@@ -408,4 +407,12 @@ padding-bottom: 80px;
 
 textarea {
   resize: none;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.createCommentButton {
+  margin: 10px;
 }

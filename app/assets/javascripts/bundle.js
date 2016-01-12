@@ -52,17 +52,17 @@
 	var BrowserHistory = ReactRouter.browserHistory;
 	var IndexRoute = ReactRouter.IndexRoute;
 	var LandingPage = __webpack_require__(208);
-	var Home = __webpack_require__(248);
-	var UserUtil = __webpack_require__(215);
-	var BeerUtil = __webpack_require__(291);
-	var ReviewUtil = __webpack_require__(260);
-	var CommentUtil = __webpack_require__(275);
-	var ToastUtil = __webpack_require__(277);
+	var Home = __webpack_require__(209);
+	var UserUtil = __webpack_require__(284);
+	var BeerUtil = __webpack_require__(286);
+	var ReviewUtil = __webpack_require__(249);
+	var CommentUtil = __webpack_require__(268);
+	var ToastUtil = __webpack_require__(270);
 	// var BeerShow = require("./components/beer_show");
-	var BeersIndex = __webpack_require__(250);
-	var UserShow = __webpack_require__(271);
-	var FriendRequestUtil = __webpack_require__(280);
-	var FriendUtil = __webpack_require__(285);
+	var BeersIndex = __webpack_require__(222);
+	var UserShow = __webpack_require__(264);
+	var FriendRequestUtil = __webpack_require__(273);
+	var FriendUtil = __webpack_require__(278);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -24154,13 +24154,13 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Auth = __webpack_require__(209);
-	var SessionStore = __webpack_require__(230);
-	var ErrorStore = __webpack_require__(247);
-	var Home = __webpack_require__(248);
-	var CurrentUserStore = __webpack_require__(289);
-	var SessionUtil = __webpack_require__(228);
-	var Footer = __webpack_require__(290);
+	var Auth = __webpack_require__(288);
+	var SessionStore = __webpack_require__(291);
+	var ErrorStore = __webpack_require__(292);
+	var Home = __webpack_require__(209);
+	var CurrentUserStore = __webpack_require__(282);
+	var SessionUtil = __webpack_require__(211);
+	var Footer = __webpack_require__(283);
 	
 	var Page;
 	var modal;
@@ -24262,47 +24262,39 @@
 	
 	    buttons = React.createElement(
 	      'div',
-	      { className: 'centered' },
+	      { className: 'centered landingPageButtons' },
 	      React.createElement(
-	        'ul',
-	        { className: '' },
+	        'div',
+	        null,
 	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'button',
-	            { className: 'btn btn-lg btn-1', onClick: this.handleAuth.bind(this, "signup") },
-	            'Sign Up'
-	          )
+	          'button',
+	          { className: 'btn btn-lg btn-1 inline', onClick: this.handleAuth.bind(this, "signup") },
+	          'Sign Up'
 	        ),
 	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'div',
-	            { className: 'or' },
-	            'OR'
-	          )
+	          'div',
+	          { className: 'or inline' },
+	          'OR'
 	        ),
 	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'button',
-	            { className: 'btn btn-lg btn-1', onClick: this.handleAuth.bind(this, "signin") },
-	            'Sign In'
-	          )
+	          'button',
+	          { className: 'btn btn-lg btn-1 inline', onClick: this.handleAuth.bind(this, "signin") },
+	          'Sign In'
 	        )
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'guest1' },
-	        'Just here to look?'
-	      ),
-	      React.createElement(
-	        'p',
-	        { className: 'guest2', onClick: this.handleGuest },
-	        'Sign in as a guest!'
+	        null,
+	        React.createElement(
+	          'p',
+	          { className: 'guest1' },
+	          'Just here to look?'
+	        ),
+	        React.createElement(
+	          'p',
+	          { className: 'guest2', onClick: this.handleGuest },
+	          'Sign in as a guest!'
+	        )
 	      )
 	    );
 	
@@ -24471,280 +24463,88 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(210);
-	var NewUser = __webpack_require__(214);
-	var NewSession = __webpack_require__(229);
+	var Navbar = __webpack_require__(210);
+	var UserShow = __webpack_require__(264);
+	var UserProfile = __webpack_require__(277);
+	var CurrentUserStore = __webpack_require__(282);
+	var Footer = __webpack_require__(283);
 	
-	var AuthForm;
-	var Auth = React.createClass({
-	  displayName: 'Auth',
+	var MainContent = React.createClass({
+	  displayName: 'MainContent',
 	
-	  GetAppropriateAuthForm: function () {
+	  render: function () {
 	
-	    if (this.props.button === "signup") {
-	      AuthForm = NewUser;
-	    } else if (this.props.button === "signin") {
-	      AuthForm = NewSession;
+	    return React.createElement(this.props.subPage, {
+	      currentUser: this.props.currentUser,
+	      onSubPageChange: this.props.onSubPageChange,
+	      user: this.props.user,
+	      beer: this.props.beer });
+	  }
+	});
+	
+	var Home = React.createClass({
+	  displayName: 'Home',
+	
+	  getInitialState: function () {
+	    return {
+	      subPage: UserProfile,
+	      user: this.props.currentUser,
+	      beer: {}
+	    };
+	  },
+	
+	  navbarChangeHandler: function (newSubPage, user, beer) {
+	    if (typeof user !== "undefined") {
+	      this.setState({ user: user });
 	    }
+	    this.setState({
+	      subPage: newSubPage,
+	      beer: beer
+	    });
 	  },
 	
 	  render: function () {
 	
-	    this.GetAppropriateAuthForm();
-	
 	    return React.createElement(
 	      'div',
-	      null,
-	      React.createElement(AuthForm, null)
+	      { className: 'homeDiv' },
+	      React.createElement(Navbar, { currentUser: this.props.currentUser,
+	        user: this.props.user, subPage: this.state.subPage,
+	        onChange: this.navbarChangeHandler }),
+	      React.createElement(MainContent, {
+	        className: 'MainContent',
+	        currentUser: this.props.currentUser,
+	        subPage: this.state.subPage,
+	        onSubPageChange: this.navbarChangeHandler,
+	        beer: this.state.beer,
+	        user: this.state.user }),
+	      React.createElement(Footer, null)
 	    );
 	  }
 	
 	});
 	
-	module.exports = Auth;
+	module.exports = Home;
 
 /***/ },
 /* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(211);
-
-/***/ },
-/* 211 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule LinkedStateMixin
-	 * @typechecks static-only
-	 */
-	
-	'use strict';
-	
-	var ReactLink = __webpack_require__(212);
-	var ReactStateSetters = __webpack_require__(213);
-	
-	/**
-	 * A simple mixin around ReactLink.forState().
-	 */
-	var LinkedStateMixin = {
-	  /**
-	   * Create a ReactLink that's linked to part of this component's state. The
-	   * ReactLink will have the current value of this.state[key] and will call
-	   * setState() when a change is requested.
-	   *
-	   * @param {string} key state key to update. Note: you may want to use keyOf()
-	   * if you're using Google Closure Compiler advanced mode.
-	   * @return {ReactLink} ReactLink instance linking to the state.
-	   */
-	  linkState: function (key) {
-	    return new ReactLink(this.state[key], ReactStateSetters.createStateKeySetter(this, key));
-	  }
-	};
-	
-	module.exports = LinkedStateMixin;
-
-/***/ },
-/* 212 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactLink
-	 * @typechecks static-only
-	 */
-	
-	'use strict';
-	
-	/**
-	 * ReactLink encapsulates a common pattern in which a component wants to modify
-	 * a prop received from its parent. ReactLink allows the parent to pass down a
-	 * value coupled with a callback that, when invoked, expresses an intent to
-	 * modify that value. For example:
-	 *
-	 * React.createClass({
-	 *   getInitialState: function() {
-	 *     return {value: ''};
-	 *   },
-	 *   render: function() {
-	 *     var valueLink = new ReactLink(this.state.value, this._handleValueChange);
-	 *     return <input valueLink={valueLink} />;
-	 *   },
-	 *   _handleValueChange: function(newValue) {
-	 *     this.setState({value: newValue});
-	 *   }
-	 * });
-	 *
-	 * We have provided some sugary mixins to make the creation and
-	 * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
-	 */
-	
-	var React = __webpack_require__(2);
-	
-	/**
-	 * @param {*} value current value of the link
-	 * @param {function} requestChange callback to request a change
-	 */
-	function ReactLink(value, requestChange) {
-	  this.value = value;
-	  this.requestChange = requestChange;
-	}
-	
-	/**
-	 * Creates a PropType that enforces the ReactLink API and optionally checks the
-	 * type of the value being passed inside the link. Example:
-	 *
-	 * MyComponent.propTypes = {
-	 *   tabIndexLink: ReactLink.PropTypes.link(React.PropTypes.number)
-	 * }
-	 */
-	function createLinkTypeChecker(linkType) {
-	  var shapes = {
-	    value: typeof linkType === 'undefined' ? React.PropTypes.any.isRequired : linkType.isRequired,
-	    requestChange: React.PropTypes.func.isRequired
-	  };
-	  return React.PropTypes.shape(shapes);
-	}
-	
-	ReactLink.PropTypes = {
-	  link: createLinkTypeChecker
-	};
-	
-	module.exports = ReactLink;
-
-/***/ },
-/* 213 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactStateSetters
-	 */
-	
-	'use strict';
-	
-	var ReactStateSetters = {
-	  /**
-	   * Returns a function that calls the provided function, and uses the result
-	   * of that to set the component's state.
-	   *
-	   * @param {ReactCompositeComponent} component
-	   * @param {function} funcReturningState Returned callback uses this to
-	   *                                      determine how to update state.
-	   * @return {function} callback that when invoked uses funcReturningState to
-	   *                    determined the object literal to setState.
-	   */
-	  createStateSetter: function (component, funcReturningState) {
-	    return function (a, b, c, d, e, f) {
-	      var partialState = funcReturningState.call(component, a, b, c, d, e, f);
-	      if (partialState) {
-	        component.setState(partialState);
-	      }
-	    };
-	  },
-	
-	  /**
-	   * Returns a single-argument callback that can be used to update a single
-	   * key in the component's state.
-	   *
-	   * Note: this is memoized function, which makes it inexpensive to call.
-	   *
-	   * @param {ReactCompositeComponent} component
-	   * @param {string} key The key in the state that you should update.
-	   * @return {function} callback of 1 argument which calls setState() with
-	   *                    the provided keyName and callback argument.
-	   */
-	  createStateKeySetter: function (component, key) {
-	    // Memoize the setters.
-	    var cache = component.__keySetters || (component.__keySetters = {});
-	    return cache[key] || (cache[key] = createStateKeySetter(component, key));
-	  }
-	};
-	
-	function createStateKeySetter(component, key) {
-	  // Partial state is allocated outside of the function closure so it can be
-	  // reused with every call, avoiding memory allocation when this function
-	  // is called.
-	  var partialState = {};
-	  return function stateKeySetter(value) {
-	    partialState[key] = value;
-	    component.setState(partialState);
-	  };
-	}
-	
-	ReactStateSetters.Mixin = {
-	  /**
-	   * Returns a function that calls the provided function, and uses the result
-	   * of that to set the component's state.
-	   *
-	   * For example, these statements are equivalent:
-	   *
-	   *   this.setState({x: 1});
-	   *   this.createStateSetter(function(xValue) {
-	   *     return {x: xValue};
-	   *   })(1);
-	   *
-	   * @param {function} funcReturningState Returned callback uses this to
-	   *                                      determine how to update state.
-	   * @return {function} callback that when invoked uses funcReturningState to
-	   *                    determined the object literal to setState.
-	   */
-	  createStateSetter: function (funcReturningState) {
-	    return ReactStateSetters.createStateSetter(this, funcReturningState);
-	  },
-	
-	  /**
-	   * Returns a single-argument callback that can be used to update a single
-	   * key in the component's state.
-	   *
-	   * For example, these statements are equivalent:
-	   *
-	   *   this.setState({x: 1});
-	   *   this.createStateKeySetter('x')(1);
-	   *
-	   * Note: this is memoized function, which makes it inexpensive to call.
-	   *
-	   * @param {string} key The key in the state that you should update.
-	   * @return {function} callback of 1 argument which calls setState() with
-	   *                    the provided keyName and callback argument.
-	   */
-	  createStateKeySetter: function (key) {
-	    return ReactStateSetters.createStateKeySetter(this, key);
-	  }
-	};
-	
-	module.exports = ReactStateSetters;
-
-/***/ },
-/* 214 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(210);
-	var UserUtil = __webpack_require__(215);
-	var SessionUtil = __webpack_require__(228);
-	var today = new Date();
+	var ReactRouter = __webpack_require__(159);
+	var Link = ReactRouter.Link;
+	var SessionUtil = __webpack_require__(211);
+	var BeersIndex = __webpack_require__(222);
+	var LinkedStateMixin = __webpack_require__(255);
+	var FriendsIndex = __webpack_require__(260);
+	var BeerShow = __webpack_require__(241);
+	var UsersIndex = __webpack_require__(280);
+	var User = __webpack_require__(263);
+	var UserProfile = __webpack_require__(277);
+	var Search = __webpack_require__(281);
 	
-	var NewUser = React.createClass({
-	  displayName: 'NewUser',
+	var NavbarInstance = React.createClass({
+	  displayName: 'NavbarInstance',
 	
 	  mixins: [LinkedStateMixin],
 	
@@ -24754,108 +24554,134 @@
 	
 	  getInitialState: function () {
 	    return {
-	      username: "",
-	      password: "",
-	      location: "",
-	      email: "",
-	      password_confirmation: "",
-	      birthday: today.toISOString().slice(0, 10)
+	      subPage: this.props.subPage
 	    };
 	  },
 	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var user = Object.assign({}, this.state);
-	    UserUtil.createUser(user);
+	  handleSignOut: function () {
+	    SessionUtil.destroySession();
+	  },
+	
+	  handleClick: function (newSubPage, user, beer) {
+	    this.props.onChange(newSubPage, user, beer);
 	  },
 	
 	  render: function () {
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'row' },
+	      { className: 'navbar' },
 	      React.createElement(
 	        'div',
-	        { className: '', id: 'newUserFormDiv' },
+	        { className: 'fixedWidth' },
 	        React.createElement(
-	          'form',
-	          { id: 'newUserForm', className: 'form-group' },
+	          'div',
+	          { className: 'navbarHeader' },
 	          React.createElement(
 	            'div',
-	            { className: 'row' },
+	            { className: 'navbarLogo logo', to: '#' },
 	            React.createElement(
-	              'div',
-	              { className: 'col-md-6' },
+	              'h1',
+	              null,
+	              'BeerIsGood'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'navbarContent' },
+	          React.createElement(
+	            'ul',
+	            { className: 'navbarLinksUl' },
+	            React.createElement(
+	              'li',
+	              { className: 'navbarLinks' },
 	              React.createElement(
-	                'label',
-	                { htmlFor: 'newUsername' },
-	                'Username'
-	              ),
-	              React.createElement('input', { type: 'text', className: 'form-control', id: 'newUsername', valueLink: this.linkState('username') }),
-	              React.createElement(
-	                'label',
-	                { htmlFor: 'newPassword' },
-	                'Password'
-	              ),
-	              React.createElement('input', { type: 'password', className: 'form-control', id: 'newPassword', valueLink: this.linkState('password') }),
-	              React.createElement(
-	                'label',
-	                { htmlFor: 'newLocation' },
-	                'Location'
-	              ),
-	              React.createElement('input', { type: 'text', className: 'form-control', id: 'newLocation', valueLink: this.linkState('location') })
+	                'div',
+	                {
+	
+	                  onClick: this.handleClick.bind(this, BeersIndex),
+	                  value: BeersIndex },
+	                'Find Beers'
+	              )
 	            ),
 	            React.createElement(
-	              'div',
-	              { className: 'col-md-6' },
+	              'li',
+	              { className: 'navbarLinks' },
 	              React.createElement(
-	                'label',
-	                { htmlFor: 'newEmail' },
-	                'Email'
-	              ),
-	              React.createElement('input', { type: 'email', className: 'form-control', id: 'newEmail', valueLink: this.linkState('email') }),
+	                'div',
+	                {
+	
+	                  onClick: this.handleClick.bind(this, FriendsIndex),
+	                  value: FriendsIndex },
+	                'My Friends'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              { className: 'navbarLinks' },
 	              React.createElement(
-	                'label',
-	                { htmlFor: 'newConfirm' },
-	                'Confirm Password'
-	              ),
-	              React.createElement('input', { type: 'password', className: 'form-control', id: 'newConfirm', valueLink: this.linkState('password_confirmation') }),
+	                'div',
+	                {
+	
+	                  onClick: this.handleClick.bind(this, UserProfile),
+	                  value: User },
+	                'My Profile'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              { className: 'navbarLinks' },
 	              React.createElement(
-	                'label',
-	                { htmlFor: 'newBirthday' },
-	                'Birthday'
-	              ),
-	              React.createElement('input', { type: 'date', className: 'form-control', id: 'newBirthday', valueLink: this.linkState('birthday') })
+	                'div',
+	                {
+	
+	                  onClick: this.handleClick.bind(this, UsersIndex),
+	                  value: UsersIndex },
+	                'Find Friends'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'button',
+	                {
+	                  className: 'btn btn-sm btn-1', onClick: this.handleSignOut },
+	                'Sign Out'
+	              )
 	            )
-	          ),
-	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Create My Account!', className: 'btn btn-lg btn-1 authButton' })
+	          )
 	        )
 	      )
 	    );
 	  }
-	
 	});
 	
-	module.exports = NewUser;
+	module.exports = NavbarInstance;
 
 /***/ },
-/* 215 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var UserActions = __webpack_require__(216);
-	var SessionActions = __webpack_require__(222);
-	var ErrorActions = __webpack_require__(224);
-	var CurrentUserActions = __webpack_require__(226);
+	var SessionActions = __webpack_require__(212);
+	var ErrorActions = __webpack_require__(218);
+	var CurrentUserActions = __webpack_require__(220);
 	
-	var UserUtil = {
+	var SessionUtil = {
 	
-	  createUser: function (user) {
+	  fetchCurrentUser: function () {
+	    $.get('api/session', function (user) {
+	      SessionActions.receiveCurrentUser(user);
+	    });
+	  },
+	
+	  createSession: function (user) {
 	    $.ajax({
-	      url: "api/users",
+	      url: "api/session",
 	      type: "POST",
 	      data: { user: user },
 	      success: function (user) {
-	        UserActions.receiveSingleUser(user);
 	        SessionActions.createSession(user);
 	        CurrentUserActions.setCurrentUser(user);
 	      },
@@ -24865,62 +24691,58 @@
 	    });
 	  },
 	
-	  fetchSingleUser: function (user) {
-	    $.get('api/user/' + user.id, function (user) {
-	      UserActions.receiveSingleUser(user);
-	    });
-	  },
+	  destroySession: function () {
 	
-	  fetchAllUsers: function () {
-	    $.get('api/users', function (users) {
-	      UserActions.receiveAllUsers(users);
+	    $.ajax({
+	      url: "api/session",
+	      type: 'DELETE',
+	      success: function (user) {
+	        SessionActions.destroySession(user);
+	        CurrentUserActions.resetCurrentUser;
+	      }
 	    });
 	  }
 	
 	};
 	
-	module.exports = UserUtil;
+	module.exports = SessionUtil;
 
 /***/ },
-/* 216 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var Dispatcher = __webpack_require__(213);
+	var SessionConstants = __webpack_require__(217);
 	
-	var Dispatcher = __webpack_require__(217);
-	var UserConstants = __webpack_require__(221);
-	
-	var UserActions = {
-	  receiveSingleUser: function (user) {
-	
+	var SessionActions = {
+	  createSession: function (user) {
 	    Dispatcher.dispatch({
-	      actionType: UserConstants.USER_RECEIVED,
+	      actionType: SessionConstants.SESSION_CREATED,
 	      user: user
 	    });
 	  },
 	
-	  receiveAllUsers: function (users) {
-	    var action = {
-	      actionType: UserConstants.USERS_RECEIVED,
-	      users: users
-	    };
-	
-	    Dispatcher.dispatch(action);
+	  destroySession: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: SessionConstants.SESSION_DESTROYED,
+	      user: user
+	    });
 	  }
 	
 	};
 	
-	module.exports = UserActions;
+	module.exports = SessionActions;
 
 /***/ },
-/* 217 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var Dispatcher = __webpack_require__(218).Dispatcher;
+	var Dispatcher = __webpack_require__(214).Dispatcher;
 	module.exports = new Dispatcher();
 
 /***/ },
-/* 218 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -24932,11 +24754,11 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Dispatcher = __webpack_require__(219);
+	module.exports.Dispatcher = __webpack_require__(215);
 
 
 /***/ },
-/* 219 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24958,7 +24780,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(216);
 	
 	var _prefix = 'ID_';
 	
@@ -25173,7 +24995,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 220 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25228,46 +25050,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 221 */
-/***/ function(module, exports) {
-
-	var UserConstants = {
-	  USER_RECEIVED: "USER_RECEIVED",
-	  USERS_RECEIVED: "USERS_RECEIVED",
-	  USER_ERRORS: "USER_ERRORS"
-	
-	};
-	
-	module.exports = UserConstants;
-
-/***/ },
-/* 222 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(217);
-	var SessionConstants = __webpack_require__(223);
-	
-	var SessionActions = {
-	  createSession: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: SessionConstants.SESSION_CREATED,
-	      user: user
-	    });
-	  },
-	
-	  destroySession: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: SessionConstants.SESSION_DESTROYED,
-	      user: user
-	    });
-	  }
-	
-	};
-	
-	module.exports = SessionActions;
-
-/***/ },
-/* 223 */
+/* 217 */
 /***/ function(module, exports) {
 
 	var SessionConstants = {
@@ -25279,11 +25062,11 @@
 	module.exports = SessionConstants;
 
 /***/ },
-/* 224 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(217);
-	var ErrorConstants = __webpack_require__(225);
+	var Dispatcher = __webpack_require__(213);
+	var ErrorConstants = __webpack_require__(219);
 	
 	var ErrorActions = {
 	
@@ -25300,7 +25083,7 @@
 	module.exports = ErrorActions;
 
 /***/ },
-/* 225 */
+/* 219 */
 /***/ function(module, exports) {
 
 	var ErrorConstants = {
@@ -25310,11 +25093,11 @@
 	module.exports = ErrorConstants;
 
 /***/ },
-/* 226 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(217);
-	var CurrentUserConstants = __webpack_require__(227);
+	var Dispatcher = __webpack_require__(213);
+	var CurrentUserConstants = __webpack_require__(221);
 	
 	var CurrentUserActions = {
 	
@@ -25336,7 +25119,7 @@
 	module.exports = CurrentUserActions;
 
 /***/ },
-/* 227 */
+/* 221 */
 /***/ function(module, exports) {
 
 	CurrentUserConstants = {
@@ -25347,194 +25130,112 @@
 	module.exports = CurrentUserConstants;
 
 /***/ },
-/* 228 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var SessionActions = __webpack_require__(222);
-	var ErrorActions = __webpack_require__(224);
-	var CurrentUserActions = __webpack_require__(226);
-	
-	var SessionUtil = {
-	
-	  fetchCurrentUser: function () {
-	    $.get('api/session', function (user) {
-	      SessionActions.receiveCurrentUser(user);
-	    });
-	  },
-	
-	  createSession: function (user) {
-	    $.ajax({
-	      url: "api/session",
-	      type: "POST",
-	      data: { user: user },
-	      success: function (user) {
-	        SessionActions.createSession(user);
-	        CurrentUserActions.setCurrentUser(user);
-	      },
-	      error: function (errors) {
-	        ErrorActions.receiveAllErrors(errors);
-	      }
-	    });
-	  },
-	
-	  destroySession: function () {
-	    debugger;
-	    $.ajax({
-	      url: "api/session",
-	      type: 'DELETE',
-	      success: function (user) {
-	        SessionActions.destroySession(user);
-	        CurrentUserActions.resetCurrentUser;
-	      }
-	    });
-	  }
-	
-	};
-	
-	module.exports = SessionUtil;
-
-/***/ },
-/* 229 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(210);
-	var SessionUtil = __webpack_require__(228);
+	var Navbar = __webpack_require__(210);
+	var BeerStore = __webpack_require__(223);
+	var BeerShow = __webpack_require__(241);
 	
-	var NewSession = React.createClass({
-	  displayName: 'NewSession',
-	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
-	  },
+	var BeersIndex = React.createClass({
+	  displayName: 'BeersIndex',
 	
 	  getInitialState: function () {
 	    return {
-	      username: "",
-	      password: ""
+	      beers: BeerStore.all()
 	
 	    };
 	  },
 	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var sessionData = Object.assign({}, this.state);
-	    SessionUtil.createSession(sessionData);
+	  componentDidMount: function () {
+	    var beerToken = BeerStore.addListener(this._onChange);
+	  },
+	
+	  _onChange: function () {
+	    this.setState({
+	      beers: BeerStore.all()
+	    });
+	  },
+	
+	  handleClick: function (newSubPage, user, beer) {
+	    this.props.onSubPageChange(newSubPage, user, beer);
 	  },
 	
 	  render: function () {
+	
 	    return React.createElement(
 	      'div',
-	      { className: 'row' },
-	      React.createElement(
-	        'div',
-	        { className: 'col-md-12', id: 'newSessionFormDiv' },
-	        React.createElement(
-	          'form',
-	          { id: 'newSessionForm', className: 'form-group' },
-	          React.createElement(
-	            'div',
-	            { className: 'row' },
-	            React.createElement(
-	              'div',
-	              { className: 'col-md-6 col-md-offset-3' },
-	              React.createElement(
-	                'label',
-	                { htmlFor: 'sessionUsername' },
-	                'Username'
-	              ),
-	              React.createElement('input', { type: 'text', className: 'form-control', id: 'sessionUsername', valueLink: this.linkState('username') }),
-	              React.createElement(
-	                'label',
-	                { htmlFor: 'sessionPassword' },
-	                'Password'
-	              ),
-	              React.createElement('input', { type: 'password', className: 'form-control', id: 'sessionPassword', valueLink: this.linkState('password') })
-	            )
-	          ),
-	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Log In', className: 'btn btn-lg btn-1 authButton' })
-	        )
-	      )
+	      { className: 'index fixedWidth row' },
+	      this.state.beers.map((function (beer) {
+	        return React.createElement(
+	          'div',
+	          { className: 'indexItem col-md-12', beer: beer, key: beer.id, onClick: this.handleClick.bind(this, BeerShow, this.props.currentUser, beer) },
+	          beer.name
+	        );
+	      }).bind(this))
 	    );
 	  }
 	
 	});
 	
-	module.exports = NewSession;
+	module.exports = BeersIndex;
 
 /***/ },
-/* 230 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var SessionConstants = __webpack_require__(223);
+	var Store = __webpack_require__(224).Store;
+	var AppDispatcher = __webpack_require__(213);
+	var BeerConstants = __webpack_require__(240);
 	
-	var _session = "";
-	var currentUser = {};
-	var sessionErrors = [];
-	var SessionStore = new Store(AppDispatcher);
+	var _beers = {};
 	
-	SessionStore.currentUser = function () {
-	  return currentUser;
+	var BeerStore = new Store(AppDispatcher);
+	
+	var addAllBeers = function (beers) {
+	  beers.forEach(function (beer) {
+	    _beers[beer.id] = beer;
+	  });
 	};
 	
-	SessionStore.currentSession = function () {
-	  return _session;
+	var addSingleBeer = function (beer) {
+	  _beers[beer.id] = beer;
 	};
 	
-	SessionStore.sessionErrors = function () {
-	  return sessionErrors;
-	};
-	
-	var newCurrentUser = function (user) {
-	  currentUser = user;
-	};
-	
-	var resetSession = function () {
-	  _session = "";
-	};
-	
-	var resetErrors = function () {
-	  sessionErrors = [];
-	};
-	
-	var addSessionErrors = function (errors) {
-	  sessionErrors = errors;
-	  _session = "";
-	};
-	
-	var newSession = function (sessionToken) {
-	  _session = sessionToken;
-	};
-	
-	SessionStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case SessionConstants.SESSION_CREATED:
-	      resetErrors();
-	      newCurrentUser(payload.user);
-	      newSession(payload.user.session_token);
-	      SessionStore.__emitChange();
-	      break;
-	    case SessionConstants.SESSION_DESTROYED:
-	      resetErrors();
-	      resetSession();
-	      SessionStore.__emitChange();
-	      break;
-	    case SessionConstants.SESSION_ERRORS:
-	      resetErrors();
-	      addSessionErrors(payload.errors);
-	      break;
-	
+	BeerStore.all = function () {
+	  var beers = [];
+	  for (key in _beers) {
+	    if (_beers.hasOwnProperty(key)) {
+	      beers.push(_beers[key]);
+	    }
 	  }
+	  return beers;
 	};
 	
-	module.exports = SessionStore;
+	BeerStore.find = function (beerId) {
+	  return _beers[beerId];
+	};
+	
+	BeerStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case BeerConstants.BEERS_RECEIVED:
+	      addAllBeers(payload.beers);
+	      BeerStore.__emitChange();
+	      break;
+	    case BeerConstants.BEER_RECEIVED:
+	      addSingleBeer(payload.beer);
+	      BeerStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = BeerStore;
 
 /***/ },
-/* 231 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25546,15 +25247,15 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Container = __webpack_require__(232);
-	module.exports.MapStore = __webpack_require__(235);
-	module.exports.Mixin = __webpack_require__(246);
-	module.exports.ReduceStore = __webpack_require__(236);
-	module.exports.Store = __webpack_require__(237);
+	module.exports.Container = __webpack_require__(225);
+	module.exports.MapStore = __webpack_require__(228);
+	module.exports.Mixin = __webpack_require__(239);
+	module.exports.ReduceStore = __webpack_require__(229);
+	module.exports.Store = __webpack_require__(230);
 
 
 /***/ },
-/* 232 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25576,10 +25277,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStoreGroup = __webpack_require__(233);
+	var FluxStoreGroup = __webpack_require__(226);
 	
-	var invariant = __webpack_require__(220);
-	var shallowEqual = __webpack_require__(234);
+	var invariant = __webpack_require__(216);
+	var shallowEqual = __webpack_require__(227);
 	
 	var DEFAULT_OPTIONS = {
 	  pure: true,
@@ -25737,7 +25438,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 233 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25756,7 +25457,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(216);
 	
 	/**
 	 * FluxStoreGroup allows you to execute a callback on every dispatch after
@@ -25818,7 +25519,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 234 */
+/* 227 */
 /***/ function(module, exports) {
 
 	/**
@@ -25873,7 +25574,7 @@
 	module.exports = shallowEqual;
 
 /***/ },
-/* 235 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25894,10 +25595,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxReduceStore = __webpack_require__(236);
-	var Immutable = __webpack_require__(245);
+	var FluxReduceStore = __webpack_require__(229);
+	var Immutable = __webpack_require__(238);
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(216);
 	
 	/**
 	 * This is a simple store. It allows caching key value pairs. An implementation
@@ -26023,7 +25724,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 236 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26044,10 +25745,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStore = __webpack_require__(237);
+	var FluxStore = __webpack_require__(230);
 	
-	var abstractMethod = __webpack_require__(244);
-	var invariant = __webpack_require__(220);
+	var abstractMethod = __webpack_require__(237);
+	var invariant = __webpack_require__(216);
 	
 	var FluxReduceStore = (function (_FluxStore) {
 	  _inherits(FluxReduceStore, _FluxStore);
@@ -26130,7 +25831,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 237 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26149,11 +25850,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _require = __webpack_require__(238);
+	var _require = __webpack_require__(231);
 	
 	var EventEmitter = _require.EventEmitter;
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(216);
 	
 	/**
 	 * This class should be extended by the stores in your application, like so:
@@ -26313,7 +26014,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 238 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26326,14 +26027,14 @@
 	 */
 	
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(239)
+	  EventEmitter: __webpack_require__(232)
 	};
 	
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 239 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26352,11 +26053,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var EmitterSubscription = __webpack_require__(240);
-	var EventSubscriptionVendor = __webpack_require__(242);
+	var EmitterSubscription = __webpack_require__(233);
+	var EventSubscriptionVendor = __webpack_require__(235);
 	
-	var emptyFunction = __webpack_require__(243);
-	var invariant = __webpack_require__(220);
+	var emptyFunction = __webpack_require__(236);
+	var invariant = __webpack_require__(216);
 	
 	/**
 	 * @class BaseEventEmitter
@@ -26530,7 +26231,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 240 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26551,7 +26252,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EventSubscription = __webpack_require__(241);
+	var EventSubscription = __webpack_require__(234);
 	
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -26583,7 +26284,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 241 */
+/* 234 */
 /***/ function(module, exports) {
 
 	/**
@@ -26634,7 +26335,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 242 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26653,7 +26354,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(216);
 	
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -26743,7 +26444,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 243 */
+/* 236 */
 /***/ function(module, exports) {
 
 	/**
@@ -26786,7 +26487,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 244 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26803,7 +26504,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(216);
 	
 	function abstractMethod(className, methodName) {
 	   true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Subclasses of %s must override %s() with their own implementation.', className, methodName) : invariant(false) : undefined;
@@ -26813,7 +26514,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 245 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31800,7 +31501,7 @@
 	}));
 
 /***/ },
-/* 246 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31817,9 +31518,9 @@
 	
 	'use strict';
 	
-	var FluxStoreGroup = __webpack_require__(233);
+	var FluxStoreGroup = __webpack_require__(226);
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(216);
 	
 	/**
 	 * `FluxContainer` should be preferred over this mixin, but it requires using
@@ -31923,353 +31624,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var ErrorConstants = __webpack_require__(225);
-	
-	var ErrorStore = new Store(AppDispatcher);
-	
-	var _errors = [];
-	
-	var receiveAllErrors = function (payload) {
-	
-	  _errors = [];
-	  var errorMessages = payload.errors.responseJSON;
-	  if (errorMessages) {
-	    errorMessages.forEach(function (errorMessage) {
-	      _errors.push(errorMessage);
-	    });
-	  }
-	};
-	
-	ErrorStore.all = function () {
-	  return _errors;
-	};
-	
-	ErrorStore.__onDispatch = function (payload) {
-	
-	  switch (payload.actionType) {
-	    case ErrorConstants.ERRORS_RECEIVED:
-	      receiveAllErrors(payload);
-	      ErrorStore.__emitChange();
-	      break;
-	  };
-	};
-	
-	module.exports = ErrorStore;
-
-/***/ },
-/* 248 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Navbar = __webpack_require__(249);
-	var UserShow = __webpack_require__(271);
-	var UserProfile = __webpack_require__(284);
-	var CurrentUserStore = __webpack_require__(289);
-	var Footer = __webpack_require__(290);
-	
-	var MainContent = React.createClass({
-	  displayName: 'MainContent',
-	
-	  render: function () {
-	
-	    return React.createElement(this.props.subPage, {
-	      currentUser: this.props.currentUser,
-	      onSubPageChange: this.props.onSubPageChange,
-	      user: this.props.user,
-	      beer: this.props.beer });
-	  }
-	});
-	
-	var Home = React.createClass({
-	  displayName: 'Home',
-	
-	  getInitialState: function () {
-	    return {
-	      subPage: UserProfile,
-	      user: this.props.currentUser,
-	      beer: {}
-	    };
-	  },
-	
-	  navbarChangeHandler: function (newSubPage, user, beer) {
-	    if (typeof user !== "undefined") {
-	      this.setState({ user: user });
-	    }
-	    this.setState({
-	      subPage: newSubPage,
-	      beer: beer
-	    });
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'homeDiv' },
-	      React.createElement(Navbar, { currentUser: this.props.currentUser,
-	        user: this.props.user, subPage: this.state.subPage,
-	        onChange: this.navbarChangeHandler }),
-	      React.createElement(MainContent, {
-	        className: 'MainContent',
-	        currentUser: this.props.currentUser,
-	        subPage: this.state.subPage,
-	        onSubPageChange: this.navbarChangeHandler,
-	        beer: this.state.beer,
-	        user: this.state.user }),
-	      React.createElement(Footer, null)
-	    );
-	  }
-	
-	});
-	
-	module.exports = Home;
-
-/***/ },
-/* 249 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReactRouter = __webpack_require__(159);
-	var Link = ReactRouter.Link;
-	var SessionUtil = __webpack_require__(228);
-	var BeersIndex = __webpack_require__(250);
-	var LinkedStateMixin = __webpack_require__(210);
-	var FriendsIndex = __webpack_require__(267);
-	var BeerShow = __webpack_require__(253);
-	var UsersIndex = __webpack_require__(287);
-	var User = __webpack_require__(270);
-	var UserProfile = __webpack_require__(284);
-	var Search = __webpack_require__(288);
-	
-	var NavbarInstance = React.createClass({
-	  displayName: 'NavbarInstance',
-	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      subPage: this.props.subPage
-	    };
-	  },
-	
-	  handleSignOut: function () {
-	    SessionUtil.destroySession();
-	  },
-	
-	  handleClick: function (newSubPage, user, beer) {
-	    this.props.onChange(newSubPage, user, beer);
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'navbar' },
-	      React.createElement(
-	        'div',
-	        { className: 'fixedWidth' },
-	        React.createElement(
-	          'div',
-	          { className: 'navbarHeader' },
-	          React.createElement(
-	            'div',
-	            { className: 'navbarLogo logo', to: '#' },
-	            React.createElement(
-	              'h1',
-	              null,
-	              'BeerIsGood'
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'navbarContent' },
-	          React.createElement(
-	            'ul',
-	            { className: 'navbarLinksUl' },
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'div',
-	                {
-	                  className: 'navbarLinks',
-	                  onClick: this.handleClick.bind(this, BeersIndex),
-	                  value: BeersIndex },
-	                'Find Beers'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'div',
-	                {
-	                  className: 'navbarLinks',
-	                  onClick: this.handleClick.bind(this, FriendsIndex),
-	                  value: FriendsIndex },
-	                'My Friends'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'div',
-	                {
-	                  className: 'navbarLinks',
-	                  onClick: this.handleClick.bind(this, UserProfile),
-	                  value: User },
-	                'My Profile'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'div',
-	                {
-	                  className: 'navbarLinks',
-	                  onClick: this.handleClick.bind(this, UsersIndex),
-	                  value: UsersIndex },
-	                'Find Friends'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'button',
-	                {
-	                  className: 'btn btn-sm btn-1', onClick: this.handleSignOut },
-	                'Sign Out'
-	              )
-	            )
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = NavbarInstance;
-
-/***/ },
-/* 250 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Navbar = __webpack_require__(249);
-	var BeerStore = __webpack_require__(251);
-	var BeerShow = __webpack_require__(253);
-	
-	var BeersIndex = React.createClass({
-	  displayName: 'BeersIndex',
-	
-	  getInitialState: function () {
-	    return {
-	      beers: BeerStore.all()
-	
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    var beerToken = BeerStore.addListener(this._onChange);
-	  },
-	
-	  _onChange: function () {
-	    this.setState({
-	      beers: BeerStore.all()
-	    });
-	  },
-	
-	  handleClick: function (newSubPage, user, beer) {
-	    this.props.onSubPageChange(newSubPage, user, beer);
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'index fixedWidth row' },
-	      this.state.beers.map((function (beer) {
-	        return React.createElement(
-	          'div',
-	          { className: 'indexItem col-md-12', beer: beer, key: beer.id, onClick: this.handleClick.bind(this, BeerShow, this.props.currentUser, beer) },
-	          beer.name
-	        );
-	      }).bind(this))
-	    );
-	  }
-	
-	});
-	
-	module.exports = BeersIndex;
-
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var BeerConstants = __webpack_require__(252);
-	
-	var _beers = {};
-	
-	var BeerStore = new Store(AppDispatcher);
-	
-	var addAllBeers = function (beers) {
-	  beers.forEach(function (beer) {
-	    _beers[beer.id] = beer;
-	  });
-	};
-	
-	var addSingleBeer = function (beer) {
-	  _beers[beer.id] = beer;
-	};
-	
-	BeerStore.all = function () {
-	  var beers = [];
-	  for (key in _beers) {
-	    if (_beers.hasOwnProperty(key)) {
-	      beers.push(_beers[key]);
-	    }
-	  }
-	  return beers;
-	};
-	
-	BeerStore.find = function (beerId) {
-	  return _beers[beerId];
-	};
-	
-	BeerStore.__onDispatch = function (payload) {
-	
-	  switch (payload.actionType) {
-	    case BeerConstants.BEERS_RECEIVED:
-	      addAllBeers(payload.beers);
-	      BeerStore.__emitChange();
-	      break;
-	    case BeerConstants.BEER_RECEIVED:
-	      addSingleBeer(payload.beer);
-	      BeerStore.__emitChange();
-	      break;
-	
-	  };
-	};
-	
-	module.exports = BeerStore;
-
-/***/ },
-/* 252 */
+/* 240 */
 /***/ function(module, exports) {
 
 	var BeerConstants = {
@@ -32280,12 +31635,12 @@
 	module.exports = BeerConstants;
 
 /***/ },
-/* 253 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var BeerReviewsIndex = __webpack_require__(254);
-	var BeerStore = __webpack_require__(251);
+	var BeerReviewsIndex = __webpack_require__(242);
+	var BeerStore = __webpack_require__(223);
 	
 	var BeerShow = React.createClass({
 	  displayName: 'BeerShow',
@@ -32312,15 +31667,15 @@
 	module.exports = BeerShow;
 
 /***/ },
-/* 254 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReviewStore = __webpack_require__(255);
-	var BeerReviewIndexItem = __webpack_require__(257);
-	var BeerReviewForm = __webpack_require__(266);
-	var LinkedStateMixin = __webpack_require__(210);
-	var ReviewUtil = __webpack_require__(260);
+	var ReviewStore = __webpack_require__(243);
+	var BeerReviewIndexItem = __webpack_require__(245);
+	var BeerReviewForm = __webpack_require__(259);
+	var LinkedStateMixin = __webpack_require__(255);
+	var ReviewUtil = __webpack_require__(249);
 	
 	var BeerReviewsIndex = React.createClass({
 	  displayName: 'BeerReviewsIndex',
@@ -32456,12 +31811,12 @@
 	module.exports = BeerReviewsIndex;
 
 /***/ },
-/* 255 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var ReviewConstants = __webpack_require__(256);
+	var Store = __webpack_require__(224).Store;
+	var AppDispatcher = __webpack_require__(213);
+	var ReviewConstants = __webpack_require__(244);
 	
 	var _reviews = {};
 	
@@ -32522,7 +31877,7 @@
 	module.exports = ReviewStore;
 
 /***/ },
-/* 256 */
+/* 244 */
 /***/ function(module, exports) {
 
 	var ReviewConstants = {
@@ -32533,17 +31888,17 @@
 	module.exports = ReviewConstants;
 
 /***/ },
-/* 257 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Comment = __webpack_require__(258);
-	var ReviewUtil = __webpack_require__(260);
-	var BeerStore = __webpack_require__(251);
-	var CommentStore = __webpack_require__(262);
-	var ToastStore = __webpack_require__(264);
-	var LinkedStateMixin = __webpack_require__(210);
-	var UserStore = __webpack_require__(259);
+	var Comment = __webpack_require__(246);
+	var ReviewUtil = __webpack_require__(249);
+	var BeerStore = __webpack_require__(223);
+	var CommentStore = __webpack_require__(251);
+	var ToastStore = __webpack_require__(253);
+	var LinkedStateMixin = __webpack_require__(255);
+	var UserStore = __webpack_require__(247);
 	
 	var Display;
 	
@@ -32670,11 +32025,11 @@
 	module.exports = BeerReviewIndexItem;
 
 /***/ },
-/* 258 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(259);
+	var UserStore = __webpack_require__(247);
 	
 	var Comment = React.createClass({
 	  displayName: 'Comment',
@@ -32723,12 +32078,12 @@
 	module.exports = Comment;
 
 /***/ },
-/* 259 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var UserConstants = __webpack_require__(221);
+	var Store = __webpack_require__(224).Store;
+	var AppDispatcher = __webpack_require__(213);
+	var UserConstants = __webpack_require__(248);
 	
 	var UserStore = new Store(AppDispatcher);
 	
@@ -32816,11 +32171,24 @@
 	module.exports = UserStore;
 
 /***/ },
-/* 260 */
+/* 248 */
+/***/ function(module, exports) {
+
+	var UserConstants = {
+	  USER_RECEIVED: "USER_RECEIVED",
+	  USERS_RECEIVED: "USERS_RECEIVED",
+	  USER_ERRORS: "USER_ERRORS"
+	
+	};
+	
+	module.exports = UserConstants;
+
+/***/ },
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ReviewActions = __webpack_require__(261);
-	var ErrorActions = __webpack_require__(224);
+	var ReviewActions = __webpack_require__(250);
+	var ErrorActions = __webpack_require__(218);
 	
 	var ReviewUtil = {
 	
@@ -32872,11 +32240,11 @@
 	module.exports = ReviewUtil;
 
 /***/ },
-/* 261 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(217);
-	var ReviewConstants = __webpack_require__(256);
+	var Dispatcher = __webpack_require__(213);
+	var ReviewConstants = __webpack_require__(244);
 	
 	var ReviewActions = {
 	
@@ -32900,12 +32268,12 @@
 	module.exports = ReviewActions;
 
 /***/ },
-/* 262 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var CommentConstants = __webpack_require__(263);
+	var Store = __webpack_require__(224).Store;
+	var AppDispatcher = __webpack_require__(213);
+	var CommentConstants = __webpack_require__(252);
 	
 	var _comments = {};
 	
@@ -32959,7 +32327,7 @@
 	module.exports = CommentStore;
 
 /***/ },
-/* 263 */
+/* 252 */
 /***/ function(module, exports) {
 
 	var CommentConstants = {
@@ -32970,12 +32338,12 @@
 	module.exports = CommentConstants;
 
 /***/ },
-/* 264 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var ToastConstants = __webpack_require__(265);
+	var Store = __webpack_require__(224).Store;
+	var AppDispatcher = __webpack_require__(213);
+	var ToastConstants = __webpack_require__(254);
 	
 	var _toasts = {};
 	
@@ -33036,7 +32404,7 @@
 	module.exports = ToastStore;
 
 /***/ },
-/* 265 */
+/* 254 */
 /***/ function(module, exports) {
 
 	var ToastConstants = {
@@ -33047,7 +32415,237 @@
 	module.exports = ToastConstants;
 
 /***/ },
-/* 266 */
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(256);
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule LinkedStateMixin
+	 * @typechecks static-only
+	 */
+	
+	'use strict';
+	
+	var ReactLink = __webpack_require__(257);
+	var ReactStateSetters = __webpack_require__(258);
+	
+	/**
+	 * A simple mixin around ReactLink.forState().
+	 */
+	var LinkedStateMixin = {
+	  /**
+	   * Create a ReactLink that's linked to part of this component's state. The
+	   * ReactLink will have the current value of this.state[key] and will call
+	   * setState() when a change is requested.
+	   *
+	   * @param {string} key state key to update. Note: you may want to use keyOf()
+	   * if you're using Google Closure Compiler advanced mode.
+	   * @return {ReactLink} ReactLink instance linking to the state.
+	   */
+	  linkState: function (key) {
+	    return new ReactLink(this.state[key], ReactStateSetters.createStateKeySetter(this, key));
+	  }
+	};
+	
+	module.exports = LinkedStateMixin;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactLink
+	 * @typechecks static-only
+	 */
+	
+	'use strict';
+	
+	/**
+	 * ReactLink encapsulates a common pattern in which a component wants to modify
+	 * a prop received from its parent. ReactLink allows the parent to pass down a
+	 * value coupled with a callback that, when invoked, expresses an intent to
+	 * modify that value. For example:
+	 *
+	 * React.createClass({
+	 *   getInitialState: function() {
+	 *     return {value: ''};
+	 *   },
+	 *   render: function() {
+	 *     var valueLink = new ReactLink(this.state.value, this._handleValueChange);
+	 *     return <input valueLink={valueLink} />;
+	 *   },
+	 *   _handleValueChange: function(newValue) {
+	 *     this.setState({value: newValue});
+	 *   }
+	 * });
+	 *
+	 * We have provided some sugary mixins to make the creation and
+	 * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
+	 */
+	
+	var React = __webpack_require__(2);
+	
+	/**
+	 * @param {*} value current value of the link
+	 * @param {function} requestChange callback to request a change
+	 */
+	function ReactLink(value, requestChange) {
+	  this.value = value;
+	  this.requestChange = requestChange;
+	}
+	
+	/**
+	 * Creates a PropType that enforces the ReactLink API and optionally checks the
+	 * type of the value being passed inside the link. Example:
+	 *
+	 * MyComponent.propTypes = {
+	 *   tabIndexLink: ReactLink.PropTypes.link(React.PropTypes.number)
+	 * }
+	 */
+	function createLinkTypeChecker(linkType) {
+	  var shapes = {
+	    value: typeof linkType === 'undefined' ? React.PropTypes.any.isRequired : linkType.isRequired,
+	    requestChange: React.PropTypes.func.isRequired
+	  };
+	  return React.PropTypes.shape(shapes);
+	}
+	
+	ReactLink.PropTypes = {
+	  link: createLinkTypeChecker
+	};
+	
+	module.exports = ReactLink;
+
+/***/ },
+/* 258 */
+/***/ function(module, exports) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactStateSetters
+	 */
+	
+	'use strict';
+	
+	var ReactStateSetters = {
+	  /**
+	   * Returns a function that calls the provided function, and uses the result
+	   * of that to set the component's state.
+	   *
+	   * @param {ReactCompositeComponent} component
+	   * @param {function} funcReturningState Returned callback uses this to
+	   *                                      determine how to update state.
+	   * @return {function} callback that when invoked uses funcReturningState to
+	   *                    determined the object literal to setState.
+	   */
+	  createStateSetter: function (component, funcReturningState) {
+	    return function (a, b, c, d, e, f) {
+	      var partialState = funcReturningState.call(component, a, b, c, d, e, f);
+	      if (partialState) {
+	        component.setState(partialState);
+	      }
+	    };
+	  },
+	
+	  /**
+	   * Returns a single-argument callback that can be used to update a single
+	   * key in the component's state.
+	   *
+	   * Note: this is memoized function, which makes it inexpensive to call.
+	   *
+	   * @param {ReactCompositeComponent} component
+	   * @param {string} key The key in the state that you should update.
+	   * @return {function} callback of 1 argument which calls setState() with
+	   *                    the provided keyName and callback argument.
+	   */
+	  createStateKeySetter: function (component, key) {
+	    // Memoize the setters.
+	    var cache = component.__keySetters || (component.__keySetters = {});
+	    return cache[key] || (cache[key] = createStateKeySetter(component, key));
+	  }
+	};
+	
+	function createStateKeySetter(component, key) {
+	  // Partial state is allocated outside of the function closure so it can be
+	  // reused with every call, avoiding memory allocation when this function
+	  // is called.
+	  var partialState = {};
+	  return function stateKeySetter(value) {
+	    partialState[key] = value;
+	    component.setState(partialState);
+	  };
+	}
+	
+	ReactStateSetters.Mixin = {
+	  /**
+	   * Returns a function that calls the provided function, and uses the result
+	   * of that to set the component's state.
+	   *
+	   * For example, these statements are equivalent:
+	   *
+	   *   this.setState({x: 1});
+	   *   this.createStateSetter(function(xValue) {
+	   *     return {x: xValue};
+	   *   })(1);
+	   *
+	   * @param {function} funcReturningState Returned callback uses this to
+	   *                                      determine how to update state.
+	   * @return {function} callback that when invoked uses funcReturningState to
+	   *                    determined the object literal to setState.
+	   */
+	  createStateSetter: function (funcReturningState) {
+	    return ReactStateSetters.createStateSetter(this, funcReturningState);
+	  },
+	
+	  /**
+	   * Returns a single-argument callback that can be used to update a single
+	   * key in the component's state.
+	   *
+	   * For example, these statements are equivalent:
+	   *
+	   *   this.setState({x: 1});
+	   *   this.createStateKeySetter('x')(1);
+	   *
+	   * Note: this is memoized function, which makes it inexpensive to call.
+	   *
+	   * @param {string} key The key in the state that you should update.
+	   * @return {function} callback of 1 argument which calls setState() with
+	   *                    the provided keyName and callback argument.
+	   */
+	  createStateKeySetter: function (key) {
+	    return ReactStateSetters.createStateKeySetter(this, key);
+	  }
+	};
+	
+	module.exports = ReactStateSetters;
+
+/***/ },
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -33118,14 +32716,14 @@
 	module.exports = BeerReviewForm;
 
 /***/ },
-/* 267 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Navbar = __webpack_require__(249);
-	var FriendStore = __webpack_require__(268);
-	var UserStore = __webpack_require__(259);
-	var User = __webpack_require__(270);
+	var Navbar = __webpack_require__(210);
+	var FriendStore = __webpack_require__(261);
+	var UserStore = __webpack_require__(247);
+	var User = __webpack_require__(263);
 	
 	var FriendsIndex = React.createClass({
 	  displayName: 'FriendsIndex',
@@ -33187,12 +32785,12 @@
 	module.exports = FriendsIndex;
 
 /***/ },
-/* 268 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var FriendConstants = __webpack_require__(269);
+	var Store = __webpack_require__(224).Store;
+	var AppDispatcher = __webpack_require__(213);
+	var FriendConstants = __webpack_require__(262);
 	
 	var _friendships = {};
 	
@@ -33265,7 +32863,7 @@
 	module.exports = FriendStore;
 
 /***/ },
-/* 269 */
+/* 262 */
 /***/ function(module, exports) {
 
 	var FriendConstants = {
@@ -33276,12 +32874,12 @@
 	module.exports = FriendConstants;
 
 /***/ },
-/* 270 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserShow = __webpack_require__(271);
-	var UserProfile = __webpack_require__(284);
+	var UserShow = __webpack_require__(264);
+	var UserProfile = __webpack_require__(277);
 	
 	var UserPage;
 	
@@ -33312,15 +32910,15 @@
 	module.exports = User;
 
 /***/ },
-/* 271 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReviewsIndex = __webpack_require__(272);
-	var ReviewStore = __webpack_require__(255);
-	var FriendRequestUtil = __webpack_require__(280);
-	var FriendRequestStore = __webpack_require__(283);
-	var FriendStore = __webpack_require__(268);
+	var ReviewsIndex = __webpack_require__(265);
+	var ReviewStore = __webpack_require__(243);
+	var FriendRequestUtil = __webpack_require__(273);
+	var FriendRequestStore = __webpack_require__(276);
+	var FriendStore = __webpack_require__(261);
 	
 	var friendRequest;
 	
@@ -33402,13 +33000,13 @@
 	module.exports = UserShow;
 
 /***/ },
-/* 272 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReviewIndexItem = __webpack_require__(273);
-	var ReviewForm = __webpack_require__(279);
-	var ReviewStore = __webpack_require__(255);
+	var ReviewIndexItem = __webpack_require__(266);
+	var ReviewForm = __webpack_require__(272);
+	var ReviewStore = __webpack_require__(243);
 	
 	var ReviewsIndex = React.createClass({
 	  displayName: 'ReviewsIndex',
@@ -33450,18 +33048,18 @@
 	module.exports = ReviewsIndex;
 
 /***/ },
-/* 273 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Comment = __webpack_require__(258);
-	var ReviewUtil = __webpack_require__(260);
-	var BeerStore = __webpack_require__(251);
-	var CommentStore = __webpack_require__(262);
-	var ToastStore = __webpack_require__(264);
-	var LinkedStateMixin = __webpack_require__(210);
-	var CommentForm = __webpack_require__(274);
-	var ToastUtil = __webpack_require__(277);
+	var Comment = __webpack_require__(246);
+	var ReviewUtil = __webpack_require__(249);
+	var BeerStore = __webpack_require__(223);
+	var CommentStore = __webpack_require__(251);
+	var ToastStore = __webpack_require__(253);
+	var LinkedStateMixin = __webpack_require__(255);
+	var CommentForm = __webpack_require__(267);
+	var ToastUtil = __webpack_require__(270);
 	
 	var Display;
 	var Buttons;
@@ -33770,12 +33368,12 @@
 	module.exports = ReviewIndexItem;
 
 /***/ },
-/* 274 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(210);
-	var CommentUtil = __webpack_require__(275);
+	var LinkedStateMixin = __webpack_require__(255);
+	var CommentUtil = __webpack_require__(268);
 	
 	var CommentForm = React.createClass({
 	  displayName: 'CommentForm',
@@ -33829,10 +33427,10 @@
 	module.exports = CommentForm;
 
 /***/ },
-/* 275 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var CommentActions = __webpack_require__(276);
+	var CommentActions = __webpack_require__(269);
 	
 	var CommentUtil = {
 	
@@ -33863,11 +33461,11 @@
 	module.exports = CommentUtil;
 
 /***/ },
-/* 276 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(217);
-	var CommentConstants = __webpack_require__(263);
+	var Dispatcher = __webpack_require__(213);
+	var CommentConstants = __webpack_require__(252);
 	
 	var CommentActions = {
 	
@@ -33891,10 +33489,10 @@
 	module.exports = CommentActions;
 
 /***/ },
-/* 277 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ToastActions = __webpack_require__(278);
+	var ToastActions = __webpack_require__(271);
 	
 	var ToastUtil = {
 	
@@ -33926,11 +33524,11 @@
 	module.exports = ToastUtil;
 
 /***/ },
-/* 278 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(217);
-	var ToastConstants = __webpack_require__(265);
+	var Dispatcher = __webpack_require__(213);
+	var ToastConstants = __webpack_require__(254);
 	
 	var ToastActions = {
 	
@@ -33954,14 +33552,14 @@
 	module.exports = ToastActions;
 
 /***/ },
-/* 279 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var BeerStore = __webpack_require__(251);
-	var LinkedStateMixin = __webpack_require__(210);
-	var ReviewUtil = __webpack_require__(260);
-	var ReviewStore = __webpack_require__(255);
+	var BeerStore = __webpack_require__(223);
+	var LinkedStateMixin = __webpack_require__(255);
+	var ReviewUtil = __webpack_require__(249);
+	var ReviewStore = __webpack_require__(243);
 	
 	var ReviewForm = React.createClass({
 	  displayName: 'ReviewForm',
@@ -34100,10 +33698,10 @@
 	module.exports = ReviewForm;
 
 /***/ },
-/* 280 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var FriendRequestActions = __webpack_require__(281);
+	var FriendRequestActions = __webpack_require__(274);
 	
 	var FriendRequestUtil = {
 	
@@ -34125,6 +33723,7 @@
 	  },
 	
 	  destroyFriendRequest: function (requestId) {
+	    debugger;
 	    $.ajax({
 	      url: "api/friendrequests/" + requestId,
 	      type: "DELETE",
@@ -34138,11 +33737,11 @@
 	module.exports = FriendRequestUtil;
 
 /***/ },
-/* 281 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(217);
-	var FriendRequestConstants = __webpack_require__(282);
+	var Dispatcher = __webpack_require__(213);
+	var FriendRequestConstants = __webpack_require__(275);
 	
 	var FriendRequestActions = {
 	
@@ -34166,7 +33765,7 @@
 	module.exports = FriendRequestActions;
 
 /***/ },
-/* 282 */
+/* 275 */
 /***/ function(module, exports) {
 
 	var FriendRequestConstants = {
@@ -34177,12 +33776,12 @@
 	module.exports = FriendRequestConstants;
 
 /***/ },
-/* 283 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var FriendRequestConstants = __webpack_require__(282);
+	var Store = __webpack_require__(224).Store;
+	var AppDispatcher = __webpack_require__(213);
+	var FriendRequestConstants = __webpack_require__(275);
 	
 	var _requests = {};
 	
@@ -34248,17 +33847,17 @@
 	module.exports = FriendRequestStore;
 
 /***/ },
-/* 284 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReviewsIndex = __webpack_require__(272);
-	var ReviewStore = __webpack_require__(255);
-	var ReviewForm = __webpack_require__(279);
-	var FriendRequestStore = __webpack_require__(283);
-	var UserStore = __webpack_require__(259);
-	var FriendRequestUtil = __webpack_require__(280);
-	var FriendUtil = __webpack_require__(285);
+	var ReviewsIndex = __webpack_require__(265);
+	var ReviewStore = __webpack_require__(243);
+	var ReviewForm = __webpack_require__(272);
+	var FriendRequestStore = __webpack_require__(276);
+	var UserStore = __webpack_require__(247);
+	var FriendRequestUtil = __webpack_require__(273);
+	var FriendUtil = __webpack_require__(278);
 	
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
@@ -34297,16 +33896,16 @@
 	    FriendRequestUtil.destroyFriendRequest(request);
 	  },
 	
-	  handleDeny: function () {
-	
-	    FriendRequestUtil.destroyFriendRequest(request);
+	  handleDeny: function (request) {
+	    debugger;
+	    FriendRequestUtil.destroyFriendRequest(request.id);
 	  },
 	
 	  getFriendRequests: function () {
 	
 	    var requests = this.state.friendRequests;
 	    return requests.map((function (request) {
-	
+	      debugger;
 	      return React.createElement(
 	        'div',
 	        { className: '', key: request.id, request: request },
@@ -34328,7 +33927,7 @@
 	          React.createElement(
 	            'button',
 	            { className: 'btn btn-sm btn-3 friendApproveButton',
-	              onClick: this.handleDeny.bind(this, request) },
+	              onClick: this.handleDeny(request) },
 	            'Deny'
 	          )
 	        )
@@ -34381,10 +33980,10 @@
 	module.exports = UserProfile;
 
 /***/ },
-/* 285 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var FriendActions = __webpack_require__(286);
+	var FriendActions = __webpack_require__(279);
 	
 	var FriendUtil = {
 	
@@ -34417,11 +34016,11 @@
 	module.exports = FriendUtil;
 
 /***/ },
-/* 286 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(217);
-	var FriendConstants = __webpack_require__(269);
+	var Dispatcher = __webpack_require__(213);
+	var FriendConstants = __webpack_require__(262);
 	
 	var FriendActions = {
 	
@@ -34445,13 +34044,13 @@
 	module.exports = FriendActions;
 
 /***/ },
-/* 287 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Navbar = __webpack_require__(249);
-	var UserStore = __webpack_require__(259);
-	var User = __webpack_require__(270);
+	var Navbar = __webpack_require__(210);
+	var UserStore = __webpack_require__(247);
+	var User = __webpack_require__(263);
 	
 	var userToken;
 	
@@ -34505,7 +34104,7 @@
 	module.exports = UsersIndex;
 
 /***/ },
-/* 288 */
+/* 281 */
 /***/ function(module, exports) {
 
 	// var React = require('react');
@@ -34579,12 +34178,12 @@
 	// module.exports = Search;
 
 /***/ },
-/* 289 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var CurrentUserConstants = __webpack_require__(227);
+	var Store = __webpack_require__(224).Store;
+	var AppDispatcher = __webpack_require__(213);
+	var CurrentUserConstants = __webpack_require__(221);
 	
 	var _currentUser = {};
 	
@@ -34619,7 +34218,7 @@
 	module.exports = CurrentUserStore;
 
 /***/ },
-/* 290 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34669,10 +34268,83 @@
 	module.exports = Footer;
 
 /***/ },
-/* 291 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BeerActions = __webpack_require__(292);
+	var UserActions = __webpack_require__(285);
+	var SessionActions = __webpack_require__(212);
+	var ErrorActions = __webpack_require__(218);
+	var CurrentUserActions = __webpack_require__(220);
+	
+	var UserUtil = {
+	
+	  createUser: function (user) {
+	    $.ajax({
+	      url: "api/users",
+	      type: "POST",
+	      data: { user: user },
+	      success: function (user) {
+	        UserActions.receiveSingleUser(user);
+	        SessionActions.createSession(user);
+	        CurrentUserActions.setCurrentUser(user);
+	      },
+	      error: function (errors) {
+	        ErrorActions.receiveAllErrors(errors);
+	      }
+	    });
+	  },
+	
+	  fetchSingleUser: function (user) {
+	    $.get('api/user/' + user.id, function (user) {
+	      UserActions.receiveSingleUser(user);
+	    });
+	  },
+	
+	  fetchAllUsers: function () {
+	    $.get('api/users', function (users) {
+	      UserActions.receiveAllUsers(users);
+	    });
+	  }
+	
+	};
+	
+	module.exports = UserUtil;
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	var Dispatcher = __webpack_require__(213);
+	var UserConstants = __webpack_require__(248);
+	
+	var UserActions = {
+	  receiveSingleUser: function (user) {
+	
+	    Dispatcher.dispatch({
+	      actionType: UserConstants.USER_RECEIVED,
+	      user: user
+	    });
+	  },
+	
+	  receiveAllUsers: function (users) {
+	    var action = {
+	      actionType: UserConstants.USERS_RECEIVED,
+	      users: users
+	    };
+	
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = UserActions;
+
+/***/ },
+/* 286 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BeerActions = __webpack_require__(287);
 	
 	var BeerUtil = {
 	
@@ -34693,11 +34365,11 @@
 	module.exports = BeerUtil;
 
 /***/ },
-/* 292 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(217);
-	var BeerConstants = __webpack_require__(252);
+	var Dispatcher = __webpack_require__(213);
+	var BeerConstants = __webpack_require__(240);
 	
 	var BeerActions = {
 	
@@ -34719,6 +34391,327 @@
 	};
 	
 	module.exports = BeerActions;
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var LinkedStateMixin = __webpack_require__(255);
+	var NewUser = __webpack_require__(289);
+	var NewSession = __webpack_require__(290);
+	
+	var AuthForm;
+	var Auth = React.createClass({
+	  displayName: 'Auth',
+	
+	  GetAppropriateAuthForm: function () {
+	
+	    if (this.props.button === "signup") {
+	      AuthForm = NewUser;
+	    } else if (this.props.button === "signin") {
+	      AuthForm = NewSession;
+	    }
+	  },
+	
+	  render: function () {
+	
+	    this.GetAppropriateAuthForm();
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(AuthForm, null)
+	    );
+	  }
+	
+	});
+	
+	module.exports = Auth;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var LinkedStateMixin = __webpack_require__(255);
+	var UserUtil = __webpack_require__(284);
+	var SessionUtil = __webpack_require__(211);
+	var today = new Date();
+	
+	var NewUser = React.createClass({
+	  displayName: 'NewUser',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      password: "",
+	      location: "",
+	      email: "",
+	      password_confirmation: "",
+	      birthday: today.toISOString().slice(0, 10)
+	    };
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var user = Object.assign({}, this.state);
+	    UserUtil.createUser(user);
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { className: '', id: 'newUserFormDiv' },
+	        React.createElement(
+	          'form',
+	          { id: 'newUserForm', className: 'form-group' },
+	          React.createElement(
+	            'div',
+	            { className: 'row' },
+	            React.createElement(
+	              'div',
+	              { className: 'col-md-6' },
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'newUsername' },
+	                'Username'
+	              ),
+	              React.createElement('input', { type: 'text', className: 'form-control', id: 'newUsername', valueLink: this.linkState('username') }),
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'newPassword' },
+	                'Password'
+	              ),
+	              React.createElement('input', { type: 'password', className: 'form-control', id: 'newPassword', valueLink: this.linkState('password') }),
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'newLocation' },
+	                'Location'
+	              ),
+	              React.createElement('input', { type: 'text', className: 'form-control', id: 'newLocation', valueLink: this.linkState('location') })
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'col-md-6' },
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'newEmail' },
+	                'Email'
+	              ),
+	              React.createElement('input', { type: 'email', className: 'form-control', id: 'newEmail', valueLink: this.linkState('email') }),
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'newConfirm' },
+	                'Confirm Password'
+	              ),
+	              React.createElement('input', { type: 'password', className: 'form-control', id: 'newConfirm', valueLink: this.linkState('password_confirmation') }),
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'newBirthday' },
+	                'Birthday'
+	              ),
+	              React.createElement('input', { type: 'date', className: 'form-control', id: 'newBirthday', valueLink: this.linkState('birthday') })
+	            )
+	          ),
+	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Create My Account!', className: 'btn btn-lg btn-1 authButton' })
+	        )
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = NewUser;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var LinkedStateMixin = __webpack_require__(255);
+	var SessionUtil = __webpack_require__(211);
+	
+	var NewSession = React.createClass({
+	  displayName: 'NewSession',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      password: ""
+	
+	    };
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var sessionData = Object.assign({}, this.state);
+	    SessionUtil.createSession(sessionData);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { className: 'col-md-12', id: 'newSessionFormDiv' },
+	        React.createElement(
+	          'form',
+	          { id: 'newSessionForm', className: 'form-group' },
+	          React.createElement(
+	            'div',
+	            { className: 'row' },
+	            React.createElement(
+	              'div',
+	              { className: 'col-md-6 col-md-offset-3' },
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'sessionUsername' },
+	                'Username'
+	              ),
+	              React.createElement('input', { type: 'text', className: 'form-control', id: 'sessionUsername', valueLink: this.linkState('username') }),
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'sessionPassword' },
+	                'Password'
+	              ),
+	              React.createElement('input', { type: 'password', className: 'form-control', id: 'sessionPassword', valueLink: this.linkState('password') })
+	            )
+	          ),
+	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Log In', className: 'btn btn-lg btn-1 authButton' })
+	        )
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = NewSession;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(224).Store;
+	var AppDispatcher = __webpack_require__(213);
+	var SessionConstants = __webpack_require__(217);
+	
+	var _session = "";
+	var currentUser = {};
+	var sessionErrors = [];
+	var SessionStore = new Store(AppDispatcher);
+	
+	SessionStore.currentUser = function () {
+	  return currentUser;
+	};
+	
+	SessionStore.currentSession = function () {
+	  return _session;
+	};
+	
+	SessionStore.sessionErrors = function () {
+	  return sessionErrors;
+	};
+	
+	var newCurrentUser = function (user) {
+	  currentUser = user;
+	};
+	
+	var resetSession = function () {
+	  _session = "";
+	};
+	
+	var resetErrors = function () {
+	  sessionErrors = [];
+	};
+	
+	var addSessionErrors = function (errors) {
+	  sessionErrors = errors;
+	  _session = "";
+	};
+	
+	var newSession = function (sessionToken) {
+	  _session = sessionToken;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.SESSION_CREATED:
+	      resetErrors();
+	      newCurrentUser(payload.user);
+	      newSession(payload.user.session_token);
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.SESSION_DESTROYED:
+	      resetErrors();
+	      resetSession();
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.SESSION_ERRORS:
+	      resetErrors();
+	      addSessionErrors(payload.errors);
+	      break;
+	
+	  }
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(224).Store;
+	var AppDispatcher = __webpack_require__(213);
+	var ErrorConstants = __webpack_require__(219);
+	
+	var ErrorStore = new Store(AppDispatcher);
+	
+	var _errors = [];
+	
+	var receiveAllErrors = function (payload) {
+	
+	  _errors = [];
+	  var errorMessages = payload.errors.responseJSON;
+	  if (errorMessages) {
+	    errorMessages.forEach(function (errorMessage) {
+	      _errors.push(errorMessage);
+	    });
+	  }
+	};
+	
+	ErrorStore.all = function () {
+	  return _errors;
+	};
+	
+	ErrorStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case ErrorConstants.ERRORS_RECEIVED:
+	      receiveAllErrors(payload);
+	      ErrorStore.__emitChange();
+	      break;
+	  };
+	};
+	
+	module.exports = ErrorStore;
 
 /***/ }
 /******/ ]);

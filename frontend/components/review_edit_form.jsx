@@ -42,7 +42,6 @@ var ReviewEditForm = React.createClass({
 
   handleSubmit: function(e) {
     e.preventDefault;
-debugger;
     Object.assign({}, this.state);
     ReviewUtil.updateReview(this.filteredState());
     ReviewIndexItem.closeEdit();

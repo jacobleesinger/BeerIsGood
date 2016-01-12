@@ -5,7 +5,7 @@ var EditModalTrigger = React.createClass({
         $(this.refs.payload.getDOMNode()).modal();
     },
     render: function() {
-      debugger;
+  
         var Trigger = this.props.trigger;
         return (
           <div onClick={this.handleClick}>

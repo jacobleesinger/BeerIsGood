@@ -12,7 +12,6 @@ Rails.application.routes.draw do
     resources :friendships, only: [:create, :index]
   end
 
-  resources :users
-  resource :session, only: [:new, :create, :destroy]
+
   resources :staticpages, only: [:index]
 end

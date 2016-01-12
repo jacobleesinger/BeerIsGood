@@ -79,9 +79,12 @@
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
+	  '// ',
 	  React.createElement(IndexRoute, { component: LandingPage }),
+	  '// ',
 	  React.createElement(Route, { path: '/beers', component: BeersIndex }),
 	  React.createElement(Route, { path: '/home', component: Home }),
+	  '// ',
 	  React.createElement(Route, { path: '/user/:id', component: UserShow })
 	);
 	
@@ -25375,6 +25378,7 @@
 	  },
 	
 	  destroySession: function () {
+	    debugger;
 	    $.ajax({
 	      url: "api/session",
 	      type: 'DELETE',
@@ -32827,7 +32831,6 @@
 	  },
 	
 	  createReview: function (review) {
-	
 	    $.ajax({
 	      url: "api/reviews",
 	      type: "POST",
@@ -34010,7 +34013,6 @@
 	  handleSubmit: function (e) {
 	    e.preventDefault;
 	
-	    Object.assign({}, this.state);
 	    ReviewUtil.createReview(this.filteredState());
 	  },
 	

@@ -26,6 +26,7 @@ var SessionUtil = {
  },
 
  destroySession: function(){
+   debugger;
    $.ajax({
      url: "api/session",
      type: 'DELETE',

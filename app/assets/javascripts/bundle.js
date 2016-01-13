@@ -34556,7 +34556,7 @@
 	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Create My Account!', className: 'btn btn-lg btn-1 authButton' }),
 	          React.createElement(
 	            'button',
-	            { onClick: this.goBack, value: 'Cancel', className: 'btn btn-lg btn-3' },
+	            { onClick: this.goBack, value: 'Cancel', className: 'btn btn-lg btn-3 authButton' },
 	            'Cancel'
 	          )
 	        )
@@ -34636,7 +34636,7 @@
 	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Log In', className: 'btn btn-lg btn-1 authButton' }),
 	          React.createElement(
 	            'button',
-	            { onClick: this.goBack, value: 'Cancel', className: 'btn btn-lg btn-3' },
+	            { onClick: this.goBack, value: 'Cancel', className: 'btn btn-lg btn-3 authButton' },
 	            'Cancel'
 	          )
 	        )

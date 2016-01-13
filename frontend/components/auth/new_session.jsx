@@ -49,7 +49,7 @@ var NewSession = React.createClass ({
 
             <input type="submit" onClick={this.handleSubmit} value="Log In" className="btn btn-lg btn-1 authButton"/>
 
-          <button onClick={this.goBack} value="Cancel" className="btn btn-lg btn-3">Cancel</button>
+          <button onClick={this.goBack} value="Cancel" className="btn btn-lg btn-3 authButton">Cancel</button>
 
           </form>
         </div>

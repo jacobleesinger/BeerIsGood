@@ -30,9 +30,14 @@ var NewUser = React.createClass({
 
   },
 
+  goBack: function () {
+    debugger;
+    this.props.cancelAuth();
+  },
+
   render: function () {
 
-
+debugger;
 
     return(
 
@@ -69,6 +74,7 @@ var NewUser = React.createClass({
             </div>
 
             <input type="submit" onClick={this.handleSubmit} value="Create My Account!" className="btn btn-lg btn-1 authButton"/>
+            <button onClick={this.goBack} value="Cancel" className="btn btn-lg btn-3">Cancel</button>
 
 
           </form>

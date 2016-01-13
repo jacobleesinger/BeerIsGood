@@ -11,6 +11,7 @@ var ToastUtil = require('../util/toast_util');
 var Display;
 var Buttons;
 var CommentFormDisplay;
+var CommentButton;
 var ToastButton;
 
 
@@ -128,6 +129,7 @@ var ReviewIndexItem = React.createClass({
   },
 
   handleCommentClick: function (review) {
+    // debugger;
     this.setState({
       commenting: true
     });
@@ -158,10 +160,12 @@ var ReviewIndexItem = React.createClass({
   },
 
   isCommenting: function () {
+    // debugger;
     if (this.state.commenting) {
       CommentFormDisplay = <CommentForm review={this.props.review} currentUser={this.props.currentUser} onChange={this.handleCommentFormSubmit}/>
     } else {
-      CommentFormDisplay = <div></div>
+      CommentFormDisplay = <div></div>;
+      CommentButton = <button onClick={this.handleCommentClick.bind(this, this.props.review)} className="btn btn-1 createCommentButton" value={this.props.review}>add comment</button>;
     }
   },
 
@@ -231,8 +235,8 @@ var ReviewIndexItem = React.createClass({
             </div>
 
             <div className="reviewCommentsIndex col-md-12">
-
-                <button onClick={this.handleCommentClick.bind(this, this.props.review)} className="btn btn-1 createCommentButton" value={this.props.review}>add comment</button>
+              <button onClick={this.handleCommentClick.bind(this, this.props.review)} className="btn btn-1 createCommentButton" value={this.props.review}>add comment</button>
+              {CommentFormDisplay}
               {
                 this.state.comments.map(function(comment) {
                     return (<Comment comment={comment} key={comment.id} />);
@@ -251,12 +255,12 @@ var ReviewIndexItem = React.createClass({
     this.isEditing();
     this.isCommenting();
 
-
+// debugger;
 
     return (
       <div>
         {Display}
-        {CommentFormDisplay}
+
       </div>
     )
   }

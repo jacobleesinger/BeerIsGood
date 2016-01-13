@@ -6,6 +6,8 @@ var Home = require('./home');
 var CurrentUserStore = require('../stores/current_user_store');
 var SessionUtil = require('../util/session_util');
 var Footer = require('./footer');
+var NewUserForm = require('./auth/new_user');
+var NewSessionForm = require('./auth/new_session');
 
 
 
@@ -27,7 +29,10 @@ var LandingPage = React.createClass({
         currentSession: "",
         signedIn: false,
         button: "",
-        errors: []
+        errors: [],
+        authButtons: true,
+        signingUp: false,
+        signingIn: false
       }
     )
   },
@@ -90,9 +95,17 @@ var LandingPage = React.createClass({
     this.setState(
       {
         auth: true,
-        button: button
+        button: button,
+        authButtons: false
       }
     );
+  },
+
+  handleSignUp: function() {
+    this.setState({
+      authButtons: false,
+      signingUp: true
+    });
   },
 
   requireSignedIn: function () {
@@ -106,32 +119,57 @@ var LandingPage = React.createClass({
     SessionUtil.createSession(guestUser);
   },
 
+  cancelAuth: function () {
+    this.setState({
+      currentUser: {},
+      currentSession: "",
+      signedIn: false,
+      button: "",
+      errors: [],
+      authButtons: true,
+      signingUp: false,
+      signingIn: false
+    })
+  },
 
   render: function () {
 
 
 
-    if (this.state.auth) {
-      modal = <Auth button={this.state.button} callback={this.finishAuth} />;
+    // if (this.state.auth) {
+    //   modal = <Auth button={this.state.button} cancelAuth={this.cancelAuth} />;
+    // }
+
+    if(this.state.signingUp) {
+      modal = <NewUserForm cancelAuth={this.cancelAuth} />;
+    } else if(this.state.signingIn) {
+      modal = <NewSessionForm cancelAuth={this.cancelAuth} />;
+    } else {
+      modal = <div></div>;
     }
 
-    buttons = (
-      <div className="centered landingPageButtons">
-        <div>
+    if(this.state.authButtons) {
+      buttons = (
+        <div className="centered landingPageButtons">
+          <div>
 
-              <button className="btn btn-lg btn-1 inline" onClick={this.handleAuth.bind(this, "signup")}>Sign Up</button>
+                <button className="btn btn-lg btn-1 inline" onClick={this.handleSignUp}>Sign Up</button>
 
-              <div className="or inline">OR</div>
+                <div className="or inline">OR</div>
 
-              <button className="btn btn-lg btn-1 inline" onClick={this.handleAuth.bind(this, "signin")}>Sign In</button>
+                <button className="btn btn-lg btn-1 inline" onClick={this.handleAuth.bind(this, "signin")}>Sign In</button>
 
+          </div>
+          <div>
+            <p className="guest1">Just here to look?</p>
+            <p className="guest2" onClick={this.handleGuest}>Sign in as a guest!</p>
+          </div>
         </div>
-        <div>
-          <p className="guest1">Just here to look?</p>
-          <p className="guest2" onClick={this.handleGuest}>Sign in as a guest!</p>
-        </div>
-      </div>
-    );
+      );
+    } else {
+      buttons = <div></div>
+    }
+
 
 
     if (this.state.signedIn) {
@@ -146,7 +184,6 @@ var LandingPage = React.createClass({
              <div className="col-md-6 col-md-offset-3 landingPageStuff">
                <h6 className="landingPageSubLogo logo">Good beers, good friends, good times.</h6>
                <h1 className="landingPageLogo logo">Beerisgood</h1>
-               <h2 className="landingPageTag">Welcome!</h2>
                <h2 className="landingPageTag">Discover & Share your favorite beers</h2>
                <div className="landingPageErrors">{errors}</div>
                <div className="landingPageForm">{modal}</div>
@@ -155,15 +192,7 @@ var LandingPage = React.createClass({
           </div>
         </div>
       </div>
-      <div className="landingPage-2">
-        <div className="container landingPageContainer" >
-          <div className="row">
-            <div className="col-md-8 col-md-offset-2 landingPageStuff">
-              <div className="landingPageTag-2">BeerIsGood is an Untappd-inspired social media web application for craft beer enthusiasts built using Ruby on Rails and React.js.</div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <div className="landingPage-3">
         <div className="container landingPageContainer" >
           <div className="row landingPageBlurbs">

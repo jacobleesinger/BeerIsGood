@@ -24,7 +24,7 @@ var Auth = React.createClass({
 
     return (
       <div>
-        <AuthForm />
+        <AuthForm cancelAuth={this.props.cancelAuth}/>
       </div>
     );
 

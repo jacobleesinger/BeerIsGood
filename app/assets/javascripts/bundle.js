@@ -24161,6 +24161,8 @@
 	var CurrentUserStore = __webpack_require__(282);
 	var SessionUtil = __webpack_require__(211);
 	var Footer = __webpack_require__(283);
+	var NewUserForm = __webpack_require__(289);
+	var NewSessionForm = __webpack_require__(290);
 	
 	var Page;
 	var modal;
@@ -24179,7 +24181,10 @@
 	      currentSession: "",
 	      signedIn: false,
 	      button: "",
-	      errors: []
+	      errors: [],
+	      authButtons: true,
+	      signingUp: false,
+	      signingIn: false
 	    };
 	  },
 	
@@ -24239,7 +24244,15 @@
 	
 	    this.setState({
 	      auth: true,
-	      button: button
+	      button: button,
+	      authButtons: false
+	    });
+	  },
+	
+	  handleSignUp: function () {
+	    this.setState({
+	      authButtons: false,
+	      signingUp: true
 	    });
 	  },
 	
@@ -24254,49 +24267,74 @@
 	    SessionUtil.createSession(guestUser);
 	  },
 	
+	  cancelAuth: function () {
+	    this.setState({
+	      currentUser: {},
+	      currentSession: "",
+	      signedIn: false,
+	      button: "",
+	      errors: [],
+	      authButtons: true,
+	      signingUp: false,
+	      signingIn: false
+	    });
+	  },
+	
 	  render: function () {
 	
-	    if (this.state.auth) {
-	      modal = React.createElement(Auth, { button: this.state.button, callback: this.finishAuth });
+	    // if (this.state.auth) {
+	    //   modal = <Auth button={this.state.button} cancelAuth={this.cancelAuth} />;
+	    // }
+	
+	    if (this.state.signingUp) {
+	      modal = React.createElement(NewUserForm, { cancelAuth: this.cancelAuth });
+	    } else if (this.state.signingIn) {
+	      modal = React.createElement(NewSessionForm, { cancelAuth: this.cancelAuth });
+	    } else {
+	      modal = React.createElement('div', null);
 	    }
 	
-	    buttons = React.createElement(
-	      'div',
-	      { className: 'centered landingPageButtons' },
-	      React.createElement(
+	    if (this.state.authButtons) {
+	      buttons = React.createElement(
 	        'div',
-	        null,
+	        { className: 'centered landingPageButtons' },
 	        React.createElement(
-	          'button',
-	          { className: 'btn btn-lg btn-1 inline', onClick: this.handleAuth.bind(this, "signup") },
-	          'Sign Up'
+	          'div',
+	          null,
+	          React.createElement(
+	            'button',
+	            { className: 'btn btn-lg btn-1 inline', onClick: this.handleSignUp },
+	            'Sign Up'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'or inline' },
+	            'OR'
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'btn btn-lg btn-1 inline', onClick: this.handleAuth.bind(this, "signin") },
+	            'Sign In'
+	          )
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'or inline' },
-	          'OR'
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'btn btn-lg btn-1 inline', onClick: this.handleAuth.bind(this, "signin") },
-	          'Sign In'
+	          null,
+	          React.createElement(
+	            'p',
+	            { className: 'guest1' },
+	            'Just here to look?'
+	          ),
+	          React.createElement(
+	            'p',
+	            { className: 'guest2', onClick: this.handleGuest },
+	            'Sign in as a guest!'
+	          )
 	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'p',
-	          { className: 'guest1' },
-	          'Just here to look?'
-	        ),
-	        React.createElement(
-	          'p',
-	          { className: 'guest2', onClick: this.handleGuest },
-	          'Sign in as a guest!'
-	        )
-	      )
-	    );
+	      );
+	    } else {
+	      buttons = React.createElement('div', null);
+	    }
 	
 	    if (this.state.signedIn) {
 	      Page = React.createElement(Home, { currentUser: this.state.currentUser, user: this.state.currentUser, errors: this.displayErrorMessages() });
@@ -24330,11 +24368,6 @@
 	                React.createElement(
 	                  'h2',
 	                  { className: 'landingPageTag' },
-	                  'Welcome!'
-	                ),
-	                React.createElement(
-	                  'h2',
-	                  { className: 'landingPageTag' },
 	                  'Discover & Share your favorite beers'
 	                ),
 	                React.createElement(
@@ -24351,27 +24384,6 @@
 	                  'div',
 	                  { className: 'landingPageButtons ' },
 	                  buttons
-	                )
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'landingPage-2' },
-	          React.createElement(
-	            'div',
-	            { className: 'container landingPageContainer' },
-	            React.createElement(
-	              'div',
-	              { className: 'row' },
-	              React.createElement(
-	                'div',
-	                { className: 'col-md-8 col-md-offset-2 landingPageStuff' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'landingPageTag-2' },
-	                  'BeerIsGood is an Untappd-inspired social media web application for craft beer enthusiasts built using Ruby on Rails and React.js.'
 	                )
 	              )
 	            )
@@ -33064,6 +33076,7 @@
 	var Display;
 	var Buttons;
 	var CommentFormDisplay;
+	var CommentButton;
 	var ToastButton;
 	
 	var ReviewIndexItem = React.createClass({
@@ -33185,6 +33198,7 @@
 	  },
 	
 	  handleCommentClick: function (review) {
+	    // debugger;
 	    this.setState({
 	      commenting: true
 	    });
@@ -33220,10 +33234,16 @@
 	  },
 	
 	  isCommenting: function () {
+	    // debugger;
 	    if (this.state.commenting) {
 	      CommentFormDisplay = React.createElement(CommentForm, { review: this.props.review, currentUser: this.props.currentUser, onChange: this.handleCommentFormSubmit });
 	    } else {
 	      CommentFormDisplay = React.createElement('div', null);
+	      CommentButton = React.createElement(
+	        'button',
+	        { onClick: this.handleCommentClick.bind(this, this.props.review), className: 'btn btn-1 createCommentButton', value: this.props.review },
+	        'add comment'
+	      );
 	    }
 	  },
 	
@@ -33342,6 +33362,7 @@
 	              { onClick: this.handleCommentClick.bind(this, this.props.review), className: 'btn btn-1 createCommentButton', value: this.props.review },
 	              'add comment'
 	            ),
+	            CommentFormDisplay,
 	            this.state.comments.map((function (comment) {
 	              return React.createElement(Comment, { comment: comment, key: comment.id });
 	            }).bind(this))
@@ -33356,11 +33377,12 @@
 	    this.isEditing();
 	    this.isCommenting();
 	
+	    // debugger;
+	
 	    return React.createElement(
 	      'div',
 	      null,
-	      Display,
-	      CommentFormDisplay
+	      Display
 	    );
 	  }
 	});
@@ -33417,7 +33439,7 @@
 	          className: 'form-control',
 	          id: 'reviewBody',
 	          valueLink: this.linkState('body') }),
-	        React.createElement('input', { className: 'btn btn-2', type: 'submit', value: 'Add Comment', onClick: this.handleSubmit })
+	        React.createElement('input', { className: 'btn btn-2 addCommentButton', type: 'submit', value: 'Add Comment', onClick: this.handleSubmit })
 	      )
 	    );
 	  }
@@ -34421,7 +34443,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(AuthForm, null)
+	      React.createElement(AuthForm, { cancelAuth: this.props.cancelAuth })
 	    );
 	  }
 	
@@ -34465,7 +34487,14 @@
 	    UserUtil.createUser(user);
 	  },
 	
+	  goBack: function () {
+	    debugger;
+	    this.props.cancelAuth();
+	  },
+	
 	  render: function () {
+	
+	    debugger;
 	
 	    return React.createElement(
 	      'div',
@@ -34524,7 +34553,12 @@
 	              React.createElement('input', { type: 'date', className: 'form-control', id: 'newBirthday', valueLink: this.linkState('birthday') })
 	            )
 	          ),
-	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Create My Account!', className: 'btn btn-lg btn-1 authButton' })
+	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Create My Account!', className: 'btn btn-lg btn-1 authButton' }),
+	          React.createElement(
+	            'button',
+	            { onClick: this.goBack, value: 'Cancel', className: 'btn btn-lg btn-3' },
+	            'Cancel'
+	          )
 	        )
 	      )
 	    );

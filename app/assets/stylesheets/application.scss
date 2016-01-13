@@ -113,6 +113,8 @@ body {
 
 .commentContainer{
   margin: 10px;
+  margin-left: 12px;
+
 }
 
 .commentBody{
@@ -148,6 +150,8 @@ background-size: cover;
     height: 100vh;
     width: 100%;
     color: cornsilk;
+
+    background-color: #191B10;
 }
 
 .landingPage-2 {
@@ -387,18 +391,20 @@ padding-bottom: 80px;
   width:100%;
   position: absolute;
   bottom: 0;
-  background-color: rgba(245,245,245,.3);
+  background-color: rgba(245,245,245,.9);
   text-align: center;
+  color: black;
 }
 
 .footer a {
-  color: cornsilk;
+  color: black;
 }
 
 .footer a:hover {
   cursor: pointer;
-  text-shadow: 1px 1px 2px black;
+  // text-shadow: 1px 1px 2px black;
   text-decoration: none;
+  color: blue;
 }
 
 .main {
@@ -415,4 +421,8 @@ textarea {
 
 .createCommentButton {
   margin: 10px;
+}
+
+.addCommentButton {
+  margin-top: 10px;
 }

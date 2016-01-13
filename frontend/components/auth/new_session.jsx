@@ -26,6 +26,10 @@ var NewSession = React.createClass ({
 
   },
 
+  goBack: function () {
+    this.props.cancelAuth();
+  },
+
   render: function () {
     return (
       <div className="row">
@@ -44,6 +48,8 @@ var NewSession = React.createClass ({
             </div>
 
             <input type="submit" onClick={this.handleSubmit} value="Log In" className="btn btn-lg btn-1 authButton"/>
+
+          <button onClick={this.goBack} value="Cancel" className="btn btn-lg btn-3">Cancel</button>
 
           </form>
         </div>

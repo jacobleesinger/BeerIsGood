@@ -24256,6 +24256,13 @@
 	    });
 	  },
 	
+	  handleSignIn: function () {
+	    this.setState({
+	      authButtons: false,
+	      signingIn: true
+	    });
+	  },
+	
 	  requireSignedIn: function () {
 	    if (!this.state.signedIn) {
 	      this.replaceWith('newSession');
@@ -24281,10 +24288,6 @@
 	  },
 	
 	  render: function () {
-	
-	    // if (this.state.auth) {
-	    //   modal = <Auth button={this.state.button} cancelAuth={this.cancelAuth} />;
-	    // }
 	
 	    if (this.state.signingUp) {
 	      modal = React.createElement(NewUserForm, { cancelAuth: this.cancelAuth });
@@ -24313,7 +24316,7 @@
 	          ),
 	          React.createElement(
 	            'button',
-	            { className: 'btn btn-lg btn-1 inline', onClick: this.handleAuth.bind(this, "signin") },
+	            { className: 'btn btn-lg btn-1 inline', onClick: this.handleSignIn },
 	            'Sign In'
 	          )
 	        ),
@@ -34488,13 +34491,10 @@
 	  },
 	
 	  goBack: function () {
-	    debugger;
 	    this.props.cancelAuth();
 	  },
 	
 	  render: function () {
-	
-	    debugger;
 	
 	    return React.createElement(
 	      'div',
@@ -34599,6 +34599,10 @@
 	    SessionUtil.createSession(sessionData);
 	  },
 	
+	  goBack: function () {
+	    this.props.cancelAuth();
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -34629,7 +34633,12 @@
 	              React.createElement('input', { type: 'password', className: 'form-control', id: 'sessionPassword', valueLink: this.linkState('password') })
 	            )
 	          ),
-	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Log In', className: 'btn btn-lg btn-1 authButton' })
+	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Log In', className: 'btn btn-lg btn-1 authButton' }),
+	          React.createElement(
+	            'button',
+	            { onClick: this.goBack, value: 'Cancel', className: 'btn btn-lg btn-3' },
+	            'Cancel'
+	          )
 	        )
 	      )
 	    );

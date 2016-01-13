@@ -31,13 +31,11 @@ var NewUser = React.createClass({
   },
 
   goBack: function () {
-    debugger;
     this.props.cancelAuth();
   },
 
   render: function () {
 
-debugger;
 
     return(
 

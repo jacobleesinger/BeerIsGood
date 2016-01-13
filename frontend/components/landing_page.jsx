@@ -108,6 +108,13 @@ var LandingPage = React.createClass({
     });
   },
 
+  handleSignIn: function() {
+    this.setState({
+      authButtons: false,
+      signingIn: true
+    });
+  },
+
   requireSignedIn: function () {
     if (!this.state.signedIn) {
       this.replaceWith('newSession')
@@ -135,11 +142,6 @@ var LandingPage = React.createClass({
   render: function () {
 
 
-
-    // if (this.state.auth) {
-    //   modal = <Auth button={this.state.button} cancelAuth={this.cancelAuth} />;
-    // }
-
     if(this.state.signingUp) {
       modal = <NewUserForm cancelAuth={this.cancelAuth} />;
     } else if(this.state.signingIn) {
@@ -157,7 +159,7 @@ var LandingPage = React.createClass({
 
                 <div className="or inline">OR</div>
 
-                <button className="btn btn-lg btn-1 inline" onClick={this.handleAuth.bind(this, "signin")}>Sign In</button>
+                <button className="btn btn-lg btn-1 inline" onClick={this.handleSignIn}>Sign In</button>
 
           </div>
           <div>

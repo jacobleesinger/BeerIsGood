@@ -160,12 +160,13 @@ var ReviewIndexItem = React.createClass({
   },
 
   isCommenting: function () {
-    // debugger;
+    debugger;
     if (this.state.commenting) {
-      CommentFormDisplay = <CommentForm review={this.props.review} currentUser={this.props.currentUser} onChange={this.handleCommentFormSubmit}/>
+      CommentFormDisplay = <CommentForm review={this.props.review} currentUser={this.props.currentUser} onChange={this.handleCommentFormSubmit}/>;
+
     } else {
-      CommentFormDisplay = <div></div>;
-      CommentButton = <button onClick={this.handleCommentClick.bind(this, this.props.review)} className="btn btn-1 createCommentButton" value={this.props.review}>add comment</button>;
+      CommentFormDisplay = <button onClick={this.handleCommentClick.bind(this, this.props.review)} className="btn btn-1 createCommentButton" value={this.props.review}>add comment</button>;
+
     }
   },
 
@@ -235,7 +236,7 @@ var ReviewIndexItem = React.createClass({
             </div>
 
             <div className="reviewCommentsIndex col-md-12">
-              <button onClick={this.handleCommentClick.bind(this, this.props.review)} className="btn btn-1 createCommentButton" value={this.props.review}>add comment</button>
+          
               {CommentFormDisplay}
               {
                 this.state.comments.map(function(comment) {
@@ -252,8 +253,8 @@ var ReviewIndexItem = React.createClass({
 
   render: function () {
 
-    this.isEditing();
     this.isCommenting();
+    this.isEditing();
 
 // debugger;
 

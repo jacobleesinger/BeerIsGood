@@ -33237,12 +33237,11 @@
 	  },
 	
 	  isCommenting: function () {
-	    // debugger;
+	    debugger;
 	    if (this.state.commenting) {
 	      CommentFormDisplay = React.createElement(CommentForm, { review: this.props.review, currentUser: this.props.currentUser, onChange: this.handleCommentFormSubmit });
 	    } else {
-	      CommentFormDisplay = React.createElement('div', null);
-	      CommentButton = React.createElement(
+	      CommentFormDisplay = React.createElement(
 	        'button',
 	        { onClick: this.handleCommentClick.bind(this, this.props.review), className: 'btn btn-1 createCommentButton', value: this.props.review },
 	        'add comment'
@@ -33360,11 +33359,6 @@
 	          React.createElement(
 	            'div',
 	            { className: 'reviewCommentsIndex col-md-12' },
-	            React.createElement(
-	              'button',
-	              { onClick: this.handleCommentClick.bind(this, this.props.review), className: 'btn btn-1 createCommentButton', value: this.props.review },
-	              'add comment'
-	            ),
 	            CommentFormDisplay,
 	            this.state.comments.map((function (comment) {
 	              return React.createElement(Comment, { comment: comment, key: comment.id });
@@ -33377,8 +33371,8 @@
 	
 	  render: function () {
 	
-	    this.isEditing();
 	    this.isCommenting();
+	    this.isEditing();
 	
 	    // debugger;
 	

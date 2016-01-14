@@ -129,7 +129,6 @@ var ReviewIndexItem = React.createClass({
   },
 
   handleCommentClick: function (review) {
-    // debugger;
     this.setState({
       commenting: true
     });
@@ -160,7 +159,6 @@ var ReviewIndexItem = React.createClass({
   },
 
   isCommenting: function () {
-    debugger;
     if (this.state.commenting) {
       CommentFormDisplay = <CommentForm review={this.props.review} currentUser={this.props.currentUser} onChange={this.handleCommentFormSubmit}/>;
 
@@ -236,7 +234,7 @@ var ReviewIndexItem = React.createClass({
             </div>
 
             <div className="reviewCommentsIndex col-md-12">
-          
+
               {CommentFormDisplay}
               {
                 this.state.comments.map(function(comment) {
@@ -256,7 +254,6 @@ var ReviewIndexItem = React.createClass({
     this.isCommenting();
     this.isEditing();
 
-// debugger;
 
     return (
       <div>

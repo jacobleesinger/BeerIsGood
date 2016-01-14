@@ -33201,7 +33201,6 @@
 	  },
 	
 	  handleCommentClick: function (review) {
-	    // debugger;
 	    this.setState({
 	      commenting: true
 	    });
@@ -33237,7 +33236,6 @@
 	  },
 	
 	  isCommenting: function () {
-	    debugger;
 	    if (this.state.commenting) {
 	      CommentFormDisplay = React.createElement(CommentForm, { review: this.props.review, currentUser: this.props.currentUser, onChange: this.handleCommentFormSubmit });
 	    } else {
@@ -33373,8 +33371,6 @@
 	
 	    this.isCommenting();
 	    this.isEditing();
-	
-	    // debugger;
 	
 	    return React.createElement(
 	      'div',
@@ -33742,7 +33738,6 @@
 	  },
 	
 	  destroyFriendRequest: function (requestId) {
-	    debugger;
 	    $.ajax({
 	      url: "api/friendrequests/" + requestId,
 	      type: "DELETE",
@@ -33916,7 +33911,6 @@
 	  },
 	
 	  handleDeny: function (request) {
-	    debugger;
 	    FriendRequestUtil.destroyFriendRequest(request.id);
 	  },
 	
@@ -33924,7 +33918,7 @@
 	
 	    var requests = this.state.friendRequests;
 	    return requests.map((function (request) {
-	      debugger;
+	
 	      return React.createElement(
 	        'div',
 	        { className: '', key: request.id, request: request },
@@ -33946,7 +33940,7 @@
 	          React.createElement(
 	            'button',
 	            { className: 'btn btn-sm btn-3 friendApproveButton',
-	              onClick: this.handleDeny(request) },
+	              onClick: this.handleDeny.bind(this, request) },
 	            'Deny'
 	          )
 	        )

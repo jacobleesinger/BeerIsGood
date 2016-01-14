@@ -47,7 +47,6 @@ var UserProfile = React.createClass({
   },
 
   handleDeny: function (request) {
-debugger;
     FriendRequestUtil.destroyFriendRequest(request.id);
 
   },
@@ -56,8 +55,8 @@ debugger;
 
 
     var requests = this.state.friendRequests
-    return requests.map(function(request) {
-debugger;
+    return (requests.map(function(request) {
+
       return (
         <div className="" key={request.id} request={request}>
           <div className="friendRequestNotifcation">
@@ -69,7 +68,7 @@ debugger;
               Confirm
             </button>
             <button className="btn btn-sm btn-3 friendApproveButton"
-              onClick={this.handleDeny(request)}>
+              onClick={this.handleDeny.bind(this, request)}>
               Deny
             </button>
           </div>
@@ -77,12 +76,10 @@ debugger;
 
         </div>
       )
-    }.bind(this))
+    }.bind(this)));
   },
 
   render: function(){
-
-
 
 
     return(

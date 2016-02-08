@@ -79,7 +79,7 @@ var BeerReviewsIndex = React.createClass ({
                 <option value="5">5</option>
               </select>
 
-            <input className="btn btn-2" type="submit" value="Add Your Review" onClick={this.handleSubmit}/>
+            <input className="btn btn-2 reviewFormItem" type="submit" value="Add Your Review" onClick={this.handleSubmit}/>
 
         </form>
 

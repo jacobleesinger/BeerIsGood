@@ -86,11 +86,15 @@ var UserProfile = React.createClass({
       <div className="row fixedWidth">
 
         <div className="row">
-
-          <div className="col-md-6 reviewsIndexContainer">
+          <div className="col-md-12 userSummary">
             <h3>Welcome, {this.props.currentUser.username}!</h3>
             {this.props.errors}
-            {this.getFriendRequests()}
+          </div>
+        </div>
+
+        <div className="row">
+
+          <div className="col-md-6 reviewsIndexContainer">
 
             <h3>Review a Beer</h3>
 
@@ -100,6 +104,11 @@ var UserProfile = React.createClass({
 
             <h3>My Reviews</h3>
               <ReviewsIndex currentUser={this.props.currentUser} user={this.props.currentUser}/>
+            </div>
+
+            <div className="userSidebar col-md-4 col-md-offset-2">
+
+              {this.getFriendRequests()}
             </div>
           </div>
         </div>

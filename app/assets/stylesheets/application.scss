@@ -439,3 +439,21 @@ textarea {
 #newSessionFormDiv {
   padding: 10px;
 }
+
+.userSummary {
+  background-color: rgba(245,235,225,.9);
+  border: 1px solid black;
+  color: saddlebrown;
+  margin: 10px;
+  text-align: center;
+  padding: 5px;
+  height: 45px;
+}
+
+.userSidebar {
+  background-color: rgba(245,235,225,.9);
+  border: 1px solid black;
+  color: saddlebrown;
+  // margin: 10px;
+  padding: 5px;
+}

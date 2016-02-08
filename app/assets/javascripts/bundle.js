@@ -32462,7 +32462,7 @@
 	                '5'
 	              )
 	            ),
-	            React.createElement('input', { className: 'btn btn-2', type: 'submit', value: 'Add Your Review', onClick: this.handleSubmit })
+	            React.createElement('input', { className: 'btn btn-2 reviewFormItem', type: 'submit', value: 'Add Your Review', onClick: this.handleSubmit })
 	          ),
 	          React.createElement(
 	            'h3',
@@ -34370,7 +34370,7 @@
 	        { className: 'row' },
 	        React.createElement(
 	          'div',
-	          { className: 'col-md-6 reviewsIndexContainer' },
+	          { className: 'col-md-12 userSummary' },
 	          React.createElement(
 	            'h3',
 	            null,
@@ -34378,8 +34378,15 @@
 	            this.props.currentUser.username,
 	            '!'
 	          ),
-	          this.props.errors,
-	          this.getFriendRequests(),
+	          this.props.errors
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-md-6 reviewsIndexContainer' },
 	          React.createElement(
 	            'h3',
 	            null,
@@ -34396,6 +34403,11 @@
 	            'My Reviews'
 	          ),
 	          React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.currentUser })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'userSidebar col-md-4 col-md-offset-2' },
+	          this.getFriendRequests()
 	        )
 	      )
 	    );

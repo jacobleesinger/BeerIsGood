@@ -36,6 +36,10 @@ var NavbarInstance = React.createClass({
     this.props.onChange(newSubPage, user, beer);
   },
 
+  handleSearch: function(newSubPage, user, beer) {
+
+    this.props.onChange(newSubPage, user, beer);
+  },
 
   render: function () {
 
@@ -68,14 +72,7 @@ var NavbarInstance = React.createClass({
                 My Friends
               </div>
             </li>
-            <li className="navbarLinks">
-              <div
 
-                onClick={this.handleClick.bind(this, UserProfile)}
-                value={User}>
-                My Profile
-              </div>
-            </li>
             <li className="navbarLinks">
               <div
 
@@ -83,6 +80,10 @@ var NavbarInstance = React.createClass({
                 value={UsersIndex}>
                 Find Friends
               </div>
+            </li>
+
+            <li>
+              <Search onClick={this.handleSearch} currentUser={this.props.currentUser}/>
             </li>
 
             <li>

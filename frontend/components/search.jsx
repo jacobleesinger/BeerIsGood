@@ -13,12 +13,14 @@ var Search = React.createClass({
   		label: React.PropTypes.string,
   		searchable: React.PropTypes.bool,
   	},
+
   	getDefaultProps: function () {
   		return {
   			label: 'values:',
   			searchable: true,
   		};
   	},
+
   	getInitialState: function () {
   		return {
   			disabled: false,
@@ -29,12 +31,15 @@ var Search = React.createClass({
   	},
 
   	updateValue: function (beerId) {
-
-      this.props.onClick(this.props.currentUser, BeerStore.find(beerId));
+    
+      this.props.onClick(BeerShow, this.props.currentUser, BeerStore.find(beerId));
+      // this.props.onClick(this.props.currentUser, BeerStore.find(beerId));
   	},
+
   	focusStateSelect: function () {
   		this.refs.stateSelect.focus();
   	},
+
   	toggleCheckbox: function (e) {
   		var newState = {};
   		newState[e.target.name] = e.target.checked;
@@ -56,10 +61,20 @@ var Search = React.createClass({
   		return (
   			<div className="section">
 
-  				<Select className="select" ref="stateSelect" autofocus options={options} simpleValue clearable={this.state.clearable} name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} placeholder="Find a Beer"/>
-
-
-
+  				<Select
+            className="select"
+            ref="stateSelect"
+            autofocus
+            options={options}
+            simpleValue
+            clearable={this.state.clearable}
+            name="selected-state"
+            disabled={this.state.disabled}
+            value={this.state.selectValue}
+            onChange={this.updateValue}
+            searchable={this.state.searchable}
+            placeholder="Find a Beer"
+            />
 
   			</div>
   		);

@@ -79,12 +79,9 @@
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
-	  '// ',
 	  React.createElement(IndexRoute, { component: LandingPage }),
-	  '// ',
 	  React.createElement(Route, { path: '/beers', component: BeersIndex }),
 	  React.createElement(Route, { path: '/home', component: Home }),
-	  '// ',
 	  React.createElement(Route, { path: '/user/:id', component: UserShow })
 	);
 	
@@ -32107,7 +32104,9 @@
 	          { className: 'navbarHeader' },
 	          React.createElement(
 	            'div',
-	            { className: 'navbarLogo logo', to: '#' },
+	            { className: 'navbarLogo logo',
+	              onClick: this.handleClick.bind(this, UserProfile),
+	              value: User },
 	            React.createElement(
 	              'h1',
 	              null,
@@ -34370,7 +34369,7 @@
 	        { className: 'row' },
 	        React.createElement(
 	          'div',
-	          { className: 'col-md-12 userSummary' },
+	          { className: 'userSummary' },
 	          React.createElement(
 	            'h3',
 	            null,
@@ -34407,7 +34406,28 @@
 	        React.createElement(
 	          'div',
 	          { className: 'userSidebar col-md-4 col-md-offset-2' },
-	          this.getFriendRequests()
+	          React.createElement(
+	            'div',
+	            { className: 'userSidebarElement' },
+	            React.createElement(
+	              'h4',
+	              null,
+	              'Pending Requests: ',
+	              this.state.friendRequests.length
+	            ),
+	            this.getFriendRequests()
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'userSidebarElement' },
+	            React.createElement(
+	              'h4',
+	              null,
+	              'My Stats'
+	            ),
+	            'reviews: ',
+	            ReviewStore.filterReviewsByUserId(this.props.user.id).length
+	          )
 	        )
 	      )
 	    );

@@ -451,9 +451,25 @@ textarea {
 }
 
 .userSidebar {
-  background-color: rgba(245,235,225,.9);
+  border: 1px solid black;
+  background-color: rgba(245, 235, 225, .9);
+  padding: 5px;
+}
+.userSidebarElement {
+  background-color: rgba(245,245,245,.9);
   border: 1px solid black;
   color: saddlebrown;
   // margin: 10px;
-  padding: 5px;
+  padding: 10px;
+  margin: 5px;
+}
+
+.navbarLogo {
+  padding:0 3px 9px 3px;
+}
+
+.navbarLogo:hover{
+  outline: 1px solid rgba(0,0,0,.5);
+  cursor: pointer;
+  background-color: rgba(0,0,0,.3);
 }

@@ -86,7 +86,7 @@ var UserProfile = React.createClass({
       <div className="row fixedWidth">
 
         <div className="row">
-          <div className="col-md-12 userSummary">
+          <div className="userSummary">
             <h3>Welcome, {this.props.currentUser.username}!</h3>
             {this.props.errors}
           </div>
@@ -107,8 +107,19 @@ var UserProfile = React.createClass({
             </div>
 
             <div className="userSidebar col-md-4 col-md-offset-2">
+              <div className="userSidebarElement">
+                <h4>Pending Requests: {this.state.friendRequests.length}</h4>
 
-              {this.getFriendRequests()}
+                  {this.getFriendRequests()}
+
+              </div>
+
+              <div className="userSidebarElement">
+                <h4>My Stats</h4>
+                reviews: {ReviewStore.filterReviewsByUserId(this.props.user.id).length}
+
+              </div>
+
             </div>
           </div>
         </div>

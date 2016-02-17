@@ -43,7 +43,10 @@ var NavbarInstance = React.createClass({
     <div className="navbar">
       <div className="fixedWidth">
         <div className="navbarHeader">
-            <div className="navbarLogo logo" to="#"><h1>BeerIsGood</h1></div>
+            <div className="navbarLogo logo"
+              onClick={this.handleClick.bind(this, UserProfile)}
+              value={User}>
+              <h1>BeerIsGood</h1></div>
 
         </div>
 
@@ -51,7 +54,7 @@ var NavbarInstance = React.createClass({
           <ul className="navbarLinksUl">
             <li className="navbarLinks">
               <div
-                
+
                 onClick={this.handleClick.bind(this, BeersIndex)}
                 value={BeersIndex}>
                 Find Beers

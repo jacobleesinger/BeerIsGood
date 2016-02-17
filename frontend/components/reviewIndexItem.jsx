@@ -207,10 +207,12 @@ var ReviewIndexItem = React.createClass({
           <div className="reviewContainer col-md-12" >
             <div className="reviewContent col-md-12">
               <div className="reviewHeader col-md-12">
-                {this.props.user.username} is drinking {this.state.beer.name}!
-
-
-                {Buttons}
+                <div className="reviewTitle col-md-9">
+                  {this.props.user.username} is drinking {this.state.beer.name}!
+                </div>
+                <div className="col-md-3 reviewButtons">
+                  {Buttons}
+                </div>
 
               </div>
 
@@ -229,6 +231,7 @@ var ReviewIndexItem = React.createClass({
                 </div>
 
                 {ToastButton}
+
 
               </div>
             </div>

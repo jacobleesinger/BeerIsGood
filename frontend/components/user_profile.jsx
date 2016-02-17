@@ -6,6 +6,7 @@ var FriendRequestStore = require('../stores/friend_request_store');
 var UserStore= require('../stores/user_store');
 var FriendRequestUtil = require('../util/friend_request_util');
 var FriendUtil = require('../util/friend_util');
+var FriendStore = require('../stores/friend_store');
 
 
 var UserProfile = React.createClass({
@@ -116,7 +117,9 @@ var UserProfile = React.createClass({
 
               <div className="userSidebarElement">
                 <h4>My Stats</h4>
-                reviews: {ReviewStore.filterReviewsByUserId(this.props.user.id).length}
+                Reviews: {ReviewStore.filterReviewsByUserId(this.props.user.id).length}
+                <br />
+                Friends: {FriendStore.filterFriendshipsByUserId(this.props.user.id).length}
 
               </div>
 

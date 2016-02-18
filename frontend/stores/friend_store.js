@@ -20,7 +20,7 @@ var addAllFriendships = function(friendships) {
 
 FriendStore.all = function () {
   var friendships = [];
-  for (key in _friendships) {
+  for (var key in _friendships) {
     if (_friendships.hasOwnProperty(key)) {
       friendships.push(_friendships[key]);
     }

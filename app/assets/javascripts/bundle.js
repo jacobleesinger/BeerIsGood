@@ -58,7 +58,7 @@
 	var ReviewUtil = __webpack_require__(260);
 	var CommentUtil = __webpack_require__(275);
 	var ToastUtil = __webpack_require__(277);
-	// var BeerShow = require("./components/beer_show");
+	var BeerShow = __webpack_require__(253);
 	var BeersIndex = __webpack_require__(250);
 	var UserShow = __webpack_require__(271);
 	var FriendRequestUtil = __webpack_require__(280);
@@ -80,7 +80,7 @@
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(IndexRoute, { component: LandingPage }),
-	  React.createElement(Route, { path: '/beers', component: BeersIndex }),
+	  React.createElement(Route, { path: '/beer/:id', component: BeerShow }),
 	  React.createElement(Route, { path: '/home', component: Home }),
 	  React.createElement(Route, { path: '/user/:id', component: UserShow })
 	);
@@ -32185,6 +32185,8 @@
 	var Navbar = __webpack_require__(249);
 	var BeerStore = __webpack_require__(251);
 	var BeerShow = __webpack_require__(253);
+	var ReactRouter = __webpack_require__(159);
+	var Link = ReactRouter.Link;
 	
 	var BeersIndex = React.createClass({
 	  displayName: 'BeersIndex',
@@ -32206,9 +32208,9 @@
 	    });
 	  },
 	
-	  handleClick: function (newSubPage, user, beer) {
-	    this.props.onSubPageChange(newSubPage, user, beer);
-	  },
+	  // handleClick: function(beerId) {
+	  //   this.props.onSubPageChange(newSubPage, user, beer);
+	  // },
 	
 	  render: function () {
 	
@@ -32216,9 +32218,10 @@
 	      'div',
 	      { className: 'index fixedWidth row' },
 	      this.state.beers.map((function (beer) {
+	        var url = "/beer/" + beer.id;
 	        return React.createElement(
-	          'div',
-	          { className: 'indexItem col-md-12', beer: beer, key: beer.id, onClick: this.handleClick.bind(this, BeerShow, this.props.currentUser, beer) },
+	          Link,
+	          { className: 'indexItem col-md-12', key: beer.id, to: url },
 	          beer.name
 	        );
 	      }).bind(this))
@@ -32253,7 +32256,7 @@
 	
 	BeerStore.all = function () {
 	  var beers = [];
-	  for (key in _beers) {
+	  for (var key in _beers) {
 	    if (_beers.hasOwnProperty(key)) {
 	      beers.push(_beers[key]);
 	    }
@@ -32498,7 +32501,7 @@
 	
 	ReviewStore.all = function () {
 	  var reviews = [];
-	  for (key in _reviews) {
+	  for (var key in _reviews) {
 	    if (_reviews.hasOwnProperty(key)) {
 	      reviews.push(_reviews[key]);
 	    }
@@ -32778,7 +32781,7 @@
 	
 	UserStore.all = function () {
 	  var users = [];
-	  for (key in _users) {
+	  for (var key in _users) {
 	    if (_users.hasOwnProperty(key)) {
 	      users.push(_users[key]);
 	    }
@@ -32938,7 +32941,7 @@
 	
 	CommentStore.all = function () {
 	  var comments = [];
-	  for (key in _comments) {
+	  for (var key in _comments) {
 	    if (_comments.hasOwnProperty(key)) {
 	      comments.push(_comments[key]);
 	    }
@@ -33009,7 +33012,7 @@
 	
 	ToastStore.all = function () {
 	  var toasts = [];
-	  for (key in _toasts) {
+	  for (var key in _toasts) {
 	    if (_toasts.hasOwnProperty(key)) {
 	      toasts.push(_toasts[key]);
 	    }
@@ -33227,7 +33230,7 @@
 	
 	FriendStore.all = function () {
 	  var friendships = [];
-	  for (key in _friendships) {
+	  for (var key in _friendships) {
 	    if (_friendships.hasOwnProperty(key)) {
 	      friendships.push(_friendships[key]);
 	    }
@@ -34225,7 +34228,7 @@
 	
 	FriendRequestStore.all = function () {
 	  var requests = [];
-	  for (request in _requests) {
+	  for (var request in _requests) {
 	    if (_requests.hasOwnProperty(request)) {
 	      requests.push(_requests[request]);
 	    }
@@ -34511,6 +34514,7 @@
 	var Navbar = __webpack_require__(249);
 	var UserStore = __webpack_require__(259);
 	var User = __webpack_require__(270);
+	var Link = __webpack_require__(159).Link;
 	
 	var userToken;
 	
@@ -34549,10 +34553,11 @@
 	      'div',
 	      { className: 'fixedWidth row index' },
 	      this.state.users.map((function (user) {
+	        var url = "/user/" + user.id;
 	        return React.createElement(
-	          'div',
-	          { className: 'indexItem col-md-12', user: user, key: user.id,
-	            onClick: this.handleClick.bind(this, User, user, this.props.beer) },
+	          Link,
+	          { className: 'indexItem col-md-12', to: url, key: user.id
+	          },
 	          user.username
 	        );
 	      }).bind(this))

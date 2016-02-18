@@ -18,7 +18,7 @@ var addSingleBeer = function(beer) {
 
 BeerStore.all = function() {
   var beers = [];
-  for (key in _beers) {
+  for (var key in _beers) {
     if (_beers.hasOwnProperty(key)){
       beers.push(_beers[key]);
     }

@@ -12,7 +12,7 @@ var BeerUtil = require('./util/beer_util');
 var ReviewUtil = require('./util/review_util');
 var CommentUtil = require('./util/comment_util');
 var ToastUtil = require('./util/toast_util');
-// var BeerShow = require("./components/beer_show");
+var BeerShow = require("./components/beer_show");
 var BeersIndex = require("./components/beers_index");
 var UserShow = require('./components/user_show');
 var FriendRequestUtil = require('./util/friend_request_util');
@@ -31,7 +31,7 @@ var App = React.createClass({
 var routes = (
   <Route path="/" component={App}>
     <IndexRoute component={LandingPage}/>
-    <Route path="/beers" component={BeersIndex} />
+    <Route path="/beer/:id" component={BeerShow} />
     <Route path="/home" component={Home}/>
     <Route path="/user/:id" component={UserShow} />
   </Route>

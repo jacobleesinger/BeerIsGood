@@ -2,6 +2,8 @@ var React = require('react');
 var Navbar = require('./navbar.jsx');
 var BeerStore = require('../stores/beer_store');
 var BeerShow = require('./beer_show');
+var ReactRouter = require('react-router');
+var Link = ReactRouter.Link;
 
 
 var BeersIndex = React.createClass({
@@ -25,9 +27,9 @@ var BeersIndex = React.createClass({
     });
   },
 
-  handleClick: function(newSubPage, user, beer) {
-    this.props.onSubPageChange(newSubPage, user, beer);
-  },
+  // handleClick: function(beerId) {
+  //   this.props.onSubPageChange(newSubPage, user, beer);
+  // },
 
 
   render: function () {
@@ -36,8 +38,9 @@ var BeersIndex = React.createClass({
 
       <div className="index fixedWidth row">
         {this.state.beers.map(function(beer) {
+          var url = "/beer/" + beer.id;
             return(
-              <div className="indexItem col-md-12" beer={beer} key={beer.id} onClick={this.handleClick.bind(this, BeerShow, this.props.currentUser, beer)}>{beer.name}</div>
+              <Link className="indexItem col-md-12" key={beer.id} to={url}>{beer.name}</Link>
             );
           }.bind(this))
         }

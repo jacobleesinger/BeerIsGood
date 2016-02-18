@@ -22,7 +22,7 @@ var resetReviews = function() {
 
 ReviewStore.all = function() {
   var reviews = [];
-  for (key in _reviews) {
+  for (var key in _reviews) {
     if (_reviews.hasOwnProperty(key)){
       reviews.push(_reviews[key]);
     }

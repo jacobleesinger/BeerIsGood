@@ -20,7 +20,7 @@ var addAllFriendRequests = function(requests) {
 
 FriendRequestStore.all = function () {
   var requests = [];
-  for (request in _requests) {
+  for (var request in _requests) {
     if (_requests.hasOwnProperty(request)) {
       requests.push(_requests[request]);
     }

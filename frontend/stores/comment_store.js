@@ -18,7 +18,7 @@ var addSingleComment = function(comment) {
 
 CommentStore.all = function() {
   var comments = [];
-  for (key in _comments) {
+  for (var key in _comments) {
     if (_comments.hasOwnProperty(key)){
       comments.push(_comments[key]);
     }

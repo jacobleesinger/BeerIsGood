@@ -37,7 +37,7 @@ var addUserErrors = function(errors) {
 
 UserStore.all = function() {
   var users = [];
-  for (key in _users) {
+  for (var key in _users) {
     if (_users.hasOwnProperty(key)){
       users.push(_users[key]);
     }

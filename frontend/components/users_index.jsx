@@ -2,6 +2,7 @@ var React = require('react');
 var Navbar = require('./navbar.jsx');
 var UserStore = require('../stores/user_store');
 var User = require('./user');
+var Link = require('react-router').Link;
 
 var userToken;
 
@@ -39,9 +40,10 @@ var UsersIndex = React.createClass({
       <div className="fixedWidth row index">
 
           {this.state.users.map(function(user) {
+            var url = "/user/" + user.id;
               return(
-                <div className="indexItem col-md-12" user={user} key={user.id}
-                  onClick={this.handleClick.bind(this, User, user, this.props.beer)}>{user.username}</div>
+                <Link className="indexItem col-md-12" to={url} key={user.id}
+                  >{user.username}</Link>
               );
             }.bind(this))
           }

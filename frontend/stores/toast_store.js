@@ -20,7 +20,7 @@ var addSingleToast = function(toast) {
 
 ToastStore.all = function() {
   var toasts = [];
-  for (key in _toasts) {
+  for (var key in _toasts) {
     if (_toasts.hasOwnProperty(key)){
       toasts.push(_toasts[key]);
     }

@@ -9,7 +9,7 @@ var BeerShow = require('./beer_show');
 var UsersIndex = require('./users_index');
 var User = require('./user');
 var UserProfile = require('./user_profile');
-var Search = require('./search');
+var BeerSearch = require('./beer_search');
 
 
 
@@ -56,14 +56,7 @@ var NavbarInstance = React.createClass({
 
         <div className="navbarContent">
           <ul className="navbarLinksUl">
-            <li className="navbarLinks">
-              <div
 
-                onClick={this.handleClick.bind(this, BeersIndex)}
-                value={BeersIndex}>
-                Find Beers
-              </div>
-            </li>
             <li className="navbarLinks">
               <div
 
@@ -83,7 +76,11 @@ var NavbarInstance = React.createClass({
             </li>
 
             <li>
-              <Search onClick={this.handleSearch} currentUser={this.props.currentUser}/>
+              <BeerSearch
+                onClick={this.handleSearch}
+                currentUser={this.props.currentUser}
+                className=""
+                />
             </li>
 
             <li>

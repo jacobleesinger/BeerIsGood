@@ -32066,7 +32066,7 @@
 	var UsersIndex = __webpack_require__(287);
 	var User = __webpack_require__(270);
 	var UserProfile = __webpack_require__(284);
-	var Search = __webpack_require__(288);
+	var BeerSearch = __webpack_require__(303);
 	
 	var NavbarInstance = React.createClass({
 	  displayName: 'NavbarInstance',
@@ -32132,18 +32132,6 @@
 	                'div',
 	                {
 	
-	                  onClick: this.handleClick.bind(this, BeersIndex),
-	                  value: BeersIndex },
-	                'Find Beers'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              { className: 'navbarLinks' },
-	              React.createElement(
-	                'div',
-	                {
-	
 	                  onClick: this.handleClick.bind(this, FriendsIndex),
 	                  value: FriendsIndex },
 	                'My Friends'
@@ -32164,7 +32152,11 @@
 	            React.createElement(
 	              'li',
 	              null,
-	              React.createElement(Search, { onClick: this.handleSearch, currentUser: this.props.currentUser })
+	              React.createElement(BeerSearch, {
+	                onClick: this.handleSearch,
+	                currentUser: this.props.currentUser,
+	                className: ''
+	              })
 	            ),
 	            React.createElement(
 	              'li',
@@ -32354,6 +32346,7 @@
 	  },
 	
 	  getInitialState: function () {
+	    debugger;
 	    return {
 	      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
 	      body: "",
@@ -34571,87 +34564,7 @@
 	module.exports = UsersIndex;
 
 /***/ },
-/* 288 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var BeerStore = __webpack_require__(251);
-	var Select = __webpack_require__(293);
-	var BeerShow = __webpack_require__(253);
-	__webpack_require__(299);
-	
-	var Search = React.createClass({
-	  displayName: 'search',
-	  propTypes: {
-	    label: React.PropTypes.string,
-	    searchable: React.PropTypes.bool
-	  },
-	
-	  getDefaultProps: function () {
-	    return {
-	      label: 'values:',
-	      searchable: true
-	    };
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      disabled: false,
-	      searchable: this.props.searchable,
-	      selectValue: ''
-	    };
-	  },
-	
-	  // clearable: true,
-	  updateValue: function (beerId) {
-	
-	    this.props.onClick(BeerShow, this.props.currentUser, BeerStore.find(beerId));
-	    // this.props.onClick(this.props.currentUser, BeerStore.find(beerId));
-	  },
-	
-	  focusStateSelect: function () {
-	    this.refs.stateSelect.focus();
-	  },
-	
-	  toggleCheckbox: function (e) {
-	    var newState = {};
-	    newState[e.target.name] = e.target.checked;
-	    this.setState(newState);
-	  },
-	
-	  render: function () {
-	
-	    var options = [];
-	    var Searchable = BeerStore.all();
-	
-	    Searchable.forEach(function (beer) {
-	      options.push({ value: beer.id, label: beer.name });
-	    });
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'section' },
-	      React.createElement(Select, {
-	        className: 'select',
-	        ref: 'stateSelect',
-	        autofocus: true,
-	        options: options,
-	        simpleValue: true,
-	        clearable: this.state.clearable,
-	        name: 'selected-state',
-	        disabled: this.state.disabled,
-	        value: this.state.selectValue,
-	        onChange: this.updateValue,
-	        searchable: this.state.searchable,
-	        placeholder: 'Find a Beer'
-	      })
-	    );
-	  }
-	});
-	
-	module.exports = Search;
-
-/***/ },
+/* 288 */,
 /* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36461,6 +36374,86 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var BeerStore = __webpack_require__(251);
+	var Select = __webpack_require__(293);
+	var BeerShow = __webpack_require__(253);
+	__webpack_require__(299);
+	
+	var Search = React.createClass({
+	  displayName: 'search',
+	  propTypes: {
+	    label: React.PropTypes.string,
+	    searchable: React.PropTypes.bool
+	  },
+	
+	  getDefaultProps: function () {
+	    return {
+	      label: 'values:',
+	      searchable: true
+	    };
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      disabled: false,
+	      searchable: this.props.searchable,
+	      selectValue: '',
+	      clearable: true
+	    };
+	  },
+	
+	  updateValue: function (beerId) {
+	
+	    this.props.onClick(BeerShow, this.props.currentUser, BeerStore.find(beerId));
+	  },
+	
+	  focusStateSelect: function () {
+	    this.refs.stateSelect.focus();
+	  },
+	
+	  toggleCheckbox: function (e) {
+	    var newState = {};
+	    newState[e.target.name] = e.target.checked;
+	    this.setState(newState);
+	  },
+	
+	  render: function () {
+	
+	    var options = [];
+	    var Searchable = BeerStore.all();
+	
+	    Searchable.forEach(function (beer) {
+	      options.push({ value: beer.id, label: beer.name });
+	    });
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'section' },
+	      React.createElement(Select, {
+	        className: 'select beerSearch',
+	        ref: 'stateSelect',
+	        autofocus: true,
+	        options: options,
+	        simpleValue: true,
+	        clearable: this.state.clearable,
+	        name: 'selected-state',
+	        disabled: this.state.disabled,
+	        value: this.state.selectValue,
+	        onChange: this.updateValue,
+	        searchable: this.state.searchable,
+	        placeholder: 'Find a Beer'
+	      })
+	    );
+	  }
+	});
+	
+	module.exports = Search;
 
 /***/ }
 /******/ ]);

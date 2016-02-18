@@ -26,14 +26,14 @@ var Search = React.createClass({
   			disabled: false,
   			searchable: this.props.searchable,
   			selectValue: '',
-  			// clearable: true,
+  			clearable: true
   		};
   	},
 
   	updateValue: function (beerId) {
-    
+
       this.props.onClick(BeerShow, this.props.currentUser, BeerStore.find(beerId));
-      // this.props.onClick(this.props.currentUser, BeerStore.find(beerId));
+
   	},
 
   	focusStateSelect: function () {
@@ -62,7 +62,7 @@ var Search = React.createClass({
   			<div className="section">
 
   				<Select
-            className="select"
+            className="select beerSearch"
             ref="stateSelect"
             autofocus
             options={options}

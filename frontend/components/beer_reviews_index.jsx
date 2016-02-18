@@ -14,6 +14,7 @@ var BeerReviewsIndex = React.createClass ({
   },
 
   getInitialState: function () {
+    debugger;
     return ({
       reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
       body: "",

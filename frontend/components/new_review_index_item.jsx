@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import ReviewStore from '../stores/review_store';
 
-import ReviewEditForm from './review_edit_form';
+import ReviewButtons from './review_buttons';
+import ReviewEditForm from './new_review_edit_form';
 import ReviewHeader from './review_header';
 import ReviewBody from './review_body';
 import ReviewFooter from './review_footer';
@@ -39,7 +40,7 @@ class ReviewIndexItem extends Component {
     return (
       <div className="reviewIndexItem">
         <ReviewHeader review={review} />
-        <ReviewEditForm review={review} currentUser={currentUser} />
+        <ReviewButtons review={review} currentUser={currentUser} />
         <ReviewBody review={review} />
         <ReviewFooter review={review} currentUser={currentUser} />
 

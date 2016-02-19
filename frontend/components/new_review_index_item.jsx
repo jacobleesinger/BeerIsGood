@@ -38,8 +38,8 @@ class ReviewIndexItem extends Component {
   render() {
     return (
       <div className="reviewIndexItem">
-        <ReviewEditForm review={review} currentUser={currentUser} />
         <ReviewHeader review={review} />
+        <ReviewEditForm review={review} currentUser={currentUser} />
         <ReviewBody review={review} />
         <ReviewFooter review={review} currentUser={currentUser} />
 

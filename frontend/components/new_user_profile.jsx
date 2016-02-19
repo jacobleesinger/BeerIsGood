@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from './new_navbar';
 import ReviewForm from './new_review_form';
-import ReviewsContainer from './reviews_container';
+import ReviewsIndex from './new_reviews_index';
 import Sidebar from './user_profile_sidebar';
 import Footer from './footer';
 
@@ -34,7 +34,7 @@ class UserProfile extends Component {
       <div className="userProfile">
         <Navbar currentUser={this.props.currentUser} />
         <ReviewForm currentUser={this.props.currentUser} />
-        <ReviewsContainer currentUser={this.props.currentUser} />
+        <ReviewsIndex user={this.props.currentUser} currentUser={this.props.currentUser}/>
         <Sidebar currentUser={this.props.currentUser} />
         <Footer />
       </div>

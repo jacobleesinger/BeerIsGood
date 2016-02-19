@@ -42,6 +42,12 @@ ReviewStore.filterReviewsByBeerId = function(beerId) {
   });
 };
 
+ReviewStore.findById = function(id) {
+  return this.all().filter(function(review) {
+    return review.id === id;
+  });
+};
+
 
 ReviewStore.__onDispatch = function(payload) {
 

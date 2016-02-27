@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import linkState from 'react-link-state';
 
-import CommentUtil from '../utils/comment_util';
+import CommentUtil from '../util/comment_util';
 
 class CommentForm extends Component {
 
@@ -15,7 +15,7 @@ class CommentForm extends Component {
     };
   }
 
-  handleSubmit = (e) => {
+  handleSubmit(e) {
     e.preventDefault;
     const commentData = Object.assign({}, this.state);
     CommentUtil.createComment(commentData);
@@ -31,7 +31,7 @@ class CommentForm extends Component {
           <textarea
             className="form-control"
             id="reviewBody"
-            valueLink={this.linkState(this, 'body')} ></textarea>
+            valueLink={linkState(this, 'body')} ></textarea>
 
           <input className="btn btn-2 addCommentButton" type="submit" value="Add Comment" onClick={this.handleSubmit}/>
         </form>

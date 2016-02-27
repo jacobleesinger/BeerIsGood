@@ -1,30 +1,35 @@
 var React = require('react');
-var Navbar = require('./navbar.jsx');
-var UserStore = require('../stores/user_store');
-var User = require('./user');
 var Link = require('react-router').Link;
+
+var UserStore = require('../stores/user_store');
+var CurrentUserStore = require('../stores/current_user_store');
+var User = require('./user');
+var Navbar = require('./new_navbar').default;
 
 var userToken;
 
 var UsersIndex = React.createClass({
   getInitialState: function () {
     return({
-      users: UserStore.all()
+      users: UserStore.all(),
+      currentUser: CurrentUserStore.currentUser()
     });
   },
 
   componentDidMount: function () {
 
-    userToken = UserStore.addListener(this._onChange);
+    this.userToken = UserStore.addListener(this._onChange);
+    this.currentUserToken = CurrentUserStore.addListener(this._onChange);
   },
 
   componentWillUnmount: function () {
-    userToken.remove();
+    this.userToken.remove();
   },
 
   _onChange: function () {
     this.setState({
-      users: UserStore.all()
+      users: UserStore.all(),
+      currentUser: CurrentUserStore.currentUser()
     });
   },
 
@@ -36,18 +41,20 @@ var UsersIndex = React.createClass({
   render: function () {
 
     return (
+      <div>
+        <Navbar currentUser={this.state.currentUser} />
+        <div className="fixedWidth row index">
 
-      <div className="fixedWidth row index">
+            {this.state.users.map(function(user) {
+              var url = "/user/" + user.id;
+                return(
+                  <Link className="indexItem col-md-12" to={url} key={user.id}
+                    >{user.username}</Link>
+                );
+              }.bind(this))
+            }
 
-          {this.state.users.map(function(user) {
-            var url = "/user/" + user.id;
-              return(
-                <Link className="indexItem col-md-12" to={url} key={user.id}
-                  >{user.username}</Link>
-              );
-            }.bind(this))
-          }
-
+        </div>
       </div>
     );
   }

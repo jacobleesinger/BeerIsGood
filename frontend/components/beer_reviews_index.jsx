@@ -5,6 +5,7 @@ var BeerReviewForm = require('./beer_review_form');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ReviewUtil = require('../util/review_util');
 
+
 var BeerReviewsIndex = React.createClass ({
 
   mixins: [LinkedStateMixin],
@@ -14,8 +15,16 @@ var BeerReviewsIndex = React.createClass ({
   },
 
   getInitialState: function () {
-    debugger;
+
     return ({
+      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
+      body: "",
+      rating: 0
+    });
+  },
+
+  componentWillReceiveProps() {
+    this.setState({
       reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
       body: "",
       rating: 0

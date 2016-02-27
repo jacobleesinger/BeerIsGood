@@ -44,30 +44,43 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	var _createBrowserHistory = __webpack_require__(331);
+	
+	var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ReactRouter = __webpack_require__(159);
 	var Router = ReactRouter.Router;
 	var Route = ReactRouter.Route;
-	var BrowserHistory = ReactRouter.browserHistory;
+	var History = ReactRouter.browserHistory;
 	var IndexRoute = ReactRouter.IndexRoute;
 	var LandingPage = __webpack_require__(208);
-	var Home = __webpack_require__(248);
-	var UserUtil = __webpack_require__(215);
-	var BeerUtil = __webpack_require__(291);
-	var ReviewUtil = __webpack_require__(260);
-	var CommentUtil = __webpack_require__(275);
-	var ToastUtil = __webpack_require__(277);
-	var BeerShow = __webpack_require__(253);
-	var BeersIndex = __webpack_require__(250);
-	var UserShow = __webpack_require__(271);
-	var FriendRequestUtil = __webpack_require__(280);
-	var FriendUtil = __webpack_require__(285);
+	var Home = __webpack_require__(317);
+	var UserUtil = __webpack_require__(278);
+	var BeerUtil = __webpack_require__(324);
+	var ReviewUtil = __webpack_require__(237);
+	var CommentUtil = __webpack_require__(254);
+	var ToastUtil = __webpack_require__(261);
+	var BeerShow = __webpack_require__(301);
+	var BeersIndex = __webpack_require__(319);
+	var UserShow = __webpack_require__(323);
+	var FriendRequestUtil = __webpack_require__(270);
+	var FriendUtil = __webpack_require__(268);
+	var UserProfile = __webpack_require__(292);
+	var User = __webpack_require__(314);
+	var UsersIndex = __webpack_require__(321);
+	var ComposedUser = __webpack_require__(328).default;
+	var ComposedBeerShow = __webpack_require__(329).default;
 	
 	var App = React.createClass({
 	  displayName: 'App',
 	
-	  render: function () {
+	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      null,
@@ -80,15 +93,15 @@
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(IndexRoute, { component: LandingPage }),
-	  React.createElement(Route, { path: '/beer/:id', component: BeerShow }),
-	  React.createElement(Route, { path: '/home', component: Home }),
-	  React.createElement(Route, { path: '/user/:id', component: UserShow })
+	  React.createElement(Route, { path: '/beer/:id', component: ComposedBeerShow }),
+	  React.createElement(Route, { path: '/user/:id', component: ComposedUser }),
+	  React.createElement(Route, { path: '/usersindex', component: UsersIndex })
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  ReactDOM.render(React.createElement(
 	    Router,
-	    null,
+	    { history: History },
 	    routes
 	  ), document.getElementById("root"));
 	
@@ -24150,16 +24163,36 @@
 /* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	var _new_review_form = __webpack_require__(209);
+	
+	var _new_review_form2 = _interopRequireDefault(_new_review_form);
+	
+	var _new_reviews_index = __webpack_require__(241);
+	
+	var _new_reviews_index2 = _interopRequireDefault(_new_reviews_index);
+	
+	var _user_profile_sidebar = __webpack_require__(263);
+	
+	var _user_profile_sidebar2 = _interopRequireDefault(_user_profile_sidebar);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	var React = __webpack_require__(1);
-	var Auth = __webpack_require__(209);
-	var SessionStore = __webpack_require__(230);
-	var ErrorStore = __webpack_require__(247);
-	var Home = __webpack_require__(248);
-	var CurrentUserStore = __webpack_require__(289);
-	var SessionUtil = __webpack_require__(228);
-	var Footer = __webpack_require__(290);
-	var NewUserForm = __webpack_require__(214);
-	var NewSessionForm = __webpack_require__(229);
+	var Auth = __webpack_require__(272);
+	var SessionStore = __webpack_require__(286);
+	var ErrorStore = __webpack_require__(287);
+	var Home = __webpack_require__(288).default;
+	var CurrentUserStore = __webpack_require__(290);
+	var SessionUtil = __webpack_require__(284);
+	var Footer = __webpack_require__(291);
+	var NewUserForm = __webpack_require__(277);
+	var NewSessionForm = __webpack_require__(285);
+	var UserProfile = __webpack_require__(292).default;
+	var User = __webpack_require__(314);
+	
+	var Navbar = __webpack_require__(293);
 	
 	var Page;
 	var modal;
@@ -24172,7 +24205,7 @@
 	var LandingPage = React.createClass({
 	  displayName: 'LandingPage',
 	
-	  getInitialState: function () {
+	  getInitialState: function getInitialState() {
 	    return {
 	      currentUser: {},
 	      currentSession: "",
@@ -24185,18 +24218,18 @@
 	    };
 	  },
 	
-	  componentDidMount: function () {
+	  componentDidMount: function componentDidMount() {
 	    this.sessionToken = SessionStore.addListener(this._onSessionChange);
 	    this.errorToken = ErrorStore.addListener(this._onErrorChange);
 	    this.currentUserToken = CurrentUserStore.addListener(this._onCurrentUserChange);
 	  },
 	
-	  componentWillUnmount: function () {
+	  componentWillUnmount: function componentWillUnmount() {
 	    this.sessionToken.remove();
 	    this.errorToken.remove();
 	  },
 	
-	  _onSessionChange: function () {
+	  _onSessionChange: function _onSessionChange() {
 	    this.setState({
 	      currentSession: SessionStore.currentSession()
 	
@@ -24204,7 +24237,7 @@
 	    this.checkIfSignedIn();
 	  },
 	
-	  _onCurrentUserChange: function () {
+	  _onCurrentUserChange: function _onCurrentUserChange() {
 	
 	    this.setState({
 	      currentUser: CurrentUserStore.currentUser()
@@ -24212,13 +24245,13 @@
 	    this.checkIfSignedIn();
 	  },
 	
-	  _onErrorChange: function () {
+	  _onErrorChange: function _onErrorChange() {
 	    this.setState({
 	      errors: ErrorStore.all()
 	    });
 	  },
 	
-	  checkIfSignedIn: function () {
+	  checkIfSignedIn: function checkIfSignedIn() {
 	    if (this.state.currentUser.session_token === this.state.currentSession) {
 	      this.setState({ signedIn: true });
 	    } else {
@@ -24226,7 +24259,7 @@
 	    }
 	  },
 	
-	  displayErrorMessages: function () {
+	  displayErrorMessages: function displayErrorMessages() {
 	    var errorMessages = this.state.errors;
 	    return errorMessages.map(function (error, idx) {
 	      return React.createElement(
@@ -24237,7 +24270,7 @@
 	    });
 	  },
 	
-	  handleAuth: function (button) {
+	  handleAuth: function handleAuth(button) {
 	
 	    this.setState({
 	      auth: true,
@@ -24246,32 +24279,32 @@
 	    });
 	  },
 	
-	  handleSignUp: function () {
+	  handleSignUp: function handleSignUp() {
 	    this.setState({
 	      authButtons: false,
 	      signingUp: true
 	    });
 	  },
 	
-	  handleSignIn: function () {
+	  handleSignIn: function handleSignIn() {
 	    this.setState({
 	      authButtons: false,
 	      signingIn: true
 	    });
 	  },
 	
-	  requireSignedIn: function () {
+	  requireSignedIn: function requireSignedIn() {
 	    if (!this.state.signedIn) {
 	      this.replaceWith('newSession');
 	    }
 	  },
 	
-	  handleGuest: function (e) {
+	  handleGuest: function handleGuest(e) {
 	    e.preventDefault;
 	    SessionUtil.createSession(guestUser);
 	  },
 	
-	  cancelAuth: function () {
+	  cancelAuth: function cancelAuth() {
 	    this.setState({
 	      currentUser: {},
 	      currentSession: "",
@@ -24284,7 +24317,7 @@
 	    });
 	  },
 	
-	  render: function () {
+	  render: function render() {
 	
 	    if (this.state.signingUp) {
 	      modal = React.createElement(NewUserForm, { cancelAuth: this.cancelAuth });
@@ -24337,7 +24370,9 @@
 	    }
 	
 	    if (this.state.signedIn) {
-	      Page = React.createElement(Home, { currentUser: this.state.currentUser, user: this.state.currentUser, errors: this.displayErrorMessages() });
+	
+	      var url = '/user/' + this.state.currentUser.id;
+	      this.props.history.pushState(null, url);
 	    } else {
 	      var errors = this.displayErrorMessages();
 	      Page = React.createElement(
@@ -24354,7 +24389,7 @@
 	              { className: 'row' },
 	              React.createElement(
 	                'div',
-	                { className: 'col-md-6 col-md-offset-3 landingPageStuff' },
+	                { className: 'col-md-6 landingPageStuff' },
 	                React.createElement(
 	                  'h6',
 	                  { className: 'landingPageSubLogo logo' },
@@ -24474,1109 +24509,361 @@
 /* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(210);
-	var NewUser = __webpack_require__(214);
-	var NewSession = __webpack_require__(229);
+	'use strict';
 	
-	var AuthForm;
-	var Auth = React.createClass({
-	  displayName: 'Auth',
-	
-	  GetAppropriateAuthForm: function () {
-	
-	    if (this.props.button === "signup") {
-	      AuthForm = NewUser;
-	    } else if (this.props.button === "signin") {
-	      AuthForm = NewSession;
-	    }
-	  },
-	
-	  render: function () {
-	
-	    this.GetAppropriateAuthForm();
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(AuthForm, { cancelAuth: this.props.cancelAuth })
-	    );
-	  }
-	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
 	});
 	
-	module.exports = Auth;
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactLinkState = __webpack_require__(210);
+	
+	var _reactLinkState2 = _interopRequireDefault(_reactLinkState);
+	
+	var _beer_store = __webpack_require__(213);
+	
+	var _beer_store2 = _interopRequireDefault(_beer_store);
+	
+	var _review_store = __webpack_require__(235);
+	
+	var _review_store2 = _interopRequireDefault(_review_store);
+	
+	var _review_util = __webpack_require__(237);
+	
+	var _review_util2 = _interopRequireDefault(_review_util);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ReviewForm = (function (_Component) {
+	  _inherits(ReviewForm, _Component);
+	
+	  function ReviewForm(props) {
+	    _classCallCheck(this, ReviewForm);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReviewForm).call(this, props));
+	
+	    if (_this.props.beer) {
+	      _this.state = {
+	        beers: [],
+	        beer_id: _this.props.beer.id,
+	        body: "",
+	        rating: 0,
+	        author_id: props.currentUser.id
+	      };
+	    } else {
+	      _this.state = {
+	        beers: _beer_store2.default.all(),
+	        beer_id: 0,
+	        body: "",
+	        rating: 0,
+	        author_id: props.currentUser.id
+	      };
+	    }
+	    _this.handleBeerChange = _this.handleBeerChange.bind(_this);
+	    _this.handleRatingChange = _this.handleRatingChange.bind(_this);
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(ReviewForm, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.beerToken = _beer_store2.default.addListener(this.onBeerChange);
+	      this.reviewToken = _review_store2.default.addListener(this.onReviewChange);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.beerToken.remove();
+	      this.reviewToken.remove();
+	    }
+	  }, {
+	    key: 'handleBeerChange',
+	    value: function handleBeerChange(e) {
+	      this.setState({
+	        beer_id: e.target.value
+	      });
+	    }
+	  }, {
+	    key: 'handleRatingChange',
+	    value: function handleRatingChange(e) {
+	      this.setState({
+	        rating: e.target.value
+	      });
+	    }
+	  }, {
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+	      _review_util2.default.createReview({
+	        beer_id: parseInt(this.state.beer_id),
+	        author_id: this.state.author_id,
+	        body: this.state.body,
+	        rating: parseInt(this.state.rating)
+	
+	      });
+	      this.props.onClick();
+	    }
+	  }, {
+	    key: 'renderSelect',
+	    value: function renderSelect() {
+	      if (this.props.beer) {
+	        return _react2.default.createElement('div', null);
+	      } else {
+	        return _react2.default.createElement(
+	          'label',
+	          { htmlFor: 'reviewBeer' },
+	          'What are you drinking?',
+	          _react2.default.createElement(
+	            'select',
+	            { value: this.state.beer_id, onChange: this.handleBeerChange },
+	            _react2.default.createElement('option', { value: '0', key: '0' }),
+	            this.state.beers.map((function (beer) {
+	              return _react2.default.createElement(
+	                'option',
+	                { value: beer.id, key: beer.id },
+	                beer.name
+	              );
+	            }).bind(this))
+	          )
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'form',
+	        { className: 'form-group reviewForm', onSubmit: this.handleSubmit },
+	        this.renderSelect(),
+	        _react2.default.createElement(
+	          'label',
+	          { htmlFor: 'reviewBody' },
+	          'What do you think?'
+	        ),
+	        _react2.default.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: (0, _reactLinkState2.default)(this, 'body') }),
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'reviewFormItem', htmlFor: 'reviewRating' },
+	          'Rate it!'
+	        ),
+	        _react2.default.createElement(
+	          'select',
+	          { className: 'reviewFormItem', onChange: this.handleRatingChange },
+	          _react2.default.createElement(
+	            'option',
+	            { value: '0' },
+	            'rate beer'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '1' },
+	            '1'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '2' },
+	            '2'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '3' },
+	            '3'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '4' },
+	            '4'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '5' },
+	            '5'
+	          )
+	        ),
+	        _react2.default.createElement('input', { className: 'btn btn-2 reviewFormItem addReviewButton', type: 'submit', value: 'Add your review!' })
+	      );
+	    }
+	  }]);
+	
+	  return ReviewForm;
+	})(_react.Component);
+	
+	exports.default = ReviewForm;
 
 /***/ },
 /* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(211);
+	var getIn = __webpack_require__(211);
+	var updateIn = __webpack_require__(212);
+	
+	/**
+	 * Extracted the linkedState implementation to its own function (instead of a mixin)
+	 *
+	 * @params {ReactElement} ctx The component's `this`
+	 * @params {str} path State key to be updated
+	 * @return {object}
+	 */
+	module.exports = function linkState(ctx, path) {
+	  return {
+	    value: getIn(ctx.state, path),
+	
+	    requestChange: function setPartialState(value) {
+	      ctx.setState(updateIn(
+	        ctx.state,
+	        path,
+	        value
+	      ));
+	    }
+	  };
+	}
+
 
 /***/ },
 /* 211 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule LinkedStateMixin
-	 * @typechecks static-only
-	 */
-	
-	'use strict';
-	
-	var ReactLink = __webpack_require__(212);
-	var ReactStateSetters = __webpack_require__(213);
-	
-	/**
-	 * A simple mixin around ReactLink.forState().
-	 */
-	var LinkedStateMixin = {
-	  /**
-	   * Create a ReactLink that's linked to part of this component's state. The
-	   * ReactLink will have the current value of this.state[key] and will call
-	   * setState() when a change is requested.
-	   *
-	   * @param {string} key state key to update. Note: you may want to use keyOf()
-	   * if you're using Google Closure Compiler advanced mode.
-	   * @return {ReactLink} ReactLink instance linking to the state.
-	   */
-	  linkState: function (key) {
-	    return new ReactLink(this.state[key], ReactStateSetters.createStateKeySetter(this, key));
-	  }
-	};
-	
-	module.exports = LinkedStateMixin;
-
-/***/ },
-/* 212 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactLink
-	 * @typechecks static-only
-	 */
-	
-	'use strict';
-	
-	/**
-	 * ReactLink encapsulates a common pattern in which a component wants to modify
-	 * a prop received from its parent. ReactLink allows the parent to pass down a
-	 * value coupled with a callback that, when invoked, expresses an intent to
-	 * modify that value. For example:
-	 *
-	 * React.createClass({
-	 *   getInitialState: function() {
-	 *     return {value: ''};
-	 *   },
-	 *   render: function() {
-	 *     var valueLink = new ReactLink(this.state.value, this._handleValueChange);
-	 *     return <input valueLink={valueLink} />;
-	 *   },
-	 *   _handleValueChange: function(newValue) {
-	 *     this.setState({value: newValue});
-	 *   }
-	 * });
-	 *
-	 * We have provided some sugary mixins to make the creation and
-	 * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
-	 */
-	
-	var React = __webpack_require__(2);
-	
-	/**
-	 * @param {*} value current value of the link
-	 * @param {function} requestChange callback to request a change
-	 */
-	function ReactLink(value, requestChange) {
-	  this.value = value;
-	  this.requestChange = requestChange;
-	}
-	
-	/**
-	 * Creates a PropType that enforces the ReactLink API and optionally checks the
-	 * type of the value being passed inside the link. Example:
-	 *
-	 * MyComponent.propTypes = {
-	 *   tabIndexLink: ReactLink.PropTypes.link(React.PropTypes.number)
-	 * }
-	 */
-	function createLinkTypeChecker(linkType) {
-	  var shapes = {
-	    value: typeof linkType === 'undefined' ? React.PropTypes.any.isRequired : linkType.isRequired,
-	    requestChange: React.PropTypes.func.isRequired
-	  };
-	  return React.PropTypes.shape(shapes);
-	}
-	
-	ReactLink.PropTypes = {
-	  link: createLinkTypeChecker
-	};
-	
-	module.exports = ReactLink;
-
-/***/ },
-/* 213 */
 /***/ function(module, exports) {
 
 	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
+	 * Originally from:
+	 * https://github.com/tungd/react-catalyst/blob/master/src/catalyst/LinkedStateMixin.js
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactStateSetters
+	 * @param {object}
+	 * @param {string}
+	 * @return {object}
 	 */
+	module.exports = function getIn(obj, path) {
+	  var stack = path.split('.');
 	
+	  while ( stack.length ) {
+	    obj = obj[stack.shift()];
+	  }
+	
+	  return obj;
+	}
+
+
+/***/ },
+/* 212 */
+/***/ function(module, exports) {
+
+	/**
+	 * Originally from:
+	 * https://github.com/tungd/react-catalyst/blob/master/src/catalyst/LinkedStateMixin.js
+	 *
+	 * @param {object}
+	 * @param {string}
+	 * @param {any}
+	 * @return {object}
+	 */
+	module.exports = function updateIn(obj, path, value) {
+	  var current = obj;
+	  var stack = path.split('.');
+	
+	  while ( stack.length > 1 ) {
+	    current = current[stack.shift()];
+	  }
+	  current[stack.shift()] = value;
+	
+	  return obj;
+	}
+
+
+/***/ },
+/* 213 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
-	var ReactStateSetters = {
-	  /**
-	   * Returns a function that calls the provided function, and uses the result
-	   * of that to set the component's state.
-	   *
-	   * @param {ReactCompositeComponent} component
-	   * @param {function} funcReturningState Returned callback uses this to
-	   *                                      determine how to update state.
-	   * @return {function} callback that when invoked uses funcReturningState to
-	   *                    determined the object literal to setState.
-	   */
-	  createStateSetter: function (component, funcReturningState) {
-	    return function (a, b, c, d, e, f) {
-	      var partialState = funcReturningState.call(component, a, b, c, d, e, f);
-	      if (partialState) {
-	        component.setState(partialState);
-	      }
-	    };
-	  },
+	var Store = __webpack_require__(214).Store;
+	var AppDispatcher = __webpack_require__(231);
+	var BeerConstants = __webpack_require__(234);
 	
-	  /**
-	   * Returns a single-argument callback that can be used to update a single
-	   * key in the component's state.
-	   *
-	   * Note: this is memoized function, which makes it inexpensive to call.
-	   *
-	   * @param {ReactCompositeComponent} component
-	   * @param {string} key The key in the state that you should update.
-	   * @return {function} callback of 1 argument which calls setState() with
-	   *                    the provided keyName and callback argument.
-	   */
-	  createStateKeySetter: function (component, key) {
-	    // Memoize the setters.
-	    var cache = component.__keySetters || (component.__keySetters = {});
-	    return cache[key] || (cache[key] = createStateKeySetter(component, key));
-	  }
+	var _beers = {};
+	
+	var BeerStore = new Store(AppDispatcher);
+	
+	var addAllBeers = function addAllBeers(beers) {
+	  beers.forEach(function (beer) {
+	    _beers[beer.id] = beer;
+	  });
 	};
 	
-	function createStateKeySetter(component, key) {
-	  // Partial state is allocated outside of the function closure so it can be
-	  // reused with every call, avoiding memory allocation when this function
-	  // is called.
-	  var partialState = {};
-	  return function stateKeySetter(value) {
-	    partialState[key] = value;
-	    component.setState(partialState);
+	var addSingleBeer = function addSingleBeer(beer) {
+	  _beers[beer.id] = beer;
+	};
+	
+	BeerStore.all = function () {
+	  var beers = [];
+	  for (var key in _beers) {
+	    if (_beers.hasOwnProperty(key)) {
+	      beers.push(_beers[key]);
+	    }
+	  }
+	  return beers;
+	};
+	
+	BeerStore.filterBySearchTerm = function (term) {
+	  return this.all().filter(function (beer) {
+	
+	    return beer.name.toLowerCase().match(term.toLowerCase());
+	  });
+	};
+	
+	BeerStore.find = function (beerId) {
+	  return _beers[beerId];
+	};
+	
+	BeerStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case BeerConstants.BEERS_RECEIVED:
+	      addAllBeers(payload.beers);
+	      BeerStore.__emitChange();
+	      break;
+	    case BeerConstants.BEER_RECEIVED:
+	      addSingleBeer(payload.beer);
+	      BeerStore.__emitChange();
+	      break;
+	
 	  };
-	}
-	
-	ReactStateSetters.Mixin = {
-	  /**
-	   * Returns a function that calls the provided function, and uses the result
-	   * of that to set the component's state.
-	   *
-	   * For example, these statements are equivalent:
-	   *
-	   *   this.setState({x: 1});
-	   *   this.createStateSetter(function(xValue) {
-	   *     return {x: xValue};
-	   *   })(1);
-	   *
-	   * @param {function} funcReturningState Returned callback uses this to
-	   *                                      determine how to update state.
-	   * @return {function} callback that when invoked uses funcReturningState to
-	   *                    determined the object literal to setState.
-	   */
-	  createStateSetter: function (funcReturningState) {
-	    return ReactStateSetters.createStateSetter(this, funcReturningState);
-	  },
-	
-	  /**
-	   * Returns a single-argument callback that can be used to update a single
-	   * key in the component's state.
-	   *
-	   * For example, these statements are equivalent:
-	   *
-	   *   this.setState({x: 1});
-	   *   this.createStateKeySetter('x')(1);
-	   *
-	   * Note: this is memoized function, which makes it inexpensive to call.
-	   *
-	   * @param {string} key The key in the state that you should update.
-	   * @return {function} callback of 1 argument which calls setState() with
-	   *                    the provided keyName and callback argument.
-	   */
-	  createStateKeySetter: function (key) {
-	    return ReactStateSetters.createStateKeySetter(this, key);
-	  }
 	};
 	
-	module.exports = ReactStateSetters;
+	module.exports = BeerStore;
 
 /***/ },
 /* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(210);
-	var UserUtil = __webpack_require__(215);
-	var SessionUtil = __webpack_require__(228);
-	var today = new Date();
+	/**
+	 * Copyright (c) 2014-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
 	
-	var NewUser = React.createClass({
-	  displayName: 'NewUser',
-	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      username: "",
-	      password: "",
-	      location: "",
-	      email: "",
-	      password_confirmation: "",
-	      birthday: today.toISOString().slice(0, 10)
-	    };
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var user = Object.assign({}, this.state);
-	    UserUtil.createUser(user);
-	  },
-	
-	  goBack: function () {
-	    this.props.cancelAuth();
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'row' },
-	      React.createElement(
-	        'div',
-	        { className: '', id: 'newUserFormDiv' },
-	        React.createElement(
-	          'form',
-	          { id: 'newUserForm', className: 'form-group' },
-	          React.createElement(
-	            'div',
-	            { className: 'row' },
-	            React.createElement(
-	              'div',
-	              { className: 'col-md-6' },
-	              React.createElement(
-	                'label',
-	                { htmlFor: 'newUsername' },
-	                'Username'
-	              ),
-	              React.createElement('input', { type: 'text', className: 'form-control', id: 'newUsername', valueLink: this.linkState('username') }),
-	              React.createElement(
-	                'label',
-	                { htmlFor: 'newPassword' },
-	                'Password'
-	              ),
-	              React.createElement('input', { type: 'password', className: 'form-control', id: 'newPassword', valueLink: this.linkState('password') }),
-	              React.createElement(
-	                'label',
-	                { htmlFor: 'newLocation' },
-	                'Location'
-	              ),
-	              React.createElement('input', { type: 'text', className: 'form-control', id: 'newLocation', valueLink: this.linkState('location') })
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'col-md-6' },
-	              React.createElement(
-	                'label',
-	                { htmlFor: 'newEmail' },
-	                'Email'
-	              ),
-	              React.createElement('input', { type: 'email', className: 'form-control', id: 'newEmail', valueLink: this.linkState('email') }),
-	              React.createElement(
-	                'label',
-	                { htmlFor: 'newConfirm' },
-	                'Confirm Password'
-	              ),
-	              React.createElement('input', { type: 'password', className: 'form-control', id: 'newConfirm', valueLink: this.linkState('password_confirmation') }),
-	              React.createElement(
-	                'label',
-	                { htmlFor: 'newBirthday' },
-	                'Birthday'
-	              ),
-	              React.createElement('input', { type: 'date', className: 'form-control', id: 'newBirthday', valueLink: this.linkState('birthday') })
-	            )
-	          ),
-	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Create My Account!', className: 'btn btn-lg btn-1 authButton' }),
-	          React.createElement(
-	            'button',
-	            { onClick: this.goBack, value: 'Cancel', className: 'btn btn-lg btn-3 authButton' },
-	            'Cancel'
-	          )
-	        )
-	      )
-	    );
-	  }
-	
-	});
-	
-	module.exports = NewUser;
+	module.exports.Container = __webpack_require__(215);
+	module.exports.MapStore = __webpack_require__(219);
+	module.exports.Mixin = __webpack_require__(230);
+	module.exports.ReduceStore = __webpack_require__(220);
+	module.exports.Store = __webpack_require__(221);
+
 
 /***/ },
 /* 215 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var UserActions = __webpack_require__(216);
-	var SessionActions = __webpack_require__(222);
-	var ErrorActions = __webpack_require__(224);
-	var CurrentUserActions = __webpack_require__(226);
-	
-	var UserUtil = {
-	
-	  createUser: function (user) {
-	    $.ajax({
-	      url: "api/users",
-	      type: "POST",
-	      data: { user: user },
-	      success: function (user) {
-	        UserActions.receiveSingleUser(user);
-	        SessionActions.createSession(user);
-	        CurrentUserActions.setCurrentUser(user);
-	      },
-	      error: function (errors) {
-	        ErrorActions.receiveAllErrors(errors);
-	      }
-	    });
-	  },
-	
-	  fetchSingleUser: function (user) {
-	    $.get('api/user/' + user.id, function (user) {
-	      UserActions.receiveSingleUser(user);
-	    });
-	  },
-	
-	  fetchAllUsers: function () {
-	    $.get('api/users', function (users) {
-	      UserActions.receiveAllUsers(users);
-	    });
-	  }
-	
-	};
-	
-	module.exports = UserUtil;
-
-/***/ },
-/* 216 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	var Dispatcher = __webpack_require__(217);
-	var UserConstants = __webpack_require__(221);
-	
-	var UserActions = {
-	  receiveSingleUser: function (user) {
-	
-	    Dispatcher.dispatch({
-	      actionType: UserConstants.USER_RECEIVED,
-	      user: user
-	    });
-	  },
-	
-	  receiveAllUsers: function (users) {
-	    var action = {
-	      actionType: UserConstants.USERS_RECEIVED,
-	      users: users
-	    };
-	
-	    Dispatcher.dispatch(action);
-	  }
-	
-	};
-	
-	module.exports = UserActions;
-
-/***/ },
-/* 217 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	var Dispatcher = __webpack_require__(218).Dispatcher;
-	module.exports = new Dispatcher();
-
-/***/ },
-/* 218 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright (c) 2014-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 */
-	
-	module.exports.Dispatcher = __webpack_require__(219);
-
-
-/***/ },
-/* 219 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright (c) 2014-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule Dispatcher
-	 * 
-	 * @preventMunge
-	 */
-	
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var invariant = __webpack_require__(220);
-	
-	var _prefix = 'ID_';
-	
-	/**
-	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
-	 * different from generic pub-sub systems in two ways:
-	 *
-	 *   1) Callbacks are not subscribed to particular events. Every payload is
-	 *      dispatched to every registered callback.
-	 *   2) Callbacks can be deferred in whole or part until other callbacks have
-	 *      been executed.
-	 *
-	 * For example, consider this hypothetical flight destination form, which
-	 * selects a default city when a country is selected:
-	 *
-	 *   var flightDispatcher = new Dispatcher();
-	 *
-	 *   // Keeps track of which country is selected
-	 *   var CountryStore = {country: null};
-	 *
-	 *   // Keeps track of which city is selected
-	 *   var CityStore = {city: null};
-	 *
-	 *   // Keeps track of the base flight price of the selected city
-	 *   var FlightPriceStore = {price: null}
-	 *
-	 * When a user changes the selected city, we dispatch the payload:
-	 *
-	 *   flightDispatcher.dispatch({
-	 *     actionType: 'city-update',
-	 *     selectedCity: 'paris'
-	 *   });
-	 *
-	 * This payload is digested by `CityStore`:
-	 *
-	 *   flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'city-update') {
-	 *       CityStore.city = payload.selectedCity;
-	 *     }
-	 *   });
-	 *
-	 * When the user selects a country, we dispatch the payload:
-	 *
-	 *   flightDispatcher.dispatch({
-	 *     actionType: 'country-update',
-	 *     selectedCountry: 'australia'
-	 *   });
-	 *
-	 * This payload is digested by both stores:
-	 *
-	 *   CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'country-update') {
-	 *       CountryStore.country = payload.selectedCountry;
-	 *     }
-	 *   });
-	 *
-	 * When the callback to update `CountryStore` is registered, we save a reference
-	 * to the returned token. Using this token with `waitFor()`, we can guarantee
-	 * that `CountryStore` is updated before the callback that updates `CityStore`
-	 * needs to query its data.
-	 *
-	 *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'country-update') {
-	 *       // `CountryStore.country` may not be updated.
-	 *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
-	 *       // `CountryStore.country` is now guaranteed to be updated.
-	 *
-	 *       // Select the default city for the new country
-	 *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
-	 *     }
-	 *   });
-	 *
-	 * The usage of `waitFor()` can be chained, for example:
-	 *
-	 *   FlightPriceStore.dispatchToken =
-	 *     flightDispatcher.register(function(payload) {
-	 *       switch (payload.actionType) {
-	 *         case 'country-update':
-	 *         case 'city-update':
-	 *           flightDispatcher.waitFor([CityStore.dispatchToken]);
-	 *           FlightPriceStore.price =
-	 *             getFlightPriceStore(CountryStore.country, CityStore.city);
-	 *           break;
-	 *     }
-	 *   });
-	 *
-	 * The `country-update` payload will be guaranteed to invoke the stores'
-	 * registered callbacks in order: `CountryStore`, `CityStore`, then
-	 * `FlightPriceStore`.
-	 */
-	
-	var Dispatcher = (function () {
-	  function Dispatcher() {
-	    _classCallCheck(this, Dispatcher);
-	
-	    this._callbacks = {};
-	    this._isDispatching = false;
-	    this._isHandled = {};
-	    this._isPending = {};
-	    this._lastID = 1;
-	  }
-	
-	  /**
-	   * Registers a callback to be invoked with every dispatched payload. Returns
-	   * a token that can be used with `waitFor()`.
-	   */
-	
-	  Dispatcher.prototype.register = function register(callback) {
-	    var id = _prefix + this._lastID++;
-	    this._callbacks[id] = callback;
-	    return id;
-	  };
-	
-	  /**
-	   * Removes a callback based on its token.
-	   */
-	
-	  Dispatcher.prototype.unregister = function unregister(id) {
-	    !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
-	    delete this._callbacks[id];
-	  };
-	
-	  /**
-	   * Waits for the callbacks specified to be invoked before continuing execution
-	   * of the current callback. This method should only be used by a callback in
-	   * response to a dispatched payload.
-	   */
-	
-	  Dispatcher.prototype.waitFor = function waitFor(ids) {
-	    !this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : undefined;
-	    for (var ii = 0; ii < ids.length; ii++) {
-	      var id = ids[ii];
-	      if (this._isPending[id]) {
-	        !this._isHandled[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : undefined;
-	        continue;
-	      }
-	      !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
-	      this._invokeCallback(id);
-	    }
-	  };
-	
-	  /**
-	   * Dispatches a payload to all registered callbacks.
-	   */
-	
-	  Dispatcher.prototype.dispatch = function dispatch(payload) {
-	    !!this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : undefined;
-	    this._startDispatching(payload);
-	    try {
-	      for (var id in this._callbacks) {
-	        if (this._isPending[id]) {
-	          continue;
-	        }
-	        this._invokeCallback(id);
-	      }
-	    } finally {
-	      this._stopDispatching();
-	    }
-	  };
-	
-	  /**
-	   * Is this Dispatcher currently dispatching.
-	   */
-	
-	  Dispatcher.prototype.isDispatching = function isDispatching() {
-	    return this._isDispatching;
-	  };
-	
-	  /**
-	   * Call the callback stored with the given id. Also do some internal
-	   * bookkeeping.
-	   *
-	   * @internal
-	   */
-	
-	  Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
-	    this._isPending[id] = true;
-	    this._callbacks[id](this._pendingPayload);
-	    this._isHandled[id] = true;
-	  };
-	
-	  /**
-	   * Set up bookkeeping needed when dispatching.
-	   *
-	   * @internal
-	   */
-	
-	  Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
-	    for (var id in this._callbacks) {
-	      this._isPending[id] = false;
-	      this._isHandled[id] = false;
-	    }
-	    this._pendingPayload = payload;
-	    this._isDispatching = true;
-	  };
-	
-	  /**
-	   * Clear bookkeeping used for dispatching.
-	   *
-	   * @internal
-	   */
-	
-	  Dispatcher.prototype._stopDispatching = function _stopDispatching() {
-	    delete this._pendingPayload;
-	    this._isDispatching = false;
-	  };
-	
-	  return Dispatcher;
-	})();
-	
-	module.exports = Dispatcher;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ },
-/* 220 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule invariant
-	 */
-	
-	"use strict";
-	
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-	
-	var invariant = function (condition, format, a, b, c, d, e, f) {
-	  if (process.env.NODE_ENV !== 'production') {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  }
-	
-	  if (!condition) {
-	    var error;
-	    if (format === undefined) {
-	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
-	        return args[argIndex++];
-	      }));
-	    }
-	
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-	    throw error;
-	  }
-	};
-	
-	module.exports = invariant;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ },
-/* 221 */
-/***/ function(module, exports) {
-
-	var UserConstants = {
-	  USER_RECEIVED: "USER_RECEIVED",
-	  USERS_RECEIVED: "USERS_RECEIVED",
-	  USER_ERRORS: "USER_ERRORS"
-	
-	};
-	
-	module.exports = UserConstants;
-
-/***/ },
-/* 222 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(217);
-	var SessionConstants = __webpack_require__(223);
-	
-	var SessionActions = {
-	  createSession: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: SessionConstants.SESSION_CREATED,
-	      user: user
-	    });
-	  },
-	
-	  destroySession: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: SessionConstants.SESSION_DESTROYED,
-	      user: user
-	    });
-	  }
-	
-	};
-	
-	module.exports = SessionActions;
-
-/***/ },
-/* 223 */
-/***/ function(module, exports) {
-
-	var SessionConstants = {
-	  SESSION_CREATED: "SESSION_CREATED",
-	  SESSION_DESTROYED: "SESSION_DESTROYED",
-	  SESSION_ERRORS: "SESSION_ERRORS"
-	};
-	
-	module.exports = SessionConstants;
-
-/***/ },
-/* 224 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(217);
-	var ErrorConstants = __webpack_require__(225);
-	
-	var ErrorActions = {
-	
-	  receiveAllErrors: function (errors) {
-	
-	    Dispatcher.dispatch({
-	      actionType: ErrorConstants.ERRORS_RECEIVED,
-	      errors: errors
-	    });
-	  }
-	
-	};
-	
-	module.exports = ErrorActions;
-
-/***/ },
-/* 225 */
-/***/ function(module, exports) {
-
-	var ErrorConstants = {
-	  ERRORS_RECEIVED: "ERRORS_RECEIVED"
-	};
-	
-	module.exports = ErrorConstants;
-
-/***/ },
-/* 226 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(217);
-	var CurrentUserConstants = __webpack_require__(227);
-	
-	var CurrentUserActions = {
-	
-	  setCurrentUser: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: CurrentUserConstants.CURRENT_USER_SET,
-	      currentUser: user
-	    });
-	  },
-	
-	  resetCurrentUser: function () {
-	    Dispatcher.dispatch({
-	      actionType: CurrentUserConstants.CURRENT_USER_RESET
-	    });
-	  }
-	
-	};
-	
-	module.exports = CurrentUserActions;
-
-/***/ },
-/* 227 */
-/***/ function(module, exports) {
-
-	CurrentUserConstants = {
-	  CURRENT_USER_SET: "CURRENT_USER_SET",
-	  CURRENT_USER_RESET: "CURRENT_USER_RESET"
-	};
-	
-	module.exports = CurrentUserConstants;
-
-/***/ },
-/* 228 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var SessionActions = __webpack_require__(222);
-	var ErrorActions = __webpack_require__(224);
-	var CurrentUserActions = __webpack_require__(226);
-	
-	var SessionUtil = {
-	
-	  fetchCurrentUser: function () {
-	    $.get('api/session', function (user) {
-	      SessionActions.receiveCurrentUser(user);
-	    });
-	  },
-	
-	  createSession: function (user) {
-	    $.ajax({
-	      url: "api/session",
-	      type: "POST",
-	      data: { user: user },
-	      success: function (user) {
-	        SessionActions.createSession(user);
-	        CurrentUserActions.setCurrentUser(user);
-	      },
-	      error: function (errors) {
-	        ErrorActions.receiveAllErrors(errors);
-	      }
-	    });
-	  },
-	
-	  destroySession: function () {
-	
-	    $.ajax({
-	      url: "api/session",
-	      type: 'DELETE',
-	      success: function (user) {
-	        SessionActions.destroySession(user);
-	        CurrentUserActions.resetCurrentUser;
-	      }
-	    });
-	  }
-	
-	};
-	
-	module.exports = SessionUtil;
-
-/***/ },
-/* 229 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(210);
-	var SessionUtil = __webpack_require__(228);
-	
-	var NewSession = React.createClass({
-	  displayName: 'NewSession',
-	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      username: "",
-	      password: ""
-	
-	    };
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var sessionData = Object.assign({}, this.state);
-	    SessionUtil.createSession(sessionData);
-	  },
-	
-	  goBack: function () {
-	    this.props.cancelAuth();
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'row' },
-	      React.createElement(
-	        'div',
-	        { className: 'col-md-12', id: 'newSessionFormDiv' },
-	        React.createElement(
-	          'form',
-	          { id: 'newSessionForm', className: 'form-group' },
-	          React.createElement(
-	            'div',
-	            { className: 'row' },
-	            React.createElement(
-	              'div',
-	              { className: 'col-md-6 col-md-offset-3' },
-	              React.createElement(
-	                'label',
-	                { htmlFor: 'sessionUsername' },
-	                'Username'
-	              ),
-	              React.createElement('input', { type: 'text', className: 'form-control', id: 'sessionUsername', valueLink: this.linkState('username') }),
-	              React.createElement(
-	                'label',
-	                { htmlFor: 'sessionPassword' },
-	                'Password'
-	              ),
-	              React.createElement('input', { type: 'password', className: 'form-control', id: 'sessionPassword', valueLink: this.linkState('password') })
-	            )
-	          ),
-	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Log In', className: 'btn btn-lg btn-1 authButton' }),
-	          React.createElement(
-	            'button',
-	            { onClick: this.goBack, value: 'Cancel', className: 'btn btn-lg btn-3 authButton' },
-	            'Cancel'
-	          )
-	        )
-	      )
-	    );
-	  }
-	
-	});
-	
-	module.exports = NewSession;
-
-/***/ },
-/* 230 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var SessionConstants = __webpack_require__(223);
-	
-	var _session = "";
-	var currentUser = {};
-	var sessionErrors = [];
-	var SessionStore = new Store(AppDispatcher);
-	
-	SessionStore.currentUser = function () {
-	  return currentUser;
-	};
-	
-	SessionStore.currentSession = function () {
-	  return _session;
-	};
-	
-	SessionStore.sessionErrors = function () {
-	  return sessionErrors;
-	};
-	
-	var newCurrentUser = function (user) {
-	  currentUser = user;
-	};
-	
-	var resetSession = function () {
-	  _session = "";
-	};
-	
-	var resetErrors = function () {
-	  sessionErrors = [];
-	};
-	
-	var addSessionErrors = function (errors) {
-	  sessionErrors = errors;
-	  _session = "";
-	};
-	
-	var newSession = function (sessionToken) {
-	  _session = sessionToken;
-	};
-	
-	SessionStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case SessionConstants.SESSION_CREATED:
-	      resetErrors();
-	      newCurrentUser(payload.user);
-	      newSession(payload.user.session_token);
-	      SessionStore.__emitChange();
-	      break;
-	    case SessionConstants.SESSION_DESTROYED:
-	      resetErrors();
-	      resetSession();
-	      SessionStore.__emitChange();
-	      break;
-	    case SessionConstants.SESSION_ERRORS:
-	      resetErrors();
-	      addSessionErrors(payload.errors);
-	      break;
-	
-	  }
-	};
-	
-	module.exports = SessionStore;
-
-/***/ },
-/* 231 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright (c) 2014-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 */
-	
-	module.exports.Container = __webpack_require__(232);
-	module.exports.MapStore = __webpack_require__(235);
-	module.exports.Mixin = __webpack_require__(246);
-	module.exports.ReduceStore = __webpack_require__(236);
-	module.exports.Store = __webpack_require__(237);
-
-
-/***/ },
-/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25598,10 +24885,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStoreGroup = __webpack_require__(233);
+	var FluxStoreGroup = __webpack_require__(216);
 	
-	var invariant = __webpack_require__(220);
-	var shallowEqual = __webpack_require__(234);
+	var invariant = __webpack_require__(217);
+	var shallowEqual = __webpack_require__(218);
 	
 	var DEFAULT_OPTIONS = {
 	  pure: true,
@@ -25759,7 +25046,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 233 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25778,7 +25065,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(217);
 	
 	/**
 	 * FluxStoreGroup allows you to execute a callback on every dispatch after
@@ -25840,7 +25127,62 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 234 */
+/* 217 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule invariant
+	 */
+	
+	"use strict";
+	
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+	
+	var invariant = function (condition, format, a, b, c, d, e, f) {
+	  if (process.env.NODE_ENV !== 'production') {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  }
+	
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
+	        return args[argIndex++];
+	      }));
+	    }
+	
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	};
+	
+	module.exports = invariant;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 218 */
 /***/ function(module, exports) {
 
 	/**
@@ -25895,7 +25237,7 @@
 	module.exports = shallowEqual;
 
 /***/ },
-/* 235 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25916,10 +25258,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxReduceStore = __webpack_require__(236);
-	var Immutable = __webpack_require__(245);
+	var FluxReduceStore = __webpack_require__(220);
+	var Immutable = __webpack_require__(229);
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(217);
 	
 	/**
 	 * This is a simple store. It allows caching key value pairs. An implementation
@@ -26045,7 +25387,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 236 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26066,10 +25408,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStore = __webpack_require__(237);
+	var FluxStore = __webpack_require__(221);
 	
-	var abstractMethod = __webpack_require__(244);
-	var invariant = __webpack_require__(220);
+	var abstractMethod = __webpack_require__(228);
+	var invariant = __webpack_require__(217);
 	
 	var FluxReduceStore = (function (_FluxStore) {
 	  _inherits(FluxReduceStore, _FluxStore);
@@ -26152,7 +25494,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 237 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26171,11 +25513,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _require = __webpack_require__(238);
+	var _require = __webpack_require__(222);
 	
 	var EventEmitter = _require.EventEmitter;
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(217);
 	
 	/**
 	 * This class should be extended by the stores in your application, like so:
@@ -26335,7 +25677,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 238 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26348,14 +25690,14 @@
 	 */
 	
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(239)
+	  EventEmitter: __webpack_require__(223)
 	};
 	
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 239 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26374,11 +25716,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var EmitterSubscription = __webpack_require__(240);
-	var EventSubscriptionVendor = __webpack_require__(242);
+	var EmitterSubscription = __webpack_require__(224);
+	var EventSubscriptionVendor = __webpack_require__(226);
 	
-	var emptyFunction = __webpack_require__(243);
-	var invariant = __webpack_require__(220);
+	var emptyFunction = __webpack_require__(227);
+	var invariant = __webpack_require__(217);
 	
 	/**
 	 * @class BaseEventEmitter
@@ -26552,7 +25894,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 240 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26573,7 +25915,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EventSubscription = __webpack_require__(241);
+	var EventSubscription = __webpack_require__(225);
 	
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -26605,7 +25947,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 241 */
+/* 225 */
 /***/ function(module, exports) {
 
 	/**
@@ -26656,7 +25998,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 242 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26675,7 +26017,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(217);
 	
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -26765,7 +26107,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 243 */
+/* 227 */
 /***/ function(module, exports) {
 
 	/**
@@ -26808,7 +26150,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 244 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26825,7 +26167,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(217);
 	
 	function abstractMethod(className, methodName) {
 	   true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Subclasses of %s must override %s() with their own implementation.', className, methodName) : invariant(false) : undefined;
@@ -26835,7 +26177,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 245 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31822,7 +31164,7 @@
 	}));
 
 /***/ },
-/* 246 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31839,9 +31181,9 @@
 	
 	'use strict';
 	
-	var FluxStoreGroup = __webpack_require__(233);
+	var FluxStoreGroup = __webpack_require__(216);
 	
-	var invariant = __webpack_require__(220);
+	var invariant = __webpack_require__(217);
 	
 	/**
 	 * `FluxContainer` should be preferred over this mixin, but it requires using
@@ -31945,350 +31287,273 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 247 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var ErrorConstants = __webpack_require__(225);
+	'use strict';
 	
-	var ErrorStore = new Store(AppDispatcher);
+	var Dispatcher = __webpack_require__(232).Dispatcher;
+	module.exports = new Dispatcher();
+
+/***/ },
+/* 232 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright (c) 2014-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
 	
-	var _errors = [];
+	module.exports.Dispatcher = __webpack_require__(233);
+
+
+/***/ },
+/* 233 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright (c) 2014-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule Dispatcher
+	 * 
+	 * @preventMunge
+	 */
 	
-	var receiveAllErrors = function (payload) {
+	'use strict';
 	
-	  _errors = [];
-	  var errorMessages = payload.errors.responseJSON;
-	  if (errorMessages) {
-	    errorMessages.forEach(function (errorMessage) {
-	      _errors.push(errorMessage);
-	    });
+	exports.__esModule = true;
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var invariant = __webpack_require__(217);
+	
+	var _prefix = 'ID_';
+	
+	/**
+	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
+	 * different from generic pub-sub systems in two ways:
+	 *
+	 *   1) Callbacks are not subscribed to particular events. Every payload is
+	 *      dispatched to every registered callback.
+	 *   2) Callbacks can be deferred in whole or part until other callbacks have
+	 *      been executed.
+	 *
+	 * For example, consider this hypothetical flight destination form, which
+	 * selects a default city when a country is selected:
+	 *
+	 *   var flightDispatcher = new Dispatcher();
+	 *
+	 *   // Keeps track of which country is selected
+	 *   var CountryStore = {country: null};
+	 *
+	 *   // Keeps track of which city is selected
+	 *   var CityStore = {city: null};
+	 *
+	 *   // Keeps track of the base flight price of the selected city
+	 *   var FlightPriceStore = {price: null}
+	 *
+	 * When a user changes the selected city, we dispatch the payload:
+	 *
+	 *   flightDispatcher.dispatch({
+	 *     actionType: 'city-update',
+	 *     selectedCity: 'paris'
+	 *   });
+	 *
+	 * This payload is digested by `CityStore`:
+	 *
+	 *   flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'city-update') {
+	 *       CityStore.city = payload.selectedCity;
+	 *     }
+	 *   });
+	 *
+	 * When the user selects a country, we dispatch the payload:
+	 *
+	 *   flightDispatcher.dispatch({
+	 *     actionType: 'country-update',
+	 *     selectedCountry: 'australia'
+	 *   });
+	 *
+	 * This payload is digested by both stores:
+	 *
+	 *   CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'country-update') {
+	 *       CountryStore.country = payload.selectedCountry;
+	 *     }
+	 *   });
+	 *
+	 * When the callback to update `CountryStore` is registered, we save a reference
+	 * to the returned token. Using this token with `waitFor()`, we can guarantee
+	 * that `CountryStore` is updated before the callback that updates `CityStore`
+	 * needs to query its data.
+	 *
+	 *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'country-update') {
+	 *       // `CountryStore.country` may not be updated.
+	 *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
+	 *       // `CountryStore.country` is now guaranteed to be updated.
+	 *
+	 *       // Select the default city for the new country
+	 *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
+	 *     }
+	 *   });
+	 *
+	 * The usage of `waitFor()` can be chained, for example:
+	 *
+	 *   FlightPriceStore.dispatchToken =
+	 *     flightDispatcher.register(function(payload) {
+	 *       switch (payload.actionType) {
+	 *         case 'country-update':
+	 *         case 'city-update':
+	 *           flightDispatcher.waitFor([CityStore.dispatchToken]);
+	 *           FlightPriceStore.price =
+	 *             getFlightPriceStore(CountryStore.country, CityStore.city);
+	 *           break;
+	 *     }
+	 *   });
+	 *
+	 * The `country-update` payload will be guaranteed to invoke the stores'
+	 * registered callbacks in order: `CountryStore`, `CityStore`, then
+	 * `FlightPriceStore`.
+	 */
+	
+	var Dispatcher = (function () {
+	  function Dispatcher() {
+	    _classCallCheck(this, Dispatcher);
+	
+	    this._callbacks = {};
+	    this._isDispatching = false;
+	    this._isHandled = {};
+	    this._isPending = {};
+	    this._lastID = 1;
 	  }
-	};
 	
-	ErrorStore.all = function () {
-	  return _errors;
-	};
+	  /**
+	   * Registers a callback to be invoked with every dispatched payload. Returns
+	   * a token that can be used with `waitFor()`.
+	   */
 	
-	ErrorStore.__onDispatch = function (payload) {
-	
-	  switch (payload.actionType) {
-	    case ErrorConstants.ERRORS_RECEIVED:
-	      receiveAllErrors(payload);
-	      ErrorStore.__emitChange();
-	      break;
+	  Dispatcher.prototype.register = function register(callback) {
+	    var id = _prefix + this._lastID++;
+	    this._callbacks[id] = callback;
+	    return id;
 	  };
-	};
 	
-	module.exports = ErrorStore;
-
-/***/ },
-/* 248 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Navbar = __webpack_require__(249);
-	var UserShow = __webpack_require__(271);
-	var UserProfile = __webpack_require__(284);
-	var CurrentUserStore = __webpack_require__(289);
-	var Footer = __webpack_require__(290);
+	  /**
+	   * Removes a callback based on its token.
+	   */
 	
-	var MainContent = React.createClass({
-	  displayName: 'MainContent',
-	
-	  render: function () {
-	
-	    return React.createElement(this.props.subPage, {
-	      currentUser: this.props.currentUser,
-	      onSubPageChange: this.props.onSubPageChange,
-	      user: this.props.user,
-	      beer: this.props.beer });
-	  }
-	});
-	
-	var Home = React.createClass({
-	  displayName: 'Home',
-	
-	  getInitialState: function () {
-	    return {
-	      subPage: UserProfile,
-	      user: this.props.currentUser,
-	      beer: {}
-	    };
-	  },
-	
-	  navbarChangeHandler: function (newSubPage, user, beer) {
-	    if (typeof user !== "undefined") {
-	      this.setState({ user: user });
-	    }
-	    this.setState({
-	      subPage: newSubPage,
-	      beer: beer
-	    });
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'homeDiv' },
-	      React.createElement(Navbar, { currentUser: this.props.currentUser,
-	        user: this.props.user, subPage: this.state.subPage,
-	        onChange: this.navbarChangeHandler }),
-	      React.createElement(MainContent, {
-	        className: 'MainContent',
-	        currentUser: this.props.currentUser,
-	        subPage: this.state.subPage,
-	        onSubPageChange: this.navbarChangeHandler,
-	        beer: this.state.beer,
-	        user: this.state.user }),
-	      React.createElement(Footer, null)
-	    );
-	  }
-	
-	});
-	
-	module.exports = Home;
-
-/***/ },
-/* 249 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReactRouter = __webpack_require__(159);
-	var Link = ReactRouter.Link;
-	var SessionUtil = __webpack_require__(228);
-	var BeersIndex = __webpack_require__(250);
-	var LinkedStateMixin = __webpack_require__(210);
-	var FriendsIndex = __webpack_require__(267);
-	var BeerShow = __webpack_require__(253);
-	var UsersIndex = __webpack_require__(287);
-	var User = __webpack_require__(270);
-	var UserProfile = __webpack_require__(284);
-	var BeerSearch = __webpack_require__(303);
-	
-	var NavbarInstance = React.createClass({
-	  displayName: 'NavbarInstance',
-	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      subPage: this.props.subPage
-	    };
-	  },
-	
-	  handleSignOut: function () {
-	    SessionUtil.destroySession();
-	  },
-	
-	  handleClick: function (newSubPage, user, beer) {
-	    this.props.onChange(newSubPage, user, beer);
-	  },
-	
-	  handleSearch: function (newSubPage, user, beer) {
-	
-	    this.props.onChange(newSubPage, user, beer);
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'navbar' },
-	      React.createElement(
-	        'div',
-	        { className: 'fixedWidth' },
-	        React.createElement(
-	          'div',
-	          { className: 'navbarHeader' },
-	          React.createElement(
-	            'div',
-	            { className: 'navbarLogo logo',
-	              onClick: this.handleClick.bind(this, UserProfile),
-	              value: User },
-	            React.createElement(
-	              'h1',
-	              null,
-	              'BeerIsGood'
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'navbarContent' },
-	          React.createElement(
-	            'ul',
-	            { className: 'navbarLinksUl' },
-	            React.createElement(
-	              'li',
-	              { className: 'navbarLinks' },
-	              React.createElement(
-	                'div',
-	                {
-	
-	                  onClick: this.handleClick.bind(this, FriendsIndex),
-	                  value: FriendsIndex },
-	                'My Friends'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              { className: 'navbarLinks' },
-	              React.createElement(
-	                'div',
-	                {
-	
-	                  onClick: this.handleClick.bind(this, UsersIndex),
-	                  value: UsersIndex },
-	                'Find Friends'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(BeerSearch, {
-	                onClick: this.handleSearch,
-	                currentUser: this.props.currentUser,
-	                className: ''
-	              })
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'button',
-	                {
-	                  className: 'btn btn-sm btn-1', onClick: this.handleSignOut },
-	                'Sign Out'
-	              )
-	            )
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = NavbarInstance;
-
-/***/ },
-/* 250 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Navbar = __webpack_require__(249);
-	var BeerStore = __webpack_require__(251);
-	var BeerShow = __webpack_require__(253);
-	var ReactRouter = __webpack_require__(159);
-	var Link = ReactRouter.Link;
-	
-	var BeersIndex = React.createClass({
-	  displayName: 'BeersIndex',
-	
-	  getInitialState: function () {
-	    return {
-	      beers: BeerStore.all()
-	
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    var beerToken = BeerStore.addListener(this._onChange);
-	  },
-	
-	  _onChange: function () {
-	    this.setState({
-	      beers: BeerStore.all()
-	    });
-	  },
-	
-	  // handleClick: function(beerId) {
-	  //   this.props.onSubPageChange(newSubPage, user, beer);
-	  // },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'index fixedWidth row' },
-	      this.state.beers.map((function (beer) {
-	        var url = "/beer/" + beer.id;
-	        return React.createElement(
-	          Link,
-	          { className: 'indexItem col-md-12', key: beer.id, to: url },
-	          beer.name
-	        );
-	      }).bind(this))
-	    );
-	  }
-	
-	});
-	
-	module.exports = BeersIndex;
-
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var BeerConstants = __webpack_require__(252);
-	
-	var _beers = {};
-	
-	var BeerStore = new Store(AppDispatcher);
-	
-	var addAllBeers = function (beers) {
-	  beers.forEach(function (beer) {
-	    _beers[beer.id] = beer;
-	  });
-	};
-	
-	var addSingleBeer = function (beer) {
-	  _beers[beer.id] = beer;
-	};
-	
-	BeerStore.all = function () {
-	  var beers = [];
-	  for (var key in _beers) {
-	    if (_beers.hasOwnProperty(key)) {
-	      beers.push(_beers[key]);
-	    }
-	  }
-	  return beers;
-	};
-	
-	BeerStore.find = function (beerId) {
-	  return _beers[beerId];
-	};
-	
-	BeerStore.__onDispatch = function (payload) {
-	
-	  switch (payload.actionType) {
-	    case BeerConstants.BEERS_RECEIVED:
-	      addAllBeers(payload.beers);
-	      BeerStore.__emitChange();
-	      break;
-	    case BeerConstants.BEER_RECEIVED:
-	      addSingleBeer(payload.beer);
-	      BeerStore.__emitChange();
-	      break;
-	
+	  Dispatcher.prototype.unregister = function unregister(id) {
+	    !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
+	    delete this._callbacks[id];
 	  };
-	};
 	
-	module.exports = BeerStore;
+	  /**
+	   * Waits for the callbacks specified to be invoked before continuing execution
+	   * of the current callback. This method should only be used by a callback in
+	   * response to a dispatched payload.
+	   */
+	
+	  Dispatcher.prototype.waitFor = function waitFor(ids) {
+	    !this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : undefined;
+	    for (var ii = 0; ii < ids.length; ii++) {
+	      var id = ids[ii];
+	      if (this._isPending[id]) {
+	        !this._isHandled[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : undefined;
+	        continue;
+	      }
+	      !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
+	      this._invokeCallback(id);
+	    }
+	  };
+	
+	  /**
+	   * Dispatches a payload to all registered callbacks.
+	   */
+	
+	  Dispatcher.prototype.dispatch = function dispatch(payload) {
+	    !!this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : undefined;
+	    this._startDispatching(payload);
+	    try {
+	      for (var id in this._callbacks) {
+	        if (this._isPending[id]) {
+	          continue;
+	        }
+	        this._invokeCallback(id);
+	      }
+	    } finally {
+	      this._stopDispatching();
+	    }
+	  };
+	
+	  /**
+	   * Is this Dispatcher currently dispatching.
+	   */
+	
+	  Dispatcher.prototype.isDispatching = function isDispatching() {
+	    return this._isDispatching;
+	  };
+	
+	  /**
+	   * Call the callback stored with the given id. Also do some internal
+	   * bookkeeping.
+	   *
+	   * @internal
+	   */
+	
+	  Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
+	    this._isPending[id] = true;
+	    this._callbacks[id](this._pendingPayload);
+	    this._isHandled[id] = true;
+	  };
+	
+	  /**
+	   * Set up bookkeeping needed when dispatching.
+	   *
+	   * @internal
+	   */
+	
+	  Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
+	    for (var id in this._callbacks) {
+	      this._isPending[id] = false;
+	      this._isHandled[id] = false;
+	    }
+	    this._pendingPayload = payload;
+	    this._isDispatching = true;
+	  };
+	
+	  /**
+	   * Clear bookkeeping used for dispatching.
+	   *
+	   * @internal
+	   */
+	
+	  Dispatcher.prototype._stopDispatching = function _stopDispatching() {
+	    delete this._pendingPayload;
+	    this._isDispatching = false;
+	  };
+	
+	  return Dispatcher;
+	})();
+	
+	module.exports = Dispatcher;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 252 */
+/* 234 */
 /***/ function(module, exports) {
 
+	"use strict";
+	
 	var BeerConstants = {
 	  BEER_RECEIVED: "BEER_RECEIVED",
 	  BEERS_RECEIVED: "BEERS_RECEIVED"
@@ -32297,205 +31562,31 @@
 	module.exports = BeerConstants;
 
 /***/ },
-/* 253 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var BeerReviewsIndex = __webpack_require__(254);
-	var BeerStore = __webpack_require__(251);
+	'use strict';
 	
-	var BeerShow = React.createClass({
-	  displayName: 'BeerShow',
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'row fixedWidth' },
-	      React.createElement(
-	        'div',
-	        { className: 'col-md-12' },
-	        React.createElement(
-	          'h1',
-	          null,
-	          this.props.beer.name
-	        ),
-	        React.createElement(BeerReviewsIndex, { beer: this.props.beer, currentUser: this.props.currentUser })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = BeerShow;
-
-/***/ },
-/* 254 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReviewStore = __webpack_require__(255);
-	var BeerReviewIndexItem = __webpack_require__(257);
-	var BeerReviewForm = __webpack_require__(266);
-	var LinkedStateMixin = __webpack_require__(210);
-	var ReviewUtil = __webpack_require__(260);
-	
-	var BeerReviewsIndex = React.createClass({
-	  displayName: 'BeerReviewsIndex',
-	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
-	  },
-	
-	  getInitialState: function () {
-	    debugger;
-	    return {
-	      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
-	      body: "",
-	      rating: 0
-	    };
-	  },
-	
-	  getReviewObject: function () {
-	    return {
-	      beer_id: this.props.beer.id,
-	      body: this.state.body,
-	      rating: this.state.rating,
-	      author_id: this.props.currentUser.id
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.reviewsToken = ReviewStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.reviewsToken.remove();
-	  },
-	
-	  _onChange: function () {
-	    this.setState({
-	      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id)
-	    });
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault;
-	
-	    Object.assign({}, this.state);
-	    ReviewUtil.createReview(this.getReviewObject());
-	  },
-	
-	  handleRatingChange: function (event) {
-	    this.setState({ rating: event.target.value });
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'div',
-	        { className: 'row' },
-	        React.createElement(
-	          'div',
-	          { className: 'col-md-6 reviewsIndexContainer' },
-	          React.createElement(
-	            'h3',
-	            null,
-	            'Write a Review!'
-	          ),
-	          React.createElement(
-	            'form',
-	            { className: 'form-group reviewForm' },
-	            React.createElement(
-	              'label',
-	              { htmlFor: 'reviewBody' },
-	              'What do you think?'
-	            ),
-	            React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
-	            React.createElement(
-	              'label',
-	              { htmlFor: 'reviewRating' },
-	              'Your Rating'
-	            ),
-	            React.createElement(
-	              'select',
-	              { onChange: this.handleRatingChange },
-	              React.createElement(
-	                'option',
-	                { value: '0' },
-	                'rate beer'
-	              ),
-	              React.createElement(
-	                'option',
-	                { value: '1' },
-	                '1'
-	              ),
-	              React.createElement(
-	                'option',
-	                { value: '2' },
-	                '2'
-	              ),
-	              React.createElement(
-	                'option',
-	                { value: '3' },
-	                '3'
-	              ),
-	              React.createElement(
-	                'option',
-	                { value: '4' },
-	                '4'
-	              ),
-	              React.createElement(
-	                'option',
-	                { value: '5' },
-	                '5'
-	              )
-	            ),
-	            React.createElement('input', { className: 'btn btn-2 reviewFormItem', type: 'submit', value: 'Add Your Review', onClick: this.handleSubmit })
-	          ),
-	          React.createElement(
-	            'h3',
-	            null,
-	            'All Reviews'
-	          ),
-	          this.state.reviews.map((function (review) {
-	            return React.createElement(BeerReviewIndexItem, { beer: this.props.beer, review: review, key: review.id });
-	          }).bind(this))
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = BeerReviewsIndex;
-
-/***/ },
-/* 255 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var ReviewConstants = __webpack_require__(256);
+	var Store = __webpack_require__(214).Store;
+	var AppDispatcher = __webpack_require__(231);
+	var ReviewConstants = __webpack_require__(236);
 	
 	var _reviews = {};
 	
 	var ReviewStore = new Store(AppDispatcher);
 	
-	var addAllReviews = function (reviews) {
+	var addAllReviews = function addAllReviews(reviews) {
 	  reviews.forEach(function (review) {
 	    _reviews[review.id] = review;
 	  });
 	};
 	
-	var addSingleReview = function (review) {
+	var addSingleReview = function addSingleReview(review) {
+	
 	  _reviews[review.id] = review;
 	};
 	
-	var resetReviews = function () {
+	var resetReviews = function resetReviews() {
 	  _reviews = [];
 	};
 	
@@ -32546,9 +31637,11 @@
 	module.exports = ReviewStore;
 
 /***/ },
-/* 256 */
+/* 236 */
 /***/ function(module, exports) {
 
+	"use strict";
+	
 	var ReviewConstants = {
 	  REVIEW_RECEIVED: "REVIEW_RECEIVED",
 	  REVIEWS_RECEIVED: "REVIEWS_RECEIVED"
@@ -32557,202 +31650,451 @@
 	module.exports = ReviewConstants;
 
 /***/ },
-/* 257 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var Comment = __webpack_require__(258);
-	var ReviewUtil = __webpack_require__(260);
-	var BeerStore = __webpack_require__(251);
-	var CommentStore = __webpack_require__(262);
-	var ToastStore = __webpack_require__(264);
-	var LinkedStateMixin = __webpack_require__(210);
-	var UserStore = __webpack_require__(259);
+	'use strict';
 	
-	var Display;
+	var ReviewActions = __webpack_require__(238);
+	var ErrorActions = __webpack_require__(239);
 	
-	var BeerReviewIndexItem = React.createClass({
-	  displayName: 'BeerReviewIndexItem',
+	var ReviewUtil = {
 	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
+	  fetchAllReviews: function fetchAllReviews() {
+	    $.get('api/reviews', function (reviews) {
+	      ReviewActions.receiveAllReviews(reviews);
+	    });
 	  },
 	
-	  filteredState: function () {
-	    filteredState = {};
-	    for (key in this.state) {
-	      if (this.state.hasOwnProperty(key)) {
+	  createReview: function createReview(review) {
 	
-	        if (key !== "beers") {
-	          filteredState[key] = this.state[key];
-	        }
+	    $.ajax({
+	      url: "api/reviews",
+	      type: "POST",
+	      data: { review: review },
+	      success: function success(review) {
+	        ReviewActions.receiveSingleReview(review);
+	      },
+	      error: function error(errors) {
+	        ErrorActions.receiveAllErrors(errors);
 	      }
+	    });
+	  },
+	
+	  destroyReview: function destroyReview(review) {
+	    $.ajax({
+	      url: "api/reviews/" + review.id,
+	      type: 'DELETE',
+	      success: function success(reviews) {
+	        ReviewActions.receiveAllReviews(reviews);
+	      }
+	    });
+	  },
+	
+	  updateReview: function updateReview(review) {
+	
+	    $.ajax({
+	      url: "/api/reviews/" + review.id,
+	      type: "PATCH",
+	      data: { review: review },
+	      success: function success(review) {
+	
+	        ReviewActions.receiveSingleReview(review);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = ReviewUtil;
+
+/***/ },
+/* 238 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(231);
+	var ReviewConstants = __webpack_require__(236);
+	
+	var ReviewActions = {
+	
+	  receiveAllReviews: function receiveAllReviews(reviews) {
+	    Dispatcher.dispatch({
+	      actionType: ReviewConstants.REVIEWS_RECEIVED,
+	      reviews: reviews
+	    });
+	  },
+	
+	  receiveSingleReview: function receiveSingleReview(review) {
+	
+	    var action = {
+	      actionType: ReviewConstants.REVIEW_RECEIVED,
+	      review: review
+	    };
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = ReviewActions;
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(231);
+	var ErrorConstants = __webpack_require__(240);
+	
+	var ErrorActions = {
+	
+	  receiveAllErrors: function receiveAllErrors(errors) {
+	
+	    Dispatcher.dispatch({
+	      actionType: ErrorConstants.ERRORS_RECEIVED,
+	      errors: errors
+	    });
+	  }
+	
+	};
+	
+	module.exports = ErrorActions;
+
+/***/ },
+/* 240 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var ErrorConstants = {
+	  ERRORS_RECEIVED: "ERRORS_RECEIVED"
+	};
+	
+	module.exports = ErrorConstants;
+
+/***/ },
+/* 241 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _new_review_index_item = __webpack_require__(242);
+	
+	var _new_review_index_item2 = _interopRequireDefault(_new_review_index_item);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ReviewStore = __webpack_require__(235);
+	
+	var ReviewsIndex = (function (_Component) {
+	  _inherits(ReviewsIndex, _Component);
+	
+	  function ReviewsIndex(props) {
+	    _classCallCheck(this, ReviewsIndex);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReviewsIndex).call(this, props));
+	
+	    var user = props.user;
+	    var userId = user.id;
+	    var currentUser = props.currentUser;
+	
+	    _this.state = {
+	      reviews: ReviewStore.filterReviewsByUserId(userId)
+	    };
+	
+	    _this._onChange = _this._onChange.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(ReviewsIndex, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.reviewsToken = ReviewStore.addListener(this._onChange);
 	    }
-	    return filteredState;
-	  },
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.reviewsToken.remove();
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange() {
+	      this.setState({
+	        reviews: ReviewStore.filterReviewsByUserId(this.props.user.id)
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
 	
-	  handleSubmit: function (e) {
-	    e.preventDefault;
-	    Object.assign({}, this.state);
-	    ReviewUtil.updateReview(this.filteredState());
-	    this.setState({ editing: false });
-	  },
+	      var reviewsList = this.state.reviews.map(function (review) {
 	
-	  getInitialState: function () {
-	    return {
-	      beers: BeerStore.all(),
-	      beer: this.props.beer,
-	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
-	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
-	      beer_id: this.props.beer.id,
-	      body: this.props.review.body,
-	      rating: this.props.review.rating,
-	      author_id: this.props.review.author_id,
-	      id: this.props.review.id
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.beerToken = BeerStore.addListener(this._onChange);
-	    this.commentToken = CommentStore.addListener(this._onChange);
-	    this.toastToken = ToastStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.beerToken.remove();
-	    this.commentToken.remove();
-	    this.toastToken.remove();
-	  },
-	
-	  _onChange: function () {
-	    this.setState({
-	      beer: BeerStore.find(this.props.review.beer_id),
-	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
-	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id)
-	    });
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'row' },
-	      React.createElement(
+	        return _react2.default.createElement(_new_review_index_item2.default, {
+	          currentUser: _this2.props.currentUser,
+	          user: _this2.props.user,
+	          review: review,
+	          key: review.id
+	        });
+	      });
+	      return _react2.default.createElement(
 	        'div',
-	        { className: 'reviewContainer col-md-12' },
-	        React.createElement(
-	          'div',
-	          { className: 'reviewContent col-md-12' },
-	          React.createElement(
-	            'div',
-	            { className: 'reviewHeader col-md-12' },
-	            UserStore.findById(this.props.review.author_id).username,
-	            ' is drinking ',
-	            this.state.beer.name
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'reviewBody col-md-12' },
-	            this.props.review.body
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'reviewFooter col-md-12' },
-	            React.createElement(
-	              'div',
-	              { className: 'reviewFooterItem col-md-4' },
-	              this.props.review.rating,
-	              ' Stars!'
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'reviewFooterItem col-md-4' },
-	              'toasts: ',
-	              this.state.toasts.length
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'reviewCommentsIndex col-md-12' },
-	          React.createElement(
-	            'h4',
-	            null,
-	            'Comments'
-	          ),
-	          this.state.comments.map((function (comment) {
-	            return React.createElement(Comment, { comment: comment, key: comment.id });
-	          }).bind(this))
-	        )
-	      )
-	    );
-	  }
-	});
+	        { className: 'col-md-6 reviewsIndexContainer' },
+	        reviewsList
+	      );
+	    }
+	  }]);
 	
-	module.exports = BeerReviewIndexItem;
+	  return ReviewsIndex;
+	})(_react.Component);
+	
+	exports.default = ReviewsIndex;
 
 /***/ },
-/* 258 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(259);
+	'use strict';
 	
-	var Comment = React.createClass({
-	  displayName: 'Comment',
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
-	  getInitialState: function () {
-	    return {
-	      author: UserStore.findById(this.props.comment.author_id)
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _review_buttons = __webpack_require__(243);
+	
+	var _review_buttons2 = _interopRequireDefault(_review_buttons);
+	
+	var _new_review_edit_form = __webpack_require__(244);
+	
+	var _new_review_edit_form2 = _interopRequireDefault(_new_review_edit_form);
+	
+	var _review_header = __webpack_require__(245);
+	
+	var _review_header2 = _interopRequireDefault(_review_header);
+	
+	var _review_body = __webpack_require__(248);
+	
+	var _review_body2 = _interopRequireDefault(_review_body);
+	
+	var _review_footer = __webpack_require__(249);
+	
+	var _review_footer2 = _interopRequireDefault(_review_footer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ReviewStore = __webpack_require__(235);
+	
+	var ReviewIndexItem = (function (_Component) {
+	  _inherits(ReviewIndexItem, _Component);
+	
+	  function ReviewIndexItem(props) {
+	    _classCallCheck(this, ReviewIndexItem);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReviewIndexItem).call(this, props));
+	
+	    _this.state = {
+	      review: review
 	    };
-	  },
 	
-	  componentDidMount: function () {
-	    this.authorToken = UserStore.addListener(this._onChange);
-	  },
+	    var review = props.review;
+	    var currentUser = props.currentUser;
+	    var id = props.review.id;
 	
-	  componentWillUnmount: function () {
-	    this.authorToken.remove();
-	  },
+	    _this._onChange = _this._onChange.bind(_this);
+	    return _this;
+	  }
 	
-	  _onChange: function () {
-	    this.setState({
-	      author: UserStore.findById(this.props.comment.author_id)
-	    });
-	  },
+	  _createClass(ReviewIndexItem, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.reviewToken = ReviewStore.addListener(this._onChange);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.reviewToken.remove();
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange() {
 	
-	  render: function () {
+	      this.setState({
+	        review: ReviewStore.findById(this.props.review.id)
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
 	
-	    return React.createElement(
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'reviewIndexItem' },
+	        _react2.default.createElement(_review_header2.default, { review: this.props.review }),
+	        _react2.default.createElement(_review_buttons2.default, { review: this.props.review, currentUser: this.props.currentUser }),
+	        _react2.default.createElement(_review_body2.default, { review: this.props.review }),
+	        _react2.default.createElement(_review_footer2.default, { review: this.props.review, currentUser: this.props.currentUser })
+	      );
+	    }
+	  }]);
+	
+	  return ReviewIndexItem;
+	})(_react.Component);
+	
+	exports.default = ReviewIndexItem;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _new_review_edit_form = __webpack_require__(244);
+	
+	var _new_review_edit_form2 = _interopRequireDefault(_new_review_edit_form);
+	
+	var _review_util = __webpack_require__(237);
+	
+	var _review_util2 = _interopRequireDefault(_review_util);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ReviewButtons = function ReviewButtons(props) {
+	
+	  var handleDeleteClick = function handleDeleteClick(review) {
+	
+	    _review_util2.default.destroyReview(review);
+	  };
+	
+	  var handleEditClick = function handleEditClick(review) {
+	    // toggle a modal or something
+	  };
+	
+	  if (props.currentUser.id != props.review.author_id) {
+	    return _react2.default.createElement('div', null);
+	  } else {
+	    return _react2.default.createElement(
 	      'div',
-	      { className: 'commentContainer' },
-	      React.createElement(
-	        'h5',
-	        null,
-	        this.state.author.username,
-	        ' says:'
+	      { className: 'reviewButtons' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'deleteReviewButton',
+	          onClick: handleDeleteClick.bind(undefined, props.review),
+	          value: props.review },
+	        'delete'
 	      ),
-	      React.createElement(
+	      _react2.default.createElement(
 	        'div',
-	        { className: 'commentBody' },
-	        this.props.comment.body
+	        { className: 'editReviewButton',
+	          onclick: handleEditClick.bind(undefined, props.review),
+	          value: props.review },
+	        'edit'
 	      )
 	    );
 	  }
+	};
 	
-	});
-	
-	module.exports = Comment;
+	exports.default = ReviewButtons;
 
 /***/ },
-/* 259 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var UserConstants = __webpack_require__(221);
+	'use strict';
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _user_store = __webpack_require__(246);
+	
+	var _user_store2 = _interopRequireDefault(_user_store);
+	
+	var _beer_store = __webpack_require__(213);
+	
+	var _beer_store2 = _interopRequireDefault(_beer_store);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ReviewHeader = function ReviewHeader(props) {
+	
+	  var author = _user_store2.default.findById(props.review.author_id);
+	  var beer = _beer_store2.default.find(props.review.beer_id);
+	
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'reviewHeader' },
+	    author.username,
+	    ' is drinking ',
+	    beer.name,
+	    '!'
+	  );
+	};
+	
+	exports.default = ReviewHeader;
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(214).Store;
+	var AppDispatcher = __webpack_require__(231);
+	var UserConstants = __webpack_require__(247);
 	
 	var UserStore = new Store(AppDispatcher);
 	
@@ -32767,21 +32109,21 @@
 	  return _users[id];
 	};
 	
-	var addSingleUser = function (user) {
+	var addSingleUser = function addSingleUser(user) {
 	  _users[user.id] = user;
 	};
 	
-	var addAllUsers = function (users) {
+	var addAllUsers = function addAllUsers(users) {
 	  users.forEach(function (user) {
 	    _users[user.id] = user;
 	  });
 	};
 	
-	var resetErrors = function () {
+	var resetErrors = function resetErrors() {
 	  userErrors = [];
 	};
 	
-	var addUserErrors = function (errors) {
+	var addUserErrors = function addUserErrors(errors) {
 	  userErrors = errors;
 	};
 	
@@ -32836,182 +32178,161 @@
 	      break;
 	  };
 	};
-	
+	window.UserStore = UserStore;
 	module.exports = UserStore;
 
 /***/ },
-/* 260 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ReviewActions = __webpack_require__(261);
-	var ErrorActions = __webpack_require__(224);
-	
-	var ReviewUtil = {
-	
-	  fetchAllReviews: function () {
-	    $.get('api/reviews', function (reviews) {
-	      ReviewActions.receiveAllReviews(reviews);
-	    });
-	  },
-	
-	  createReview: function (review) {
-	    $.ajax({
-	      url: "api/reviews",
-	      type: "POST",
-	      data: { review: review },
-	      success: function (review) {
-	        ReviewActions.receiveSingleReview(review);
-	      },
-	      error: function (errors) {
-	        ErrorActions.receiveAllErrors(errors);
-	      }
-	    });
-	  },
-	
-	  destroyReview: function (review) {
-	    $.ajax({
-	      url: "api/reviews/" + review.id,
-	      type: 'DELETE',
-	      success: function (reviews) {
-	        ReviewActions.receiveAllReviews(reviews);
-	      }
-	    });
-	  },
-	
-	  updateReview: function (review) {
-	
-	    $.ajax({
-	      url: "/api/reviews/" + review.id,
-	      type: "PATCH",
-	      data: { review: review },
-	      success: function (review) {
-	
-	        ReviewActions.receiveSingleReview(review);
-	      }
-	    });
-	  }
-	
-	};
-	
-	module.exports = ReviewUtil;
-
-/***/ },
-/* 261 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(217);
-	var ReviewConstants = __webpack_require__(256);
-	
-	var ReviewActions = {
-	
-	  receiveAllReviews: function (reviews) {
-	    Dispatcher.dispatch({
-	      actionType: ReviewConstants.REVIEWS_RECEIVED,
-	      reviews: reviews
-	    });
-	  },
-	
-	  receiveSingleReview: function (review) {
-	    var action = {
-	      actionType: ReviewConstants.REVIEW_RECEIVED,
-	      review: review
-	    };
-	    Dispatcher.dispatch(action);
-	  }
-	
-	};
-	
-	module.exports = ReviewActions;
-
-/***/ },
-/* 262 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var CommentConstants = __webpack_require__(263);
-	
-	var _comments = {};
-	
-	var CommentStore = new Store(AppDispatcher);
-	
-	var addAllComments = function (comments) {
-	  comments.forEach(function (comment) {
-	    _comments[comment.id] = comment;
-	  });
-	};
-	
-	var addSingleComment = function (comment) {
-	  _comments[comment.id] = comment;
-	};
-	
-	CommentStore.all = function () {
-	  var comments = [];
-	  for (var key in _comments) {
-	    if (_comments.hasOwnProperty(key)) {
-	      comments.push(_comments[key]);
-	    }
-	  }
-	  return comments;
-	};
-	
-	CommentStore.find = function (commentId) {
-	  return _comments[commentId];
-	};
-	
-	CommentStore.filterCommentsByReviewId = function (reviewId) {
-	  return this.all().filter(function (comment) {
-	    return comment.review_id === reviewId;
-	  });
-	};
-	
-	CommentStore.__onDispatch = function (payload) {
-	
-	  switch (payload.actionType) {
-	    case CommentConstants.COMMENTS_RECEIVED:
-	      addAllComments(payload.comments);
-	      CommentStore.__emitChange();
-	      break;
-	    case CommentConstants.COMMENT_RECEIVED:
-	      addSingleComment(payload.comment);
-	      CommentStore.__emitChange();
-	      break;
-	
-	  };
-	};
-	
-	module.exports = CommentStore;
-
-/***/ },
-/* 263 */
+/* 247 */
 /***/ function(module, exports) {
 
-	var CommentConstants = {
-	  COMMENT_RECEIVED: "COMMENT_RECEIVED",
-	  COMMENTS_RECEIVED: "COMMENTS_RECEIVED"
+	"use strict";
+	
+	var UserConstants = {
+	  USER_RECEIVED: "USER_RECEIVED",
+	  USERS_RECEIVED: "USERS_RECEIVED",
+	  USER_ERRORS: "USER_ERRORS"
+	
 	};
 	
-	module.exports = CommentConstants;
+	module.exports = UserConstants;
 
 /***/ },
-/* 264 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var ToastConstants = __webpack_require__(265);
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ReviewBody = function ReviewBody(props) {
+	
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "reviewBody" },
+	    props.review.body
+	  );
+	};
+	
+	exports.default = ReviewBody;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _review_store = __webpack_require__(235);
+	
+	var _review_store2 = _interopRequireDefault(_review_store);
+	
+	var _review_stats = __webpack_require__(250);
+	
+	var _review_stats2 = _interopRequireDefault(_review_stats);
+	
+	var _new_comment_form = __webpack_require__(253);
+	
+	var _new_comment_form2 = _interopRequireDefault(_new_comment_form);
+	
+	var _new_comments_index = __webpack_require__(257);
+	
+	var _new_comments_index2 = _interopRequireDefault(_new_comments_index);
+	
+	var _toast_button = __webpack_require__(260);
+	
+	var _toast_button2 = _interopRequireDefault(_toast_button);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ReviewFooter = function ReviewFooter(props) {
+	
+	  var review = props.review;
+	  var currentUser = props.currentUser;
+	
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'reviewFooter' },
+	    _react2.default.createElement(_review_stats2.default, { review: review }),
+	    _react2.default.createElement(_new_comment_form2.default, { review: review, currentUser: currentUser }),
+	    _react2.default.createElement(_toast_button2.default, { review: review, currentUser: currentUser }),
+	    _react2.default.createElement(_new_comments_index2.default, { review: review })
+	  );
+	};
+	
+	exports.default = ReviewFooter;
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _toast_store = __webpack_require__(251);
+	
+	var _toast_store2 = _interopRequireDefault(_toast_store);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ReviewStats = function ReviewStats(props) {
+	  var rating = props.review.rating;
+	  var toasts = _toast_store2.default.filterToastsByReviewId().length;
+	
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'reviewStats' },
+	    'rating: ',
+	    rating,
+	    ' stars! toasts: ',
+	    toasts
+	  );
+	};
+	
+	exports.default = ReviewStats;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(214).Store;
+	var AppDispatcher = __webpack_require__(231);
+	var ToastConstants = __webpack_require__(252);
 	
 	var _toasts = {};
 	
 	var ToastStore = new Store(AppDispatcher);
 	
-	var addAllToasts = function (toasts) {
+	var addAllToasts = function addAllToasts(toasts) {
 	  toasts.forEach(function (toast) {
 	    _toasts[toast.id] = toast;
 	  });
 	};
 	
-	var addSingleToast = function (toast) {
+	var addSingleToast = function addSingleToast(toast) {
 	
 	  _toasts[toast.id] = toast;
 	};
@@ -33045,7 +32366,7 @@
 	ToastStore.userHasToasted = function (userId, reviewId) {
 	  return this.all().filter(function (toast) {
 	    return toast.user_id === userId && toast.review_id === reviewId;
-	  });
+	  }).length > 0;
 	};
 	
 	ToastStore.__onDispatch = function (payload) {
@@ -33066,9 +32387,11 @@
 	module.exports = ToastStore;
 
 /***/ },
-/* 265 */
+/* 252 */
 /***/ function(module, exports) {
 
+	"use strict";
+	
 	var ToastConstants = {
 	  TOAST_RECEIVED: "TOAST_RECEIVED",
 	  TOASTS_RECEIVED: "TOASTS_RECEIVED"
@@ -33077,163 +32400,703 @@
 	module.exports = ToastConstants;
 
 /***/ },
-/* 266 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
+	'use strict';
 	
-	var BeerReviewForm = React.createClass({
-	  displayName: "BeerReviewForm",
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      "div",
-	      { className: "" },
-	      React.createElement(
-	        "form",
-	        { className: "form-group reviewForm" },
-	        React.createElement(
-	          "label",
-	          { htmlFor: "reviewBody" },
-	          "What do you think?"
-	        ),
-	        React.createElement("textarea", { className: "form-control", id: "reviewBody", valueLink: this.linkState('body') }),
-	        React.createElement(
-	          "label",
-	          { htmlFor: "reviewRating" },
-	          "Your Rating"
-	        ),
-	        React.createElement(
-	          "select",
-	          { onChange: this.handleRatingChange },
-	          React.createElement(
-	            "option",
-	            { value: "0" },
-	            "rate beer"
-	          ),
-	          React.createElement(
-	            "option",
-	            { value: "1" },
-	            "1"
-	          ),
-	          React.createElement(
-	            "option",
-	            { value: "2" },
-	            "2"
-	          ),
-	          React.createElement(
-	            "option",
-	            { value: "3" },
-	            "3"
-	          ),
-	          React.createElement(
-	            "option",
-	            { value: "4" },
-	            "4"
-	          ),
-	          React.createElement(
-	            "option",
-	            { value: "5" },
-	            "5"
-	          )
-	        ),
-	        React.createElement("input", { className: "btn btn-2", type: "submit", value: "Update Review", onClick: this.handleSubmit })
-	      )
-	    );
-	  }
-	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
 	});
 	
-	module.exports = BeerReviewForm;
-
-/***/ },
-/* 267 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Navbar = __webpack_require__(249);
-	var FriendStore = __webpack_require__(268);
-	var UserStore = __webpack_require__(259);
-	var User = __webpack_require__(270);
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
-	var FriendsIndex = React.createClass({
-	  displayName: 'FriendsIndex',
+	var _react = __webpack_require__(1);
 	
-	  getInitialState: function () {
-	    return {
-	      friends: this.getFriends()
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactLinkState = __webpack_require__(210);
+	
+	var _reactLinkState2 = _interopRequireDefault(_reactLinkState);
+	
+	var _comment_util = __webpack_require__(254);
+	
+	var _comment_util2 = _interopRequireDefault(_comment_util);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var CommentForm = (function (_Component) {
+	  _inherits(CommentForm, _Component);
+	
+	  function CommentForm(props) {
+	    _classCallCheck(this, CommentForm);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentForm).call(this, props));
+	
+	    _this.state = {
+	      author_id: props.currentUser.id,
+	      review_id: props.review.id,
+	      body: ""
 	    };
-	  },
-	
-	  // componentDidMount: function() {
-	  //   this.friendshipsToken = FriendStore.addListener(this._onChange);
-	  // },
-	  //
-	  // componentWillUnmount: function() {
-	  //   this.friendshipsToken.remove();
-	  // },
-	  //
-	  // _onChange: function () {
-	  //   this.setState({
-	  //     friends: this.getFriends()
-	  //   })
-	  // },
-	
-	  getFriends: function () {
-	    var friends = [];
-	
-	    var friendships = FriendStore.filterFriendshipsByUserId(this.props.currentUser.id);
-	
-	    friendships.forEach(function (friendship) {
-	      friends.push(UserStore.findById(friendship.friend_id));
-	    });
-	
-	    return friends;
-	  },
-	
-	  handleClick: function (newSubPage, friend, beer) {
-	
-	    this.props.onSubPageChange(newSubPage, friend, beer);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'fixedWidth row' },
-	      this.state.friends.map((function (friend) {
-	        return React.createElement(
-	          'div',
-	          { className: 'col-md-12 indexItem', friend: friend, key: friend.id,
-	            onClick: this.handleClick.bind(this, User, friend, this.props.beer) },
-	          friend.username
-	        );
-	      }).bind(this))
-	    );
+	    return _this;
 	  }
 	
-	});
+	  _createClass(CommentForm, [{
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      e.preventDefault;
+	      var commentData = Object.assign({}, this.state);
+	      _comment_util2.default.createComment(commentData);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
 	
-	module.exports = FriendsIndex;
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'form',
+	          { className: 'form-group commentForm' },
+	          _react2.default.createElement(
+	            'label',
+	            { htmlFor: 'commentBody' },
+	            'Comment'
+	          ),
+	          _react2.default.createElement('textarea', {
+	            className: 'form-control',
+	            id: 'reviewBody',
+	            valueLink: (0, _reactLinkState2.default)(this, 'body') }),
+	          _react2.default.createElement('input', { className: 'btn btn-2 addCommentButton', type: 'submit', value: 'Add Comment', onClick: this.handleSubmit })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return CommentForm;
+	})(_react.Component);
+	
+	exports.default = CommentForm;
 
 /***/ },
-/* 268 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var FriendConstants = __webpack_require__(269);
+	'use strict';
+	
+	var CommentActions = __webpack_require__(255);
+	
+	var CommentUtil = {
+	
+	  fetchAllComments: function fetchAllComments() {
+	    $.get('api/comments', function (comments) {
+	      CommentActions.receiveAllComments(comments);
+	    });
+	  },
+	
+	  createComment: function createComment(comment) {
+	
+	    $.post('api/comments', { comment: comment }, function (comment) {
+	      CommentActions.receiveSingleComment(comment);
+	    });
+	  },
+	
+	  destroyComment: function destroyComment(comment) {
+	    $.ajax({
+	      url: "api/comment/" + comment.id,
+	      type: 'DELETE',
+	      success: function success(review) {
+	        ReviewActions.receiveSingleReview(review);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = CommentUtil;
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(231);
+	var CommentConstants = __webpack_require__(256);
+	
+	var CommentActions = {
+	
+	  receiveAllComments: function receiveAllComments(comments) {
+	    Dispatcher.dispatch({
+	      actionType: CommentConstants.COMMENTS_RECEIVED,
+	      comments: comments
+	    });
+	  },
+	
+	  receiveSingleComment: function receiveSingleComment(comment) {
+	
+	    var action = {
+	      actionType: CommentConstants.COMMENT_RECEIVED,
+	      comment: comment
+	    };
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = CommentActions;
+
+/***/ },
+/* 256 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var CommentConstants = {
+	  COMMENT_RECEIVED: "COMMENT_RECEIVED",
+	  COMMENTS_RECEIVED: "COMMENTS_RECEIVED"
+	};
+	
+	module.exports = CommentConstants;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _comment_store = __webpack_require__(258);
+	
+	var _comment_store2 = _interopRequireDefault(_comment_store);
+	
+	var _new_comment_index_item = __webpack_require__(259);
+	
+	var _new_comment_index_item2 = _interopRequireDefault(_new_comment_index_item);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var CommentsIndex = (function (_Component) {
+	  _inherits(CommentsIndex, _Component);
+	
+	  function CommentsIndex(props) {
+	    _classCallCheck(this, CommentsIndex);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentsIndex).call(this, props));
+	
+	    var review = props.review;
+	
+	    _this.state = {
+	      comments: _comment_store2.default.filterCommentsByReviewId(review.id)
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(CommentsIndex, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.commentToken = _comment_store2.default.addListener(this._onChange);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.commentToken.remove();
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange() {
+	      this.setState({
+	        comments: _comment_store2.default.filterCommentsByReviewId(review.id)
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var commentsList = this.state.comments.map(function (comment, idx) {
+	        return _react2.default.createElement(_new_comment_index_item2.default, { comment: comment, key: idx });
+	      });
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        commentsList
+	      );
+	    }
+	  }]);
+	
+	  return CommentsIndex;
+	})(_react.Component);
+	
+	exports.default = CommentsIndex;
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(214).Store;
+	var AppDispatcher = __webpack_require__(231);
+	var CommentConstants = __webpack_require__(256);
+	
+	var _comments = {};
+	
+	var CommentStore = new Store(AppDispatcher);
+	
+	var addAllComments = function addAllComments(comments) {
+	  comments.forEach(function (comment) {
+	    _comments[comment.id] = comment;
+	  });
+	};
+	
+	var addSingleComment = function addSingleComment(comment) {
+	
+	  _comments[comment.id] = comment;
+	};
+	
+	CommentStore.all = function () {
+	  var comments = [];
+	  for (var key in _comments) {
+	    if (_comments.hasOwnProperty(key)) {
+	      comments.push(_comments[key]);
+	    }
+	  }
+	  return comments;
+	};
+	
+	CommentStore.find = function (commentId) {
+	  return _comments[commentId];
+	};
+	
+	CommentStore.filterCommentsByReviewId = function (reviewId) {
+	  return this.all().filter(function (comment) {
+	    return comment.review_id === reviewId;
+	  });
+	};
+	
+	CommentStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case CommentConstants.COMMENTS_RECEIVED:
+	      addAllComments(payload.comments);
+	      CommentStore.__emitChange();
+	      break;
+	    case CommentConstants.COMMENT_RECEIVED:
+	      addSingleComment(payload.comment);
+	      CommentStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = CommentStore;
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _user_store = __webpack_require__(246);
+	
+	var _user_store2 = _interopRequireDefault(_user_store);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CommentIndexItem = function CommentIndexItem(props) {
+	
+	  var author = _user_store2.default.findById(props.comment.author_id).username;
+	  var body = props.comment.body;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'commentIndexItem' },
+	    _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h5',
+	        null,
+	        author,
+	        ' says:'
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      null,
+	      body
+	    )
+	  );
+	};
+	
+	exports.default = CommentIndexItem;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _toast_util = __webpack_require__(261);
+	
+	var _toast_util2 = _interopRequireDefault(_toast_util);
+	
+	var _toast_store = __webpack_require__(251);
+	
+	var _toast_store2 = _interopRequireDefault(_toast_store);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ToastButton = (function (_Component) {
+	  _inherits(ToastButton, _Component);
+	
+	  function ToastButton(props) {
+	    _classCallCheck(this, ToastButton);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ToastButton).call(this, props));
+	  }
+	
+	  _createClass(ToastButton, [{
+	    key: 'handleToastClick',
+	    value: function handleToastClick(e) {
+	      var toast = {
+	        review_id: review.id,
+	        user_id: currentUser.id
+	      };
+	      _toast_util2.default.createToast(toast);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	
+	      var currentUser = this.props.currentUser;
+	      var review = this.props.review;
+	      var hasToasted = _toast_store2.default.userHasToasted(currentUser.id, review.id);
+	      var Button = _react2.default.createElement('div', null);
+	      if (hasToasted) {
+	        Button = _react2.default.createElement(
+	          'div',
+	          null,
+	          'You Toasted This!'
+	        );
+	      } else {
+	        Button = _react2.default.createElement(
+	          'button',
+	          {
+	            className: 'btn btn-1 toastReviewButton',
+	            onClick: this.handleToastClick },
+	          'Toast This!'
+	        );
+	      }
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        Button
+	      );
+	    }
+	  }]);
+	
+	  return ToastButton;
+	})(_react.Component);
+	
+	exports.default = ToastButton;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var ToastActions = __webpack_require__(262);
+	
+	var ToastUtil = {
+	
+	  fetchAllToasts: function fetchAllToasts() {
+	    $.get('api/toasts', function (toasts) {
+	      ToastActions.receiveAllToasts(toasts);
+	    });
+	  },
+	
+	  createToast: function createToast(toast) {
+	
+	    $.post('api/toasts', { toast: toast }, function (toast) {
+	      ToastActions.receiveSingleToast(toast);
+	    });
+	  },
+	
+	  destroyToast: function destroyToast(toast) {
+	    $.ajax({
+	      url: "api/toast/" + toast.id,
+	      type: 'DELETE',
+	      success: function success(review) {
+	        ReviewActions.receiveSingleReview(review);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = ToastUtil;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(231);
+	var ToastConstants = __webpack_require__(252);
+	
+	var ToastActions = {
+	
+	  receiveAllToasts: function receiveAllToasts(toasts) {
+	    Dispatcher.dispatch({
+	      actionType: ToastConstants.TOASTS_RECEIVED,
+	      toasts: toasts
+	    });
+	  },
+	
+	  receiveSingleToast: function receiveSingleToast(toast) {
+	    var action = {
+	      actionType: ToastConstants.TOAST_RECEIVED,
+	      toast: toast
+	    };
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = ToastActions;
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _review_store = __webpack_require__(235);
+	
+	var _review_store2 = _interopRequireDefault(_review_store);
+	
+	var _friend_store = __webpack_require__(264);
+	
+	var _friend_store2 = _interopRequireDefault(_friend_store);
+	
+	var _friend_request_store = __webpack_require__(266);
+	
+	var _friend_request_store2 = _interopRequireDefault(_friend_request_store);
+	
+	var _user_store = __webpack_require__(246);
+	
+	var _user_store2 = _interopRequireDefault(_user_store);
+	
+	var _friend_util = __webpack_require__(268);
+	
+	var _friend_util2 = _interopRequireDefault(_friend_util);
+	
+	var _friend_request_util = __webpack_require__(270);
+	
+	var _friend_request_util2 = _interopRequireDefault(_friend_request_util);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Sidebar = (function (_Component) {
+	  _inherits(Sidebar, _Component);
+	
+	  function Sidebar(props) {
+	    _classCallCheck(this, Sidebar);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Sidebar).call(this, props));
+	
+	    _this.state = {
+	      friendRequests: _friend_request_store2.default.filterRequestsByRequestedId(_this.props.currentUser.id)
+	    };
+	    _this._onChange = _this._onChange.bind(_this);
+	    _this.handleConfirm = _this.handleConfirm.bind(_this);
+	    _this.handleDeny = _this.handleDeny.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Sidebar, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.requestToken = _friend_request_store2.default.addListener(this._onChange);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.requestToken.remove();
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange() {
+	      this.setState({
+	        friendRequests: _friend_request_store2.default.filterRequestsByRequestedId(this.props.currentUser.id)
+	      });
+	    }
+	  }, {
+	    key: 'getFriendRequests',
+	    value: function getFriendRequests() {
+	      var requests = this.state.friendRequests;
+	      return requests.map((function (request) {
+	
+	        return _react2.default.createElement(
+	          'div',
+	          { className: '', key: request.id, request: request },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'friendRequestNotifcation' },
+	            _user_store2.default.findById(request.requester_id).username,
+	            ' wants to be your friend!'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'friendApproveButtons' },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'btn btn-sm btn-2 friendApproveButton',
+	                onClick: this.handleConfirm.bind(this, request) },
+	              'Confirm'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'btn btn-sm btn-3 friendApproveButton',
+	                onClick: this.handleDeny.bind(this, request) },
+	              'Deny'
+	            )
+	          )
+	        );
+	      }).bind(this));
+	    }
+	  }, {
+	    key: 'handleConfirm',
+	    value: function handleConfirm(request) {
+	      _friend_util2.default.createFriendship(request);
+	      _friend_request_util2.default.destroyFriendRequest(request.id);
+	    }
+	  }, {
+	    key: 'handleDeny',
+	    value: function handleDeny(request) {
+	      _friend_request_util2.default.destroyFriendRequest(request.id);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'userSidebar col-md-4 col-md-offset-1' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'userSidebarElement' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'Pending Requests: ',
+	            this.state.friendRequests.length
+	          ),
+	          this.getFriendRequests()
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'userSidebarElement' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'My Stats'
+	          ),
+	          'Reviews: ',
+	          _review_store2.default.filterReviewsByUserId(this.props.currentUser.id).length,
+	          _react2.default.createElement('br', null),
+	          'Friends: ',
+	          _friend_store2.default.filterFriendshipsByUserId(this.props.currentUser.id).length
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Sidebar;
+	})(_react.Component);
+	
+	exports.default = Sidebar;
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(214).Store;
+	var AppDispatcher = __webpack_require__(231);
+	var FriendConstants = __webpack_require__(265);
 	
 	var _friendships = {};
 	
 	var FriendStore = new Store(AppDispatcher);
 	
-	var addSingleFriendship = function (friendship) {
+	var addSingleFriendship = function addSingleFriendship(friendship) {
 	
 	  _friendships[friendship.id] = friendship;
 	};
 	
-	var addAllFriendships = function (friendships) {
+	var addAllFriendships = function addAllFriendships(friendships) {
 	  _friendships = {};
 	  friendships.forEach(function (friendship) {
 	    _friendships[friendship.id] = friendship;
@@ -33295,9 +33158,11 @@
 	module.exports = FriendStore;
 
 /***/ },
-/* 269 */
+/* 265 */
 /***/ function(module, exports) {
 
+	"use strict";
+	
 	var FriendConstants = {
 	  FRIENDSHIP_RECEIVED: "FRIENDSHIP_RECEIVED",
 	  FRIENDSHIPS_RECEIVED: "FRIENDSHIPS_RECEIVED"
@@ -33306,932 +33171,25 @@
 	module.exports = FriendConstants;
 
 /***/ },
-/* 270 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var UserShow = __webpack_require__(271);
-	var UserProfile = __webpack_require__(284);
-	
-	var UserPage;
-	
-	var User = React.createClass({
-	  displayName: 'User',
-	
-	  getUserPage: function () {
-	
-	    if (this.props.currentUser.id === this.props.user.id) {
-	      UserPage = React.createElement(UserProfile, { currentUser: this.props.currentUser, user: this.props.user });
-	    } else {
-	      UserPage = React.createElement(UserShow, { currentUser: this.props.currentUser, user: this.props.user });
-	    }
-	  },
-	
-	  render: function () {
-	    this.getUserPage();
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      UserPage
-	    );
-	  }
-	
-	});
-	
-	module.exports = User;
-
-/***/ },
-/* 271 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReviewsIndex = __webpack_require__(272);
-	var ReviewStore = __webpack_require__(255);
-	var FriendRequestUtil = __webpack_require__(280);
-	var FriendRequestStore = __webpack_require__(283);
-	var FriendStore = __webpack_require__(268);
-	
-	var friendRequest;
-	
-	var UserShow = React.createClass({
-	  displayName: 'UserShow',
-	
-	  getInitialState: function () {
-	    return {
-	      friendRequestStatus: FriendRequestStore.getRequestStatus(this.props.currentUser.id, this.props.user.id),
-	      friendStatus: FriendStore.getFriendshipStatus(this.props.currentUser.id, this.props.user.id)
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	
-	    this.requestToken = FriendRequestStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	
-	    this.requestToken.remove();
-	  },
-	
-	  _onChange: function () {
-	
-	    this.setState({
-	      friendRequestStatus: FriendRequestStore.getRequestStatus(this.props.currentUser.id, this.props.user.id)
-	    });
-	  },
-	
-	  handleFriendClick: function () {
-	    FriendRequestUtil.createFriendRequest(this.props.currentUser.id, this.props.user.id);
-	  },
-	
-	  displayFriendRequest: function () {
-	    if (this.state.friendStatus) {
-	      return React.createElement('div', null);
-	    } else if (this.state.friendRequestStatus) {
-	      return React.createElement(
-	        'div',
-	        null,
-	        'Friend Request Sent!'
-	      );
-	    } else {
-	      return React.createElement(
-	        'button',
-	        { className: 'btn btn-sm btn-1', onClick: this.handleFriendClick },
-	        'Add Friend'
-	      );
-	    }
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'row fixedWidth' },
-	      this.props.errors,
-	      React.createElement(
-	        'div',
-	        { className: 'row' },
-	        React.createElement(
-	          'div',
-	          { className: 'col-md-6 reviewsIndexContainer' },
-	          this.displayFriendRequest(),
-	          React.createElement(
-	            'h3',
-	            null,
-	            'Reviews by ',
-	            this.props.user.username
-	          ),
-	          React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.user })
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = UserShow;
-
-/***/ },
-/* 272 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReviewIndexItem = __webpack_require__(273);
-	var ReviewForm = __webpack_require__(279);
-	var ReviewStore = __webpack_require__(255);
-	
-	var ReviewsIndex = React.createClass({
-	  displayName: 'ReviewsIndex',
-	
-	  getInitialState: function () {
-	
-	    return {
-	      reviews: ReviewStore.filterReviewsByUserId(this.props.user.id)
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.reviewsToken = ReviewStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.reviewsToken.remove();
-	  },
-	
-	  _onChange: function () {
-	    this.setState({
-	      reviews: ReviewStore.filterReviewsByUserId(this.props.user.id)
-	    });
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      this.state.reviews.map((function (review) {
-	
-	        return React.createElement(ReviewIndexItem, { currentUser: this.props.currentUser, user: this.props.user, review: review, key: review.id });
-	      }).bind(this))
-	    );
-	  }
-	});
-	
-	module.exports = ReviewsIndex;
-
-/***/ },
-/* 273 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Comment = __webpack_require__(258);
-	var ReviewUtil = __webpack_require__(260);
-	var BeerStore = __webpack_require__(251);
-	var CommentStore = __webpack_require__(262);
-	var ToastStore = __webpack_require__(264);
-	var LinkedStateMixin = __webpack_require__(210);
-	var CommentForm = __webpack_require__(274);
-	var ToastUtil = __webpack_require__(277);
-	
-	var Display;
-	var Buttons;
-	var CommentFormDisplay;
-	var CommentButton;
-	var ToastButton;
-	
-	var ReviewIndexItem = React.createClass({
-	  displayName: 'ReviewIndexItem',
-	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
-	  },
-	
-	  handleToastClick: function (review) {
-	
-	    var toast = {
-	      review_id: review.id,
-	      user_id: this.props.currentUser.id
-	    };
-	    ToastUtil.createToast(toast);
-	  },
-	
-	  filteredState: function () {
-	    filteredState = {};
-	    for (key in this.state) {
-	      if (this.state.hasOwnProperty(key)) {
-	
-	        if (key !== "beers") {
-	          filteredState[key] = this.state[key];
-	        }
-	      }
-	    }
-	    return filteredState;
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault;
-	    Object.assign({}, this.state);
-	    ReviewUtil.updateReview(this.filteredState());
-	    this.setState({ editing: false });
-	  },
-	
-	  currentUserHasToastedReview: function () {
-	    var result = false;
-	
-	    this.state.toasts.forEach((function (toast) {
-	
-	      if (toast.user_id === this.props.currentUser.id) {
-	        result = true;
-	      }
-	    }).bind(this));
-	    return result;
-	  },
-	
-	  displayToastButton: function () {
-	    var currentUserHasToastedReview = this.currentUserHasToastedReview();
-	    if (currentUserHasToastedReview) {
-	      ToastButton = React.createElement(
-	        'div',
-	        null,
-	        'You Toasted this!'
-	      );
-	    } else {
-	      ToastButton = React.createElement(
-	        'div',
-	        { className: 'reviewFooterItem col-md-4' },
-	        React.createElement(
-	          'div',
-	          { onClick: this.handleToastClick.bind(this, this.props.review), className: 'toastReviewButton', value: this.props.review },
-	          'Toast this!'
-	        )
-	      );
-	    }
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      beers: BeerStore.all(),
-	      beer: BeerStore.find(this.props.review.beer_id),
-	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
-	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
-	      beer_id: this.props.review.beer_id,
-	      body: this.props.review.body,
-	      rating: this.props.review.rating,
-	      author_id: this.props.review.author_id,
-	      id: this.props.review.id,
-	      editing: false,
-	      commenting: false
-	
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.beerToken = BeerStore.addListener(this._onChange);
-	    this.commentToken = CommentStore.addListener(this._onChange);
-	    this.toastToken = ToastStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.beerToken.remove();
-	    this.commentToken.remove();
-	    this.toastToken.remove();
-	  },
-	
-	  _onChange: function () {
-	    this.setState({
-	      beer: BeerStore.find(this.props.review.beer_id),
-	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
-	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id)
-	    });
-	  },
-	
-	  handleDeleteClick: function (review) {
-	    ReviewUtil.destroyReview(review);
-	  },
-	
-	  handleEditClick: function (review) {
-	    this.setState({
-	      editing: true
-	    });
-	  },
-	
-	  handleCommentClick: function (review) {
-	    this.setState({
-	      commenting: true
-	    });
-	  },
-	
-	  handleRatingChange: function (event) {
-	    this.setState({ rating: event.target.value });
-	  },
-	
-	  handleBeerChange: function (event) {
-	    this.setState({ beer_id: event.target.value });
-	  },
-	
-	  checkIfCurrentUser: function () {
-	    if (this.props.currentUser.id === this.props.user.id) {
-	      Buttons = React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'div',
-	          { onClick: this.handleDeleteClick.bind(this, this.props.review), className: 'deleteReviewButton', value: this.props.review },
-	          'delete'
-	        ),
-	        React.createElement(
-	          'div',
-	          { onClick: this.handleEditClick.bind(this, this.props.review), className: 'editReviewButton', value: this.props.review },
-	          'edit'
-	        )
-	      );
-	    } else {
-	      Buttons = React.createElement('div', null);
-	    }
-	  },
-	
-	  isCommenting: function () {
-	    if (this.state.commenting) {
-	      CommentFormDisplay = React.createElement(CommentForm, { review: this.props.review, currentUser: this.props.currentUser, onChange: this.handleCommentFormSubmit });
-	    } else {
-	      CommentFormDisplay = React.createElement(
-	        'button',
-	        { onClick: this.handleCommentClick.bind(this, this.props.review), className: 'btn btn-1 createCommentButton', value: this.props.review },
-	        'add comment'
-	      );
-	    }
-	  },
-	
-	  handleCommentFormSubmit: function () {
-	
-	    this.setState({
-	      commenting: false
-	    });
-	  },
-	
-	  isEditing: function () {
-	    this.checkIfCurrentUser();
-	    this.displayToastButton();
-	    if (this.state.editing) {
-	      Display = React.createElement(
-	        'div',
-	        { className: '' },
-	        React.createElement(
-	          'form',
-	          { className: 'form-group reviewForm' },
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'reviewBody' },
-	            'What do you think?'
-	          ),
-	          React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'reviewRating' },
-	            'Your Rating'
-	          ),
-	          React.createElement(
-	            'select',
-	            { onChange: this.handleRatingChange },
-	            React.createElement(
-	              'option',
-	              { value: '0' },
-	              'rate beer'
-	            ),
-	            React.createElement(
-	              'option',
-	              { value: '1' },
-	              '1'
-	            ),
-	            React.createElement(
-	              'option',
-	              { value: '2' },
-	              '2'
-	            ),
-	            React.createElement(
-	              'option',
-	              { value: '3' },
-	              '3'
-	            ),
-	            React.createElement(
-	              'option',
-	              { value: '4' },
-	              '4'
-	            ),
-	            React.createElement(
-	              'option',
-	              { value: '5' },
-	              '5'
-	            )
-	          ),
-	          React.createElement('input', { className: 'btn btn-2', type: 'submit', value: 'Update Review', onClick: this.handleSubmit })
-	        )
-	      );
-	    } else {
-	      Display = React.createElement(
-	        'div',
-	        { className: 'row' },
-	        React.createElement(
-	          'div',
-	          { className: 'reviewContainer col-md-12' },
-	          React.createElement(
-	            'div',
-	            { className: 'reviewContent col-md-12' },
-	            React.createElement(
-	              'div',
-	              { className: 'reviewHeader col-md-12' },
-	              React.createElement(
-	                'div',
-	                { className: 'reviewTitle col-md-9' },
-	                this.props.user.username,
-	                ' is drinking ',
-	                this.state.beer.name,
-	                '!'
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'col-md-3 reviewButtons' },
-	                Buttons
-	              )
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'reviewBody col-md-12' },
-	              this.props.review.body
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'reviewFooter col-md-12' },
-	              React.createElement(
-	                'div',
-	                { className: 'reviewFooterItem col-md-4' },
-	                this.props.review.rating,
-	                ' Stars!'
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'reviewFooterItem col-md-4' },
-	                'toasts: ',
-	                this.state.toasts.length
-	              ),
-	              ToastButton
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'reviewCommentsIndex col-md-12' },
-	            CommentFormDisplay,
-	            this.state.comments.map((function (comment) {
-	              return React.createElement(Comment, { comment: comment, key: comment.id });
-	            }).bind(this))
-	          )
-	        )
-	      );
-	    }
-	  },
-	
-	  render: function () {
-	
-	    this.isCommenting();
-	    this.isEditing();
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      Display
-	    );
-	  }
-	});
-	
-	module.exports = ReviewIndexItem;
-
-/***/ },
-/* 274 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(210);
-	var CommentUtil = __webpack_require__(275);
-	
-	var CommentForm = React.createClass({
-	  displayName: 'CommentForm',
-	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      author_id: this.props.currentUser.id,
-	      review_id: this.props.review.id,
-	      body: ""
-	    };
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault;
-	
-	    var commentData = Object.assign({}, this.state);
-	    CommentUtil.createComment(commentData);
-	    this.props.onChange();
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'col-md-12' },
-	      React.createElement(
-	        'form',
-	        { className: 'form-group commentForm' },
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'commentBody' },
-	          'Comment'
-	        ),
-	        React.createElement('textarea', {
-	          className: 'form-control',
-	          id: 'reviewBody',
-	          valueLink: this.linkState('body') }),
-	        React.createElement('input', { className: 'btn btn-2 addCommentButton', type: 'submit', value: 'Add Comment', onClick: this.handleSubmit })
-	      )
-	    );
-	  }
-	
-	});
-	
-	module.exports = CommentForm;
-
-/***/ },
-/* 275 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var CommentActions = __webpack_require__(276);
-	
-	var CommentUtil = {
-	
-	  fetchAllComments: function () {
-	    $.get('api/comments', function (comments) {
-	      CommentActions.receiveAllComments(comments);
-	    });
-	  },
-	
-	  createComment: function (comment) {
-	    $.post('api/comments', { comment: comment }, function (comment) {
-	      CommentActions.receiveSingleComment(comment);
-	    });
-	  },
-	
-	  destroyComment: function (comment) {
-	    $.ajax({
-	      url: "api/comment/" + comment.id,
-	      type: 'DELETE',
-	      success: function (review) {
-	        ReviewActions.receiveSingleReview(review);
-	      }
-	    });
-	  }
-	
-	};
-	
-	module.exports = CommentUtil;
-
-/***/ },
-/* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(217);
-	var CommentConstants = __webpack_require__(263);
-	
-	var CommentActions = {
-	
-	  receiveAllComments: function (comments) {
-	    Dispatcher.dispatch({
-	      actionType: CommentConstants.COMMENTS_RECEIVED,
-	      comments: comments
-	    });
-	  },
-	
-	  receiveSingleComment: function (comment) {
-	    var action = {
-	      actionType: CommentConstants.COMMENT_RECEIVED,
-	      comment: comment
-	    };
-	    Dispatcher.dispatch(action);
-	  }
-	
-	};
-	
-	module.exports = CommentActions;
-
-/***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ToastActions = __webpack_require__(278);
-	
-	var ToastUtil = {
-	
-	  fetchAllToasts: function () {
-	    $.get('api/toasts', function (toasts) {
-	      ToastActions.receiveAllToasts(toasts);
-	    });
-	  },
-	
-	  createToast: function (toast) {
-	
-	    $.post('api/toasts', { toast: toast }, function (toast) {
-	      ToastActions.receiveSingleToast(toast);
-	    });
-	  },
-	
-	  destroyToast: function (toast) {
-	    $.ajax({
-	      url: "api/toast/" + toast.id,
-	      type: 'DELETE',
-	      success: function (review) {
-	        ReviewActions.receiveSingleReview(review);
-	      }
-	    });
-	  }
-	
-	};
-	
-	module.exports = ToastUtil;
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(217);
-	var ToastConstants = __webpack_require__(265);
-	
-	var ToastActions = {
-	
-	  receiveAllToasts: function (toasts) {
-	    Dispatcher.dispatch({
-	      actionType: ToastConstants.TOASTS_RECEIVED,
-	      toasts: toasts
-	    });
-	  },
-	
-	  receiveSingleToast: function (toast) {
-	    var action = {
-	      actionType: ToastConstants.TOAST_RECEIVED,
-	      toast: toast
-	    };
-	    Dispatcher.dispatch(action);
-	  }
-	
-	};
-	
-	module.exports = ToastActions;
-
-/***/ },
-/* 279 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var BeerStore = __webpack_require__(251);
-	var LinkedStateMixin = __webpack_require__(210);
-	var ReviewUtil = __webpack_require__(260);
-	var ReviewStore = __webpack_require__(255);
-	
-	var ReviewForm = React.createClass({
-	  displayName: 'ReviewForm',
-	
-	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.func
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      beers: BeerStore.all(),
-	      beer_id: 0,
-	      body: "",
-	      rating: 0,
-	      author_id: this.props.currentUser.id
-	    };
-	  },
-	
-	  _onChange: function () {
-	    this.setState({
-	      beers: BeerStore.all(),
-	      beer_id: 0,
-	      body: "",
-	      rating: 0,
-	      author_id: this.props.currentUser.id
-	    });
-	  },
-	
-	  componentDidMount: function () {
-	    this.BeerToken = BeerStore.addListener(this._onChange);
-	    this.ReviewToken = ReviewStore.addListener(this._onChange);
-	  },
-	  componentWillUnmount: function () {
-	    this.BeerToken.remove();
-	    this.ReviewToken.remove();
-	  },
-	
-	  filteredState: function () {
-	    return {
-	      beer_id: this.state.beer_id,
-	      body: this.state.body,
-	      rating: this.state.rating,
-	      author_id: this.state.author_id
-	    };
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault;
-	
-	    ReviewUtil.createReview(this.filteredState());
-	  },
-	
-	  handleBeerChange: function (event) {
-	    this.setState({ beer_id: event.target.value });
-	  },
-	
-	  handleRatingChange: function (event) {
-	    this.setState({ rating: event.target.value });
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'form',
-	      { className: 'form-group reviewForm' },
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'reviewBeer' },
-	        'What are you drinking?'
-	      ),
-	      React.createElement(
-	        'select',
-	        { value: this.state.beer_id, onChange: this.handleBeerChange },
-	        React.createElement('option', { value: '0', key: '0' }),
-	        this.state.beers.map((function (beer) {
-	          return React.createElement(
-	            'option',
-	            { value: beer.id, key: beer.id },
-	            beer.name
-	          );
-	        }).bind(this))
-	      ),
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'reviewBody' },
-	        'What do you think?'
-	      ),
-	      React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
-	      React.createElement(
-	        'label',
-	        { className: 'reviewFormItem', htmlFor: 'reviewRating' },
-	        'Rate it!'
-	      ),
-	      React.createElement(
-	        'select',
-	        { className: 'reviewFormItem', onChange: this.handleRatingChange },
-	        React.createElement(
-	          'option',
-	          { value: '0' },
-	          'rate beer'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: '1' },
-	          '1'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: '2' },
-	          '2'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: '3' },
-	          '3'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: '4' },
-	          '4'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: '5' },
-	          '5'
-	        )
-	      ),
-	      React.createElement('input', { className: 'btn btn-2 reviewFormItem', type: 'submit', value: 'Add your review!', onClick: this.handleSubmit })
-	    );
-	  }
-	
-	});
-	
-	module.exports = ReviewForm;
-
-/***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var FriendRequestActions = __webpack_require__(281);
-	
-	var FriendRequestUtil = {
-	
-	  createFriendRequest: function (requesterId, requestedId) {
-	    $.post('api/friendrequests', { friendrequest: {
-	        requester_id: requesterId,
-	        requested_id: requestedId
-	      }
-	    }, function (friendRequest) {
-	
-	      FriendRequestActions.receiveFriendRequest(friendRequest);
-	    });
-	  },
-	
-	  fetchAllFriendRequests: function () {
-	    $.get('api/friendrequests', function (friendRequests) {
-	      FriendRequestActions.receiveAllFriendRequests(friendRequests);
-	    });
-	  },
-	
-	  destroyFriendRequest: function (requestId) {
-	    $.ajax({
-	      url: "api/friendrequests/" + requestId,
-	      type: "DELETE",
-	      success: function (friendRequests) {
-	        FriendRequestActions.receiveAllFriendRequests(friendRequests);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = FriendRequestUtil;
-
-/***/ },
-/* 281 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(217);
-	var FriendRequestConstants = __webpack_require__(282);
-	
-	var FriendRequestActions = {
-	
-	  receiveFriendRequest: function (request) {
-	
-	    Dispatcher.dispatch({
-	      actionType: FriendRequestConstants.REQUEST_RECEIVED,
-	      request: request
-	    });
-	  },
-	
-	  receiveAllFriendRequests: function (friendRequests) {
-	
-	    Dispatcher.dispatch({
-	      actionType: FriendRequestConstants.REQUESTS_RECEIVED,
-	      requests: friendRequests
-	    });
-	  }
-	};
-	
-	module.exports = FriendRequestActions;
-
-/***/ },
-/* 282 */
-/***/ function(module, exports) {
-
-	var FriendRequestConstants = {
-	  REQUEST_RECEIVED: "REQUEST_RECEIVED",
-	  REQUESTS_RECEIVED: "REQUESTS_RECEIVED"
-	};
-	
-	module.exports = FriendRequestConstants;
-
-/***/ },
-/* 283 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var FriendRequestConstants = __webpack_require__(282);
+	'use strict';
+	
+	var Store = __webpack_require__(214).Store;
+	var AppDispatcher = __webpack_require__(231);
+	var FriendRequestConstants = __webpack_require__(267);
 	
 	var _requests = {};
 	
 	var FriendRequestStore = new Store(AppDispatcher);
 	
-	var addSingleFriendRequest = function (request) {
+	var addSingleFriendRequest = function addSingleFriendRequest(request) {
 	
 	  _requests[request.id] = request;
 	};
 	
-	var addAllFriendRequests = function (requests) {
+	var addAllFriendRequests = function addAllFriendRequests(requests) {
 	  _requests = {};
 	  requests.forEach(function (request) {
 	    _requests[request.id] = request;
@@ -34286,183 +33244,30 @@
 	module.exports = FriendRequestStore;
 
 /***/ },
-/* 284 */
-/***/ function(module, exports, __webpack_require__) {
+/* 267 */
+/***/ function(module, exports) {
 
-	var React = __webpack_require__(1);
-	var ReviewsIndex = __webpack_require__(272);
-	var ReviewStore = __webpack_require__(255);
-	var ReviewForm = __webpack_require__(279);
-	var FriendRequestStore = __webpack_require__(283);
-	var UserStore = __webpack_require__(259);
-	var FriendRequestUtil = __webpack_require__(280);
-	var FriendUtil = __webpack_require__(285);
-	var FriendStore = __webpack_require__(268);
+	"use strict";
 	
-	var UserProfile = React.createClass({
-	  displayName: 'UserProfile',
+	var FriendRequestConstants = {
+	  REQUEST_RECEIVED: "REQUEST_RECEIVED",
+	  REQUESTS_RECEIVED: "REQUESTS_RECEIVED"
+	};
 	
-	  getInitialState: function () {
-	
-	    return {
-	      friendRequests: FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id)
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.RequestToken = FriendRequestStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.RequestToken.remove();
-	  },
-	
-	  _onChange: function () {
-	
-	    this.setState({
-	      friendRequests: FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id)
-	
-	    });
-	  },
-	
-	  handleSignOut: function () {
-	    SessionUtil.destroySession();
-	  },
-	
-	  handleConfirm: function () {
-	
-	    var requestObj = FriendRequestStore.findById(request);
-	    FriendUtil.createFriendship(requestObj);
-	    FriendRequestUtil.destroyFriendRequest(request);
-	  },
-	
-	  handleDeny: function (request) {
-	    FriendRequestUtil.destroyFriendRequest(request.id);
-	  },
-	
-	  getFriendRequests: function () {
-	
-	    var requests = this.state.friendRequests;
-	    return requests.map((function (request) {
-	
-	      return React.createElement(
-	        'div',
-	        { className: '', key: request.id, request: request },
-	        React.createElement(
-	          'div',
-	          { className: 'friendRequestNotifcation' },
-	          UserStore.findById(request.requester_id).username,
-	          ' wants to be your friend!'
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'friendApproveButtons' },
-	          React.createElement(
-	            'button',
-	            { className: 'btn btn-sm btn-2 friendApproveButton',
-	              onClick: this.handleConfirm.bind(this, request) },
-	            'Confirm'
-	          ),
-	          React.createElement(
-	            'button',
-	            { className: 'btn btn-sm btn-3 friendApproveButton',
-	              onClick: this.handleDeny.bind(this, request) },
-	            'Deny'
-	          )
-	        )
-	      );
-	    }).bind(this));
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'row fixedWidth' },
-	      React.createElement(
-	        'div',
-	        { className: 'row' },
-	        React.createElement(
-	          'div',
-	          { className: 'userSummary' },
-	          React.createElement(
-	            'h3',
-	            null,
-	            'Welcome, ',
-	            this.props.currentUser.username,
-	            '!'
-	          ),
-	          this.props.errors
-	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'row' },
-	        React.createElement(
-	          'div',
-	          { className: 'col-md-6 reviewsIndexContainer' },
-	          React.createElement(
-	            'h3',
-	            null,
-	            'Review a Beer'
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'newReviewFormContainer col-md-12' },
-	            React.createElement(ReviewForm, { currentUser: this.props.currentUser })
-	          ),
-	          React.createElement(
-	            'h3',
-	            null,
-	            'My Reviews'
-	          ),
-	          React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.currentUser })
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'userSidebar col-md-4 col-md-offset-2' },
-	          React.createElement(
-	            'div',
-	            { className: 'userSidebarElement' },
-	            React.createElement(
-	              'h4',
-	              null,
-	              'Pending Requests: ',
-	              this.state.friendRequests.length
-	            ),
-	            this.getFriendRequests()
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'userSidebarElement' },
-	            React.createElement(
-	              'h4',
-	              null,
-	              'My Stats'
-	            ),
-	            'Reviews: ',
-	            ReviewStore.filterReviewsByUserId(this.props.user.id).length,
-	            React.createElement('br', null),
-	            'Friends: ',
-	            FriendStore.filterFriendshipsByUserId(this.props.user.id).length
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = UserProfile;
+	module.exports = FriendRequestConstants;
 
 /***/ },
-/* 285 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var FriendActions = __webpack_require__(286);
+	"use strict";
+	
+	var FriendActions = __webpack_require__(269);
 	
 	var FriendUtil = {
 	
-	  createFriendship: function (requestObj) {
+	  createFriendship: function createFriendship(requestObj) {
+	
 	    $.post("api/friendships", { friendship: {
 	        user_id: requestObj.requester_id,
 	        friend_id: requestObj.requested_id
@@ -34480,7 +33285,7 @@
 	    });
 	  },
 	
-	  fetchAllFriendships: function () {
+	  fetchAllFriendships: function fetchAllFriendships() {
 	    $.get('api/friendships', function (friendships) {
 	      FriendActions.receiveAllFriendships(friendships);
 	    });
@@ -34491,15 +33296,17 @@
 	module.exports = FriendUtil;
 
 /***/ },
-/* 286 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(217);
-	var FriendConstants = __webpack_require__(269);
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(231);
+	var FriendConstants = __webpack_require__(265);
 	
 	var FriendActions = {
 	
-	  receiveSingleFriendship: function (friendship) {
+	  receiveSingleFriendship: function receiveSingleFriendship(friendship) {
 	
 	    Dispatcher.dispatch({
 	      actionType: FriendConstants.FRIENDSHIP_RECEIVED,
@@ -34507,7 +33314,7 @@
 	    });
 	  },
 	
-	  receiveAllFriendships: function (friendships) {
+	  receiveAllFriendships: function receiveAllFriendships(friendships) {
 	
 	    Dispatcher.dispatch({
 	      actionType: FriendConstants.FRIENDSHIPS_RECEIVED,
@@ -34519,85 +33326,1054 @@
 	module.exports = FriendActions;
 
 /***/ },
-/* 287 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var Navbar = __webpack_require__(249);
-	var UserStore = __webpack_require__(259);
-	var User = __webpack_require__(270);
-	var Link = __webpack_require__(159).Link;
+	'use strict';
 	
-	var userToken;
+	var FriendRequestActions = __webpack_require__(271);
 	
-	var UsersIndex = React.createClass({
-	  displayName: 'UsersIndex',
+	var FriendRequestUtil = {
 	
-	  getInitialState: function () {
-	    return {
-	      users: UserStore.all()
-	    };
-	  },
+	  createFriendRequest: function createFriendRequest(requesterId, requestedId) {
+	    $.post('api/friendrequests', { friendrequest: {
+	        requester_id: requesterId,
+	        requested_id: requestedId
+	      }
+	    }, function (friendRequest) {
 	
-	  componentDidMount: function () {
-	
-	    userToken = UserStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    userToken.remove();
-	  },
-	
-	  _onChange: function () {
-	    this.setState({
-	      users: UserStore.all()
+	      FriendRequestActions.receiveFriendRequest(friendRequest);
 	    });
 	  },
 	
-	  handleClick: function (newSubPage, user, beer) {
-	
-	    this.props.onSubPageChange(newSubPage, user, beer);
+	  fetchAllFriendRequests: function fetchAllFriendRequests() {
+	    $.get('api/friendrequests', function (friendRequests) {
+	      FriendRequestActions.receiveAllFriendRequests(friendRequests);
+	    });
 	  },
 	
-	  render: function () {
+	  destroyFriendRequest: function destroyFriendRequest(requestId) {
+	    $.ajax({
+	      url: "api/friendrequests/" + requestId,
+	      type: "DELETE",
+	      success: function success(friendRequests) {
+	        FriendRequestActions.receiveAllFriendRequests(friendRequests);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = FriendRequestUtil;
+
+/***/ },
+/* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(231);
+	var FriendRequestConstants = __webpack_require__(267);
+	
+	var FriendRequestActions = {
+	
+	  receiveFriendRequest: function receiveFriendRequest(request) {
+	
+	    Dispatcher.dispatch({
+	      actionType: FriendRequestConstants.REQUEST_RECEIVED,
+	      request: request
+	    });
+	  },
+	
+	  receiveAllFriendRequests: function receiveAllFriendRequests(friendRequests) {
+	
+	    Dispatcher.dispatch({
+	      actionType: FriendRequestConstants.REQUESTS_RECEIVED,
+	      requests: friendRequests
+	    });
+	  }
+	};
+	
+	module.exports = FriendRequestActions;
+
+/***/ },
+/* 272 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var LinkedStateMixin = __webpack_require__(273);
+	var NewUser = __webpack_require__(277);
+	var NewSession = __webpack_require__(285);
+	
+	var AuthForm;
+	var Auth = React.createClass({
+	  displayName: 'Auth',
+	
+	  GetAppropriateAuthForm: function GetAppropriateAuthForm() {
+	
+	    if (this.props.button === "signup") {
+	      AuthForm = NewUser;
+	    } else if (this.props.button === "signin") {
+	      AuthForm = NewSession;
+	    }
+	  },
+	
+	  render: function render() {
+	
+	    this.GetAppropriateAuthForm();
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'fixedWidth row index' },
-	      this.state.users.map((function (user) {
-	        var url = "/user/" + user.id;
-	        return React.createElement(
-	          Link,
-	          { className: 'indexItem col-md-12', to: url, key: user.id
-	          },
-	          user.username
-	        );
-	      }).bind(this))
+	      null,
+	      React.createElement(AuthForm, { cancelAuth: this.props.cancelAuth })
 	    );
 	  }
 	
 	});
 	
-	module.exports = UsersIndex;
+	module.exports = Auth;
 
 /***/ },
-/* 288 */,
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(274);
+
+/***/ },
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule LinkedStateMixin
+	 * @typechecks static-only
+	 */
+	
+	'use strict';
+	
+	var ReactLink = __webpack_require__(275);
+	var ReactStateSetters = __webpack_require__(276);
+	
+	/**
+	 * A simple mixin around ReactLink.forState().
+	 */
+	var LinkedStateMixin = {
+	  /**
+	   * Create a ReactLink that's linked to part of this component's state. The
+	   * ReactLink will have the current value of this.state[key] and will call
+	   * setState() when a change is requested.
+	   *
+	   * @param {string} key state key to update. Note: you may want to use keyOf()
+	   * if you're using Google Closure Compiler advanced mode.
+	   * @return {ReactLink} ReactLink instance linking to the state.
+	   */
+	  linkState: function (key) {
+	    return new ReactLink(this.state[key], ReactStateSetters.createStateKeySetter(this, key));
+	  }
+	};
+	
+	module.exports = LinkedStateMixin;
+
+/***/ },
+/* 275 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactLink
+	 * @typechecks static-only
+	 */
+	
+	'use strict';
+	
+	/**
+	 * ReactLink encapsulates a common pattern in which a component wants to modify
+	 * a prop received from its parent. ReactLink allows the parent to pass down a
+	 * value coupled with a callback that, when invoked, expresses an intent to
+	 * modify that value. For example:
+	 *
+	 * React.createClass({
+	 *   getInitialState: function() {
+	 *     return {value: ''};
+	 *   },
+	 *   render: function() {
+	 *     var valueLink = new ReactLink(this.state.value, this._handleValueChange);
+	 *     return <input valueLink={valueLink} />;
+	 *   },
+	 *   _handleValueChange: function(newValue) {
+	 *     this.setState({value: newValue});
+	 *   }
+	 * });
+	 *
+	 * We have provided some sugary mixins to make the creation and
+	 * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
+	 */
+	
+	var React = __webpack_require__(2);
+	
+	/**
+	 * @param {*} value current value of the link
+	 * @param {function} requestChange callback to request a change
+	 */
+	function ReactLink(value, requestChange) {
+	  this.value = value;
+	  this.requestChange = requestChange;
+	}
+	
+	/**
+	 * Creates a PropType that enforces the ReactLink API and optionally checks the
+	 * type of the value being passed inside the link. Example:
+	 *
+	 * MyComponent.propTypes = {
+	 *   tabIndexLink: ReactLink.PropTypes.link(React.PropTypes.number)
+	 * }
+	 */
+	function createLinkTypeChecker(linkType) {
+	  var shapes = {
+	    value: typeof linkType === 'undefined' ? React.PropTypes.any.isRequired : linkType.isRequired,
+	    requestChange: React.PropTypes.func.isRequired
+	  };
+	  return React.PropTypes.shape(shapes);
+	}
+	
+	ReactLink.PropTypes = {
+	  link: createLinkTypeChecker
+	};
+	
+	module.exports = ReactLink;
+
+/***/ },
+/* 276 */
+/***/ function(module, exports) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactStateSetters
+	 */
+	
+	'use strict';
+	
+	var ReactStateSetters = {
+	  /**
+	   * Returns a function that calls the provided function, and uses the result
+	   * of that to set the component's state.
+	   *
+	   * @param {ReactCompositeComponent} component
+	   * @param {function} funcReturningState Returned callback uses this to
+	   *                                      determine how to update state.
+	   * @return {function} callback that when invoked uses funcReturningState to
+	   *                    determined the object literal to setState.
+	   */
+	  createStateSetter: function (component, funcReturningState) {
+	    return function (a, b, c, d, e, f) {
+	      var partialState = funcReturningState.call(component, a, b, c, d, e, f);
+	      if (partialState) {
+	        component.setState(partialState);
+	      }
+	    };
+	  },
+	
+	  /**
+	   * Returns a single-argument callback that can be used to update a single
+	   * key in the component's state.
+	   *
+	   * Note: this is memoized function, which makes it inexpensive to call.
+	   *
+	   * @param {ReactCompositeComponent} component
+	   * @param {string} key The key in the state that you should update.
+	   * @return {function} callback of 1 argument which calls setState() with
+	   *                    the provided keyName and callback argument.
+	   */
+	  createStateKeySetter: function (component, key) {
+	    // Memoize the setters.
+	    var cache = component.__keySetters || (component.__keySetters = {});
+	    return cache[key] || (cache[key] = createStateKeySetter(component, key));
+	  }
+	};
+	
+	function createStateKeySetter(component, key) {
+	  // Partial state is allocated outside of the function closure so it can be
+	  // reused with every call, avoiding memory allocation when this function
+	  // is called.
+	  var partialState = {};
+	  return function stateKeySetter(value) {
+	    partialState[key] = value;
+	    component.setState(partialState);
+	  };
+	}
+	
+	ReactStateSetters.Mixin = {
+	  /**
+	   * Returns a function that calls the provided function, and uses the result
+	   * of that to set the component's state.
+	   *
+	   * For example, these statements are equivalent:
+	   *
+	   *   this.setState({x: 1});
+	   *   this.createStateSetter(function(xValue) {
+	   *     return {x: xValue};
+	   *   })(1);
+	   *
+	   * @param {function} funcReturningState Returned callback uses this to
+	   *                                      determine how to update state.
+	   * @return {function} callback that when invoked uses funcReturningState to
+	   *                    determined the object literal to setState.
+	   */
+	  createStateSetter: function (funcReturningState) {
+	    return ReactStateSetters.createStateSetter(this, funcReturningState);
+	  },
+	
+	  /**
+	   * Returns a single-argument callback that can be used to update a single
+	   * key in the component's state.
+	   *
+	   * For example, these statements are equivalent:
+	   *
+	   *   this.setState({x: 1});
+	   *   this.createStateKeySetter('x')(1);
+	   *
+	   * Note: this is memoized function, which makes it inexpensive to call.
+	   *
+	   * @param {string} key The key in the state that you should update.
+	   * @return {function} callback of 1 argument which calls setState() with
+	   *                    the provided keyName and callback argument.
+	   */
+	  createStateKeySetter: function (key) {
+	    return ReactStateSetters.createStateKeySetter(this, key);
+	  }
+	};
+	
+	module.exports = ReactStateSetters;
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var LinkedStateMixin = __webpack_require__(273);
+	var UserUtil = __webpack_require__(278);
+	var SessionUtil = __webpack_require__(284);
+	var today = new Date();
+	
+	var NewUser = React.createClass({
+	  displayName: 'NewUser',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      username: "",
+	      password: "",
+	      location: "",
+	      email: "",
+	      password_confirmation: "",
+	      birthday: today.toISOString().slice(0, 10)
+	    };
+	  },
+	
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var user = Object.assign({}, this.state);
+	    UserUtil.createUser(user);
+	  },
+	
+	  goBack: function goBack() {
+	    this.props.cancelAuth();
+	  },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { className: '', id: 'newUserFormDiv' },
+	        React.createElement(
+	          'form',
+	          { id: 'newUserForm', className: 'form-group' },
+	          React.createElement(
+	            'div',
+	            { className: 'row' },
+	            React.createElement(
+	              'div',
+	              { className: 'col-md-6' },
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'newUsername' },
+	                'Username'
+	              ),
+	              React.createElement('input', { type: 'text', className: 'form-control', id: 'newUsername', valueLink: this.linkState('username') }),
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'newPassword' },
+	                'Password'
+	              ),
+	              React.createElement('input', { type: 'password', className: 'form-control', id: 'newPassword', valueLink: this.linkState('password') }),
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'newLocation' },
+	                'Location'
+	              ),
+	              React.createElement('input', { type: 'text', className: 'form-control', id: 'newLocation', valueLink: this.linkState('location') })
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'col-md-6' },
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'newEmail' },
+	                'Email'
+	              ),
+	              React.createElement('input', { type: 'email', className: 'form-control', id: 'newEmail', valueLink: this.linkState('email') }),
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'newConfirm' },
+	                'Confirm Password'
+	              ),
+	              React.createElement('input', { type: 'password', className: 'form-control', id: 'newConfirm', valueLink: this.linkState('password_confirmation') }),
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'newBirthday' },
+	                'Birthday'
+	              ),
+	              React.createElement('input', { type: 'date', className: 'form-control', id: 'newBirthday', valueLink: this.linkState('birthday') })
+	            )
+	          ),
+	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Create My Account!', className: 'btn btn-lg btn-1 authButton' }),
+	          React.createElement(
+	            'button',
+	            { onClick: this.goBack, value: 'Cancel', className: 'btn btn-lg btn-3 authButton' },
+	            'Cancel'
+	          )
+	        )
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = NewUser;
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var UserActions = __webpack_require__(279);
+	var SessionActions = __webpack_require__(280);
+	var ErrorActions = __webpack_require__(239);
+	var CurrentUserActions = __webpack_require__(282);
+	
+	var UserUtil = {
+	
+	  createUser: function createUser(user) {
+	    $.ajax({
+	      url: "api/users",
+	      type: "POST",
+	      data: { user: user },
+	      success: function success(user) {
+	        UserActions.receiveSingleUser(user);
+	        SessionActions.createSession(user);
+	        CurrentUserActions.setCurrentUser(user);
+	      },
+	      error: function error(errors) {
+	        ErrorActions.receiveAllErrors(errors);
+	      }
+	    });
+	  },
+	
+	  fetchSingleUser: function fetchSingleUser(user) {
+	    $.get('api/user/' + user.id, function (user) {
+	      UserActions.receiveSingleUser(user);
+	    });
+	  },
+	
+	  fetchAllUsers: function fetchAllUsers() {
+	    $.get('api/users', function (users) {
+	      UserActions.receiveAllUsers(users);
+	    });
+	  }
+	
+	};
+	
+	module.exports = UserUtil;
+
+/***/ },
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(231);
+	var UserConstants = __webpack_require__(247);
+	
+	var UserActions = {
+	  receiveSingleUser: function receiveSingleUser(user) {
+	
+	    Dispatcher.dispatch({
+	      actionType: UserConstants.USER_RECEIVED,
+	      user: user
+	    });
+	  },
+	
+	  receiveAllUsers: function receiveAllUsers(users) {
+	
+	    var action = {
+	      actionType: UserConstants.USERS_RECEIVED,
+	      users: users
+	    };
+	
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = UserActions;
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(231);
+	var SessionConstants = __webpack_require__(281);
+	
+	var SessionActions = {
+	  createSession: function createSession(user) {
+	    Dispatcher.dispatch({
+	      actionType: SessionConstants.SESSION_CREATED,
+	      user: user
+	    });
+	  },
+	
+	  destroySession: function destroySession(user) {
+	    Dispatcher.dispatch({
+	      actionType: SessionConstants.SESSION_DESTROYED,
+	      user: user
+	    });
+	  }
+	
+	};
+	
+	module.exports = SessionActions;
+
+/***/ },
+/* 281 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var SessionConstants = {
+	  SESSION_CREATED: "SESSION_CREATED",
+	  SESSION_DESTROYED: "SESSION_DESTROYED",
+	  SESSION_ERRORS: "SESSION_ERRORS"
+	};
+	
+	module.exports = SessionConstants;
+
+/***/ },
+/* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(231);
+	var CurrentUserConstants = __webpack_require__(283);
+	
+	var CurrentUserActions = {
+	
+	  setCurrentUser: function setCurrentUser(user) {
+	    Dispatcher.dispatch({
+	      actionType: CurrentUserConstants.CURRENT_USER_SET,
+	      currentUser: user
+	    });
+	  },
+	
+	  resetCurrentUser: function resetCurrentUser() {
+	
+	    Dispatcher.dispatch({
+	      actionType: CurrentUserConstants.CURRENT_USER_RESET
+	    });
+	  }
+	
+	};
+	
+	module.exports = CurrentUserActions;
+
+/***/ },
+/* 283 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var CurrentUserConstants = {
+	  CURRENT_USER_SET: "CURRENT_USER_SET",
+	  CURRENT_USER_RESET: "CURRENT_USER_RESET"
+	};
+	
+	module.exports = CurrentUserConstants;
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var SessionActions = __webpack_require__(280);
+	var ErrorActions = __webpack_require__(239);
+	var CurrentUserActions = __webpack_require__(282);
+	
+	var SessionUtil = {
+	
+	  fetchCurrentUser: function fetchCurrentUser() {
+	    $.get('api/session', function (user) {
+	      SessionActions.receiveCurrentUser(user);
+	    });
+	  },
+	
+	  createSession: function createSession(user) {
+	    $.ajax({
+	      url: "api/session",
+	      type: "POST",
+	      data: { user: user },
+	      success: function success(user) {
+	        SessionActions.createSession(user);
+	        CurrentUserActions.setCurrentUser(user);
+	      },
+	      error: function error(errors) {
+	        ErrorActions.receiveAllErrors(errors);
+	      }
+	    });
+	  },
+	
+	  destroySession: function destroySession() {
+	    $.ajax({
+	      url: "../api/session", // not sure why "api/session" doesn't work anymore
+	      type: 'DELETE',
+	      success: function success(user) {
+	        SessionActions.destroySession(user);
+	        CurrentUserActions.resetCurrentUser;
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = SessionUtil;
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var LinkedStateMixin = __webpack_require__(273);
+	var SessionUtil = __webpack_require__(284);
+	
+	var NewSession = React.createClass({
+	  displayName: 'NewSession',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      username: "",
+	      password: ""
+	
+	    };
+	  },
+	
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var sessionData = Object.assign({}, this.state);
+	    SessionUtil.createSession(sessionData);
+	  },
+	
+	  goBack: function goBack() {
+	    this.props.cancelAuth();
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { className: 'col-md-12', id: 'newSessionFormDiv' },
+	        React.createElement(
+	          'form',
+	          { id: 'newSessionForm', className: 'form-group' },
+	          React.createElement(
+	            'div',
+	            { className: 'row' },
+	            React.createElement(
+	              'div',
+	              { className: 'col-md-6 col-md-offset-3' },
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'sessionUsername' },
+	                'Username'
+	              ),
+	              React.createElement('input', { type: 'text', className: 'form-control', id: 'sessionUsername', valueLink: this.linkState('username') }),
+	              React.createElement(
+	                'label',
+	                { htmlFor: 'sessionPassword' },
+	                'Password'
+	              ),
+	              React.createElement('input', { type: 'password', className: 'form-control', id: 'sessionPassword', valueLink: this.linkState('password') })
+	            )
+	          ),
+	          React.createElement('input', { type: 'submit', onClick: this.handleSubmit, value: 'Log In', className: 'btn btn-lg btn-1 authButton' }),
+	          React.createElement(
+	            'button',
+	            { onClick: this.goBack, value: 'Cancel', className: 'btn btn-lg btn-3 authButton' },
+	            'Cancel'
+	          )
+	        )
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = NewSession;
+
+/***/ },
+/* 286 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(214).Store;
+	var AppDispatcher = __webpack_require__(231);
+	var SessionConstants = __webpack_require__(281);
+	
+	var _session = "";
+	var currentUser = {};
+	var sessionErrors = [];
+	var SessionStore = new Store(AppDispatcher);
+	
+	SessionStore.currentUser = function () {
+	  return currentUser;
+	};
+	
+	SessionStore.currentSession = function () {
+	  return _session;
+	};
+	
+	SessionStore.isLoggedIn = function () {
+	  if (_session) {
+	    return true;
+	  } else {
+	    return false;
+	  }
+	};
+	
+	SessionStore.sessionErrors = function () {
+	  return sessionErrors;
+	};
+	
+	var newCurrentUser = function newCurrentUser(user) {
+	  currentUser = user;
+	};
+	
+	var resetSession = function resetSession() {
+	  _session = "";
+	};
+	
+	var resetErrors = function resetErrors() {
+	  sessionErrors = [];
+	};
+	
+	var addSessionErrors = function addSessionErrors(errors) {
+	  sessionErrors = errors;
+	  _session = "";
+	};
+	
+	var newSession = function newSession(sessionToken) {
+	  _session = sessionToken;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.SESSION_CREATED:
+	      resetErrors();
+	      newCurrentUser(payload.user);
+	      newSession(payload.user.session_token);
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.SESSION_DESTROYED:
+	      resetErrors();
+	      resetSession();
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.SESSION_ERRORS:
+	      resetErrors();
+	      addSessionErrors(payload.errors);
+	      break;
+	
+	  }
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(214).Store;
+	var AppDispatcher = __webpack_require__(231);
+	var ErrorConstants = __webpack_require__(240);
+	
+	var ErrorStore = new Store(AppDispatcher);
+	
+	var _errors = [];
+	
+	var receiveAllErrors = function receiveAllErrors(payload) {
+	
+	  _errors = [];
+	  var errorMessages = payload.errors.responseJSON;
+	  if (errorMessages) {
+	    errorMessages.forEach(function (errorMessage) {
+	      _errors.push(errorMessage);
+	    });
+	  }
+	};
+	
+	ErrorStore.all = function () {
+	  return _errors;
+	};
+	
+	ErrorStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case ErrorConstants.ERRORS_RECEIVED:
+	      receiveAllErrors(payload);
+	      ErrorStore.__emitChange();
+	      break;
+	  };
+	};
+	
+	module.exports = ErrorStore;
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _authenticated_component = __webpack_require__(289);
+	
+	var _authenticated_component2 = _interopRequireDefault(_authenticated_component);
+	
+	var _new_user_profile = __webpack_require__(292);
+	
+	var _new_user_profile2 = _interopRequireDefault(_new_user_profile);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	exports.default = (0, _authenticated_component2.default)((function (_Component) {
+	  _inherits(Home, _Component);
+	
+	  function Home() {
+	    _classCallCheck(this, Home);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Home).apply(this, arguments));
+	  }
+	
+	  _createClass(Home, [{
+	    key: 'render',
+	    value: function render() {
+	      // Here, we display the user information
+	      return _react2.default.createElement(_new_user_profile2.default, { currentUser: this.props.currentUser });
+	    }
+	  }]);
+	
+	  return Home;
+	})(_react.Component));
+
+/***/ },
 /* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(231).Store;
-	var AppDispatcher = __webpack_require__(217);
-	var CurrentUserConstants = __webpack_require__(227);
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _current_user_store = __webpack_require__(290);
+	
+	var _current_user_store2 = _interopRequireDefault(_current_user_store);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SessionStore = __webpack_require__(286);
+	
+	// ... imports
+	
+	exports.default = function (ComposedComponent) {
+	  return (function (_React$Component) {
+	    _inherits(AuthenticatedComponent, _React$Component);
+	
+	    _createClass(AuthenticatedComponent, [{
+	      key: 'willTransitionTo',
+	      value: function willTransitionTo(transition) {
+	        // This method is called before transitioning to this component. If the user is not logged in, we’ll send him or her to the Login page.
+	        if (!SessionStore.isLoggedIn()) {
+	          transition.redirect('/');
+	        }
+	      }
+	    }]);
+	
+	    function AuthenticatedComponent() {
+	      _classCallCheck(this, AuthenticatedComponent);
+	
+	      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AuthenticatedComponent).call(this));
+	
+	      _this.state = _this._getLoginState();
+	      _this._onChange = _this._onChange.bind(_this);
+	      return _this;
+	    }
+	
+	    _createClass(AuthenticatedComponent, [{
+	      key: '_getLoginState',
+	      value: function _getLoginState() {
+	        return {
+	          userLoggedIn: SessionStore.isLoggedIn(),
+	          currentUser: SessionStore.currentUser()
+	
+	        };
+	      }
+	
+	      // Here, we’re subscribing to changes in the LoginStore we created before. Remember that the LoginStore is an EventEmmiter.
+	
+	    }, {
+	      key: 'componentDidMount',
+	      value: function componentDidMount() {
+	        this.sessionToken = SessionStore.addListener(this._onChange);
+	        if (!SessionStore.isLoggedIn()) {
+	          this.props.history.pushState(null, "/");
+	        }
+	      }
+	
+	      // After any change, we update the component’s state so that it’s rendered again.
+	
+	    }, {
+	      key: '_onChange',
+	      value: function _onChange() {
+	
+	        this.setState(this._getLoginState());
+	        if (!this.state.userLoggedIn) {
+	          this.props.history.pushState(null, "/");
+	        }
+	      }
+	    }, {
+	      key: 'componentWillUnmount',
+	      value: function componentWillUnmount() {
+	        this.sessionToken.remove();
+	      }
+	    }, {
+	      key: 'render',
+	      value: function render() {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'homeDiv' },
+	          _react2.default.createElement(ComposedComponent, _extends({}, this.props, {
+	            currentUser: this.state.currentUser,
+	            userLoggedIn: this.state.userLoggedIn }))
+	        );
+	      }
+	    }]);
+	
+	    return AuthenticatedComponent;
+	  })(_react2.default.Component);
+	};
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(214).Store;
+	var AppDispatcher = __webpack_require__(231);
+	var CurrentUserConstants = __webpack_require__(283);
 	
 	var _currentUser = {};
 	
 	var CurrentUserStore = new Store(AppDispatcher);
 	
-	var resetCurrentUser = function () {
+	var resetCurrentUser = function resetCurrentUser() {
 	  _currentUser = {};
 	};
 	
-	var setCurrentUser = function (user) {
+	var setCurrentUser = function setCurrentUser(user) {
 	  _currentUser = user;
 	};
 	
@@ -34622,15 +34398,17 @@
 	module.exports = CurrentUserStore;
 
 /***/ },
-/* 290 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+	
 	var React = __webpack_require__(1);
 	
 	var Footer = React.createClass({
 	  displayName: "Footer",
 	
-	  render: function () {
+	  render: function render() {
 	
 	    return React.createElement(
 	      "div",
@@ -34672,59 +34450,318 @@
 	module.exports = Footer;
 
 /***/ },
-/* 291 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var BeerActions = __webpack_require__(292);
-	
-	var BeerUtil = {
-	
-	  fetchAllBeers: function () {
-	    $.get('api/beers', function (beers) {
-	      BeerActions.receiveAllBeers(beers);
-	    });
-	  },
-	
-	  fetchSingleBeer: function (beer) {
-	    $.get('api/beer/' + beer.id, function (beer) {
-	      BeerActions.receiveSingleBeer(beer);
-	    });
-	  }
-	
-	};
-	
-	module.exports = BeerUtil;
-
-/***/ },
 /* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(217);
-	var BeerConstants = __webpack_require__(252);
+	'use strict';
 	
-	var BeerActions = {
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
-	  receiveAllBeers: function (beers) {
-	    Dispatcher.dispatch({
-	      actionType: BeerConstants.BEERS_RECEIVED,
-	      beers: beers
-	    });
-	  },
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
-	  receiveSingleBeer: function (beer) {
-	    var action = {
-	      actionType: BeerConstants.BEER_RECEIVED,
-	      beer: beer
-	    };
-	    Dispatcher.dispatch(action);
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _new_navbar = __webpack_require__(293);
+	
+	var _new_navbar2 = _interopRequireDefault(_new_navbar);
+	
+	var _reviewsIndex = __webpack_require__(310);
+	
+	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
+	
+	var _user_profile_sidebar = __webpack_require__(263);
+	
+	var _user_profile_sidebar2 = _interopRequireDefault(_user_profile_sidebar);
+	
+	var _footer = __webpack_require__(291);
+	
+	var _footer2 = _interopRequireDefault(_footer);
+	
+	var _friend_store = __webpack_require__(264);
+	
+	var _friend_store2 = _interopRequireDefault(_friend_store);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	// import ReviewForm from './new_review_form';
+	
+	var UserProfile = (function (_Component) {
+	  _inherits(UserProfile, _Component);
+	
+	  function UserProfile(props) {
+	    _classCallCheck(this, UserProfile);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(UserProfile).call(this, props));
 	  }
 	
-	};
+	  _createClass(UserProfile, [{
+	    key: 'render',
+	    value: function render() {
 	
-	module.exports = BeerActions;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'userProfile mainPage' },
+	        _react2.default.createElement(_new_navbar2.default, { currentUser: this.props.currentUser }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row fixedWidth' },
+	          _react2.default.createElement(_reviewsIndex2.default, {
+	
+	            user: this.props.currentUser,
+	            currentUser: this.props.currentUser }),
+	          _react2.default.createElement(_user_profile_sidebar2.default, { currentUser: this.props.currentUser })
+	        ),
+	        _react2.default.createElement(_footer2.default, null)
+	      );
+	    }
+	  }]);
+	
+	  return UserProfile;
+	})(_react.Component);
+	
+	exports.default = UserProfile;
 
 /***/ },
 /* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(159);
+	
+	var _new_beer_search = __webpack_require__(332);
+	
+	var _new_beer_search2 = _interopRequireDefault(_new_beer_search);
+	
+	var _session_util = __webpack_require__(284);
+	
+	var _session_util2 = _interopRequireDefault(_session_util);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var browserHistory = __webpack_require__(159).browserHistory;
+	
+	var Navbar = (function (_Component) {
+	  _inherits(Navbar, _Component);
+	
+	  function Navbar(props) {
+	    _classCallCheck(this, Navbar);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Navbar).call(this, props));
+	
+	    _this.handleSignOut = _this.handleSignOut.bind(_this);
+	    _this.handleSearchClick = _this.handleSearchClick.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Navbar, [{
+	    key: 'handleSignOut',
+	    value: function handleSignOut() {
+	      // history.pushState(null, '/');
+	      _session_util2.default.destroySession();
+	    }
+	  }, {
+	    key: 'handleSearchClick',
+	    value: function handleSearchClick(beerId) {
+	
+	      var url = "/beer/" + beerId;
+	      history.pushState(null, '/beer/1');
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var profileUrl = "/user/" + this.props.currentUser.id;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'navbar' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'fixedWidth' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'navbarHeader navbarLinks' },
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { className: 'logo',
+	                to: profileUrl
+	              },
+	              _react2.default.createElement(
+	                'h1',
+	                null,
+	                'BeerIsGood'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'navbarContent' },
+	            _react2.default.createElement(
+	              'ul',
+	              { className: 'navbarLinksUl' },
+	              _react2.default.createElement(
+	                'li',
+	                { className: 'navbarLinks' },
+	                _react2.default.createElement(
+	                  'div',
+	                  {
+	
+	                    onClick: this.handleClick
+	                  },
+	                  'My Friends'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                { className: 'navbarLinks' },
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  {
+	                    to: '/usersindex'
+	
+	                  },
+	                  'Find Friends'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(_new_beer_search2.default, {
+	                  onClick: this.handleSearchClick,
+	
+	                  className: ''
+	                })
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'button',
+	                  {
+	                    className: 'btn btn-sm btn-1 signOutButton', onClick: this.handleSignOut },
+	                  'Sign Out'
+	                )
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Navbar;
+	})(_react.Component);
+	
+	exports.default = Navbar;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var BeerStore = __webpack_require__(213);
+	var Select = __webpack_require__(295);
+	var BeerShow = __webpack_require__(301);
+	__webpack_require__(306);
+	
+	var Search = React.createClass({
+	  displayName: 'search',
+	  propTypes: {
+	    label: React.PropTypes.string,
+	    searchable: React.PropTypes.bool
+	  },
+	
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      label: 'values:',
+	      searchable: true
+	    };
+	  },
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      disabled: false,
+	      searchable: this.props.searchable,
+	      selectValue: '',
+	      clearable: true
+	    };
+	  },
+	
+	  updateValue: function updateValue(beerId) {
+	
+	    this.props.onClick(beerId);
+	  },
+	
+	  focusStateSelect: function focusStateSelect() {
+	    this.refs.stateSelect.focus();
+	  },
+	
+	  toggleCheckbox: function toggleCheckbox(e) {
+	    var newState = {};
+	    newState[e.target.name] = e.target.checked;
+	    this.setState(newState);
+	  },
+	
+	  render: function render() {
+	
+	    var options = [];
+	    var Searchable = BeerStore.all();
+	
+	    Searchable.forEach(function (beer) {
+	      options.push({ value: beer.id, label: beer.name });
+	    });
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'section' },
+	      React.createElement(Select, {
+	        className: 'select beerSearch',
+	        ref: 'stateSelect',
+	        autofocus: true,
+	        options: options,
+	        simpleValue: true,
+	        clearable: this.state.clearable,
+	        name: 'selected-state',
+	        disabled: this.state.disabled,
+	        value: this.state.selectValue,
+	        onChange: this.updateValue,
+	        searchable: this.state.searchable,
+	        placeholder: 'Find a Beer'
+	      })
+	    );
+	  }
+	});
+	
+	module.exports = Search;
+
+/***/ },
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* disable some rules until we refactor more completely; fixing them now would
@@ -34739,11 +34776,11 @@
 	
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var Input = __webpack_require__(294);
-	var classes = __webpack_require__(295);
-	var Value = __webpack_require__(296);
-	var SingleValue = __webpack_require__(297);
-	var Option = __webpack_require__(298);
+	var Input = __webpack_require__(296);
+	var classes = __webpack_require__(297);
+	var Value = __webpack_require__(298);
+	var SingleValue = __webpack_require__(299);
+	var Option = __webpack_require__(300);
 	
 	var requestId = 0;
 	
@@ -35676,7 +35713,7 @@
 	module.exports = Select;
 
 /***/ },
-/* 294 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35800,7 +35837,7 @@
 	module.exports = AutosizeInput;
 
 /***/ },
-/* 295 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -35854,13 +35891,13 @@
 
 
 /***/ },
-/* 296 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var classes = __webpack_require__(295);
+	var classes = __webpack_require__(297);
 	
 	var Value = React.createClass({
 	
@@ -35942,13 +35979,13 @@
 	module.exports = Value;
 
 /***/ },
-/* 297 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var classes = __webpack_require__(295);
+	var classes = __webpack_require__(297);
 	
 	var SingleValue = React.createClass({
 		displayName: 'SingleValue',
@@ -35974,13 +36011,13 @@
 	module.exports = SingleValue;
 
 /***/ },
-/* 298 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var classes = __webpack_require__(295);
+	var classes = __webpack_require__(297);
 	
 	var Option = React.createClass({
 		displayName: 'Option',
@@ -36043,16 +36080,500 @@
 	module.exports = Option;
 
 /***/ },
-/* 299 */
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var BeerReviewsIndex = __webpack_require__(302);
+	var BeerStore = __webpack_require__(213);
+	
+	var BeerShow = React.createClass({
+	  displayName: 'BeerShow',
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'row fixedWidth' },
+	      React.createElement(
+	        'div',
+	        { className: 'col-md-12' },
+	        React.createElement(
+	          'h1',
+	          null,
+	          this.props.beer.name
+	        ),
+	        React.createElement(BeerReviewsIndex, { beer: this.props.beer, currentUser: this.props.currentUser })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = BeerShow;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var ReviewStore = __webpack_require__(235);
+	var BeerReviewIndexItem = __webpack_require__(303);
+	var BeerReviewForm = __webpack_require__(305);
+	var LinkedStateMixin = __webpack_require__(273);
+	var ReviewUtil = __webpack_require__(237);
+	
+	var BeerReviewsIndex = React.createClass({
+	  displayName: 'BeerReviewsIndex',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getInitialState: function getInitialState() {
+	
+	    return {
+	      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
+	      body: "",
+	      rating: 0
+	    };
+	  },
+	
+	  componentWillReceiveProps: function componentWillReceiveProps() {
+	    this.setState({
+	      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
+	      body: "",
+	      rating: 0
+	    });
+	  },
+	
+	  getReviewObject: function getReviewObject() {
+	    return {
+	      beer_id: this.props.beer.id,
+	      body: this.state.body,
+	      rating: this.state.rating,
+	      author_id: this.props.currentUser.id
+	    };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    this.reviewsToken = ReviewStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.reviewsToken.remove();
+	  },
+	
+	  _onChange: function _onChange() {
+	    this.setState({
+	      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id)
+	    });
+	  },
+	
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault;
+	
+	    Object.assign({}, this.state);
+	    ReviewUtil.createReview(this.getReviewObject());
+	  },
+	
+	  handleRatingChange: function handleRatingChange(event) {
+	    this.setState({ rating: event.target.value });
+	  },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-md-6 reviewsIndexContainer' },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Write a Review!'
+	          ),
+	          React.createElement(
+	            'form',
+	            { className: 'form-group reviewForm' },
+	            React.createElement(
+	              'label',
+	              { htmlFor: 'reviewBody' },
+	              'What do you think?'
+	            ),
+	            React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
+	            React.createElement(
+	              'label',
+	              { htmlFor: 'reviewRating' },
+	              'Your Rating'
+	            ),
+	            React.createElement(
+	              'select',
+	              { onChange: this.handleRatingChange },
+	              React.createElement(
+	                'option',
+	                { value: '0' },
+	                'rate beer'
+	              ),
+	              React.createElement(
+	                'option',
+	                { value: '1' },
+	                '1'
+	              ),
+	              React.createElement(
+	                'option',
+	                { value: '2' },
+	                '2'
+	              ),
+	              React.createElement(
+	                'option',
+	                { value: '3' },
+	                '3'
+	              ),
+	              React.createElement(
+	                'option',
+	                { value: '4' },
+	                '4'
+	              ),
+	              React.createElement(
+	                'option',
+	                { value: '5' },
+	                '5'
+	              )
+	            ),
+	            React.createElement('input', { className: 'btn btn-2 reviewFormItem', type: 'submit', value: 'Add Your Review', onClick: this.handleSubmit })
+	          ),
+	          React.createElement(
+	            'h3',
+	            null,
+	            'All Reviews'
+	          ),
+	          this.state.reviews.map((function (review) {
+	            return React.createElement(BeerReviewIndexItem, { beer: this.props.beer, review: review, key: review.id });
+	          }).bind(this))
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = BeerReviewsIndex;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Comment = __webpack_require__(304);
+	var ReviewUtil = __webpack_require__(237);
+	var BeerStore = __webpack_require__(213);
+	var CommentStore = __webpack_require__(258);
+	var ToastStore = __webpack_require__(251);
+	var LinkedStateMixin = __webpack_require__(273);
+	var UserStore = __webpack_require__(246);
+	
+	var Display;
+	
+	var BeerReviewIndexItem = React.createClass({
+	  displayName: 'BeerReviewIndexItem',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  filteredState: (function (_filteredState) {
+	    function filteredState() {
+	      return _filteredState.apply(this, arguments);
+	    }
+	
+	    filteredState.toString = function () {
+	      return _filteredState.toString();
+	    };
+	
+	    return filteredState;
+	  })(function () {
+	    filteredState = {};
+	    for (key in this.state) {
+	      if (this.state.hasOwnProperty(key)) {
+	
+	        if (key !== "beers") {
+	          filteredState[key] = this.state[key];
+	        }
+	      }
+	    }
+	    return filteredState;
+	  }),
+	
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault;
+	    Object.assign({}, this.state);
+	    ReviewUtil.updateReview(this.filteredState());
+	    this.setState({ editing: false });
+	  },
+	
+	  componentWillReceiveProps: function componentWillReceiveProps() {
+	    this.setState({
+	      beers: BeerStore.all(),
+	      beer: this.props.beer,
+	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
+	      beer_id: this.props.beer.id,
+	      body: this.props.review.body,
+	      rating: this.props.review.rating,
+	      author_id: this.props.review.author_id,
+	      id: this.props.review.id
+	    });
+	  },
+	
+	  getInitialState: function getInitialState() {
+	
+	    return {
+	      beers: BeerStore.all(),
+	      beer: this.props.beer,
+	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
+	      beer_id: this.props.beer.id,
+	      body: this.props.review.body,
+	      rating: this.props.review.rating,
+	      author_id: this.props.review.author_id,
+	      id: this.props.review.id
+	    };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    this.beerToken = BeerStore.addListener(this._onChange);
+	    this.commentToken = CommentStore.addListener(this._onChange);
+	    this.toastToken = ToastStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.beerToken.remove();
+	    this.commentToken.remove();
+	    this.toastToken.remove();
+	  },
+	
+	  _onChange: function _onChange() {
+	    this.setState({
+	      beer: BeerStore.find(this.props.review.beer_id),
+	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id)
+	    });
+	  },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { className: 'reviewContainer col-md-12' },
+	        React.createElement(
+	          'div',
+	          { className: 'reviewContent col-md-12' },
+	          React.createElement(
+	            'div',
+	            { className: 'reviewHeader col-md-12' },
+	            UserStore.findById(this.props.review.author_id).username,
+	            ' is drinking ',
+	            this.state.beer.name
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'reviewBody col-md-12' },
+	            this.props.review.body
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'reviewFooter col-md-12' },
+	            React.createElement(
+	              'div',
+	              { className: 'reviewFooterItem col-md-4' },
+	              this.props.review.rating,
+	              ' Stars!'
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'reviewFooterItem col-md-4' },
+	              'toasts: ',
+	              this.state.toasts.length
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'reviewCommentsIndex col-md-12' },
+	          React.createElement(
+	            'h4',
+	            null,
+	            'Comments'
+	          ),
+	          this.state.comments.map((function (comment) {
+	            return React.createElement(Comment, { comment: comment, key: comment.id });
+	          }).bind(this))
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = BeerReviewIndexItem;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _reactRouter = __webpack_require__(159);
+	
+	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(246);
+	
+	var Comment = React.createClass({
+	  displayName: 'Comment',
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      author: UserStore.findById(this.props.comment.author_id)
+	    };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    this.authorToken = UserStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.authorToken.remove();
+	  },
+	
+	  _onChange: function _onChange() {
+	    this.setState({
+	      author: UserStore.findById(this.props.comment.author_id)
+	    });
+	  },
+	
+	  render: function render() {
+	    var url = "/user/" + this.state.author.id;
+	    return React.createElement(
+	      'div',
+	      { className: 'commentContainer' },
+	      React.createElement(
+	        'div',
+	        { className: 'commentBody' },
+	        React.createElement(
+	          _reactRouter.Link,
+	          { className: 'commentAuthor', to: url },
+	          this.state.author.username,
+	          ':'
+	        ),
+	        ' ',
+	        this.props.comment.body
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = Comment;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var BeerReviewForm = React.createClass({
+	  displayName: "BeerReviewForm",
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      "div",
+	      { className: "" },
+	      React.createElement(
+	        "form",
+	        { className: "form-group reviewForm" },
+	        React.createElement(
+	          "label",
+	          { htmlFor: "reviewBody" },
+	          "What do you think?"
+	        ),
+	        React.createElement("textarea", { className: "form-control", id: "reviewBody", valueLink: this.linkState('body') }),
+	        React.createElement(
+	          "label",
+	          { htmlFor: "reviewRating" },
+	          "Your Rating"
+	        ),
+	        React.createElement(
+	          "select",
+	          { onChange: this.handleRatingChange },
+	          React.createElement(
+	            "option",
+	            { value: "0" },
+	            "rate beer"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "1" },
+	            "1"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "2" },
+	            "2"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "3" },
+	            "3"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "4" },
+	            "4"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "5" },
+	            "5"
+	          )
+	        ),
+	        React.createElement("input", { className: "btn btn-2", type: "submit", value: "Update Review", onClick: this.handleSubmit })
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = BeerReviewForm;
+
+/***/ },
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(300);
+	var content = __webpack_require__(307);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(302)(content, {});
+	var update = __webpack_require__(309)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -36069,10 +36590,10 @@
 	}
 
 /***/ },
-/* 300 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(301)();
+	exports = module.exports = __webpack_require__(308)();
 	// imports
 	
 	
@@ -36083,7 +36604,7 @@
 
 
 /***/ },
-/* 301 */
+/* 308 */
 /***/ function(module, exports) {
 
 	/*
@@ -36139,7 +36660,7 @@
 
 
 /***/ },
-/* 302 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -36393,84 +36914,2229 @@
 
 
 /***/ },
-/* 303 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
 	var React = __webpack_require__(1);
-	var BeerStore = __webpack_require__(251);
-	var Select = __webpack_require__(293);
-	var BeerShow = __webpack_require__(253);
-	__webpack_require__(299);
+	var ReviewIndexItem = __webpack_require__(311);
+	var ReviewForm = __webpack_require__(209).default;
+	var ReviewStore = __webpack_require__(235);
 	
-	var Search = React.createClass({
-	  displayName: 'search',
-	  propTypes: {
-	    label: React.PropTypes.string,
-	    searchable: React.PropTypes.bool
+	var ReviewsIndex = React.createClass({
+	  displayName: 'ReviewsIndex',
+	
+	  getInitialState: function getInitialState() {
+	    if (this.props.user) {
+	      if (this.props.user.id === this.props.currentUser.id) {
+	        return {
+	          reviews: ReviewStore.filterReviewsByUserId(this.props.user.id),
+	          currentUser: true
+	        };
+	      } else {
+	        return {
+	          reviews: ReviewStore.filterReviewsByUserId(this.props.user.id),
+	          currentUser: false
+	        };
+	      }
+	    } else if (this.props.beer) {
+	      return {
+	        reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
+	        currentUser: true
+	      };
+	    }
 	  },
 	
-	  getDefaultProps: function () {
-	    return {
-	      label: 'values:',
-	      searchable: true
-	    };
+	  componentDidMount: function componentDidMount() {
+	    this.reviewsToken = ReviewStore.addListener(this._onChange);
 	  },
 	
-	  getInitialState: function () {
-	    return {
-	      disabled: false,
-	      searchable: this.props.searchable,
-	      selectValue: '',
-	      clearable: true
-	    };
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.reviewsToken.remove();
 	  },
 	
-	  updateValue: function (beerId) {
-	
-	    this.props.onClick(BeerShow, this.props.currentUser, BeerStore.find(beerId));
+	  _onChange: function _onChange() {
+	    if (this.props.user) {
+	      if (this.props.user.id === this.props.currentUser.id) {
+	        this.setState({
+	          reviews: ReviewStore.filterReviewsByUserId(this.props.user.id),
+	          currentUser: true
+	        });
+	      } else {
+	        this.setState({
+	          reviews: ReviewStore.filterReviewsByUserId(this.props.user.id),
+	          currentUser: false
+	        });
+	      }
+	    } else if (this.props.beer) {
+	      this.setState({
+	        reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
+	        currentUser: true
+	      });
+	    }
 	  },
 	
-	  focusStateSelect: function () {
-	    this.refs.stateSelect.focus();
+	  renderHeader: function renderHeader() {
+	    if (this.state.reviews.length === 0 && this.props.user) {
+	      return React.createElement(
+	        'h5',
+	        null,
+	        'You Haven\'t Reviewed Any Beers Yet!'
+	      );
+	    }
 	  },
 	
-	  toggleCheckbox: function (e) {
-	    var newState = {};
-	    newState[e.target.name] = e.target.checked;
-	    this.setState(newState);
+	  renderReviewForm: function renderReviewForm() {
+	    if (this.state.isReviewing && this.state.currentUser) {
+	      var beerToReview = this.props.beer;
+	      return React.createElement(ReviewForm, {
+	        currentUser: this.props.currentUser,
+	        beer: this.props.beer,
+	        onClick: this.handleCloseFormClick });
+	    } else if (this.state.currentUser) {
+	      return React.createElement(
+	        'button',
+	        {
+	          className: 'btn btn-1 openReviewFormButton', onClick: this.handleOpenFormClick },
+	        React.createElement('span', { className: 'glyphicon glyphicon-plus-sign' }),
+	        ' Add Review'
+	      );
+	    }
 	  },
 	
-	  render: function () {
-	
-	    var options = [];
-	    var Searchable = BeerStore.all();
-	
-	    Searchable.forEach(function (beer) {
-	      options.push({ value: beer.id, label: beer.name });
+	  handleOpenFormClick: function handleOpenFormClick() {
+	    this.setState({
+	      isReviewing: true
 	    });
+	  },
+	
+	  handleCloseFormClick: function handleCloseFormClick() {
+	    this.setState({
+	      isReviewing: false
+	    });
+	  },
+	
+	  render: function render() {
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'section' },
-	      React.createElement(Select, {
-	        className: 'select beerSearch',
-	        ref: 'stateSelect',
-	        autofocus: true,
-	        options: options,
-	        simpleValue: true,
-	        clearable: this.state.clearable,
-	        name: 'selected-state',
-	        disabled: this.state.disabled,
-	        value: this.state.selectValue,
-	        onChange: this.updateValue,
-	        searchable: this.state.searchable,
-	        placeholder: 'Find a Beer'
-	      })
+	      { className: 'col-md-6 reviewsIndexContainer' },
+	      this.renderHeader(),
+	      this.renderReviewForm(),
+	      this.state.reviews.map((function (review) {
+	
+	        return React.createElement(ReviewIndexItem, { currentUser: this.props.currentUser, user: review.author_id, review: review, key: review.id });
+	      }).bind(this))
 	    );
 	  }
 	});
 	
-	module.exports = Search;
+	module.exports = ReviewsIndex;
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Comment = __webpack_require__(304);
+	var ReviewUtil = __webpack_require__(237);
+	var BeerStore = __webpack_require__(213);
+	var CommentStore = __webpack_require__(258);
+	var ToastStore = __webpack_require__(251);
+	var LinkedStateMixin = __webpack_require__(273);
+	var CommentForm = __webpack_require__(312);
+	var ToastUtil = __webpack_require__(261);
+	var UserStore = __webpack_require__(246);
+	var Link = __webpack_require__(159).Link;
+	
+	var Display;
+	var Buttons;
+	var CommentFormDisplay;
+	var CommentButton;
+	var ToastButton;
+	
+	var ReviewIndexItem = React.createClass({
+	  displayName: 'ReviewIndexItem',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  handleToastClick: function handleToastClick(review) {
+	
+	    var toast = {
+	      review_id: review.id,
+	      user_id: this.props.currentUser.id
+	    };
+	    ToastUtil.createToast(toast);
+	  },
+	
+	  filteredState: (function (_filteredState) {
+	    function filteredState() {
+	      return _filteredState.apply(this, arguments);
+	    }
+	
+	    filteredState.toString = function () {
+	      return _filteredState.toString();
+	    };
+	
+	    return filteredState;
+	  })(function () {
+	    filteredState = {};
+	    for (key in this.state) {
+	      if (this.state.hasOwnProperty(key)) {
+	
+	        if (key !== "beers") {
+	          filteredState[key] = this.state[key];
+	        }
+	      }
+	    }
+	    return filteredState;
+	  }),
+	
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault;
+	    Object.assign({}, this.state);
+	    ReviewUtil.updateReview(this.filteredState());
+	    this.setState({ editing: false });
+	  },
+	
+	  currentUserHasToastedReview: function currentUserHasToastedReview() {
+	    var result = false;
+	
+	    this.state.toasts.forEach((function (toast) {
+	
+	      if (toast.user_id === this.props.currentUser.id) {
+	        result = true;
+	      }
+	    }).bind(this));
+	    return result;
+	  },
+	
+	  displayToastButton: function displayToastButton() {
+	    var currentUserHasToastedReview = this.currentUserHasToastedReview();
+	    if (currentUserHasToastedReview) {
+	      ToastButton = React.createElement(
+	        'div',
+	        { className: 'reviewFooterItem col-md-4 col-md-offset-6' },
+	        React.createElement('div', { className: 'toastStatus' })
+	      );
+	    } else {
+	      ToastButton = React.createElement(
+	        'div',
+	        { className: 'reviewFooterItem col-md-4 col-md-offset-6' },
+	        React.createElement(
+	          'button',
+	          {
+	            onClick: this.handleToastClick.bind(this, this.props.review),
+	            className: 'toastReviewButton toastStatus btn btn-1',
+	            value: this.props.review },
+	          React.createElement('i', { className: 'fa fa-beer' }),
+	          ' Toast!'
+	        )
+	      );
+	    }
+	  },
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      user: UserStore.findById(this.props.review.author_id),
+	      beers: BeerStore.all(),
+	      beer: BeerStore.find(this.props.review.beer_id),
+	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
+	      beer_id: this.props.review.beer_id,
+	      body: this.props.review.body,
+	      rating: this.props.review.rating,
+	      author_id: this.props.review.author_id,
+	      id: this.props.review.id,
+	      editing: false,
+	      commenting: false
+	
+	    };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    this.beerToken = BeerStore.addListener(this._onChange);
+	    this.commentToken = CommentStore.addListener(this._onChange);
+	    this.toastToken = ToastStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.beerToken.remove();
+	    this.commentToken.remove();
+	    this.toastToken.remove();
+	  },
+	
+	  _onChange: function _onChange() {
+	
+	    this.setState({
+	      beer: BeerStore.find(this.props.review.beer_id),
+	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id)
+	    });
+	  },
+	
+	  handleDeleteClick: function handleDeleteClick(review) {
+	    ReviewUtil.destroyReview(review);
+	  },
+	
+	  handleEditClick: function handleEditClick(review) {
+	    this.setState({
+	      editing: true
+	    });
+	  },
+	
+	  handleCommentClick: function handleCommentClick(review) {
+	    this.setState({
+	      commenting: true
+	    });
+	  },
+	
+	  handleRatingChange: function handleRatingChange(event) {
+	    this.setState({ rating: event.target.value });
+	  },
+	
+	  handleBeerChange: function handleBeerChange(event) {
+	    this.setState({ beer_id: event.target.value });
+	  },
+	
+	  checkIfCurrentUser: function checkIfCurrentUser() {
+	    if (this.props.currentUser.id === this.state.user.id) {
+	      Buttons = React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'div',
+	          { onClick: this.handleDeleteClick.bind(this, this.props.review), className: 'deleteReviewButton', value: this.props.review },
+	          'delete'
+	        ),
+	        React.createElement(
+	          'div',
+	          { onClick: this.handleEditClick.bind(this, this.props.review), className: 'editReviewButton', value: this.props.review },
+	          'edit'
+	        )
+	      );
+	    } else {
+	      Buttons = React.createElement('div', null);
+	    }
+	  },
+	
+	  isCommenting: function isCommenting() {
+	    if (this.state.commenting) {
+	      CommentFormDisplay = React.createElement(CommentForm, { review: this.props.review, currentUser: this.props.currentUser, onChange: this.handleCommentFormSubmit });
+	    } else {
+	      CommentFormDisplay = React.createElement(
+	        'button',
+	        { onClick: this.handleCommentClick.bind(this, this.props.review), className: 'btn btn-1 createCommentButton', value: this.props.review },
+	        'Comment',
+	        React.createElement('i', { className: 'fa fa-comment-o commentIcon' })
+	      );
+	    }
+	  },
+	
+	  handleCommentFormSubmit: function handleCommentFormSubmit() {
+	
+	    this.setState({
+	      commenting: false
+	    });
+	  },
+	
+	  renderRating: function renderRating() {
+	    var stars = [];
+	    for (var i = 0; i < this.state.rating; i++) {
+	      stars.push(React.createElement('span', { className: 'glyphicon glyphicon-star ratingStar', key: i }));
+	    }
+	    return stars.map(function (star) {
+	      return star;
+	    }, this);
+	  },
+	
+	  isEditing: function isEditing() {
+	    this.checkIfCurrentUser();
+	    this.displayToastButton();
+	    if (this.state.editing) {
+	      Display = React.createElement(
+	        'div',
+	        { className: '' },
+	        React.createElement(
+	          'form',
+	          { className: 'form-group reviewForm' },
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'reviewBody' },
+	            'What do you think?'
+	          ),
+	          React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'reviewRating', className: 'reviewFormItem' },
+	            'Your Rating'
+	          ),
+	          React.createElement(
+	            'select',
+	            { onChange: this.handleRatingChange },
+	            React.createElement(
+	              'option',
+	              { value: '0' },
+	              'rate beer'
+	            ),
+	            React.createElement(
+	              'option',
+	              { value: '1' },
+	              '1'
+	            ),
+	            React.createElement(
+	              'option',
+	              { value: '2' },
+	              '2'
+	            ),
+	            React.createElement(
+	              'option',
+	              { value: '3' },
+	              '3'
+	            ),
+	            React.createElement(
+	              'option',
+	              { value: '4' },
+	              '4'
+	            ),
+	            React.createElement(
+	              'option',
+	              { value: '5' },
+	              '5'
+	            )
+	          ),
+	          React.createElement('input', { className: 'btn btn-2 addReviewButton reviewFormItem', type: 'submit', value: 'Update Review', onClick: this.handleSubmit })
+	        )
+	      );
+	    } else {
+	      var userUrl = '/user/' + this.state.user.id;
+	      var beerUrl = '/beer/' + this.state.beer.id;
+	
+	      Display = React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'reviewContainer col-md-12' },
+	          React.createElement(
+	            'div',
+	            { className: 'reviewContent col-md-12' },
+	            React.createElement(
+	              'div',
+	              { className: 'reviewHeader col-md-12' },
+	              React.createElement(
+	                'div',
+	                { className: 'reviewTitle col-md-9' },
+	                React.createElement(
+	                  Link,
+	                  { className: 'reviewLink', to: userUrl },
+	                  this.state.user.username,
+	                  ' '
+	                ),
+	                'is drinking',
+	                React.createElement(
+	                  Link,
+	                  { className: 'reviewLink', to: beerUrl },
+	                  ' ',
+	                  this.state.beer.name
+	                ),
+	                '!'
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'col-md-3 reviewButtons' },
+	                Buttons
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'reviewBody col-md-12' },
+	              this.props.review.body,
+	              React.createElement('br', null),
+	              React.createElement('br', null),
+	              this.renderRating()
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'reviewFooter' },
+	              React.createElement(
+	                'div',
+	                { className: 'reviewFooterItem col-md-6' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'reviewToasts' },
+	                  this.state.toasts.length,
+	                  React.createElement('i', { className: 'fa fa-beer toastIcon' })
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'reviewFooterItem col-md-6' },
+	                ToastButton
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'reviewCommentsIndex col-md-12' },
+	            CommentFormDisplay,
+	            this.state.comments.map((function (comment) {
+	              return React.createElement(Comment, { comment: comment, key: comment.id });
+	            }).bind(this))
+	          )
+	        )
+	      );
+	    }
+	  },
+	
+	  render: function render() {
+	
+	    this.isCommenting();
+	    this.isEditing();
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      Display
+	    );
+	  }
+	});
+	
+	module.exports = ReviewIndexItem;
+
+/***/ },
+/* 312 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var LinkedStateMixin = __webpack_require__(273);
+	var CommentUtil = __webpack_require__(254);
+	
+	var CommentForm = React.createClass({
+	  displayName: 'CommentForm',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      author_id: this.props.currentUser.id,
+	      review_id: this.props.review.id,
+	      body: ""
+	    };
+	  },
+	
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault;
+	
+	    var commentData = Object.assign({}, this.state);
+	    CommentUtil.createComment(commentData);
+	    this.props.onChange();
+	  },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'col-md-12' },
+	      React.createElement(
+	        'form',
+	        { className: 'form-group commentForm' },
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'commentBody' },
+	          'Comment'
+	        ),
+	        React.createElement('textarea', {
+	          className: 'form-control',
+	          id: 'reviewBody',
+	          valueLink: this.linkState('body') }),
+	        React.createElement('input', { className: 'btn btn-2 addCommentButton', type: 'submit', value: 'Add Comment', onClick: this.handleSubmit })
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = CommentForm;
+
+/***/ },
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var BeerStore = __webpack_require__(213);
+	var LinkedStateMixin = __webpack_require__(273);
+	var ReviewUtil = __webpack_require__(237);
+	var ReviewStore = __webpack_require__(235);
+	
+	var ReviewForm = React.createClass({
+	  displayName: 'ReviewForm',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      beers: BeerStore.all(),
+	      beer_id: 0,
+	      body: "",
+	      rating: 0,
+	      author_id: this.props.currentUser.id
+	    };
+	  },
+	
+	  _onChange: function _onChange() {
+	    this.setState({
+	      beers: BeerStore.all(),
+	      beer_id: 0,
+	      body: "",
+	      rating: 0,
+	      author_id: this.props.currentUser.id
+	    });
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    this.BeerToken = BeerStore.addListener(this._onChange);
+	    this.ReviewToken = ReviewStore.addListener(this._onChange);
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.BeerToken.remove();
+	    this.ReviewToken.remove();
+	  },
+	
+	  filteredState: function filteredState() {
+	    return {
+	      beer_id: this.state.beer_id,
+	      body: this.state.body,
+	      rating: this.state.rating,
+	      author_id: this.state.author_id
+	    };
+	  },
+	
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault;
+	
+	    ReviewUtil.createReview(this.filteredState());
+	  },
+	
+	  handleBeerChange: function handleBeerChange(event) {
+	    this.setState({ beer_id: event.target.value });
+	  },
+	
+	  handleRatingChange: function handleRatingChange(event) {
+	    this.setState({ rating: event.target.value });
+	  },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      'form',
+	      { className: 'form-group reviewForm' },
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'reviewBeer' },
+	        'What are you drinking?'
+	      ),
+	      React.createElement(
+	        'select',
+	        { value: this.state.beer_id, onChange: this.handleBeerChange },
+	        React.createElement('option', { value: '0', key: '0' }),
+	        this.state.beers.map((function (beer) {
+	          return React.createElement(
+	            'option',
+	            { value: beer.id, key: beer.id },
+	            beer.name
+	          );
+	        }).bind(this))
+	      ),
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'reviewBody' },
+	        'What do you think?'
+	      ),
+	      React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
+	      React.createElement(
+	        'label',
+	        { className: 'reviewFormItem', htmlFor: 'reviewRating' },
+	        'Rate it!'
+	      ),
+	      React.createElement(
+	        'select',
+	        { className: 'reviewFormItem', onChange: this.handleRatingChange },
+	        React.createElement(
+	          'option',
+	          { value: '0' },
+	          'rate beer'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: '1' },
+	          '1'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: '2' },
+	          '2'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: '3' },
+	          '3'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: '4' },
+	          '4'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: '5' },
+	          '5'
+	        )
+	      ),
+	      React.createElement('input', { className: 'btn btn-2 reviewFormItem', type: 'submit', value: 'Add your review!', onClick: this.handleSubmit })
+	    );
+	  }
+	
+	});
+	
+	module.exports = ReviewForm;
+
+/***/ },
+/* 314 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var UserShow = __webpack_require__(315).default;
+	var UserProfile = __webpack_require__(292).default;
+	var CurrentUserStore = __webpack_require__(290);
+	var UserStore = __webpack_require__(246);
+	var UserPage;
+	var LandingPage = __webpack_require__(208);
+	
+	var User = React.createClass({
+	  displayName: 'User',
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getUserPage: function getUserPage() {
+	    var currentUser = CurrentUserStore.currentUser();
+	    var userId = parseInt(this.props.user.id);
+	    var user = UserStore.findById(userId);
+	
+	    if (currentUser.id === userId) {
+	      UserPage = React.createElement(UserProfile, { currentUser: currentUser, user: currentUser });
+	    } else {
+	      UserPage = React.createElement(UserShow, { currentUser: currentUser, user: user });
+	    }
+	  },
+	
+	  render: function render() {
+	    this.getUserPage();
+	    if (!CurrentUserStore.currentUser()) {
+	      return React.createElement(LandingPage, null);
+	    }
+	    return React.createElement(
+	      'div',
+	      null,
+	      UserPage
+	    );
+	  }
+	
+	});
+	
+	module.exports = User;
+
+/***/ },
+/* 315 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _new_navbar = __webpack_require__(293);
+	
+	var _new_navbar2 = _interopRequireDefault(_new_navbar);
+	
+	var _reviewsIndex = __webpack_require__(310);
+	
+	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
+	
+	var _footer = __webpack_require__(291);
+	
+	var _footer2 = _interopRequireDefault(_footer);
+	
+	var _user_show_sidebar = __webpack_require__(316);
+	
+	var _user_show_sidebar2 = _interopRequireDefault(_user_show_sidebar);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserShow = function UserShow(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'mainPage' },
+	    _react2.default.createElement(_new_navbar2.default, { currentUser: props.currentUser }),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'row fixedWidth' },
+	      _react2.default.createElement(_reviewsIndex2.default, {
+	        currentUser: props.currentUser,
+	        user: props.user }),
+	      _react2.default.createElement(_user_show_sidebar2.default, {
+	        currentUser: props.currentUser,
+	        user: props.user })
+	    ),
+	    _react2.default.createElement(_footer2.default, null)
+	  );
+	};
+	
+	exports.default = UserShow;
+
+/***/ },
+/* 316 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _friend_request_store = __webpack_require__(266);
+	
+	var _friend_request_store2 = _interopRequireDefault(_friend_request_store);
+	
+	var _friend_store = __webpack_require__(264);
+	
+	var _friend_store2 = _interopRequireDefault(_friend_store);
+	
+	var _review_store = __webpack_require__(235);
+	
+	var _review_store2 = _interopRequireDefault(_review_store);
+	
+	var _friend_request_util = __webpack_require__(270);
+	
+	var _friend_request_util2 = _interopRequireDefault(_friend_request_util);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Sidebar = (function (_Component) {
+	  _inherits(Sidebar, _Component);
+	
+	  function Sidebar(props) {
+	    _classCallCheck(this, Sidebar);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Sidebar).call(this, props));
+	
+	    _this.state = {
+	      friendRequestStatus: _friend_request_store2.default.getRequestStatus(props.currentUser.id, props.user.id),
+	      friendStatus: _friend_store2.default.getFriendshipStatus(props.currentUser.id, props.user.id)
+	    };
+	
+	    _this._onChange = _this._onChange.bind(_this);
+	    _this.handleFriendClick = _this.handleFriendClick.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Sidebar, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.requestToken = _friend_request_store2.default.addListener(this._onChange);
+	    }
+	  }, {
+	    key: 'coponentWillUnmount',
+	    value: function coponentWillUnmount() {
+	      this.requestToken.remove();
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange() {
+	      this.setState({
+	        friendRequestStatus: _friend_request_store2.default.getRequestStatus(this.props.currentUser.id, this.props.user.id)
+	      });
+	    }
+	  }, {
+	    key: 'handleFriendClick',
+	    value: function handleFriendClick() {
+	      _friend_request_util2.default.createFriendRequest(this.props.currentUser.id, this.props.user.id);
+	    }
+	  }, {
+	    key: 'renderFriendRequest',
+	    value: function renderFriendRequest() {
+	      if (this.state.friendStatus) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            this.props.user.username
+	          ),
+	          'Reviews: ',
+	          _review_store2.default.filterReviewsByUserId(this.props.user.id).length,
+	          _react2.default.createElement('br', null),
+	          'Friends: ',
+	          _friend_store2.default.filterFriendshipsByUserId(this.props.user.id).length
+	        );
+	      } else if (this.state.friendRequestStatus) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          'Friend Request Sent!'
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'button',
+	          { className: 'btn btn-sm btn-1', onClick: this.handleFriendClick },
+	          'Add Friend'
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'userSidebar col-md-4 col-md-offset-2' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'userSidebarElement' },
+	          this.renderFriendRequest()
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Sidebar;
+	})(_react.Component);
+	
+	exports.default = Sidebar;
+
+/***/ },
+/* 317 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Navbar = __webpack_require__(318);
+	var UserShow = __webpack_require__(323);
+	var UserProfile = __webpack_require__(322);
+	var CurrentUserStore = __webpack_require__(290);
+	var Footer = __webpack_require__(291);
+	
+	var MainContent = React.createClass({
+	  displayName: 'MainContent',
+	
+	  render: function render() {
+	
+	    return React.createElement(this.props.subPage, {
+	      currentUser: this.props.currentUser,
+	      onSubPageChange: this.props.onSubPageChange,
+	      user: this.props.user,
+	      beer: this.props.beer });
+	  }
+	});
+	
+	var Home = React.createClass({
+	  displayName: 'Home',
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      subPage: UserProfile,
+	      user: this.props.currentUser,
+	      beer: {}
+	    };
+	  },
+	
+	  navbarChangeHandler: function navbarChangeHandler(newSubPage, user, beer) {
+	    if (typeof user !== "undefined") {
+	      this.setState({ user: user });
+	    }
+	    this.setState({
+	      subPage: newSubPage,
+	      beer: beer
+	    });
+	  },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'homeDiv' },
+	      React.createElement(Navbar, { currentUser: this.props.currentUser,
+	        user: this.props.user, subPage: this.state.subPage,
+	        onChange: this.navbarChangeHandler }),
+	      React.createElement(MainContent, {
+	        className: 'MainContent',
+	        currentUser: this.props.currentUser,
+	        subPage: this.state.subPage,
+	        onSubPageChange: this.navbarChangeHandler,
+	        beer: this.state.beer,
+	        user: this.state.user }),
+	      React.createElement(Footer, null)
+	    );
+	  }
+	
+	});
+	
+	module.exports = Home;
+
+/***/ },
+/* 318 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var ReactRouter = __webpack_require__(159);
+	var Link = ReactRouter.Link;
+	var SessionUtil = __webpack_require__(284);
+	var BeersIndex = __webpack_require__(319);
+	var LinkedStateMixin = __webpack_require__(273);
+	var FriendsIndex = __webpack_require__(320);
+	var BeerShow = __webpack_require__(301);
+	var UsersIndex = __webpack_require__(321);
+	var User = __webpack_require__(314);
+	var UserProfile = __webpack_require__(322);
+	var BeerSearch = __webpack_require__(294);
+	
+	var NavbarInstance = React.createClass({
+	  displayName: 'NavbarInstance',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      subPage: this.props.subPage
+	    };
+	  },
+	
+	  handleSignOut: function handleSignOut() {
+	    SessionUtil.destroySession();
+	  },
+	
+	  handleClick: function handleClick(newSubPage, user, beer) {
+	    this.props.onChange(newSubPage, user, beer);
+	  },
+	
+	  handleSearch: function handleSearch(newSubPage, user, beer) {
+	
+	    this.props.onChange(newSubPage, user, beer);
+	  },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'navbar' },
+	      React.createElement(
+	        'div',
+	        { className: 'fixedWidth' },
+	        React.createElement(
+	          'div',
+	          { className: 'navbarHeader' },
+	          React.createElement(
+	            'div',
+	            { className: 'navbarLogo logo',
+	              onClick: this.handleClick.bind(this, UserProfile),
+	              value: User },
+	            React.createElement(
+	              'h1',
+	              null,
+	              'BeerIsGood'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'navbarContent' },
+	          React.createElement(
+	            'ul',
+	            { className: 'navbarLinksUl' },
+	            React.createElement(
+	              'li',
+	              { className: 'navbarLinks' },
+	              React.createElement(
+	                'div',
+	                {
+	
+	                  onClick: this.handleClick.bind(this, FriendsIndex),
+	                  value: FriendsIndex },
+	                'My Friends'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              { className: 'navbarLinks' },
+	              React.createElement(
+	                'div',
+	                {
+	
+	                  onClick: this.handleClick.bind(this, UsersIndex),
+	                  value: UsersIndex },
+	                'Find Friends'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(BeerSearch, {
+	                onClick: this.handleSearch,
+	                currentUser: this.props.currentUser,
+	                className: ''
+	              })
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'button',
+	                {
+	                  className: 'btn btn-sm btn-1', onClick: this.handleSignOut },
+	                'Sign Out'
+	              )
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NavbarInstance;
+
+/***/ },
+/* 319 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Navbar = __webpack_require__(318);
+	var BeerStore = __webpack_require__(213);
+	var BeerShow = __webpack_require__(301);
+	var ReactRouter = __webpack_require__(159);
+	var Link = ReactRouter.Link;
+	
+	var BeersIndex = React.createClass({
+	  displayName: 'BeersIndex',
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      beers: BeerStore.all()
+	
+	    };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    var beerToken = BeerStore.addListener(this._onChange);
+	  },
+	
+	  _onChange: function _onChange() {
+	    this.setState({
+	      beers: BeerStore.all()
+	    });
+	  },
+	
+	  // handleClick: function(beerId) {
+	  //   this.props.onSubPageChange(newSubPage, user, beer);
+	  // },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'index fixedWidth row' },
+	      this.state.beers.map((function (beer) {
+	        var url = "/beer/" + beer.id;
+	        return React.createElement(
+	          Link,
+	          { className: 'indexItem col-md-12', key: beer.id, to: url },
+	          beer.name
+	        );
+	      }).bind(this))
+	    );
+	  }
+	
+	});
+	
+	module.exports = BeersIndex;
+
+/***/ },
+/* 320 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Navbar = __webpack_require__(318);
+	var FriendStore = __webpack_require__(264);
+	var UserStore = __webpack_require__(246);
+	var User = __webpack_require__(314);
+	
+	var FriendsIndex = React.createClass({
+	  displayName: 'FriendsIndex',
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      friends: this.getFriends()
+	    };
+	  },
+	
+	  // componentDidMount: function() {
+	  //   this.friendshipsToken = FriendStore.addListener(this._onChange);
+	  // },
+	  //
+	  // componentWillUnmount: function() {
+	  //   this.friendshipsToken.remove();
+	  // },
+	  //
+	  // _onChange: function () {
+	  //   this.setState({
+	  //     friends: this.getFriends()
+	  //   })
+	  // },
+	
+	  getFriends: function getFriends() {
+	    var friends = [];
+	
+	    var friendships = FriendStore.filterFriendshipsByUserId(this.props.currentUser.id);
+	
+	    friendships.forEach(function (friendship) {
+	      friends.push(UserStore.findById(friendship.friend_id));
+	    });
+	
+	    return friends;
+	  },
+	
+	  handleClick: function handleClick(newSubPage, friend, beer) {
+	
+	    this.props.onSubPageChange(newSubPage, friend, beer);
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'fixedWidth row' },
+	      this.state.friends.map((function (friend) {
+	        return React.createElement(
+	          'div',
+	          { className: 'col-md-12 indexItem', friend: friend, key: friend.id,
+	            onClick: this.handleClick.bind(this, User, friend, this.props.beer) },
+	          friend.username
+	        );
+	      }).bind(this))
+	    );
+	  }
+	
+	});
+	
+	module.exports = FriendsIndex;
+
+/***/ },
+/* 321 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
+	
+	var UserStore = __webpack_require__(246);
+	var CurrentUserStore = __webpack_require__(290);
+	var User = __webpack_require__(314);
+	var Navbar = __webpack_require__(293).default;
+	
+	var userToken;
+	
+	var UsersIndex = React.createClass({
+	  displayName: 'UsersIndex',
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      users: UserStore.all(),
+	      currentUser: CurrentUserStore.currentUser()
+	    };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	
+	    this.userToken = UserStore.addListener(this._onChange);
+	    this.currentUserToken = CurrentUserStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.userToken.remove();
+	  },
+	
+	  _onChange: function _onChange() {
+	    this.setState({
+	      users: UserStore.all(),
+	      currentUser: CurrentUserStore.currentUser()
+	    });
+	  },
+	
+	  handleClick: function handleClick(newSubPage, user, beer) {
+	
+	    this.props.onSubPageChange(newSubPage, user, beer);
+	  },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(Navbar, { currentUser: this.state.currentUser }),
+	      React.createElement(
+	        'div',
+	        { className: 'fixedWidth row index' },
+	        this.state.users.map((function (user) {
+	          var url = "/user/" + user.id;
+	          return React.createElement(
+	            Link,
+	            { className: 'indexItem col-md-12', to: url, key: user.id
+	            },
+	            user.username
+	          );
+	        }).bind(this))
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = UsersIndex;
+
+/***/ },
+/* 322 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var ReviewsIndex = __webpack_require__(310);
+	var ReviewStore = __webpack_require__(235);
+	var ReviewForm = __webpack_require__(313);
+	var FriendRequestStore = __webpack_require__(266);
+	var UserStore = __webpack_require__(246);
+	var FriendRequestUtil = __webpack_require__(270);
+	var FriendUtil = __webpack_require__(268);
+	var FriendStore = __webpack_require__(264);
+	
+	var UserProfile = React.createClass({
+	  displayName: 'UserProfile',
+	
+	  getInitialState: function getInitialState() {
+	
+	    return {
+	      friendRequests: FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id)
+	    };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    this.RequestToken = FriendRequestStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.RequestToken.remove();
+	  },
+	
+	  _onChange: function _onChange() {
+	
+	    this.setState({
+	      friendRequests: FriendRequestStore.filterRequestsByRequestedId(this.props.currentUser.id)
+	
+	    });
+	  },
+	
+	  handleSignOut: function handleSignOut() {
+	    SessionUtil.destroySession();
+	  },
+	
+	  handleConfirm: function handleConfirm() {
+	
+	    var requestObj = FriendRequestStore.findById(request);
+	    FriendUtil.createFriendship(requestObj);
+	    FriendRequestUtil.destroyFriendRequest(request);
+	  },
+	
+	  handleDeny: function handleDeny(request) {
+	    FriendRequestUtil.destroyFriendRequest(request.id);
+	  },
+	
+	  getFriendRequests: function getFriendRequests() {
+	
+	    var requests = this.state.friendRequests;
+	    return requests.map((function (request) {
+	
+	      return React.createElement(
+	        'div',
+	        { className: '', key: request.id, request: request },
+	        React.createElement(
+	          'div',
+	          { className: 'friendRequestNotifcation' },
+	          UserStore.findById(request.requester_id).username,
+	          ' wants to be your friend!'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'friendApproveButtons' },
+	          React.createElement(
+	            'button',
+	            { className: 'btn btn-sm btn-2 friendApproveButton',
+	              onClick: this.handleConfirm.bind(this, request) },
+	            'Confirm'
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'btn btn-sm btn-3 friendApproveButton',
+	              onClick: this.handleDeny.bind(this, request) },
+	            'Deny'
+	          )
+	        )
+	      );
+	    }).bind(this));
+	  },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'row fixedWidth' },
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'userSummary' },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Welcome, ',
+	            this.props.currentUser.username,
+	            '!'
+	          ),
+	          this.props.errors
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-md-6 reviewsIndexContainer' },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Review a Beer'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'newReviewFormContainer col-md-12' },
+	            React.createElement(ReviewForm, { currentUser: this.props.currentUser })
+	          ),
+	          React.createElement(
+	            'h3',
+	            null,
+	            'My Reviews'
+	          ),
+	          React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.currentUser })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'userSidebar col-md-4 col-md-offset-2' },
+	          React.createElement(
+	            'div',
+	            { className: 'userSidebarElement' },
+	            React.createElement(
+	              'h4',
+	              null,
+	              'Pending Requests: ',
+	              this.state.friendRequests.length
+	            ),
+	            this.getFriendRequests()
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'userSidebarElement' },
+	            React.createElement(
+	              'h4',
+	              null,
+	              'My Stats'
+	            ),
+	            'Reviews: ',
+	            ReviewStore.filterReviewsByUserId(this.props.user.id).length,
+	            React.createElement('br', null),
+	            'Friends: ',
+	            FriendStore.filterFriendshipsByUserId(this.props.user.id).length
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = UserProfile;
+
+/***/ },
+/* 323 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var ReviewsIndex = __webpack_require__(310);
+	var ReviewStore = __webpack_require__(235);
+	var FriendRequestUtil = __webpack_require__(270);
+	var FriendRequestStore = __webpack_require__(266);
+	var FriendStore = __webpack_require__(264);
+	
+	var friendRequest;
+	
+	var UserShow = React.createClass({
+	  displayName: 'UserShow',
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      friendRequestStatus: FriendRequestStore.getRequestStatus(this.props.currentUser.id, this.props.user.id),
+	      friendStatus: FriendStore.getFriendshipStatus(this.props.currentUser.id, this.props.user.id)
+	    };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	
+	    this.requestToken = FriendRequestStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function componentWillUnmount() {
+	
+	    this.requestToken.remove();
+	  },
+	
+	  _onChange: function _onChange() {
+	
+	    this.setState({
+	      friendRequestStatus: FriendRequestStore.getRequestStatus(this.props.currentUser.id, this.props.user.id)
+	    });
+	  },
+	
+	  handleFriendClick: function handleFriendClick() {
+	    FriendRequestUtil.createFriendRequest(this.props.currentUser.id, this.props.user.id);
+	  },
+	
+	  displayFriendRequest: function displayFriendRequest() {
+	    if (this.state.friendStatus) {
+	      return React.createElement('div', null);
+	    } else if (this.state.friendRequestStatus) {
+	      return React.createElement(
+	        'div',
+	        null,
+	        'Friend Request Sent!'
+	      );
+	    } else {
+	      return React.createElement(
+	        'button',
+	        { className: 'btn btn-sm btn-1', onClick: this.handleFriendClick },
+	        'Add Friend'
+	      );
+	    }
+	  },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'row fixedWidth' },
+	      this.props.errors,
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-md-6 reviewsIndexContainer' },
+	          this.displayFriendRequest(),
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Reviews by ',
+	            this.props.user.username
+	          ),
+	          React.createElement(ReviewsIndex, { currentUser: this.props.currentUser, user: this.props.user })
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = UserShow;
+
+/***/ },
+/* 324 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var BeerActions = __webpack_require__(325);
+	
+	var BeerUtil = {
+	
+	  fetchAllBeers: function fetchAllBeers() {
+	    $.get('api/beers', function (beers) {
+	      BeerActions.receiveAllBeers(beers);
+	    });
+	  },
+	
+	  fetchSingleBeer: function fetchSingleBeer(beer) {
+	    $.get('api/beer/' + beer.id, function (beer) {
+	      BeerActions.receiveSingleBeer(beer);
+	    });
+	  }
+	
+	};
+	
+	module.exports = BeerUtil;
+
+/***/ },
+/* 325 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(231);
+	var BeerConstants = __webpack_require__(234);
+	
+	var BeerActions = {
+	
+	  receiveAllBeers: function receiveAllBeers(beers) {
+	    Dispatcher.dispatch({
+	      actionType: BeerConstants.BEERS_RECEIVED,
+	      beers: beers
+	    });
+	  },
+	
+	  receiveSingleBeer: function receiveSingleBeer(beer) {
+	    var action = {
+	      actionType: BeerConstants.BEER_RECEIVED,
+	      beer: beer
+	    };
+	    Dispatcher.dispatch(action);
+	  }
+	
+	};
+	
+	module.exports = BeerActions;
+
+/***/ },
+/* 326 */,
+/* 327 */,
+/* 328 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _authenticated_component = __webpack_require__(289);
+	
+	var _authenticated_component2 = _interopRequireDefault(_authenticated_component);
+	
+	var _user = __webpack_require__(314);
+	
+	var _user2 = _interopRequireDefault(_user);
+	
+	var _user_util = __webpack_require__(278);
+	
+	var _user_util2 = _interopRequireDefault(_user_util);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var UserStore = __webpack_require__(246);
+	
+	exports.default = (0, _authenticated_component2.default)((function (_Component) {
+	  _inherits(Home, _Component);
+	
+	  function Home(props) {
+	    _classCallCheck(this, Home);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Home).call(this, props));
+	  }
+	
+	  _createClass(Home, [{
+	    key: 'render',
+	    value: function render() {
+	      // Here, we display the user information
+	      var user = UserStore.findById(this.props.params.id);
+	
+	      return _react2.default.createElement(_user2.default, { user: user, currentUser: this.props.currentUser });
+	    }
+	  }]);
+	
+	  return Home;
+	})(_react.Component));
+
+/***/ },
+/* 329 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _authenticated_component = __webpack_require__(289);
+	
+	var _authenticated_component2 = _interopRequireDefault(_authenticated_component);
+	
+	var _new_beer_show = __webpack_require__(330);
+	
+	var _new_beer_show2 = _interopRequireDefault(_new_beer_show);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BeerStore = __webpack_require__(213);
+	
+	exports.default = (0, _authenticated_component2.default)((function (_Component) {
+	  _inherits(Home, _Component);
+	
+	  function Home() {
+	    _classCallCheck(this, Home);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Home).apply(this, arguments));
+	  }
+	
+	  _createClass(Home, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      this.forceUpdate();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var beer = BeerStore.find(this.props.params.id);
+	      return _react2.default.createElement(_new_beer_show2.default, {
+	        currentUser: this.props.currentUser,
+	        beer: BeerStore.find(this.props.params.id) });
+	    }
+	  }]);
+	
+	  return Home;
+	})(_react.Component));
+
+/***/ },
+/* 330 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reviewsIndex = __webpack_require__(310);
+	
+	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
+	
+	var _new_navbar = __webpack_require__(293);
+	
+	var _new_navbar2 = _interopRequireDefault(_new_navbar);
+	
+	var _footer = __webpack_require__(291);
+	
+	var _footer2 = _interopRequireDefault(_footer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BeerStore = __webpack_require__(213);
+	
+	var BeerShow = (function (_Component) {
+	  _inherits(BeerShow, _Component);
+	
+	  function BeerShow(props) {
+	    _classCallCheck(this, BeerShow);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerShow).call(this, props));
+	
+	    _this.state = {
+	      beer: _this.props.beer
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(BeerShow, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      this.forceUpdate();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'mainPage' },
+	        _react2.default.createElement(_new_navbar2.default, { currentUser: this.props.currentUser }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row fixedWidth' },
+	          _react2.default.createElement(_reviewsIndex2.default, {
+	            currentUser: this.props.currentUser,
+	            beer: this.props.beer })
+	        ),
+	        _react2.default.createElement(_footer2.default, null)
+	      );
+	    }
+	  }]);
+	
+	  return BeerShow;
+	})(_react.Component);
+	
+	;
+	
+	exports.default = BeerShow;
+
+/***/ },
+/* 331 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	exports.__esModule = true;
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _invariant = __webpack_require__(164);
+	
+	var _invariant2 = _interopRequireDefault(_invariant);
+	
+	var _Actions = __webpack_require__(165);
+	
+	var _ExecutionEnvironment = __webpack_require__(166);
+	
+	var _DOMUtils = __webpack_require__(167);
+	
+	var _DOMStateStorage = __webpack_require__(168);
+	
+	var _createDOMHistory = __webpack_require__(169);
+	
+	var _createDOMHistory2 = _interopRequireDefault(_createDOMHistory);
+	
+	var _parsePath = __webpack_require__(176);
+	
+	var _parsePath2 = _interopRequireDefault(_parsePath);
+	
+	/**
+	 * Creates and returns a history object that uses HTML5's history API
+	 * (pushState, replaceState, and the popstate event) to manage history.
+	 * This is the recommended method of managing history in browsers because
+	 * it provides the cleanest URLs.
+	 *
+	 * Note: In browsers that do not support the HTML5 history API full
+	 * page reloads will be used to preserve URLs.
+	 */
+	function createBrowserHistory() {
+	  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
+	  !_ExecutionEnvironment.canUseDOM ? process.env.NODE_ENV !== 'production' ? _invariant2['default'](false, 'Browser history needs a DOM') : _invariant2['default'](false) : undefined;
+	
+	  var forceRefresh = options.forceRefresh;
+	
+	  var isSupported = _DOMUtils.supportsHistory();
+	  var useRefresh = !isSupported || forceRefresh;
+	
+	  function getCurrentLocation(historyState) {
+	    historyState = historyState || window.history.state || {};
+	
+	    var path = _DOMUtils.getWindowPath();
+	    var _historyState = historyState;
+	    var key = _historyState.key;
+	
+	    var state = undefined;
+	    if (key) {
+	      state = _DOMStateStorage.readState(key);
+	    } else {
+	      state = null;
+	      key = history.createKey();
+	
+	      if (isSupported) window.history.replaceState(_extends({}, historyState, { key: key }), null, path);
+	    }
+	
+	    var location = _parsePath2['default'](path);
+	
+	    return history.createLocation(_extends({}, location, { state: state }), undefined, key);
+	  }
+	
+	  function startPopStateListener(_ref) {
+	    var transitionTo = _ref.transitionTo;
+	
+	    function popStateListener(event) {
+	      if (event.state === undefined) return; // Ignore extraneous popstate events in WebKit.
+	
+	      transitionTo(getCurrentLocation(event.state));
+	    }
+	
+	    _DOMUtils.addEventListener(window, 'popstate', popStateListener);
+	
+	    return function () {
+	      _DOMUtils.removeEventListener(window, 'popstate', popStateListener);
+	    };
+	  }
+	
+	  function finishTransition(location) {
+	    var basename = location.basename;
+	    var pathname = location.pathname;
+	    var search = location.search;
+	    var hash = location.hash;
+	    var state = location.state;
+	    var action = location.action;
+	    var key = location.key;
+	
+	    if (action === _Actions.POP) return; // Nothing to do.
+	
+	    _DOMStateStorage.saveState(key, state);
+	
+	    var path = (basename || '') + pathname + search + hash;
+	    var historyState = {
+	      key: key
+	    };
+	
+	    if (action === _Actions.PUSH) {
+	      if (useRefresh) {
+	        window.location.href = path;
+	        return false; // Prevent location update.
+	      } else {
+	          window.history.pushState(historyState, null, path);
+	        }
+	    } else {
+	      // REPLACE
+	      if (useRefresh) {
+	        window.location.replace(path);
+	        return false; // Prevent location update.
+	      } else {
+	          window.history.replaceState(historyState, null, path);
+	        }
+	    }
+	  }
+	
+	  var history = _createDOMHistory2['default'](_extends({}, options, {
+	    getCurrentLocation: getCurrentLocation,
+	    finishTransition: finishTransition,
+	    saveState: _DOMStateStorage.saveState
+	  }));
+	
+	  var listenerCount = 0,
+	      stopPopStateListener = undefined;
+	
+	  function listenBefore(listener) {
+	    if (++listenerCount === 1) stopPopStateListener = startPopStateListener(history);
+	
+	    var unlisten = history.listenBefore(listener);
+	
+	    return function () {
+	      unlisten();
+	
+	      if (--listenerCount === 0) stopPopStateListener();
+	    };
+	  }
+	
+	  function listen(listener) {
+	    if (++listenerCount === 1) stopPopStateListener = startPopStateListener(history);
+	
+	    var unlisten = history.listen(listener);
+	
+	    return function () {
+	      unlisten();
+	
+	      if (--listenerCount === 0) stopPopStateListener();
+	    };
+	  }
+	
+	  // deprecated
+	  function registerTransitionHook(hook) {
+	    if (++listenerCount === 1) stopPopStateListener = startPopStateListener(history);
+	
+	    history.registerTransitionHook(hook);
+	  }
+	
+	  // deprecated
+	  function unregisterTransitionHook(hook) {
+	    history.unregisterTransitionHook(hook);
+	
+	    if (--listenerCount === 0) stopPopStateListener();
+	  }
+	
+	  return _extends({}, history, {
+	    listenBefore: listenBefore,
+	    listen: listen,
+	    registerTransitionHook: registerTransitionHook,
+	    unregisterTransitionHook: unregisterTransitionHook
+	  });
+	}
+	
+	exports['default'] = createBrowserHistory;
+	module.exports = exports['default'];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 332 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _beer_search_results = __webpack_require__(333);
+	
+	var _beer_search_results2 = _interopRequireDefault(_beer_search_results);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BeerSearch = (function (_Component) {
+	  _inherits(BeerSearch, _Component);
+	
+	  function BeerSearch(props) {
+	    _classCallCheck(this, BeerSearch);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerSearch).call(this, props));
+	
+	    _this.state = {
+	      term: ""
+	    };
+	    _this.handleChange = _this.handleChange.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(BeerSearch, [{
+	    key: 'handleChange',
+	    value: function handleChange(e) {
+	      e.preventDefault;
+	      this.setState({
+	        term: e.target.value
+	      });
+	    }
+	  }, {
+	    key: 'getSearchResults',
+	    value: function getSearchResults() {
+	      if (this.state.term) {
+	        return _react2.default.createElement(_beer_search_results2.default, { term: this.state.term });
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'beerSearch' },
+	        _react2.default.createElement(
+	          'form',
+	          { className: 'form-group has-feedback' },
+	          _react2.default.createElement('input', {
+	            type: 'text',
+	            placeholder: 'search for a beer',
+	            value: this.state.term,
+	            onChange: this.handleChange,
+	            className: 'form-control' }),
+	          _react2.default.createElement('i', { className: 'glyphicon glyphicon-search form-control-feedback searchIcon' })
+	        ),
+	        this.getSearchResults()
+	      );
+	    }
+	  }]);
+	
+	  return BeerSearch;
+	})(_react.Component);
+	
+	exports.default = BeerSearch;
+
+/***/ },
+/* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(159);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BeerStore = __webpack_require__(213);
+	
+	var BeerSearchResults = (function (_Component) {
+	  _inherits(BeerSearchResults, _Component);
+	
+	  function BeerSearchResults(props) {
+	    _classCallCheck(this, BeerSearchResults);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerSearchResults).call(this, props));
+	
+	    _this.state = {
+	      beers: []
+	    };
+	    _this.renderBeers = _this.renderBeers.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(BeerSearchResults, [{
+	    key: 'renderBeers',
+	    value: function renderBeers() {
+	
+	      var term = this.props.term;
+	
+	      var beers = BeerStore.filterBySearchTerm(term);
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'beerSearchResults' },
+	        beers.map(function (beer) {
+	          var url = "/beer/" + beer.id;
+	          return _react2.default.createElement(
+	            _reactRouter.Link,
+	            {
+	              to: url,
+	              key: beer.id,
+	              params: { id: beer.id },
+	              ref: beer.id
+	            },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'beerSearchResultItem' },
+	              beer.name
+	            )
+	          );
+	        }, this)
+	      );
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        this.renderBeers()
+	      );
+	    }
+	  }]);
+	
+	  return BeerSearchResults;
+	})(_react.Component);
+	
+	exports.default = BeerSearchResults;
 
 /***/ }
 /******/ ]);

@@ -1,14 +1,15 @@
 import React from 'react';
 import ReviewEditForm from './new_review_edit_form';
-import ReviewUtil from '../utils/review_util';
+import ReviewUtil from '../util/review_util';
 
 const ReviewButtons = (props) => {
 
-  handleDeleteClick = (review) => {
+   const handleDeleteClick = function(review) {
+    
     ReviewUtil.destroyReview(review);
   };
 
-  handleEditClick = (review) => {
+  const handleEditClick = (review) => {
     // toggle a modal or something
   };
 
@@ -18,7 +19,7 @@ const ReviewButtons = (props) => {
     return (
       <div className="reviewButtons">
         <div className="deleteReviewButton"
-             onclick={handleDeleteClick.bind(this, props.review)}
+             onClick={handleDeleteClick.bind(this, props.review)}
              value={props.review}>delete</div>
            <div className="editReviewButton"
                 onclick={handleEditClick.bind(this, props.review)}

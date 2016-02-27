@@ -12,6 +12,7 @@ var UserActions = {
   },
 
   receiveAllUsers: function(users){
+
     var action = {
       actionType: UserConstants.USERS_RECEIVED,
       users: users

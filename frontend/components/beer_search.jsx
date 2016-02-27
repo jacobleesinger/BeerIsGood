@@ -31,8 +31,8 @@ var Search = React.createClass({
   	},
 
   	updateValue: function (beerId) {
-
-      this.props.onClick(BeerShow, this.props.currentUser, BeerStore.find(beerId));
+    
+      this.props.onClick(beerId);
 
   	},
 

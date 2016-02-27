@@ -13,6 +13,7 @@ var addAllComments = function (comments) {
 };
 
 var addSingleComment = function(comment) {
+
   _comments[comment.id] = comment;
 };
 
@@ -37,7 +38,6 @@ CommentStore.filterCommentsByReviewId = function (reviewId) {
 }
 
 CommentStore.__onDispatch = function(payload) {
-
   switch(payload.actionType) {
     case CommentConstants.COMMENTS_RECEIVED:
       addAllComments(payload.comments)

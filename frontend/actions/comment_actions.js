@@ -11,6 +11,7 @@ var CommentActions = {
   },
 
   receiveSingleComment: function(comment) {
+
     var action = {
       actionType: CommentConstants.COMMENT_RECEIVED,
       comment: comment

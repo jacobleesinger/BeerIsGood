@@ -13,6 +13,7 @@ var addAllReviews = function (reviews) {
 };
 
 var addSingleReview = function(review) {
+
   _reviews[review.id] = review;
 };
 

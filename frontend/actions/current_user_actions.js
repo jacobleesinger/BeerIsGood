@@ -11,6 +11,7 @@ var CurrentUserActions = {
   },
 
   resetCurrentUser: function () {
+
     Dispatcher.dispatch({
       actionType: CurrentUserConstants.CURRENT_USER_RESET,
     })

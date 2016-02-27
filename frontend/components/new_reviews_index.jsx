@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import ReviewIndexItem from './new_review_index_item';
-import ReviewStore from '../stores/review_store';
+var ReviewStore = require('../stores/review_store');
 
 class ReviewsIndex extends Component {
 
@@ -13,8 +13,10 @@ class ReviewsIndex extends Component {
     const currentUser = props.currentUser;
 
     this.state = {
-      reviews: filterReviewsByUserId(userId)
+      reviews: ReviewStore.filterReviewsByUserId(userId)
     };
+
+    this._onChange = this._onChange.bind(this);
   }
 
   componentDidMount() {
@@ -27,25 +29,27 @@ class ReviewsIndex extends Component {
 
   _onChange() {
       this.setState({
-        reviews: ReviewStore.filterReviewsByUserId(userId)
+        reviews: ReviewStore.filterReviewsByUserId(this.props.user.id)
       })
   }
 
-  const reviewsList = this.state.reviews.map((review) => {
+
+  render() {
+
+    const reviewsList = this.state.reviews.map((review) => {
+
       return (
         <ReviewIndexItem
-          currentUser={currentUser}
-          user={user}
+          currentUser={this.props.currentUser}
+          user={this.props.user}
           review={review}
           key={review.id}
-        />
+          />
       );
     }
   );
-
-  render() {
     return(
-      <div>
+      <div className="col-md-6 reviewsIndexContainer">
         {reviewsList}
       </div>
     );

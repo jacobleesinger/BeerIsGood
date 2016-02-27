@@ -26,6 +26,13 @@ BeerStore.all = function() {
   return beers;
 };
 
+BeerStore.filterBySearchTerm = function(term) {
+  return this.all().filter(function(beer) {
+
+    return beer.name.toLowerCase().match(term.toLowerCase());
+  })
+};
+
 BeerStore.find = function (beerId) {
   return _beers[beerId];
 };

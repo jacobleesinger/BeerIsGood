@@ -7,6 +7,8 @@ var ToastStore = require('../stores/toast_store');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var CommentForm = require('./comment_form');
 var ToastUtil = require('../util/toast_util');
+var UserStore = require('../stores/user_store');
+var Link = require('react-router').Link;
 
 var Display;
 var Buttons;
@@ -69,18 +71,28 @@ var ReviewIndexItem = React.createClass({
   displayToastButton: function () {
     var currentUserHasToastedReview = this.currentUserHasToastedReview();
     if(currentUserHasToastedReview){
-      ToastButton = <div>You Toasted this!</div>
+      ToastButton = (
+        <div className="reviewFooterItem col-md-4 col-md-offset-6">
+          <div className="toastStatus"></div>
+        </div>
+        );
     } else {
       ToastButton = (
-        <div className="reviewFooterItem col-md-4">
-          <div onClick={this.handleToastClick.bind(this, this.props.review)} className="toastReviewButton" value={this.props.review}>Toast this!</div>
+        <div className="reviewFooterItem col-md-4 col-md-offset-6">
+          <button
+            onClick={this.handleToastClick.bind(this, this.props.review)}
+            className="toastReviewButton toastStatus btn btn-1"
+            value={this.props.review}>
+              <i className="fa fa-beer"></i> Toast!
+          </button>
         </div>
-      )
+      );
     }
   },
 
   getInitialState: function () {
     return ({
+      user: UserStore.findById(this.props.review.author_id),
       beers: BeerStore.all(),
       beer: BeerStore.find(this.props.review.beer_id),
       comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
@@ -110,6 +122,7 @@ var ReviewIndexItem = React.createClass({
   },
 
   _onChange: function() {
+
     this.setState({
       beer: BeerStore.find(this.props.review.beer_id),
       comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
@@ -144,7 +157,7 @@ var ReviewIndexItem = React.createClass({
   },
 
   checkIfCurrentUser: function () {
-    if(this.props.currentUser.id === this.props.user.id) {
+    if(this.props.currentUser.id === this.state.user.id) {
       Buttons = (
         <div>
           <div onClick={this.handleDeleteClick.bind(this, this.props.review)} className="deleteReviewButton" value={this.props.review}>delete</div>
@@ -163,7 +176,9 @@ var ReviewIndexItem = React.createClass({
       CommentFormDisplay = <CommentForm review={this.props.review} currentUser={this.props.currentUser} onChange={this.handleCommentFormSubmit}/>;
 
     } else {
-      CommentFormDisplay = <button onClick={this.handleCommentClick.bind(this, this.props.review)} className="btn btn-1 createCommentButton" value={this.props.review}>add comment</button>;
+      CommentFormDisplay = <button onClick={this.handleCommentClick.bind(this, this.props.review)} className="btn btn-1 createCommentButton" value={this.props.review}>
+        Comment<i className="fa fa-comment-o commentIcon"></i>
+      </button>;
 
     }
   },
@@ -175,6 +190,15 @@ var ReviewIndexItem = React.createClass({
     });
   },
 
+  renderRating: function() {
+    var stars = [];
+    for(var i = 0; i < this.state.rating; i++) {
+      stars.push(<span className="glyphicon glyphicon-star ratingStar" key={i}></span>);
+    }
+    return stars.map(function(star) {
+      return star;
+    }, this);
+  },
 
   isEditing: function () {
     this.checkIfCurrentUser();
@@ -187,7 +211,7 @@ var ReviewIndexItem = React.createClass({
             <label htmlFor="reviewBody">What do you think?</label>
             <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
 
-            <label htmlFor="reviewRating">Your Rating</label>
+            <label htmlFor="reviewRating" className="reviewFormItem">Your Rating</label>
               <select onChange={this.handleRatingChange}>
                 <option value="0">rate beer</option>
                 <option value="1">1</option>
@@ -197,18 +221,23 @@ var ReviewIndexItem = React.createClass({
                 <option value="5">5</option>
               </select>
 
-            <input className="btn btn-2" type="submit" value="Update Review" onClick={this.handleSubmit}/>
+            <input className="btn btn-2 addReviewButton reviewFormItem" type="submit" value="Update Review" onClick={this.handleSubmit}/>
 
         </form>
       </div>
     } else {
+      var userUrl = '/user/' + this.state.user.id;
+      var beerUrl = '/beer/' + this.state.beer.id;
+
       Display =
         <div className="row">
           <div className="reviewContainer col-md-12" >
             <div className="reviewContent col-md-12">
               <div className="reviewHeader col-md-12">
                 <div className="reviewTitle col-md-9">
-                  {this.props.user.username} is drinking {this.state.beer.name}!
+                  <Link className="reviewLink" to={userUrl} >{this.state.user.username} </Link>
+                   is drinking
+                  <Link className="reviewLink" to={beerUrl} > {this.state.beer.name}</Link>!
                 </div>
                 <div className="col-md-3 reviewButtons">
                   {Buttons}
@@ -219,26 +248,33 @@ var ReviewIndexItem = React.createClass({
 
               <div className="reviewBody col-md-12">
                 {this.props.review.body}
+                <br />
+                <br />
+                {this.renderRating()}
               </div>
-
-              <div className="reviewFooter col-md-12">
-                <div className="reviewFooterItem col-md-4">
-                  {this.props.review.rating} Stars!
+              <div className="reviewFooter">
+                <div className="reviewFooterItem col-md-6">
+                  <div className="reviewToasts">
+                    {this.state.toasts.length}
+                    <i className="fa fa-beer toastIcon"></i>
+                  </div>
+                </div>
+                <div className="reviewFooterItem col-md-6">
+                  {ToastButton}
                 </div>
 
-                <div className="reviewFooterItem col-md-4">
-                  toasts: {this.state.toasts.length}
-                </div>
 
-                {ToastButton}
+
 
 
               </div>
+
             </div>
 
             <div className="reviewCommentsIndex col-md-12">
 
               {CommentFormDisplay}
+
               {
                 this.state.comments.map(function(comment) {
                     return (<Comment comment={comment} key={comment.id} />);

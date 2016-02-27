@@ -4,6 +4,7 @@ var FriendActions = require('../actions/friend_actions');
 var FriendUtil = {
 
   createFriendship: function(requestObj) {
+
     $.post(
       "api/friendships",
         {friendship: {

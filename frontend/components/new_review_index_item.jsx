@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import ReviewStore from '../stores/review_store';
+var ReviewStore = require('../stores/review_store');
 
 import ReviewButtons from './review_buttons';
 import ReviewEditForm from './new_review_edit_form';
@@ -20,6 +20,7 @@ class ReviewIndexItem extends Component {
     const currentUser = props.currentUser;
     const id = props.review.id;
 
+    this._onChange = this._onChange.bind(this);
   }
 
   componentDidMount() {
@@ -31,18 +32,20 @@ class ReviewIndexItem extends Component {
   }
 
   _onChange() {
+
     this.setState({
-      review: ReviewStore.findById(id);
-    })
+      review: ReviewStore.findById(this.props.review.id)
+    });
   }
 
   render() {
+
     return (
       <div className="reviewIndexItem">
-        <ReviewHeader review={review} />
-        <ReviewButtons review={review} currentUser={currentUser} />
-        <ReviewBody review={review} />
-        <ReviewFooter review={review} currentUser={currentUser} />
+        <ReviewHeader review={this.props.review} />
+        <ReviewButtons review={this.props.review} currentUser={this.props.currentUser} />
+        <ReviewBody review={this.props.review} />
+        <ReviewFooter review={this.props.review} currentUser={this.props.currentUser} />
 
       </div>
     )

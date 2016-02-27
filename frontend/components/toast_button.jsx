@@ -1,23 +1,17 @@
-import React from 'react'
-import ToastUtil from '../utils/toast_util';
+import React, { Component } from 'react'
+import ToastUtil from '../util/toast_util';
+import ToastStore from '../stores/toast_store';
 
-const ToastButton = (props) => {
-  const currentUser = props.currentUser;
-  const review = props.review;
+class ToastButton extends Component {
 
-  const hasToasted = ToastStore.userHasToasted(currentUser.id, review.id);
-
-  if(hasToasted) {
-    const Button = <div>You Toasted This!</div>;
-  } else {
-    const Button = <button
-      className="btn btn-1 toastReviewButton"
-      onClick={handleToastClick}>
-        Toast This!
-      </button>
+  constructor(props) {
+    super(props);
   }
 
-  handleToastClick = (e) => {
+
+
+
+  handleToastClick(e) {
     const toast = {
       review_id: review.id,
       user_id: currentUser.id
@@ -25,8 +19,23 @@ const ToastButton = (props) => {
     ToastUtil.createToast(toast);
   };
 
-  return ({Button});
+  render() {
 
-};
+    const currentUser = this.props.currentUser;
+    const review = this.props.review;
+    const hasToasted = ToastStore.userHasToasted(currentUser.id, review.id);
+    var Button = <div></div>;
+    if(hasToasted) {
+      Button = <div>You Toasted This!</div>;
+    } else {
+      Button = <button
+        className="btn btn-1 toastReviewButton"
+        onClick={this.handleToastClick}>
+        Toast This!
+      </button>
+    }
+    return (<div>{Button}</div>);
+  }
+}
 
 export default ToastButton;

@@ -54,10 +54,6 @@ UserStore.searchable = function () {
 };
 
 
-
-
-
-
 UserStore.__onDispatch = function(payload){
   switch(payload.actionType) {
     case UserConstants.USER_RECEIVED:
@@ -91,5 +87,5 @@ UserStore.__onDispatch = function(payload){
       break;
   };
 };
-
+window.UserStore = UserStore;
 module.exports = UserStore;

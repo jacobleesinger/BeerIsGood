@@ -15,6 +15,14 @@ SessionStore.currentSession = function(){
   return _session;
 };
 
+SessionStore.isLoggedIn = function() {
+  if(_session) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 SessionStore.sessionErrors = function() {
   return sessionErrors;
 };

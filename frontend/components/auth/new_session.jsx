@@ -23,7 +23,6 @@ var NewSession = React.createClass ({
     e.preventDefault();
     var sessionData = Object.assign({}, this.state);
     SessionUtil.createSession(sessionData);
-
   },
 
   goBack: function () {

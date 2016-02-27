@@ -10,6 +10,7 @@ var ReviewUtil = {
   },
 
   createReview: function(review) {
+    
     $.ajax({
       url: "api/reviews",
       type: "POST",

@@ -26,9 +26,8 @@ var SessionUtil = {
  },
 
  destroySession: function(){
-
    $.ajax({
-     url: "api/session",
+     url: "../api/session", // not sure why "api/session" doesn't work anymore
      type: 'DELETE',
      success: function(user){
        SessionActions.destroySession(user);

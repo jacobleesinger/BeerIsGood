@@ -15,6 +15,8 @@
  */
  @import "bootstrap";
  @import url(https://fonts.googleapis.com/css?family=Oxygen|Francois+One);
+ @import "font-awesome-sprockets";
+ @import "font-awesome";
 
 body {
   color: rgb(40,12,2);
@@ -27,22 +29,22 @@ body {
 }
 
 .btn-1{
-  background-color: rgba(129,59,9,.5);
+  background-color: rgba(129,59,9,.8);
   color: cornsilk;
-  border: 1px solid rgba(129, 59, 9,.5);
+  border: 1px solid rgba(129, 59, 9,.8);
 
 }
 
 .btn-2{
-  background-color: rgba(222,184,135,.5);
+  background-color: rgba(222,184,135,.8);
   color: sienna;
-  border: 1px solid rgba(222,184,135,.5);
+  border: 1px solid rgba(222,184,135,.8);
 }
 
 .btn-3{
-  background-color: rgba(165,42,42,.5);
+  background-color: rgba(165,42,42,.8);
   color: cornsilk;
-  border: 1px solid rgba(165,42,42,.5);
+  border: 1px solid rgba(165,42,42,.8);
 }
 
 .btn-1:hover{
@@ -64,12 +66,23 @@ body {
   // border: 1px solid black;
   background-color: rgba(245,235,225,.9);
   color: black;
-  padding: 10px;
+  padding: 15px;
+  border-radius: 4px;
 
 }
 
 .reviewFormItem {
-  margin: 10px;
+  margin: 15px;
+  margin-left: 0px;
+}
+
+.reviewForm {
+  padding-bottom: 15px;
+}
+
+.addReviewButton {
+  float: right;
+  margin-right: 0px;
 }
 
 .reviewContainer {
@@ -77,10 +90,12 @@ body {
   margin-bottom: 10px;
   // border-bottom: 1px solid black;
   color: saddlebrown;
+  border-radius:3px;
 }
 
 .reviewForm select{
   color: saddlebrown;
+  margin-left: 15px;
 }
 
 .reviewContent {
@@ -97,19 +112,53 @@ body {
   font-size: 1.2em;
   text-align: left;
   padding-left: 0;
+  margin:5px;
 }
 
 .reviewTitle {
   padding-left: 0;
+  padding-top: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .reviewButtons {
   padding-right: 0px;
+  padding-left: 40px;
+  margin-top: 15px;
 }
 
 .reviewBody {
   color: black;
   border: 1px solid lightgrey;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  padding: 10px;
+  max-width: 470px;
+}
+
+.reviewBody:before {
+    bottom: 100%;
+    left: 24px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.reviewFooter {
+  padding: 0;
+  background-color: #eee;
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
+.reviewFooterItem {
+  padding: 0;
 }
 
 .reviewCommentsIndex {
@@ -123,8 +172,8 @@ body {
 }
 
 .commentContainer{
-  margin: 10px;
-  margin-left: 12px;
+  margin: 15px;
+  margin-left: 17px;
 
 }
 
@@ -132,6 +181,16 @@ body {
   color: black;
 }
 
+.commentAuthor{
+  color: saddlebrown;
+}
+
+.reviewCommentsIndex{
+
+  // background-color: rgba(245,235,225,.9);
+  // border-radius: 5px;
+  // padding: 0;
+}
 .deleteReviewButton, .editReviewButton{
   font-size: 12px;
   color: saddlebrown;
@@ -154,7 +213,7 @@ body {
 }
 
 .landingPage-1 {
-  background: url("http://res.cloudinary.com/dbkzwcps1/image/upload/v1451354175/pouring_beer_sm_t0ruln.jpg") no-repeat center center;
+  background: url("http://res.cloudinary.com/dbkzwcps1/image/upload/v1451354129/2beers_sm_eirv74.jpg") no-repeat center center;
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;
@@ -196,7 +255,7 @@ background-size: cover;
 
 .homeDiv {
   // position: relative;
-  background: url("http://res.cloudinary.com/dbkzwcps1/image/upload/v1451354129/2beers_sm_eirv74.jpg") no-repeat center center fixed;
+  background: url("http://res.cloudinary.com/dbkzwcps1/image/upload/v1451874524/beer_vxpdak.jpg") no-repeat center center fixed;
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;
@@ -216,7 +275,7 @@ min-height: 100vh;
 }
 .landingPageButtons {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 40px;
 }
 
 
@@ -225,6 +284,7 @@ min-height: 100vh;
   font-weight: 200;
   background-color: rgba(255,255,255,.8);
   padding: 0 20px 0 20px;
+  border-radius: 4px;
 }
 
 .navbarLinksUl {
@@ -252,7 +312,7 @@ min-height: 100vh;
   outline: 1px solid rgba(0,0,0,.3);
   cursor: pointer;
   // text-shadow: 0 0 5px sienna;
-  // color: cornsilk;
+  color: cornsilk;
   background-color: rgba(0,0,0,.3);
 
 }
@@ -265,15 +325,18 @@ min-height: 100vh;
   // padding-bottom: 10px;
   margin-bottom: 0px;
   border-radius: 0;
+  position: relative;
 }
 
 .navbarHeader {
   float: left;
+  // max-height: 62px;
+  // max-width: 200px;
 
 }
 
 .navbarContent {
-  float: left;
+  float: right;
 }
 
 .fixedWidth {
@@ -296,11 +359,12 @@ min-height: 100vh;
 }
 
 .or {
-  color: white;
-  border: 1px solid #ddd;
-  background-color: rgba(160,82,45,.5);
+  color: cornsilk;
+  border: 1px solid rgba(160,82,45,.8);
+  background-color: rgba(160,82,45,.8);
   border-radius: 50%;
-  margin: 10px;
+  margin: 15px;
+  padding: 5px;
 
 }
 
@@ -311,7 +375,7 @@ min-height: 100vh;
 }
 
 .landingPageSubLogo {
-  margin-top: 0px;
+  margin-top: 50px;
   margin-bottom: 0px;
   padding-bottom: 0px;
 }
@@ -354,10 +418,11 @@ min-height: 100vh;
   font-size: 20px;
   padding: 0;
 
+
 }
 
 .guest2:hover {
-  text-shadow: 2px 2px 3px black;
+  // text-shadow: 2px 2px 3px black;
   cursor: pointer;
   color: white;
   // text-decoration: underline;
@@ -394,9 +459,14 @@ padding-bottom: 80px;
 //   height: 100px;
 // }
 
-.toastReviewButton {
-  text-decoration: underline;
+.toastStatus {
+  position: relative;
+  left: 10px;
 }
+.toastReviewButton {
+
+}
+
 
 .toastReviewButton:hover {
   cursor: pointer;
@@ -424,6 +494,12 @@ padding-bottom: 80px;
   color: blue;
 }
 
+.mainPage {
+  position: relative;
+  z-index: 1;
+  min-height: 800px;
+}
+
 .main {
   position: relative;
 }
@@ -437,15 +513,15 @@ textarea {
 }
 
 .createCommentButton {
-  margin: 10px;
+  margin: 20px;
 }
 
 .addCommentButton {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .authButton {
-  margin: 10px;
+  margin: 20px;
 }
 
 #newUserFormDiv {
@@ -460,7 +536,7 @@ textarea {
   background-color: rgba(245,235,225,.9);
   // border: 1px solid black;
   color: saddlebrown;
-  margin: 10px;
+  margin: 15px;
   text-align: center;
   padding: 5px;
   height: 45px;
@@ -470,14 +546,16 @@ textarea {
   // border: 1px solid black;
   background-color: rgba(245, 235, 225, .9);
   padding: 5px;
+  border-radius: 4px;
+
 }
 .userSidebarElement {
-  background-color: rgba(245,245,245,.9);
+  background-color: rgba(255,255,255,.9);
   // border: 1px solid black;
   color: saddlebrown;
   // margin: 10px;
   padding: 10px;
-  margin: 5px;
+  margin: 10px;
 }
 
 .navbarLogo {
@@ -494,4 +572,88 @@ textarea {
   font-size: 14px;
   width: 200px;
 
+}
+
+a {
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.beerSearch {
+  width: 200px;
+  height: 30px;
+}
+
+.beerSearch input {
+  width: 100%;
+  margin-top: 0px;
+}
+
+.beerSearchResults {
+  width: 200px;
+  background-color: rgba(255,255,255,.95);
+  margin-left: 0;
+  position: absolute;
+  z-index: 1;
+
+}
+
+.beerSearchResultItem {
+  font-size: 16px;
+  min-width: 200px;
+  border: 1px solid rgba(235,235,235,.9);
+  margin: 0;
+}
+
+.searchIcon {
+  color: #55595c;
+}
+
+.commentIcon {
+  margin-left: 15px;
+}
+
+.signOutButton {
+  margin-bottom: 12px;
+}
+
+.reviewLink:hover {
+  color: #55595c;
+}
+
+.ratingStar {
+  color: goldenrod;
+  font-size: 1.5em;
+}
+
+.openReviewFormButton {
+  margin-bottom: 15px;
+}
+
+.toastImg {
+  height: 24px;
+  width: 24px;
+  background-image: url("beer-icon.png");
+  margin: 0px;
+  display: inline-block;
+}
+
+.toastCount {
+  height: 24px;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.reviewToasts {
+  color: darkslategrey;
+  font-size: 20px;
+}
+
+.toastIcon {
+  margin-left: 8px;
+  color: saddlebrown;
 }

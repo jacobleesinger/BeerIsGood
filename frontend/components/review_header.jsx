@@ -6,10 +6,10 @@ import BeerStore from '../stores/beer_store';
 const ReviewHeader = (props) => {
 
   const author = UserStore.findById(props.review.author_id);
-  const beer = BeerStore.findById(props.review.beer_id);
+  const beer = BeerStore.find(props.review.beer_id);
 
   return (
-    <div className="reviewHeader">{author.name} is drinking {beer.name}!</div>
+    <div className="reviewHeader">{author.username} is drinking {beer.name}!</div>
   );
 };
 

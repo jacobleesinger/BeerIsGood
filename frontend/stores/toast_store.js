@@ -45,9 +45,9 @@ ToastStore.filterToastsByUserId = function(userId) {
 }
 
 ToastStore.userHasToasted = function(userId, reviewId) {
-  return this.all().filter(function(toast) {
+  return (this.all().filter(function(toast) {
     return toast.user_id === userId && toast.review_id === reviewId;
-  });
+  }).length > 0);
 }
 
 ToastStore.__onDispatch = function(payload) {

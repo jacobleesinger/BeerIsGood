@@ -10,31 +10,31 @@ class CommentsIndex extends Component {
     const review = props.review;
 
     this.state = {
-      comments: CommentStore.filterCommentsByReviewId(review.id);
+      comments: CommentStore.filterCommentsByReviewId(review.id)
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     this.commentToken = CommentStore.addListener(this._onChange);
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.commentToken.remove();
   }
 
-  _onChange = () => {
+  _onChange() {
     this.setState({
       comments: CommentStore.filterCommentsByReviewId(review.id)
     });
   }
 
-  const commentsList = this.state.comments.map((comment) => {
-    return (
-      <CommentIndexItem comment={comment} />
-    );
-  });
 
   render() {
+    const commentsList = this.state.comments.map((comment, idx) => {
+      return (
+        <CommentIndexItem comment={comment} key={idx} />
+      );
+    });
     return (
       <div>
         {commentsList}

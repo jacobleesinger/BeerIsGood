@@ -37,7 +37,22 @@ var BeerReviewIndexItem = React.createClass({
     this.setState({editing: false});
   },
 
+  componentWillReceiveProps() {
+    this.setState({
+      beers: BeerStore.all(),
+      beer: this.props.beer,
+      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
+      beer_id: this.props.beer.id,
+      body: this.props.review.body,
+      rating: this.props.review.rating,
+      author_id: this.props.review.author_id,
+      id: this.props.review.id,
+    });
+  },
+
   getInitialState: function () {
+
     return ({
       beers: BeerStore.all(),
       beer: this.props.beer,

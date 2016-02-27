@@ -2,12 +2,23 @@ var React = require('react');
 var Auth = require('./auth/auth_component');
 var SessionStore = require('../stores/session_store');
 var ErrorStore = require('../stores/error_store');
-var Home = require('./home');
+var Home = require('./new_home').default;
 var CurrentUserStore = require('../stores/current_user_store');
 var SessionUtil = require('../util/session_util');
 var Footer = require('./footer');
 var NewUserForm = require('./auth/new_user');
 var NewSessionForm = require('./auth/new_session');
+var UserProfile = require('./new_user_profile').default;
+var User = require('./user');
+
+
+
+var Navbar = require('./new_navbar');
+import ReviewForm from './new_review_form';
+import ReviewsIndex from './new_reviews_index';
+import Sidebar from './user_profile_sidebar';
+
+
 
 
 
@@ -141,7 +152,6 @@ var LandingPage = React.createClass({
 
   render: function () {
 
-
     if(this.state.signingUp) {
       modal = <NewUserForm cancelAuth={this.cancelAuth} />;
     } else if(this.state.signingIn) {
@@ -175,7 +185,10 @@ var LandingPage = React.createClass({
 
 
     if (this.state.signedIn) {
-      Page = <Home currentUser={this.state.currentUser} user={this.state.currentUser} errors={this.displayErrorMessages()}/>
+
+      var url = '/user/' + this.state.currentUser.id
+      this.props.history.pushState(null, url);
+
     } else {
       var errors = this.displayErrorMessages();
       Page =
@@ -183,7 +196,7 @@ var LandingPage = React.createClass({
         <div className="landingPage-1">
           <div className="container landingPageContainer">
            <div className="row">
-             <div className="col-md-6 col-md-offset-3 landingPageStuff">
+             <div className="col-md-6 landingPageStuff">
                <h6 className="landingPageSubLogo logo">Good beers, good friends, good times.</h6>
                <h1 className="landingPageLogo logo">Beerisgood</h1>
                <h2 className="landingPageTag">Discover & Share your favorite beers</h2>

@@ -9,6 +9,7 @@ var CommentUtil = {
   },
 
   createComment: function(comment) {
+
     $.post('api/comments', { comment: comment }, function(comment) {
        CommentActions.receiveSingleComment(comment)
      });

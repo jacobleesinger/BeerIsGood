@@ -1,8 +1,8 @@
 var React = require('react');
 var UserStore = require('../stores/user_store');
+import { Link } from 'react-router';
 
 var Comment = React.createClass({
-
   getInitialState: function() {
     return({
       author: UserStore.findById(this.props.comment.author_id)
@@ -25,14 +25,12 @@ var Comment = React.createClass({
 
 
   render: function() {
-
+    var url = "/user/" + this.state.author.id
     return (
       <div className="commentContainer">
 
-        <h5>{this.state.author.username} says:</h5>
-
         <div className ="commentBody">
-          {this.props.comment.body}
+          <Link className="commentAuthor" to={url}>{this.state.author.username}:</Link> {this.props.comment.body}
         </div>
 
       </div>

@@ -32444,12 +32444,14 @@
 	      review_id: props.review.id,
 	      body: ""
 	    };
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    return _this;
 	  }
 	
 	  _createClass(CommentForm, [{
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
+	
 	      e.preventDefault;
 	      var commentData = Object.assign({}, this.state);
 	      _comment_util2.default.createComment(commentData);
@@ -32463,7 +32465,7 @@
 	        null,
 	        _react2.default.createElement(
 	          'form',
-	          { className: 'form-group commentForm' },
+	          { className: 'form-group commentForm', onSubmit: this.handleSubmit },
 	          _react2.default.createElement(
 	            'label',
 	            { htmlFor: 'commentBody' },
@@ -32473,7 +32475,7 @@
 	            className: 'form-control',
 	            id: 'reviewBody',
 	            valueLink: (0, _reactLinkState2.default)(this, 'body') }),
-	          _react2.default.createElement('input', { className: 'btn btn-2 addCommentButton', type: 'submit', value: 'Add Comment', onClick: this.handleSubmit })
+	          _react2.default.createElement('input', { className: 'btn btn-2 addCommentButton', type: 'submit', value: 'Add Comment' })
 	        )
 	      );
 	    }
@@ -32670,7 +32672,6 @@
 	};
 	
 	var addSingleComment = function addSingleComment(comment) {
-	
 	  _comments[comment.id] = comment;
 	};
 	
@@ -37076,19 +37077,9 @@
 	    ToastUtil.createToast(toast);
 	  },
 	
-	  filteredState: (function (_filteredState) {
-	    function filteredState() {
-	      return _filteredState.apply(this, arguments);
-	    }
-	
-	    filteredState.toString = function () {
-	      return _filteredState.toString();
-	    };
-	
-	    return filteredState;
-	  })(function () {
-	    filteredState = {};
-	    for (key in this.state) {
+	  filteredState: function filteredState() {
+	    var filteredState = {};
+	    for (var key in this.state) {
 	      if (this.state.hasOwnProperty(key)) {
 	
 	        if (key !== "beers") {
@@ -37097,10 +37088,10 @@
 	      }
 	    }
 	    return filteredState;
-	  }),
+	  },
 	
 	  handleSubmit: function handleSubmit(e) {
-	    e.preventDefault;
+	    e.preventDefault();
 	    Object.assign({}, this.state);
 	    ReviewUtil.updateReview(this.filteredState());
 	    this.setState({ editing: false });
@@ -37174,7 +37165,6 @@
 	  },
 	
 	  _onChange: function _onChange() {
-	
 	    this.setState({
 	      beer: BeerStore.find(this.props.review.beer_id),
 	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
@@ -37229,7 +37219,7 @@
 	
 	  isCommenting: function isCommenting() {
 	    if (this.state.commenting) {
-	      CommentFormDisplay = React.createElement(CommentForm, { review: this.props.review, currentUser: this.props.currentUser, onChange: this.handleCommentFormSubmit });
+	      CommentFormDisplay = React.createElement(CommentForm, { review: this.props.review, currentUser: this.props.currentUser, onClick: this.handleCommentFormSubmit });
 	    } else {
 	      CommentFormDisplay = React.createElement(
 	        'button',
@@ -37439,11 +37429,10 @@
 	  },
 	
 	  handleSubmit: function handleSubmit(e) {
-	    e.preventDefault;
-	
+	    e.preventDefault();
 	    var commentData = Object.assign({}, this.state);
 	    CommentUtil.createComment(commentData);
-	    this.props.onChange();
+	    this.props.onClick();
 	  },
 	
 	  render: function render() {

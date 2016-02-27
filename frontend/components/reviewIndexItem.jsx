@@ -37,8 +37,8 @@ var ReviewIndexItem = React.createClass({
 
 
   filteredState: function() {
-    filteredState = {};
-    for (key in this.state) {
+    var filteredState = {};
+    for (var key in this.state) {
       if (this.state.hasOwnProperty(key)){
 
         if (key !== "beers") {
@@ -50,7 +50,7 @@ var ReviewIndexItem = React.createClass({
   },
 
   handleSubmit: function(e) {
-    e.preventDefault;
+    e.preventDefault();
     Object.assign({}, this.state);
     ReviewUtil.updateReview(this.filteredState());
     this.setState({editing: false});
@@ -122,7 +122,6 @@ var ReviewIndexItem = React.createClass({
   },
 
   _onChange: function() {
-
     this.setState({
       beer: BeerStore.find(this.props.review.beer_id),
       comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
@@ -173,7 +172,7 @@ var ReviewIndexItem = React.createClass({
 
   isCommenting: function () {
     if (this.state.commenting) {
-      CommentFormDisplay = <CommentForm review={this.props.review} currentUser={this.props.currentUser} onChange={this.handleCommentFormSubmit}/>;
+      CommentFormDisplay = <CommentForm review={this.props.review} currentUser={this.props.currentUser} onClick={this.handleCommentFormSubmit}/>;
 
     } else {
       CommentFormDisplay = <button onClick={this.handleCommentClick.bind(this, this.props.review)} className="btn btn-1 createCommentButton" value={this.props.review}>

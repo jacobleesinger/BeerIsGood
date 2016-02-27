@@ -13,9 +13,11 @@ class CommentForm extends Component {
       review_id: props.review.id,
       body: ""
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
+
     e.preventDefault;
     const commentData = Object.assign({}, this.state);
     CommentUtil.createComment(commentData);
@@ -25,7 +27,7 @@ class CommentForm extends Component {
 
     return (
       <div>
-        <form className="form-group commentForm">
+        <form className="form-group commentForm" onSubmit={this.handleSubmit}>
 
           <label htmlFor="commentBody">Comment</label>
           <textarea
@@ -33,7 +35,7 @@ class CommentForm extends Component {
             id="reviewBody"
             valueLink={linkState(this, 'body')} ></textarea>
 
-          <input className="btn btn-2 addCommentButton" type="submit" value="Add Comment" onClick={this.handleSubmit}/>
+          <input className="btn btn-2 addCommentButton" type="submit" value="Add Comment" />
         </form>
       </div>
     );

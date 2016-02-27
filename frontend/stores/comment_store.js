@@ -13,7 +13,6 @@ var addAllComments = function (comments) {
 };
 
 var addSingleComment = function(comment) {
-
   _comments[comment.id] = comment;
 };
 

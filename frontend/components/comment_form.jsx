@@ -19,11 +19,10 @@ var CommentForm = React.createClass({
   },
 
   handleSubmit: function (e) {
-    e.preventDefault;
-
+    e.preventDefault();
     var commentData = Object.assign({}, this.state)
     CommentUtil.createComment(commentData);
-    this.props.onChange();
+    this.props.onClick();
   },
 
   render: function () {

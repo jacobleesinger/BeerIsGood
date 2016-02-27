@@ -34549,7 +34549,7 @@
 	              _react2.default.createElement(
 	                'h1',
 	                null,
-	                'BeerIsGood'
+	                'BeerisGood'
 	              )
 	            )
 	          ),

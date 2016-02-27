@@ -33,7 +33,7 @@ class Navbar extends Component {
               <Link className="logo"
                 to={profileUrl}
                 >
-                <h1>BeerIsGood</h1></Link>
+                <h1>BeerisGood</h1></Link>
 
           </div>
 

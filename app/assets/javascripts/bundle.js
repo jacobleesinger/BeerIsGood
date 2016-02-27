@@ -76,6 +76,7 @@
 	var UsersIndex = __webpack_require__(321);
 	var ComposedUser = __webpack_require__(328).default;
 	var ComposedBeerShow = __webpack_require__(329).default;
+	var ComposedUsersIndex = __webpack_require__(334).default;
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -95,7 +96,7 @@
 	  React.createElement(IndexRoute, { component: LandingPage }),
 	  React.createElement(Route, { path: '/beer/:id', component: ComposedBeerShow }),
 	  React.createElement(Route, { path: '/user/:id', component: ComposedUser }),
-	  React.createElement(Route, { path: '/usersindex', component: UsersIndex })
+	  React.createElement(Route, { path: '/usersindex', component: ComposedUsersIndex })
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
@@ -24359,9 +24360,9 @@
 	            'Just here to look?'
 	          ),
 	          React.createElement(
-	            'p',
-	            { className: 'guest2', onClick: this.handleGuest },
-	            'Sign in as a guest!'
+	            'button',
+	            { className: ' btn btn-lg btn-1', onClick: this.handleGuest },
+	            'Guest Sign In'
 	          )
 	        )
 	      );
@@ -24419,72 +24420,6 @@
 	                  'div',
 	                  { className: 'landingPageButtons ' },
 	                  buttons
-	                )
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'landingPage-3' },
-	          React.createElement(
-	            'div',
-	            { className: 'container landingPageContainer' },
-	            React.createElement(
-	              'div',
-	              { className: 'row landingPageBlurbs' },
-	              React.createElement(
-	                'div',
-	                { className: 'col-md-4 landingPageStuff' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'landingPageBlurb' },
-	                  React.createElement(
-	                    'h1',
-	                    { className: 'landingPageBlurbHeader' },
-	                    'Good Beers'
-	                  ),
-	                  React.createElement(
-	                    'div',
-	                    { className: 'landingPageBlurbContent' },
-	                    'Drinking an awesome beer? Let the world know by writing a review!'
-	                  )
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'col-md-4 landingPageStuff' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'landingPageBlurb' },
-	                  React.createElement(
-	                    'h1',
-	                    { className: 'landingPageBlurbHeader' },
-	                    'Good Friends'
-	                  ),
-	                  React.createElement(
-	                    'div',
-	                    { className: 'landingPageBlurbContent' },
-	                    'Interact with your friends by commenting on and Toasting their reviews!'
-	                  )
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'col-md-4 landingPageStuff' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'landingPageBlurb' },
-	                  React.createElement(
-	                    'h1',
-	                    { className: 'landingPageBlurbHeader' },
-	                    'Good Times'
-	                  ),
-	                  React.createElement(
-	                    'div',
-	                    { className: 'landingPageBlurbContent' },
-	                    'Sign In as a Guest User for quick access to demo content!'
-	                  )
 	                )
 	              )
 	            )
@@ -34441,7 +34376,7 @@
 	          React.createElement(
 	            "a",
 	            { href: "http://jacobleesinger.com" },
-	            "Personal Site"
+	            "Portfolio"
 	          )
 	        )
 	      )
@@ -39126,6 +39061,57 @@
 	})(_react.Component);
 	
 	exports.default = BeerSearchResults;
+
+/***/ },
+/* 334 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _users_index = __webpack_require__(321);
+	
+	var _users_index2 = _interopRequireDefault(_users_index);
+	
+	var _authenticated_component = __webpack_require__(289);
+	
+	var _authenticated_component2 = _interopRequireDefault(_authenticated_component);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	exports.default = (0, _authenticated_component2.default)((function (_Component) {
+	  _inherits(ComposedUsersIndex, _Component);
+	
+	  function ComposedUsersIndex(props) {
+	    _classCallCheck(this, ComposedUsersIndex);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ComposedUsersIndex).call(this, props));
+	  }
+	
+	  _createClass(ComposedUsersIndex, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_users_index2.default, { currentUser: this.props.currentUser });
+	    }
+	  }]);
+	
+	  return ComposedUsersIndex;
+	})(_react.Component));
 
 /***/ }
 /******/ ]);

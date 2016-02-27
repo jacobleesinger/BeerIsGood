@@ -22,6 +22,7 @@ var User = require('./components/user');
 var UsersIndex = require('./components/users_index');
 var ComposedUser = require('./components/composed_components/user').default;
 var ComposedBeerShow = require('./components/composed_components/beer_show').default;
+var ComposedUsersIndex = require('./components/composed_components/users_index').default;
 
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
@@ -40,7 +41,7 @@ var routes = (
     <IndexRoute component={LandingPage}/>
     <Route path="/beer/:id" component={ComposedBeerShow} />
     <Route path="/user/:id" component={ComposedUser} />
-    <Route path="/usersindex" component={UsersIndex} />
+    <Route path="/usersindex" component={ComposedUsersIndex} />
   </Route>
 );
 

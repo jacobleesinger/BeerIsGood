@@ -13,7 +13,7 @@ var Footer = React.createClass({
             <a href="https://www.linkedin.com/in/jacobleesinger">LinkedIn</a>
           </div>
           <div className="col-md-4">
-            <a href="http://jacobleesinger.com">Personal Site</a>
+            <a href="http://jacobleesinger.com">Portfolio</a>
           </div>
 
         </div>

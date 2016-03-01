@@ -21,7 +21,6 @@ class UserSearch extends Component {
   }
 
   handleSubmit(e) {
-    debugger;
     e.preventDefault();
     this.props.onSearch(UserStore.filterBySearchTerm(this.state.term));
   }

@@ -39,7 +39,6 @@ class UserSearchResults extends Component {
 
   renderResults(searchResults) {
       if(searchResults.length === 0) {
-        debugger;
         return (
 
             this.renderFriends()

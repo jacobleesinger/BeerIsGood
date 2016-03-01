@@ -36592,7 +36592,6 @@
 	  },
 	
 	  searchResults: function searchResults(_searchResults) {
-	    debugger;
 	    this.setState({
 	      searchResults: _searchResults
 	    });
@@ -36678,7 +36677,6 @@
 	  }, {
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
-	      debugger;
 	      e.preventDefault();
 	      this.props.onSearch(_user_store2.default.filterBySearchTerm(this.state.term));
 	    }
@@ -36804,7 +36802,6 @@
 	    key: 'renderResults',
 	    value: function renderResults(searchResults) {
 	      if (searchResults.length === 0) {
-	        debugger;
 	        return this.renderFriends();
 	      }
 	      return searchResults.map(function (user) {

@@ -38,7 +38,6 @@ var UsersIndex = React.createClass({
   },
 
 searchResults: function(searchResults) {
-  debugger;
   this.setState({
     searchResults: searchResults
   });

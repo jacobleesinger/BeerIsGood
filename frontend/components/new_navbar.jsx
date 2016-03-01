@@ -41,14 +41,7 @@ class Navbar extends Component {
 
             <ul className="navbarLinksUl">
 
-              <li className="navbarLinks">
-                <div
-
-                  onClick={this.handleClick}
-                  >
-                  My Friends
-                </div>
-              </li>
+              
 
               <li className="navbarLinks">
                 <Link

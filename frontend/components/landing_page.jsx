@@ -197,7 +197,7 @@ var LandingPage = React.createClass({
           <div className="container landingPageContainer">
            <div className="row">
              <div className="col-md-6 landingPageStuff">
-               <h6 className="landingPageSubLogo logo">Good beers, good friends, good times.</h6>
+               
                <h1 className="landingPageLogo logo">Beerisgood</h1>
                <h2 className="landingPageTag">Discover & Share your favorite beers</h2>
                <div className="landingPageErrors">{errors}</div>

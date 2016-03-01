@@ -5,14 +5,18 @@ var UserStore = require('../stores/user_store');
 var CurrentUserStore = require('../stores/current_user_store');
 var User = require('./user');
 var Navbar = require('./new_navbar').default;
-
+var UserSearch = require('./user_search').default;
+var UserSearchResults = require('./user_search_results').default;
+var Footer = require('./footer');
 var userToken;
+
 
 var UsersIndex = React.createClass({
   getInitialState: function () {
     return({
       users: UserStore.all(),
-      currentUser: CurrentUserStore.currentUser()
+      currentUser: CurrentUserStore.currentUser(),
+      searchResults: []
     });
   },
 
@@ -33,28 +37,27 @@ var UsersIndex = React.createClass({
     });
   },
 
-  handleClick: function(newSubPage, user, beer) {
-
-    this.props.onSubPageChange(newSubPage, user, beer);
-  },
+searchResults: function(searchResults) {
+  debugger;
+  this.setState({
+    searchResults: searchResults
+  });
+},
 
   render: function () {
 
     return (
-      <div>
+      <div className="mainPage">
         <Navbar currentUser={this.state.currentUser} />
-        <div className="fixedWidth row index">
+        <div className="row fixedwidth">
+          <div className="usersIndex col-md-6 col-md-offset-3">
 
-            {this.state.users.map(function(user) {
-              var url = "/user/" + user.id;
-                return(
-                  <Link className="indexItem col-md-12" to={url} key={user.id}
-                    >{user.username}</Link>
-                );
-              }.bind(this))
-            }
-
+            <UserSearch onSearch={this.searchResults}/>
+            <UserSearchResults searchResults={this.state.searchResults} currentUser={this.props.currentUser}/>
+          </div>
         </div>
+        <Footer />
+
       </div>
     );
   }

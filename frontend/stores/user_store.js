@@ -45,12 +45,11 @@ UserStore.all = function() {
   return users;
 };
 
-UserStore.searchable = function () {
-  var searchable = [];
-  UserStore.all().forEach(function(user){
-    searchable.push(user);
-  });
-  return searchable;
+UserStore.filterBySearchTerm = function(term) {
+  return this.all().filter(function(user) {
+
+    return user.username.toLowerCase().match(term.toLowerCase());
+  })
 };
 
 

@@ -34937,7 +34937,8 @@
 	    } else if (this.props.beer) {
 	      return {
 	        reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
-	        currentUser: true
+	        currentUser: true,
+	        beer: this.props.beer
 	      };
 	    }
 	  },
@@ -34951,11 +34952,9 @@
 	  },
 	
 	  componentWillReceiveProps: function componentWillReceiveProps() {
-	    console.log('new props received. this.props.beer.id = ' + this.props.beer.id);
 	    this.setState({
 	      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id)
 	    });
-	    // debugger;
 	  },
 	
 	  _onChange: function _onChange() {
@@ -35019,7 +35018,17 @@
 	    });
 	  },
 	
+	  updateBeer: function updateBeer() {
+	    if (this.props.beer !== this.state.beer) {
+	      this.setState({
+	        reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
+	        beer: this.props.beer
+	      });
+	    }
+	  },
+	
 	  render: function render() {
+	    this.updateBeer();
 	    return React.createElement(
 	      'div',
 	      { className: 'col-md-6 reviewsIndexContainer' },
@@ -39291,7 +39300,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      // debugger;
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'mainPage' },

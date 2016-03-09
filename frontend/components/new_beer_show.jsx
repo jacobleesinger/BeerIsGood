@@ -21,7 +21,6 @@ class BeerShow extends Component {
   }
 
   render() {
-// debugger;
     return (
       <div className="mainPage">
           <Navbar currentUser={this.props.currentUser}/>

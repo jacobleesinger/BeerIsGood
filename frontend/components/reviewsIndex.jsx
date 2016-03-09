@@ -22,7 +22,8 @@ var ReviewsIndex = React.createClass ({
     } else if(this.props.beer) {
       return ({
         reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
-        currentUser: true
+        currentUser: true,
+        beer: this.props.beer
       });
     }
   },
@@ -36,11 +37,9 @@ var ReviewsIndex = React.createClass ({
   },
 
   componentWillReceiveProps: function() {
-    console.log(`new props received. this.props.beer.id = ${this.props.beer.id}`);
     this.setState({
       reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id)
     });
-    // debugger;
   },
 
   _onChange: function () {
@@ -98,7 +97,17 @@ var ReviewsIndex = React.createClass ({
     });
   },
 
+  updateBeer: function() {
+    if(this.props.beer !== this.state.beer) {
+      this.setState({
+        reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
+        beer: this.props.beer
+      });
+    }
+  },
+
   render: function () {
+    this.updateBeer();
     return (
 
       <div className="col-md-6 reviewsIndexContainer">

@@ -24503,7 +24503,6 @@
 	  },
 	
 	  render: function render() {
-	
 	    if (this.state.signingUp) {
 	      modal = React.createElement(NewUserForm, { cancelAuth: this.cancelAuth });
 	    } else if (this.state.signingIn) {
@@ -24521,7 +24520,9 @@
 	          null,
 	          React.createElement(
 	            'button',
-	            { className: 'btn btn-lg btn-1 inline', onClick: this.handleSignUp },
+	            {
+	              className: 'btn btn-lg btn-1 inline',
+	              onClick: this.handleSignUp },
 	            'Sign Up'
 	          ),
 	          React.createElement(
@@ -24531,7 +24532,9 @@
 	          ),
 	          React.createElement(
 	            'button',
-	            { className: 'btn btn-lg btn-1 inline', onClick: this.handleSignIn },
+	            {
+	              className: 'btn btn-lg btn-1 inline',
+	              onClick: this.handleSignIn },
 	            'Sign In'
 	          )
 	        ),
@@ -24545,7 +24548,9 @@
 	          ),
 	          React.createElement(
 	            'button',
-	            { className: ' btn btn-lg btn-1', onClick: this.handleGuest },
+	            {
+	              className: ' btn btn-lg btn-1',
+	              onClick: this.handleGuest },
 	            'Guest Sign In'
 	          )
 	        )
@@ -34945,6 +34950,14 @@
 	    this.reviewsToken.remove();
 	  },
 	
+	  componentWillReceiveProps: function componentWillReceiveProps() {
+	    console.log('new props received. this.props.beer.id = ' + this.props.beer.id);
+	    this.setState({
+	      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id)
+	    });
+	    // debugger;
+	  },
+	
 	  _onChange: function _onChange() {
 	    if (this.props.user) {
 	      if (this.props.user.id === this.props.currentUser.id) {
@@ -35007,7 +35020,6 @@
 	  },
 	
 	  render: function render() {
-	
 	    return React.createElement(
 	      'div',
 	      { className: 'col-md-6 reviewsIndexContainer' },
@@ -36763,12 +36775,16 @@
 	
 	    _this.renderResults = _this.renderResults.bind(_this);
 	    _this.renderFriends = _this.renderFriends.bind(_this);
+	    _this.friends = _this.friends.bind(_this);
+	    // this.handleClick = this.handleClick.bind(this);
 	    return _this;
 	  }
 	
 	  _createClass(UserSearchResults, [{
 	    key: 'renderFriends',
 	    value: function renderFriends() {
+	      var _this2 = this;
+	
 	      var friendships = _friend_store2.default.filterFriendshipsByUserId(this.props.currentUser.id);
 	
 	      return friendships.map(function (friendship) {
@@ -36782,6 +36798,11 @@
 	            { className: 'searchName' },
 	            _react2.default.createElement('i', { className: 'fa fa-user userIcon' }),
 	            user.username
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'friendStatus' },
+	            _this2.renderFriendStatus(user.id)
 	          ),
 	          _react2.default.createElement(
 	            _reactRouter.Link,
@@ -36799,8 +36820,28 @@
 	      });
 	    }
 	  }, {
+	    key: 'friends',
+	    value: function friends(userId, friendId) {
+	      return _friend_store2.default.getFriendshipStatus(userId, friendId);
+	    }
+	  }, {
+	    key: 'renderFriendStatus',
+	    value: function renderFriendStatus(userId) {
+	      if (this.friends(this.props.currentUser.id, userId)) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          'Friends!'
+	        );
+	      } else {
+	        return _react2.default.createElement('div', null);
+	      }
+	    }
+	  }, {
 	    key: 'renderResults',
 	    value: function renderResults(searchResults) {
+	      var _this3 = this;
+	
 	      if (searchResults.length === 0) {
 	        return this.renderFriends();
 	      }
@@ -36814,6 +36855,11 @@
 	            { className: 'searchName' },
 	            _react2.default.createElement('i', { className: 'fa fa-user userIcon' }),
 	            user.username
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'friendStatus' },
+	            _this3.renderFriendStatus()
 	          ),
 	          _react2.default.createElement(
 	            _reactRouter.Link,
@@ -39245,7 +39291,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	
+	      // debugger;
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'mainPage' },

@@ -35,6 +35,14 @@ var ReviewsIndex = React.createClass ({
     this.reviewsToken.remove();
   },
 
+  componentWillReceiveProps: function() {
+    console.log(`new props received. this.props.beer.id = ${this.props.beer.id}`);
+    this.setState({
+      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id)
+    });
+    // debugger;
+  },
+
   _onChange: function () {
     if(this.props.user) {
       if(this.props.user.id === this.props.currentUser.id) {
@@ -91,7 +99,6 @@ var ReviewsIndex = React.createClass ({
   },
 
   render: function () {
-
     return (
 
       <div className="col-md-6 reviewsIndexContainer">

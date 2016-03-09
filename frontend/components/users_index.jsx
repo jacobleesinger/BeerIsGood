@@ -50,7 +50,6 @@ searchResults: function(searchResults) {
         <Navbar currentUser={this.state.currentUser} />
         <div className="row fixedwidth">
           <div className="usersIndex col-md-6 col-md-offset-3">
-
             <UserSearch onSearch={this.searchResults}/>
             <UserSearchResults searchResults={this.state.searchResults} currentUser={this.props.currentUser}/>
           </div>

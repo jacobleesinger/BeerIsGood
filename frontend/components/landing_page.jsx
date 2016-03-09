@@ -151,11 +151,10 @@ var LandingPage = React.createClass({
   },
 
   render: function () {
-
     if(this.state.signingUp) {
-      modal = <NewUserForm cancelAuth={this.cancelAuth} />;
+      modal = <NewUserForm cancelAuth={ this.cancelAuth } />;
     } else if(this.state.signingIn) {
-      modal = <NewSessionForm cancelAuth={this.cancelAuth} />;
+      modal = <NewSessionForm cancelAuth={ this.cancelAuth } />;
     } else {
       modal = <div></div>;
     }
@@ -165,16 +164,28 @@ var LandingPage = React.createClass({
         <div className="centered landingPageButtons">
           <div>
 
-                <button className="btn btn-lg btn-1 inline" onClick={this.handleSignUp}>Sign Up</button>
+                <button
+                  className="btn btn-lg btn-1 inline"
+                  onClick={ this.handleSignUp }>
+                  Sign Up
+                </button>
 
                 <div className="or inline">OR</div>
 
-                <button className="btn btn-lg btn-1 inline" onClick={this.handleSignIn}>Sign In</button>
+                <button
+                  className="btn btn-lg btn-1 inline"
+                  onClick={ this.handleSignIn }>
+                  Sign In
+                </button>
 
           </div>
           <div>
             <p className="guest1">Just here to look?</p>
-            <button className=" btn btn-lg btn-1" onClick={this.handleGuest}>Guest Sign In</button>
+            <button
+              className=" btn btn-lg btn-1"
+              onClick={ this.handleGuest }>
+              Guest Sign In
+            </button>
           </div>
         </div>
       );
@@ -185,7 +196,7 @@ var LandingPage = React.createClass({
 
 
     if (this.state.signedIn) {
-
+      
       var url = '/user/' + this.state.currentUser.id
       this.props.history.pushState(null, url);
 
@@ -197,12 +208,12 @@ var LandingPage = React.createClass({
           <div className="container landingPageContainer">
            <div className="row">
              <div className="col-md-6 landingPageStuff">
-               
+
                <h1 className="landingPageLogo logo">Beerisgood</h1>
                <h2 className="landingPageTag">Discover & Share your favorite beers</h2>
-               <div className="landingPageErrors">{errors}</div>
-               <div className="landingPageForm">{modal}</div>
-               <div className="landingPageButtons ">{buttons}</div>
+               <div className="landingPageErrors">{ errors }</div>
+               <div className="landingPageForm">{ modal }</div>
+               <div className="landingPageButtons ">{ buttons }</div>
             </div>
           </div>
         </div>
@@ -215,7 +226,7 @@ var LandingPage = React.createClass({
     return (
 
       <div className="main">
-        {Page}
+        { Page }
         <Footer />
 
       </div>

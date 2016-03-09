@@ -10,6 +10,8 @@ class UserSearchResults extends Component {
 
     this.renderResults = this.renderResults.bind(this);
     this.renderFriends = this.renderFriends.bind(this);
+    this.friends = this.friends.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
   }
 
   renderFriends() {
@@ -24,6 +26,9 @@ class UserSearchResults extends Component {
             <i className="fa fa-user userIcon"></i>
             {user.username}
           </div>
+          <div className="friendStatus">
+            {this.renderFriendStatus(user.id)}
+          </div>
           <Link
             className="searchLink"
             to={url}
@@ -36,6 +41,22 @@ class UserSearchResults extends Component {
       )
     });
   }
+
+  friends(userId, friendId) {
+    return FriendStore.getFriendshipStatus(userId, friendId);
+  }
+
+  renderFriendStatus(userId) {
+    if(this.friends(this.props.currentUser.id, userId)) {
+      return <div>Friends!</div>;
+    } else {
+      return (
+        <div></div>
+      );
+    }
+  }
+
+
 
   renderResults(searchResults) {
       if(searchResults.length === 0) {
@@ -53,6 +74,7 @@ class UserSearchResults extends Component {
               <i className="fa fa-user userIcon"></i>
               {user.username}
             </div>
+            <div className="friendStatus">{this.renderFriendStatus()}</div>
             <Link
               className="searchLink"
               to={url}

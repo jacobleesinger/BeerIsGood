@@ -39307,6 +39307,15 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'row fixedWidth' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'beerHeader' },
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              this.props.beer.name
+	            )
+	          ),
 	          _react2.default.createElement(_reviewsIndex2.default, {
 	            currentUser: this.props.currentUser,
 	            beer: this.props.beer })

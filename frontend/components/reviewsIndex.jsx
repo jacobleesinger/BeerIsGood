@@ -37,9 +37,11 @@ var ReviewsIndex = React.createClass ({
   },
 
   componentWillReceiveProps: function() {
-    this.setState({
-      reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id)
-    });
+    if(this.props.beer) {
+      this.setState({
+        reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id)
+      });
+    }
   },
 
   _onChange: function () {

@@ -34432,7 +34432,6 @@
 	    _createClass(AuthenticatedComponent, [{
 	      key: 'willTransitionTo',
 	      value: function willTransitionTo(transition) {
-	        // This method is called before transitioning to this component. If the user is not logged in, we’ll send him or her to the Login page.
 	        if (!SessionStore.isLoggedIn()) {
 	          transition.redirect('/');
 	        }
@@ -34458,9 +34457,6 @@
 	
 	        };
 	      }
-	
-	      // Here, we’re subscribing to changes in the LoginStore we created before. Remember that the LoginStore is an EventEmmiter.
-	
 	    }, {
 	      key: 'componentDidMount',
 	      value: function componentDidMount() {

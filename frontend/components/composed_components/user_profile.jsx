@@ -6,6 +6,6 @@ export default AuthenticatedComponent(class Home extends Component {
   render() {
 ;
      // Here, we display the user information
-    return (<UserProfile currentUser={this.props.currentUser} />);
+    return (<UserProfile currentUser={ this.props.currentUser } />);
   }
 });

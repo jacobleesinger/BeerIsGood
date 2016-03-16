@@ -7,7 +7,7 @@ export default AuthenticatedComponent(class Home extends Component {
 
      // Here, we display the user information
     return (<UserShow
-      user={this.props.user}
-      currentUser={this.props.currentUser} />);
+      user={ this.props.user }
+      currentUser={ this.props.currentUser } />);
   }
 });

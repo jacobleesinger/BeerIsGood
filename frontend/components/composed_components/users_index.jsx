@@ -9,7 +9,7 @@ export default AuthenticatedComponent(class ComposedUsersIndex extends Component
 
   render() {
     return(
-      <UsersIndex currentUser={this.props.currentUser} />
+      <UsersIndex currentUser={ this.props.currentUser } />
     );
   }
 });

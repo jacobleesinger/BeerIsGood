@@ -12,7 +12,7 @@ export default AuthenticatedComponent(class Home extends Component {
     let beer = BeerStore.find(this.props.params.id);
     return (
       <BeerShow
-        currentUser={this.props.currentUser}
-        beer={BeerStore.find(this.props.params.id)} />);
+        currentUser={ this.props.currentUser }
+        beer={ BeerStore.find(this.props.params.id) } />);
   }
 });

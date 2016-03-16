@@ -35138,17 +35138,45 @@
 
 	'use strict';
 	
-	var React = __webpack_require__(20);
-	var Comment = __webpack_require__(298);
-	var ReviewUtil = __webpack_require__(238);
-	var BeerStore = __webpack_require__(214);
-	var CommentStore = __webpack_require__(259);
-	var ToastStore = __webpack_require__(252);
-	var LinkedStateMixin = __webpack_require__(274);
-	var CommentForm = __webpack_require__(299);
-	var ToastUtil = __webpack_require__(262);
-	var UserStore = __webpack_require__(247);
-	var Link = __webpack_require__(177).Link;
+	var _react = __webpack_require__(20);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _comment = __webpack_require__(298);
+	
+	var _comment2 = _interopRequireDefault(_comment);
+	
+	var _review_util = __webpack_require__(238);
+	
+	var _review_util2 = _interopRequireDefault(_review_util);
+	
+	var _beer_store = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"stores/beer_store\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _beer_store2 = _interopRequireDefault(_beer_store);
+	
+	var _comment_store = __webpack_require__(259);
+	
+	var _comment_store2 = _interopRequireDefault(_comment_store);
+	
+	var _toast_store = __webpack_require__(252);
+	
+	var _toast_store2 = _interopRequireDefault(_toast_store);
+	
+	var _comment_form = __webpack_require__(299);
+	
+	var _comment_form2 = _interopRequireDefault(_comment_form);
+	
+	var _toast_util = __webpack_require__(262);
+	
+	var _toast_util2 = _interopRequireDefault(_toast_util);
+	
+	var _user_store = __webpack_require__(247);
+	
+	var _user_store2 = _interopRequireDefault(_user_store);
+	
+	var _reactRouter = __webpack_require__(177);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Display;
 	var Buttons;
@@ -35156,13 +35184,11 @@
 	var CommentButton;
 	var ToastButton;
 	
-	var ReviewIndexItem = React.createClass({
+	var ReviewIndexItem = _react2.default.createClass({
 	  displayName: 'ReviewIndexItem',
 	
-	  mixins: [LinkedStateMixin],
-	
 	  contextTypes: {
-	    router: React.PropTypes.func
+	    router: _react2.default.PropTypes.func
 	  },
 	
 	  handleToastClick: function handleToastClick(review) {
@@ -35171,7 +35197,7 @@
 	      review_id: review.id,
 	      user_id: this.props.currentUser.id
 	    };
-	    ToastUtil.createToast(toast);
+	    _toast_util2.default.createToast(toast);
 	  },
 	
 	  filteredState: function filteredState() {
@@ -35190,7 +35216,7 @@
 	  handleSubmit: function handleSubmit(e) {
 	    e.preventDefault();
 	    Object.assign({}, this.state);
-	    ReviewUtil.updateReview(this.filteredState());
+	    _review_util2.default.updateReview(this.filteredState());
 	    this.setState({ editing: false });
 	  },
 	
@@ -35209,22 +35235,22 @@
 	  displayToastButton: function displayToastButton() {
 	    var currentUserHasToastedReview = this.currentUserHasToastedReview();
 	    if (currentUserHasToastedReview) {
-	      ToastButton = React.createElement(
+	      ToastButton = _react2.default.createElement(
 	        'div',
 	        { className: 'reviewFooterItem col-md-4 col-md-offset-6' },
-	        React.createElement('div', { className: 'toastStatus' })
+	        _react2.default.createElement('div', { className: 'toastStatus' })
 	      );
 	    } else {
-	      ToastButton = React.createElement(
+	      ToastButton = _react2.default.createElement(
 	        'div',
 	        { className: 'reviewFooterItem col-md-4 col-md-offset-6' },
-	        React.createElement(
+	        _react2.default.createElement(
 	          'button',
 	          {
 	            onClick: this.handleToastClick.bind(this, this.props.review),
 	            className: 'toastReviewButton toastStatus btn btn-1',
 	            value: this.props.review },
-	          React.createElement('i', { className: 'fa fa-beer' }),
+	          _react2.default.createElement('i', { className: 'fa fa-beer' }),
 	          ' Toast!'
 	        )
 	      );
@@ -35233,11 +35259,11 @@
 	
 	  getInitialState: function getInitialState() {
 	    return {
-	      user: UserStore.findById(this.props.review.author_id),
-	      beers: BeerStore.all(),
-	      beer: BeerStore.find(this.props.review.beer_id),
-	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
-	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
+	      user: _user_store2.default.findById(this.props.review.author_id),
+	      beers: _beer_store2.default.all(),
+	      beer: _beer_store2.default.find(this.props.review.beer_id),
+	      comments: _comment_store2.default.filterCommentsByReviewId(this.props.review.id),
+	      toasts: _toast_store2.default.filterToastsByReviewId(this.props.review.id),
 	      beer_id: this.props.review.beer_id,
 	      body: this.props.review.body,
 	      rating: this.props.review.rating,
@@ -35250,9 +35276,9 @@
 	  },
 	
 	  componentDidMount: function componentDidMount() {
-	    this.beerToken = BeerStore.addListener(this._onChange);
-	    this.commentToken = CommentStore.addListener(this._onChange);
-	    this.toastToken = ToastStore.addListener(this._onChange);
+	    this.beerToken = _beer_store2.default.addListener(this._onChange);
+	    this.commentToken = _comment_store2.default.addListener(this._onChange);
+	    this.toastToken = _toast_store2.default.addListener(this._onChange);
 	  },
 	
 	  componentWillUnmount: function componentWillUnmount() {
@@ -35263,14 +35289,14 @@
 	
 	  _onChange: function _onChange() {
 	    this.setState({
-	      beer: BeerStore.find(this.props.review.beer_id),
-	      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
-	      toasts: ToastStore.filterToastsByReviewId(this.props.review.id)
+	      beer: _beer_store2.default.find(this.props.review.beer_id),
+	      comments: _comment_store2.default.filterCommentsByReviewId(this.props.review.id),
+	      toasts: _toast_store2.default.filterToastsByReviewId(this.props.review.id)
 	    });
 	  },
 	
 	  handleDeleteClick: function handleDeleteClick(review) {
-	    ReviewUtil.destroyReview(review);
+	    _review_util2.default.destroyReview(review);
 	  },
 	
 	  handleEditClick: function handleEditClick(review) {
@@ -35295,34 +35321,34 @@
 	
 	  checkIfCurrentUser: function checkIfCurrentUser() {
 	    if (this.props.currentUser.id === this.state.user.id) {
-	      Buttons = React.createElement(
+	      Buttons = _react2.default.createElement(
 	        'div',
 	        null,
-	        React.createElement(
+	        _react2.default.createElement(
 	          'div',
 	          { onClick: this.handleDeleteClick.bind(this, this.props.review), className: 'deleteReviewButton', value: this.props.review },
 	          'delete'
 	        ),
-	        React.createElement(
+	        _react2.default.createElement(
 	          'div',
 	          { onClick: this.handleEditClick.bind(this, this.props.review), className: 'editReviewButton', value: this.props.review },
 	          'edit'
 	        )
 	      );
 	    } else {
-	      Buttons = React.createElement('div', null);
+	      Buttons = _react2.default.createElement('div', null);
 	    }
 	  },
 	
 	  isCommenting: function isCommenting() {
 	    if (this.state.commenting) {
-	      CommentFormDisplay = React.createElement(CommentForm, { review: this.props.review, currentUser: this.props.currentUser, onClick: this.handleCommentFormSubmit });
+	      CommentFormDisplay = _react2.default.createElement(_comment_form2.default, { review: this.props.review, currentUser: this.props.currentUser, onClick: this.handleCommentFormSubmit });
 	    } else {
-	      CommentFormDisplay = React.createElement(
+	      CommentFormDisplay = _react2.default.createElement(
 	        'button',
 	        { onClick: this.handleCommentClick.bind(this, this.props.review), className: 'btn btn-1 createCommentButton', value: this.props.review },
 	        'Comment',
-	        React.createElement('i', { className: 'fa fa-comment-o commentIcon' })
+	        _react2.default.createElement('i', { className: 'fa fa-comment-o commentIcon' })
 	      );
 	    }
 	  },
@@ -35337,7 +35363,7 @@
 	  renderRating: function renderRating() {
 	    var stars = [];
 	    for (var i = 0; i < this.state.rating; i++) {
-	      stars.push(React.createElement('span', { className: 'glyphicon glyphicon-star ratingStar', key: i }));
+	      stars.push(_react2.default.createElement('span', { className: 'glyphicon glyphicon-star ratingStar', key: i }));
 	    }
 	    return stars.map(function (star) {
 	      return star;
@@ -35348,134 +35374,134 @@
 	    this.checkIfCurrentUser();
 	    this.displayToastButton();
 	    if (this.state.editing) {
-	      Display = React.createElement(
+	      Display = _react2.default.createElement(
 	        'div',
 	        { className: '' },
-	        React.createElement(
+	        _react2.default.createElement(
 	          'form',
 	          { className: 'form-group reviewForm' },
-	          React.createElement(
+	          _react2.default.createElement(
 	            'label',
 	            { htmlFor: 'reviewBody' },
 	            'What do you think?'
 	          ),
-	          React.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
-	          React.createElement(
+	          _react2.default.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
+	          _react2.default.createElement(
 	            'label',
 	            { htmlFor: 'reviewRating', className: 'reviewFormItem' },
 	            'Your Rating'
 	          ),
-	          React.createElement(
+	          _react2.default.createElement(
 	            'select',
 	            { onChange: this.handleRatingChange },
-	            React.createElement(
+	            _react2.default.createElement(
 	              'option',
 	              { value: '0' },
 	              'rate beer'
 	            ),
-	            React.createElement(
+	            _react2.default.createElement(
 	              'option',
 	              { value: '1' },
 	              '1'
 	            ),
-	            React.createElement(
+	            _react2.default.createElement(
 	              'option',
 	              { value: '2' },
 	              '2'
 	            ),
-	            React.createElement(
+	            _react2.default.createElement(
 	              'option',
 	              { value: '3' },
 	              '3'
 	            ),
-	            React.createElement(
+	            _react2.default.createElement(
 	              'option',
 	              { value: '4' },
 	              '4'
 	            ),
-	            React.createElement(
+	            _react2.default.createElement(
 	              'option',
 	              { value: '5' },
 	              '5'
 	            )
 	          ),
-	          React.createElement('input', { className: 'btn btn-2 addReviewButton reviewFormItem', type: 'submit', value: 'Update Review', onClick: this.handleSubmit })
+	          _react2.default.createElement('input', { className: 'btn btn-2 addReviewButton reviewFormItem', type: 'submit', value: 'Update Review', onClick: this.handleSubmit })
 	        )
 	      );
 	    } else {
 	      var userUrl = '/user/' + this.state.user.id;
 	      var beerUrl = '/beer/' + this.state.beer.id;
 	
-	      Display = React.createElement(
+	      Display = _react2.default.createElement(
 	        'div',
 	        { className: 'row' },
-	        React.createElement(
+	        _react2.default.createElement(
 	          'div',
 	          { className: 'reviewContainer col-md-12' },
-	          React.createElement(
+	          _react2.default.createElement(
 	            'div',
 	            { className: 'reviewContent col-md-12' },
-	            React.createElement(
+	            _react2.default.createElement(
 	              'div',
 	              { className: 'reviewHeader col-md-12' },
-	              React.createElement(
+	              _react2.default.createElement(
 	                'div',
 	                { className: 'reviewTitle col-md-9' },
-	                React.createElement(
-	                  Link,
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
 	                  { className: 'reviewLink', to: userUrl },
 	                  this.state.user.username,
 	                  ' '
 	                ),
 	                'is drinking',
-	                React.createElement(
-	                  Link,
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
 	                  { className: 'reviewLink', to: beerUrl },
 	                  ' ',
 	                  this.state.beer.name
 	                ),
 	                '!'
 	              ),
-	              React.createElement(
+	              _react2.default.createElement(
 	                'div',
 	                { className: 'col-md-3 reviewButtons' },
 	                Buttons
 	              )
 	            ),
-	            React.createElement(
+	            _react2.default.createElement(
 	              'div',
 	              { className: 'reviewBody col-md-12' },
 	              this.props.review.body,
-	              React.createElement('br', null),
-	              React.createElement('br', null),
+	              _react2.default.createElement('br', null),
+	              _react2.default.createElement('br', null),
 	              this.renderRating()
 	            ),
-	            React.createElement(
+	            _react2.default.createElement(
 	              'div',
 	              { className: 'reviewFooter' },
-	              React.createElement(
+	              _react2.default.createElement(
 	                'div',
 	                { className: 'reviewFooterItem col-md-6' },
-	                React.createElement(
+	                _react2.default.createElement(
 	                  'div',
 	                  { className: 'reviewToasts' },
 	                  this.state.toasts.length,
-	                  React.createElement('i', { className: 'fa fa-beer toastIcon' })
+	                  _react2.default.createElement('i', { className: 'fa fa-beer toastIcon' })
 	                )
 	              ),
-	              React.createElement(
+	              _react2.default.createElement(
 	                'div',
 	                { className: 'reviewFooterItem col-md-6' },
 	                ToastButton
 	              )
 	            )
 	          ),
-	          React.createElement(
+	          _react2.default.createElement(
 	            'div',
 	            { className: 'reviewCommentsIndex col-md-12' },
 	            CommentFormDisplay,
 	            this.state.comments.map((function (comment) {
-	              return React.createElement(Comment, { comment: comment, key: comment.id });
+	              return _react2.default.createElement(_comment2.default, { comment: comment, key: comment.id });
 	            }).bind(this))
 	          )
 	        )
@@ -35488,7 +35514,7 @@
 	    this.isCommenting();
 	    this.isEditing();
 	
-	    return React.createElement(
+	    return _react2.default.createElement(
 	      'div',
 	      null,
 	      Display

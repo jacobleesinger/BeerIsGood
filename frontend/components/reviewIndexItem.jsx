@@ -1,14 +1,13 @@
-var React = require('react');
-var Comment = require('./comment');
-var ReviewUtil = require('../util/review_util');
-var BeerStore = require('../stores/beer_store');
-var CommentStore = require('../stores/comment_store');
-var ToastStore = require('../stores/toast_store');
-var LinkedStateMixin = require('react-addons-linked-state-mixin');
-var CommentForm = require('./comment_form');
-var ToastUtil = require('../util/toast_util');
-var UserStore = require('../stores/user_store');
-var Link = require('react-router').Link;
+import React, { Componenet } from 'react';
+import Comment from './comment';
+import ReviewUtil from '../util/review_util';
+import BeerStore from 'stores/beer_store';
+import CommentStore from '../stores/comment_store';
+import ToastStore from '../stores/toast_store';
+import CommentForm from './comment_form';
+import ToastUtil from '../util/toast_util';
+import UserStore from '../stores/user_store';
+import { Link } from 'react-router';
 
 var Display;
 var Buttons;
@@ -18,8 +17,6 @@ var ToastButton;
 
 
 var ReviewIndexItem = React.createClass({
-
-  mixins: [LinkedStateMixin],
 
   contextTypes: {
     router: React.PropTypes.func

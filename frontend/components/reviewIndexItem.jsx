@@ -1,4 +1,4 @@
-import React, { Componenet } from 'react';
+import React, { Component } from 'react';
 import Comment from './comment';
 import ReviewUtil from '../util/review_util';
 import BeerStore from '../stores/beer_store';
@@ -16,24 +16,67 @@ var CommentButton;
 var ToastButton;
 
 
-var ReviewIndexItem = React.createClass({
+class ReviewIndexItem extends Component {
 
-  contextTypes: {
-    router: React.PropTypes.func
-  },
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      user: UserStore.findById(this.props.review.author_id),
+      beers: BeerStore.all(),
+      beer: BeerStore.find(this.props.review.beer_id),
+      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
+      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
+      beer_id: this.props.review.beer_id,
+      body: this.props.review.body,
+      rating: this.props.review.rating,
+      author_id: this.props.review.author_id,
+      id: this.props.review.id,
+      editing: false,
+      commenting: false,
+    };
+
+    this.handleToastClick = this.handleToastClick.bind(this);
+    this.filteredState = this.filteredState.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.currentUserHasToastedReview = this.currentUserHasToastedReview.bind(this);
+    this.displayToastButton = this.displayToastButton.bind(this);
+    this._onChange = this._onChange.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    this.handleEditClick = this.handleEditClick.bind(this);
+    this.handleCommentClick = this.handleCommentClick.bind(this);
+    this.handleRatingChange = this.handleRatingChange.bind(this);
+    this.handleBeerChange = this.handleBeerChange.bind(this);
+    this.checkIfCurrentUser = this.checkIfCurrentUser.bind(this);
+    this.isCommenting = this.isCommenting.bind(this);
+    this.handleCommentFormSubmit = this.handleCommentFormSubmit.bind(this);
+    this.renderRating = this.renderRating.bind(this);
+    this.isEditing = this.isEditing.bind(this);
+  }
+
+  componentDidMount() {
+    this.beerToken = BeerStore.addListener(this._onChange);
+    this.commentToken = CommentStore.addListener(this._onChange);
+    this.toastToken = ToastStore.addListener(this._onChange);
+  }
+
+  componentWillUnmount() {
+    this.beerToken.remove();
+    this.commentToken.remove();
+    this.toastToken.remove();
+  }
 
 
-  handleToastClick: function (review) {
-
+  handleToastClick(review) {
     var toast = {
       review_id: review.id,
       user_id: this.props.currentUser.id
     };
     ToastUtil.createToast(toast);
-  },
+  }
 
 
-  filteredState: function() {
+  filteredState() {
     var filteredState = {};
     for (var key in this.state) {
       if (this.state.hasOwnProperty(key)){
@@ -44,16 +87,16 @@ var ReviewIndexItem = React.createClass({
       }
     }
     return filteredState;
-  },
+  }
 
-  handleSubmit: function(e) {
+  handleSubmit(e) {
     e.preventDefault();
     Object.assign({}, this.state);
     ReviewUtil.updateReview(this.filteredState());
     this.setState({editing: false});
-  },
+  }
 
-  currentUserHasToastedReview: function () {
+  currentUserHasToastedReview() {
     var result = false;
 
     this.state.toasts.forEach(function(toast) {
@@ -63,9 +106,9 @@ var ReviewIndexItem = React.createClass({
       }
     }.bind(this))
     return result;
-  },
+  }
 
-  displayToastButton: function () {
+  displayToastButton() {
     var currentUserHasToastedReview = this.currentUserHasToastedReview();
     if(currentUserHasToastedReview){
       ToastButton = (
@@ -85,74 +128,41 @@ var ReviewIndexItem = React.createClass({
         </div>
       );
     }
-  },
+  }
 
-  getInitialState: function () {
-    return ({
-      user: UserStore.findById(this.props.review.author_id),
-      beers: BeerStore.all(),
-      beer: BeerStore.find(this.props.review.beer_id),
-      comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
-      toasts: ToastStore.filterToastsByReviewId(this.props.review.id),
-      beer_id: this.props.review.beer_id,
-      body: this.props.review.body,
-      rating: this.props.review.rating,
-      author_id: this.props.review.author_id,
-      id: this.props.review.id,
-      editing: false,
-      commenting: false,
-
-    });
-  },
-
-
-  componentDidMount: function() {
-    this.beerToken = BeerStore.addListener(this._onChange);
-    this.commentToken = CommentStore.addListener(this._onChange);
-    this.toastToken = ToastStore.addListener(this._onChange);
-  },
-
-  componentWillUnmount: function() {
-    this.beerToken.remove();
-    this.commentToken.remove();
-    this.toastToken.remove();
-  },
-
-  _onChange: function() {
+  _onChange() {
     this.setState({
       beer: BeerStore.find(this.props.review.beer_id),
       comments: CommentStore.filterCommentsByReviewId(this.props.review.id),
       toasts: ToastStore.filterToastsByReviewId(this.props.review.id)
     });
-  },
+  }
 
-
-  handleDeleteClick: function (review) {
+  handleDeleteClick(review) {
     ReviewUtil.destroyReview(review);
-  },
+  }
 
-  handleEditClick: function (review) {
+  handleEditClick(review) {
     this.setState({
       editing: true
     });
-  },
+  }
 
-  handleCommentClick: function (review) {
+  handleCommentClick(review) {
     this.setState({
       commenting: true
     });
-  },
+  }
 
-
-  handleRatingChange: function(event) {
+  handleRatingChange(event) {
     this.setState({rating: event.target.value});
-  },
+  }
 
-  handleBeerChange: function(event) {
+  handleBeerChange(event) {
     this.setState({beer_id: event.target.value});
-  },
+  }
 
-  checkIfCurrentUser: function () {
+  checkIfCurrentUser() {
     if(this.props.currentUser.id === this.state.user.id) {
       Buttons = (
         <div>
@@ -165,9 +175,9 @@ var ReviewIndexItem = React.createClass({
     } else {
       Buttons = <div></div>;
     }
-  },
+  }
 
-  isCommenting: function () {
+  isCommenting() {
     if (this.state.commenting) {
       CommentFormDisplay = <CommentForm review={this.props.review} currentUser={this.props.currentUser} onClick={this.handleCommentFormSubmit}/>;
 
@@ -177,16 +187,15 @@ var ReviewIndexItem = React.createClass({
       </button>;
 
     }
-  },
+  }
 
-  handleCommentFormSubmit: function () {
-
+  handleCommentFormSubmit() {
     this.setState({
       commenting: false
     });
-  },
+  }
 
-  renderRating: function() {
+  renderRating() {
     var stars = [];
     for(var i = 0; i < this.state.rating; i++) {
       stars.push(<span className="glyphicon glyphicon-star ratingStar" key={i}></span>);
@@ -194,9 +203,9 @@ var ReviewIndexItem = React.createClass({
     return stars.map(function(star) {
       return star;
     }, this);
-  },
+  }
 
-  isEditing: function () {
+  isEditing() {
     this.checkIfCurrentUser();
     this.displayToastButton();
     if (this.state.editing){
@@ -258,19 +267,11 @@ var ReviewIndexItem = React.createClass({
                 <div className="reviewFooterItem col-md-6">
                   {ToastButton}
                 </div>
-
-
-
-
-
               </div>
-
             </div>
 
             <div className="reviewCommentsIndex col-md-12">
-
               {CommentFormDisplay}
-
               {
                 this.state.comments.map(function(comment) {
                     return (<Comment comment={comment} key={comment.id} />);
@@ -278,27 +279,22 @@ var ReviewIndexItem = React.createClass({
                 )
               }
             </div>
-
           </div>
         </div>
     }
-  },
+  }
 
-  render: function () {
+  render() {
 
     this.isCommenting();
     this.isEditing();
 
-
     return (
       <div>
         {Display}
-
       </div>
     )
   }
-});
+};
 
-
-
-module.exports = ReviewIndexItem;
+export default ReviewIndexItem;

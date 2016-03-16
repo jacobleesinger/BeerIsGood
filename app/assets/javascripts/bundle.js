@@ -24399,6 +24399,12 @@
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
 	var _react = __webpack_require__(20);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -24449,6 +24455,12 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
 	var Page;
 	var modal;
 	var buttons;
@@ -24457,11 +24469,15 @@
 	  password: "password"
 	};
 	
-	var LandingPage = _react2.default.createClass({
-	  displayName: 'LandingPage',
+	var LandingPage = (function (_Component) {
+	  _inherits(LandingPage, _Component);
 	
-	  getInitialState: function getInitialState() {
-	    return {
+	  function LandingPage(props) {
+	    _classCallCheck(this, LandingPage);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LandingPage).call(this, props));
+	
+	    _this.state = {
 	      currentUser: {},
 	      currentSession: "",
 	      signedIn: false,
@@ -24471,228 +24487,260 @@
 	      signingUp: false,
 	      signingIn: false
 	    };
-	  },
 	
-	  componentDidMount: function componentDidMount() {
-	    this.sessionToken = _session_store2.default.addListener(this._onSessionChange);
-	    this.errorToken = _error_store2.default.addListener(this._onErrorChange);
-	    this.currentUserToken = _current_user_store2.default.addListener(this._onCurrentUserChange);
-	  },
+	    _this._onSessionChange = _this._onSessionChange.bind(_this);
+	    _this._onErrorChange = _this._onErrorChange.bind(_this);
+	    _this._onCurrentUserChange = _this._onCurrentUserChange.bind(_this);
+	    _this.checkIfSignedIn = _this.checkIfSignedIn.bind(_this);
+	    _this.handleAuth = _this.handleAuth.bind(_this);
+	    _this.handleGuest = _this.handleGuest.bind(_this);
+	    _this.handleSignUp = _this.handleSignUp.bind(_this);
+	    _this.handleSignIn = _this.handleSignIn.bind(_this);
+	    _this.cancelAuth = _this.cancelAuth.bind(_this);
+	    _this.displayErrorMessages = _this.displayErrorMessages.bind(_this);
+	    _this.requireSignedIn = _this.requireSignedIn.bind(_this);
+	    return _this;
+	  }
 	
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.sessionToken.remove();
-	    this.errorToken.remove();
-	  },
-	
-	  _onSessionChange: function _onSessionChange() {
-	    this.setState({
-	      currentSession: _session_store2.default.currentSession()
-	
-	    });
-	    this.checkIfSignedIn();
-	  },
-	
-	  _onCurrentUserChange: function _onCurrentUserChange() {
-	
-	    this.setState({
-	      currentUser: _current_user_store2.default.currentUser()
-	    });
-	    this.checkIfSignedIn();
-	  },
-	
-	  _onErrorChange: function _onErrorChange() {
-	    this.setState({
-	      errors: _error_store2.default.all()
-	    });
-	  },
-	
-	  checkIfSignedIn: function checkIfSignedIn() {
-	    if (this.state.currentUser.session_token === this.state.currentSession) {
-	      this.setState({ signedIn: true });
-	    } else {
-	      this.setState({ signedIn: false });
+	  _createClass(LandingPage, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.sessionToken = _session_store2.default.addListener(this._onSessionChange);
+	      this.errorToken = _error_store2.default.addListener(this._onErrorChange);
+	      this.currentUserToken = _current_user_store2.default.addListener(this._onCurrentUserChange);
 	    }
-	  },
-	
-	  displayErrorMessages: function displayErrorMessages() {
-	    var errorMessages = this.state.errors;
-	    return errorMessages.map(function (error, idx) {
-	      return _react2.default.createElement(
-	        'div',
-	        { key: idx },
-	        error
-	      );
-	    });
-	  },
-	
-	  handleAuth: function handleAuth(button) {
-	
-	    this.setState({
-	      auth: true,
-	      button: button,
-	      authButtons: false
-	    });
-	  },
-	
-	  handleSignUp: function handleSignUp() {
-	    this.setState({
-	      authButtons: false,
-	      signingUp: true
-	    });
-	  },
-	
-	  handleSignIn: function handleSignIn() {
-	    this.setState({
-	      authButtons: false,
-	      signingIn: true
-	    });
-	  },
-	
-	  requireSignedIn: function requireSignedIn() {
-	    if (!this.state.signedIn) {
-	      this.replaceWith('newSession');
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.sessionToken.remove();
+	      this.errorToken.remove();
 	    }
-	  },
+	  }, {
+	    key: '_onSessionChange',
+	    value: function _onSessionChange() {
+	      this.setState({
+	        currentSession: _session_store2.default.currentSession()
 	
-	  handleGuest: function handleGuest(e) {
-	    e.preventDefault;
-	    _session_util2.default.createSession(guestUser);
-	  },
-	
-	  cancelAuth: function cancelAuth() {
-	    this.setState({
-	      currentUser: {},
-	      currentSession: "",
-	      signedIn: false,
-	      button: "",
-	      errors: [],
-	      authButtons: true,
-	      signingUp: false,
-	      signingIn: false
-	    });
-	  },
-	
-	  render: function render() {
-	    if (this.state.signingUp) {
-	      modal = _react2.default.createElement(_new_user2.default, { cancelAuth: this.cancelAuth });
-	    } else if (this.state.signingIn) {
-	      modal = _react2.default.createElement(_new_session2.default, { cancelAuth: this.cancelAuth });
-	    } else {
-	      modal = _react2.default.createElement('div', null);
+	      });
+	      this.checkIfSignedIn();
 	    }
+	  }, {
+	    key: '_onCurrentUserChange',
+	    value: function _onCurrentUserChange() {
 	
-	    if (this.state.authButtons) {
-	      buttons = _react2.default.createElement(
-	        'div',
-	        { className: 'centered landingPageButtons' },
-	        _react2.default.createElement(
+	      this.setState({
+	        currentUser: _current_user_store2.default.currentUser()
+	      });
+	      this.checkIfSignedIn();
+	    }
+	  }, {
+	    key: '_onErrorChange',
+	    value: function _onErrorChange() {
+	      this.setState({
+	        errors: _error_store2.default.all()
+	      });
+	    }
+	  }, {
+	    key: 'checkIfSignedIn',
+	    value: function checkIfSignedIn() {
+	      if (this.state.currentUser.session_token === this.state.currentSession) {
+	        this.setState({ signedIn: true });
+	      } else {
+	        this.setState({ signedIn: false });
+	      }
+	    }
+	  }, {
+	    key: 'displayErrorMessages',
+	    value: function displayErrorMessages() {
+	      var errorMessages = this.state.errors;
+	      return errorMessages.map(function (error, idx) {
+	        return _react2.default.createElement(
 	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'button',
-	            {
-	              className: 'btn btn-lg btn-1 inline',
-	              onClick: this.handleSignUp },
-	            'Sign Up'
-	          ),
+	          { key: idx },
+	          error
+	        );
+	      });
+	    }
+	  }, {
+	    key: 'handleAuth',
+	    value: function handleAuth(button) {
+	
+	      this.setState({
+	        auth: true,
+	        button: button,
+	        authButtons: false
+	      });
+	    }
+	  }, {
+	    key: 'handleSignUp',
+	    value: function handleSignUp() {
+	      this.setState({
+	        authButtons: false,
+	        signingUp: true
+	      });
+	    }
+	  }, {
+	    key: 'handleSignIn',
+	    value: function handleSignIn() {
+	      this.setState({
+	        authButtons: false,
+	        signingIn: true
+	      });
+	    }
+	  }, {
+	    key: 'requireSignedIn',
+	    value: function requireSignedIn() {
+	      if (!this.state.signedIn) {
+	        this.replaceWith('newSession');
+	      }
+	    }
+	  }, {
+	    key: 'handleGuest',
+	    value: function handleGuest(e) {
+	      e.preventDefault;
+	      _session_util2.default.createSession(guestUser);
+	    }
+	  }, {
+	    key: 'cancelAuth',
+	    value: function cancelAuth() {
+	      this.setState({
+	        currentUser: {},
+	        currentSession: "",
+	        signedIn: false,
+	        button: "",
+	        errors: [],
+	        authButtons: true,
+	        signingUp: false,
+	        signingIn: false
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (this.state.signingUp) {
+	        modal = _react2.default.createElement(_new_user2.default, { cancelAuth: this.cancelAuth });
+	      } else if (this.state.signingIn) {
+	        modal = _react2.default.createElement(_new_session2.default, { cancelAuth: this.cancelAuth });
+	      } else {
+	        modal = _react2.default.createElement('div', null);
+	      }
+	
+	      if (this.state.authButtons) {
+	        buttons = _react2.default.createElement(
+	          'div',
+	          { className: 'centered landingPageButtons' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'or inline' },
-	            'OR'
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            {
-	              className: 'btn btn-lg btn-1 inline',
-	              onClick: this.handleSignIn },
-	            'Sign In'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'p',
-	            { className: 'guest1' },
-	            'Just here to look?'
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            {
-	              className: ' btn btn-lg btn-1',
-	              onClick: this.handleGuest },
-	            'Guest Sign In'
-	          )
-	        )
-	      );
-	    } else {
-	      buttons = _react2.default.createElement('div', null);
-	    }
-	
-	    if (this.state.signedIn) {
-	
-	      var url = '/user/' + this.state.currentUser.id;
-	      this.props.history.pushState(null, url);
-	    } else {
-	      var errors = this.displayErrorMessages();
-	      Page = _react2.default.createElement(
-	        'div',
-	        { className: 'landingPage' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'landingPage-1' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'container landingPageContainer' },
+	            null,
+	            _react2.default.createElement(
+	              'button',
+	              {
+	                className: 'btn btn-lg btn-1 inline',
+	                onClick: this.handleSignUp },
+	              'Sign Up'
+	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'row' },
+	              { className: 'or inline' },
+	              'OR'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              {
+	                className: 'btn btn-lg btn-1 inline',
+	                onClick: this.handleSignIn },
+	              'Sign In'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	              'p',
+	              { className: 'guest1' },
+	              'Just here to look?'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              {
+	                className: ' btn btn-lg btn-1',
+	                onClick: this.handleGuest },
+	              'Guest Sign In'
+	            )
+	          )
+	        );
+	      } else {
+	        buttons = _react2.default.createElement('div', null);
+	      }
+	
+	      if (this.state.signedIn) {
+	
+	        var url = '/user/' + this.state.currentUser.id;
+	        this.props.history.pushState(null, url);
+	      } else {
+	        var errors = this.displayErrorMessages();
+	        Page = _react2.default.createElement(
+	          'div',
+	          { className: 'landingPage' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'landingPage-1' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'container landingPageContainer' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'col-md-6 landingPageStuff' },
-	                _react2.default.createElement(
-	                  'h1',
-	                  { className: 'landingPageLogo logo' },
-	                  'Beerisgood'
-	                ),
-	                _react2.default.createElement(
-	                  'h2',
-	                  { className: 'landingPageTag' },
-	                  'Discover & Share your favorite beers'
-	                ),
+	                { className: 'row' },
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: 'landingPageErrors' },
-	                  errors
-	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'landingPageForm' },
-	                  modal
-	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'landingPageButtons ' },
-	                  buttons
+	                  { className: 'col-md-6 landingPageStuff' },
+	                  _react2.default.createElement(
+	                    'h1',
+	                    { className: 'landingPageLogo logo' },
+	                    'Beerisgood'
+	                  ),
+	                  _react2.default.createElement(
+	                    'h2',
+	                    { className: 'landingPageTag' },
+	                    'Discover & Share your favorite beers'
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'landingPageErrors' },
+	                    errors
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'landingPageForm' },
+	                    modal
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'landingPageButtons ' },
+	                    buttons
+	                  )
 	                )
 	              )
 	            )
 	          )
-	        )
+	        );
+	      }
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'main' },
+	        Page,
+	        _react2.default.createElement(_footer2.default, null)
 	      );
 	    }
+	  }]);
 	
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'main' },
-	      Page,
-	      _react2.default.createElement(_footer2.default, null)
-	    );
-	  }
+	  return LandingPage;
+	})(_react.Component);
 	
-	});
+	;
 	
-	module.exports = LandingPage;
+	exports.default = LandingPage;
 
 /***/ },
 /* 210 */

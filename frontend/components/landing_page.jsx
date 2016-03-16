@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import SessionStore from '../stores/session_store';
 import ErrorStore from '../stores/error_store';
@@ -21,77 +21,88 @@ const guestUser = {
 };
 
 
-var LandingPage = React.createClass({
+class LandingPage extends Component {
 
-  getInitialState: function () {
-    return(
-      {
-        currentUser: {},
-        currentSession: "",
-        signedIn: false,
-        button: "",
-        errors: [],
-        authButtons: true,
-        signingUp: false,
-        signingIn: false
-      }
-    )
-  },
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      currentUser: {},
+      currentSession: "",
+      signedIn: false,
+      button: "",
+      errors: [],
+      authButtons: true,
+      signingUp: false,
+      signingIn: false
+    }
 
-  componentDidMount: function(){
+    this._onSessionChange = this._onSessionChange.bind(this);
+    this._onErrorChange = this._onErrorChange.bind(this);
+    this._onCurrentUserChange = this._onCurrentUserChange.bind(this);
+    this.checkIfSignedIn = this.checkIfSignedIn.bind(this);
+    this.handleAuth = this.handleAuth.bind(this);
+    this.handleGuest = this.handleGuest.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleSignIn = this.handleSignIn.bind(this);
+    this.cancelAuth = this.cancelAuth.bind(this);
+    this.displayErrorMessages = this.displayErrorMessages.bind(this);
+    this.requireSignedIn = this.requireSignedIn.bind(this);
+  }
+
+  componentDidMount(){
     this.sessionToken = SessionStore.addListener(this._onSessionChange);
     this.errorToken = ErrorStore.addListener(this._onErrorChange);
     this.currentUserToken = CurrentUserStore.addListener(this._onCurrentUserChange);
-  },
+  }
 
-  componentWillUnmount: function(){
+  componentWillUnmount(){
     this.sessionToken.remove();
     this.errorToken.remove();
-  },
+  }
 
 
-  _onSessionChange: function() {
+  _onSessionChange() {
     this.setState({
       currentSession: SessionStore.currentSession(),
 
     });
     this.checkIfSignedIn();
-  },
+  }
 
-  _onCurrentUserChange: function () {
+  _onCurrentUserChange() {
 
     this.setState({
       currentUser: CurrentUserStore.currentUser()
     });
     this.checkIfSignedIn();
-  },
+  }
 
-  _onErrorChange: function() {
+  _onErrorChange() {
     this.setState({
       errors: ErrorStore.all()
     })
-  },
+  }
 
-  checkIfSignedIn: function() {
+  checkIfSignedIn() {
     if (this.state.currentUser.session_token === this.state.currentSession){
       this.setState({signedIn: true})
     } else {
       this.setState({signedIn: false})
     }
 
-  },
+  }
 
-  displayErrorMessages: function () {
+  displayErrorMessages() {
     var errorMessages = this.state.errors;
     return(
       errorMessages.map(function(error, idx){
         return (<div key={idx}>{error}</div>);
       })
     );
-  },
+  }
 
-  handleAuth: function (button) {
+  handleAuth(button) {
 
     this.setState(
       {
@@ -100,34 +111,34 @@ var LandingPage = React.createClass({
         authButtons: false
       }
     );
-  },
+  }
 
-  handleSignUp: function() {
+  handleSignUp() {
     this.setState({
       authButtons: false,
       signingUp: true
     });
-  },
+  }
 
-  handleSignIn: function() {
+  handleSignIn() {
     this.setState({
       authButtons: false,
       signingIn: true
     });
-  },
+  }
 
-  requireSignedIn: function () {
+  requireSignedIn() {
     if (!this.state.signedIn) {
       this.replaceWith('newSession')
     }
-  },
+  }
 
-  handleGuest: function (e) {
+  handleGuest(e) {
     e.preventDefault;
     SessionUtil.createSession(guestUser);
-  },
+  }
 
-  cancelAuth: function () {
+  cancelAuth() {
     this.setState({
       currentUser: {},
       currentSession: "",
@@ -138,9 +149,9 @@ var LandingPage = React.createClass({
       signingUp: false,
       signingIn: false
     })
-  },
+  }
 
-  render: function () {
+  render() {
     if(this.state.signingUp) {
       modal = <NewUserForm cancelAuth={ this.cancelAuth } />;
     } else if(this.state.signingIn) {
@@ -223,6 +234,6 @@ var LandingPage = React.createClass({
     );
   }
 
-});
+};
 
-module.exports = LandingPage;
+export default LandingPage;

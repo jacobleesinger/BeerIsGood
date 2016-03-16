@@ -34649,7 +34649,6 @@
 	  _createClass(Navbar, [{
 	    key: 'handleSignOut',
 	    value: function handleSignOut() {
-	      // history.pushState(null, '/');
 	      _session_util2.default.destroySession();
 	    }
 	  }, {

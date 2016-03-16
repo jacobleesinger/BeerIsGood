@@ -14,7 +14,6 @@ class Navbar extends Component {
     this.handleSearchClick = this.handleSearchClick.bind(this);
   }
   handleSignOut() {
-    // history.pushState(null, '/');
     SessionUtil.destroySession();
   }
 
@@ -41,7 +40,7 @@ class Navbar extends Component {
 
             <ul className="navbarLinksUl">
 
-              
+
 
               <li className="navbarLinks">
                 <Link

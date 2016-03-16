@@ -15,6 +15,6 @@ export default AuthenticatedComponent(class Home extends Component {
      // Here, we display the user information
       let user = UserStore.findById(this.props.params.id);
 
-    return (<User user={user} currentUser={this.props.currentUser} />);
+    return (<User user={ user } currentUser={ this.props.currentUser } />);
   }
 });

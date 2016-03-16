@@ -23,14 +23,14 @@ class BeerShow extends Component {
   render() {
     return (
       <div className="mainPage">
-          <Navbar currentUser={this.props.currentUser}/>
+          <Navbar currentUser={ this.props.currentUser }/>
           <div className="row fixedWidth">
             <div className="beerHeader">
               <h3>{ this.props.beer.name }</h3>
             </div>
             <ReviewsIndex
-              currentUser={this.props.currentUser}
-              beer={this.props.beer}/>
+              currentUser={ this.props.currentUser }
+              beer={ this.props.beer }/>
           </div>
           <Footer />
       </div>

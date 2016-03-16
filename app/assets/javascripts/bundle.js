@@ -34946,138 +34946,191 @@
 
 	'use strict';
 	
-	var React = __webpack_require__(20);
-	var ReviewIndexItem = __webpack_require__(297);
-	var ReviewForm = __webpack_require__(210).default;
-	var ReviewStore = __webpack_require__(236);
-	
-	var ReviewsIndex = React.createClass({
-	  displayName: 'ReviewsIndex',
-	
-	  getInitialState: function getInitialState() {
-	    if (this.props.user) {
-	      if (this.props.user.id === this.props.currentUser.id) {
-	        return {
-	          reviews: ReviewStore.filterReviewsByUserId(this.props.user.id),
-	          currentUser: true
-	        };
-	      } else {
-	        return {
-	          reviews: ReviewStore.filterReviewsByUserId(this.props.user.id),
-	          currentUser: false
-	        };
-	      }
-	    } else if (this.props.beer) {
-	      return {
-	        reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
-	        currentUser: true,
-	        beer: this.props.beer
-	      };
-	    }
-	  },
-	
-	  componentDidMount: function componentDidMount() {
-	    this.reviewsToken = ReviewStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.reviewsToken.remove();
-	  },
-	
-	  componentWillReceiveProps: function componentWillReceiveProps() {
-	    if (this.props.beer) {
-	      this.setState({
-	        reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id)
-	      });
-	    }
-	  },
-	
-	  _onChange: function _onChange() {
-	    if (this.props.user) {
-	      if (this.props.user.id === this.props.currentUser.id) {
-	        this.setState({
-	          reviews: ReviewStore.filterReviewsByUserId(this.props.user.id),
-	          currentUser: true
-	        });
-	      } else {
-	        this.setState({
-	          reviews: ReviewStore.filterReviewsByUserId(this.props.user.id),
-	          currentUser: false
-	        });
-	      }
-	    } else if (this.props.beer) {
-	      this.setState({
-	        reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
-	        currentUser: true
-	      });
-	    }
-	  },
-	
-	  renderHeader: function renderHeader() {
-	    if (this.state.reviews.length === 0 && this.props.user) {
-	      return React.createElement(
-	        'h5',
-	        null,
-	        'You Haven\'t Reviewed Any Beers Yet!'
-	      );
-	    }
-	  },
-	
-	  renderReviewForm: function renderReviewForm() {
-	    if (this.state.isReviewing && this.state.currentUser) {
-	      var beerToReview = this.props.beer;
-	      return React.createElement(ReviewForm, {
-	        currentUser: this.props.currentUser,
-	        beer: this.props.beer,
-	        onClick: this.handleCloseFormClick });
-	    } else if (this.state.currentUser) {
-	      return React.createElement(
-	        'button',
-	        {
-	          className: 'btn btn-1 openReviewFormButton', onClick: this.handleOpenFormClick },
-	        React.createElement('span', { className: 'glyphicon glyphicon-plus-sign' }),
-	        ' Add Review'
-	      );
-	    }
-	  },
-	
-	  handleOpenFormClick: function handleOpenFormClick() {
-	    this.setState({
-	      isReviewing: true
-	    });
-	  },
-	
-	  handleCloseFormClick: function handleCloseFormClick() {
-	    this.setState({
-	      isReviewing: false
-	    });
-	  },
-	
-	  updateBeer: function updateBeer() {
-	    if (this.props.beer !== this.state.beer) {
-	      this.setState({
-	        reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
-	        beer: this.props.beer
-	      });
-	    }
-	  },
-	
-	  render: function render() {
-	    this.updateBeer();
-	    return React.createElement(
-	      'div',
-	      { className: 'col-md-6 reviewsIndexContainer' },
-	      this.renderHeader(),
-	      this.renderReviewForm(),
-	      this.state.reviews.map((function (review) {
-	
-	        return React.createElement(ReviewIndexItem, { currentUser: this.props.currentUser, user: review.author_id, review: review, key: review.id });
-	      }).bind(this))
-	    );
-	  }
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
 	});
 	
-	module.exports = ReviewsIndex;
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(20);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reviewIndexItem = __webpack_require__(297);
+	
+	var _reviewIndexItem2 = _interopRequireDefault(_reviewIndexItem);
+	
+	var _new_review_form = __webpack_require__(210);
+	
+	var _new_review_form2 = _interopRequireDefault(_new_review_form);
+	
+	var _review_store = __webpack_require__(236);
+	
+	var _review_store2 = _interopRequireDefault(_review_store);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ReviewsIndex = (function (_Component) {
+	  _inherits(ReviewsIndex, _Component);
+	
+	  function ReviewsIndex(props) {
+	    _classCallCheck(this, ReviewsIndex);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReviewsIndex).call(this, props));
+	
+	    if (_this.props.user) {
+	      if (_this.props.user.id === _this.props.currentUser.id) {
+	        _this.state = {
+	          reviews: _review_store2.default.filterReviewsByUserId(_this.props.user.id),
+	          currentUser: true
+	        };
+	      } else {
+	        _this.state = {
+	          reviews: _review_store2.default.filterReviewsByUserId(_this.props.user.id),
+	          currentUser: false
+	        };
+	      }
+	    } else if (_this.props.beer) {
+	      _this.state = {
+	        reviews: _review_store2.default.filterReviewsByBeerId(_this.props.beer.id),
+	        currentUser: true,
+	        beer: _this.props.beer
+	      };
+	    }
+	
+	    _this._onChange = _this._onChange.bind(_this);
+	    _this.renderHeader = _this.renderHeader.bind(_this);
+	    _this.renderReviewForm = _this.renderReviewForm.bind(_this);
+	    _this.handleOpenFormClick = _this.handleOpenFormClick.bind(_this);
+	    _this.handleCloseFormClick = _this.handleCloseFormClick.bind(_this);
+	    _this.updateBeer = _this.updateBeer.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(ReviewsIndex, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.reviewsToken = _review_store2.default.addListener(this._onChange);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.reviewsToken.remove();
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      if (this.props.beer) {
+	        this.setState({
+	          reviews: _review_store2.default.filterReviewsByBeerId(this.props.beer.id)
+	        });
+	      }
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange() {
+	      if (this.props.user) {
+	        if (this.props.user.id === this.props.currentUser.id) {
+	          this.setState({
+	            reviews: _review_store2.default.filterReviewsByUserId(this.props.user.id),
+	            currentUser: true
+	          });
+	        } else {
+	          this.setState({
+	            reviews: _review_store2.default.filterReviewsByUserId(this.props.user.id),
+	            currentUser: false
+	          });
+	        }
+	      } else if (this.props.beer) {
+	        this.setState({
+	          reviews: _review_store2.default.filterReviewsByBeerId(this.props.beer.id),
+	          currentUser: true
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'renderHeader',
+	    value: function renderHeader() {
+	      if (this.state.reviews.length === 0 && this.props.user) {
+	        return _react2.default.createElement(
+	          'h5',
+	          null,
+	          'You Haven\'t Reviewed Any Beers Yet!'
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'renderReviewForm',
+	    value: function renderReviewForm() {
+	      if (this.state.isReviewing && this.state.currentUser) {
+	        var beerToReview = this.props.beer;
+	        return _react2.default.createElement(_new_review_form2.default, {
+	          currentUser: this.props.currentUser,
+	          beer: this.props.beer,
+	          onClick: this.handleCloseFormClick });
+	      } else if (this.state.currentUser) {
+	        return _react2.default.createElement(
+	          'button',
+	          {
+	            className: 'btn btn-1 openReviewFormButton', onClick: this.handleOpenFormClick },
+	          _react2.default.createElement('span', { className: 'glyphicon glyphicon-plus-sign' }),
+	          ' Add Review'
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'handleOpenFormClick',
+	    value: function handleOpenFormClick() {
+	      this.setState({
+	        isReviewing: true
+	      });
+	    }
+	  }, {
+	    key: 'handleCloseFormClick',
+	    value: function handleCloseFormClick() {
+	      this.setState({
+	        isReviewing: false
+	      });
+	    }
+	  }, {
+	    key: 'updateBeer',
+	    value: function updateBeer() {
+	      if (this.props.beer !== this.state.beer) {
+	        this.setState({
+	          reviews: _review_store2.default.filterReviewsByBeerId(this.props.beer.id),
+	          beer: this.props.beer
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      this.updateBeer();
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'col-md-6 reviewsIndexContainer' },
+	        this.renderHeader(),
+	        this.renderReviewForm(),
+	        this.state.reviews.map((function (review) {
+	
+	          return _react2.default.createElement(_reviewIndexItem2.default, { currentUser: this.props.currentUser, user: review.author_id, review: review, key: review.id });
+	        }).bind(this))
+	      );
+	    }
+	  }]);
+	
+	  return ReviewsIndex;
+	})(_react.Component);
+	
+	;
+	
+	exports.default = ReviewsIndex;
 
 /***/ },
 /* 297 */

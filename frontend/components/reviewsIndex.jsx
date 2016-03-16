@@ -1,50 +1,61 @@
-var React = require('react');
-var ReviewIndexItem = require('./reviewIndexItem');
-var ReviewForm = require('./new_review_form').default;
-var ReviewStore = require('../stores/review_store');
+import React, { Component } from 'react';
+import ReviewIndexItem from './reviewIndexItem';
+import ReviewForm from './new_review_form';
+import ReviewStore from '../stores/review_store';
 
 
-var ReviewsIndex = React.createClass ({
+class ReviewsIndex extends Component {
 
-  getInitialState: function () {
+  constructor(props) {
+    super(props);
+
     if(this.props.user) {
       if(this.props.user.id === this.props.currentUser.id) {
-        return ({
+        this.state =  {
           reviews: ReviewStore.filterReviewsByUserId(this.props.user.id),
           currentUser: true
-        });
+        };
       } else {
-        return ({
+        this.state = {
           reviews: ReviewStore.filterReviewsByUserId(this.props.user.id),
           currentUser: false
-        });
+        };
       }
     } else if(this.props.beer) {
-      return ({
+      this.state = {
         reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
         currentUser: true,
         beer: this.props.beer
-      });
+      };
     }
-  },
 
-  componentDidMount: function() {
+    this._onChange = this._onChange.bind(this);
+    this.renderHeader = this.renderHeader.bind(this);
+    this.renderReviewForm = this.renderReviewForm.bind(this);
+    this.handleOpenFormClick = this.handleOpenFormClick.bind(this);
+    this.handleCloseFormClick = this.handleCloseFormClick.bind(this);
+    this.updateBeer = this.updateBeer.bind(this);
+  }
+
+
+
+  componentDidMount() {
     this.reviewsToken = ReviewStore.addListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this.reviewsToken.remove();
-  },
+  }
 
-  componentWillReceiveProps: function() {
+  componentWillReceiveProps() {
     if(this.props.beer) {
       this.setState({
         reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id)
       });
     }
-  },
+  }
 
-  _onChange: function () {
+  _onChange() {
     if(this.props.user) {
       if(this.props.user.id === this.props.currentUser.id) {
         this.setState({
@@ -63,15 +74,15 @@ var ReviewsIndex = React.createClass ({
         currentUser: true
       });
     }
-  },
+  }
 
-  renderHeader: function() {
+  renderHeader() {
     if(this.state.reviews.length === 0 && this.props.user){
       return <h5>You Haven't Reviewed Any Beers Yet!</h5>
     }
-  },
+  }
 
-  renderReviewForm: function() {
+  renderReviewForm() {
     if(this.state.isReviewing && this.state.currentUser) {
       var beerToReview = this.props.beer;
       return <ReviewForm
@@ -85,30 +96,30 @@ var ReviewsIndex = React.createClass ({
           <span className="glyphicon glyphicon-plus-sign"></span> Add Review</button>
       );
     }
-  },
+  }
 
-  handleOpenFormClick: function() {
+  handleOpenFormClick() {
     this.setState({
       isReviewing: true
     });
-  },
+  }
 
-  handleCloseFormClick: function() {
+  handleCloseFormClick() {
     this.setState({
       isReviewing: false
     });
-  },
+  }
 
-  updateBeer: function() {
+  updateBeer() {
     if(this.props.beer !== this.state.beer) {
       this.setState({
         reviews: ReviewStore.filterReviewsByBeerId(this.props.beer.id),
         beer: this.props.beer
       });
     }
-  },
+  }
 
-  render: function () {
+  render() {
     this.updateBeer();
     return (
 
@@ -126,6 +137,6 @@ var ReviewsIndex = React.createClass ({
 
     );
   }
-});
+};
 
-module.exports = ReviewsIndex;
+export default ReviewsIndex;

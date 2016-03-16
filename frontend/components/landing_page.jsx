@@ -1,26 +1,21 @@
-var React = require('react');
-var SessionStore = require('../stores/session_store');
-var ErrorStore = require('../stores/error_store');
-var CurrentUserStore = require('../stores/current_user_store');
-var SessionUtil = require('../util/session_util');
-var Footer = require('./footer');
-var NewUserForm = require('./auth/new_user');
-var NewSessionForm = require('./auth/new_session');
-var UserProfile = require('./new_user_profile').default;
+import React from 'react';
 
-var Navbar = require('./new_navbar');
+import SessionStore from '../stores/session_store';
+import ErrorStore from '../stores/error_store';
+import CurrentUserStore from '../stores/current_user_store';
+import SessionUtil from '../util/session_util';
+import Footer from './footer';
+import NewUserForm from './auth/new_user';
+import NewSessionForm from'./auth/new_session';
+import Navbar from './new_navbar';
 import ReviewForm from './new_review_form';
 import ReviewsIndex from './new_reviews_index';
 import Sidebar from './user_profile_sidebar';
 
-
-
-
-
 var Page;
 var modal;
 var buttons;
-var guestUser = {
+const guestUser = {
   username: "Guest",
   password: "password"
 };

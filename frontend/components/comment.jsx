@@ -1,42 +1,46 @@
-var React = require('react');
-var UserStore = require('../stores/user_store');
+import React, { Component } from 'react';
+import UserStore from '../stores/user_store';
 import { Link } from 'react-router';
 
-var Comment = React.createClass({
-  getInitialState: function() {
-    return({
+class Comment extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
       author: UserStore.findById(this.props.comment.author_id)
-    })
-  },
+    };
+    this._onChange = this._onChange.bind(this);
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.authorToken = UserStore.addListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this.authorToken.remove();
-  },
+  }
 
-  _onChange: function() {
+  _onChange() {
     this.setState({
       author: UserStore.findById(this.props.comment.author_id)
     });
-  },
-
-
-  render: function() {
-    var url = "/user/" + this.state.author.id
-    return (
-      <div className="commentContainer">
-
-        <div className ="commentBody">
-          <Link className="commentAuthor" to={url}>{this.state.author.username}:</Link> {this.props.comment.body}
-        </div>
-
-      </div>
-    )
   }
 
-});
+  render() {
+    let url = "/user/" + this.state.author.id
+    return (
+      <div className="commentContainer">
+        <div className ="commentBody">
+          <Link
+            className="commentAuthor"
+            to={url}>{this.state.author.username}:
+          </Link> {this.props.comment.body}
+        </div>
+      </div>
+    );
+  }
 
-module.exports = Comment;
+};
+
+export default Comment;

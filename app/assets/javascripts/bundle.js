@@ -46,36 +46,71 @@
 
 	'use strict';
 	
+	var _react = __webpack_require__(20);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(176);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	var _reactRouter = __webpack_require__(177);
+	
+	var _landing_page = __webpack_require__(209);
+	
+	var _landing_page2 = _interopRequireDefault(_landing_page);
+	
+	var _user_util = __webpack_require__(279);
+	
+	var _user_util2 = _interopRequireDefault(_user_util);
+	
+	var _beer_util = __webpack_require__(329);
+	
+	var _beer_util2 = _interopRequireDefault(_beer_util);
+	
+	var _review_util = __webpack_require__(238);
+	
+	var _review_util2 = _interopRequireDefault(_review_util);
+	
+	var _comment_util = __webpack_require__(255);
+	
+	var _comment_util2 = _interopRequireDefault(_comment_util);
+	
+	var _toast_util = __webpack_require__(262);
+	
+	var _toast_util2 = _interopRequireDefault(_toast_util);
+	
+	var _friend_request_util = __webpack_require__(271);
+	
+	var _friend_request_util2 = _interopRequireDefault(_friend_request_util);
+	
+	var _friend_util = __webpack_require__(269);
+	
+	var _friend_util2 = _interopRequireDefault(_friend_util);
+	
+	var _user = __webpack_require__(331);
+	
+	var _user2 = _interopRequireDefault(_user);
+	
+	var _beer_show = __webpack_require__(332);
+	
+	var _beer_show2 = _interopRequireDefault(_beer_show);
+	
+	var _users_index = __webpack_require__(334);
+	
+	var _users_index2 = _interopRequireDefault(_users_index);
+	
 	var _createBrowserHistory = __webpack_require__(1);
 	
 	var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var React = __webpack_require__(20);
-	var ReactDOM = __webpack_require__(176);
-	var ReactRouter = __webpack_require__(177);
-	var Router = ReactRouter.Router;
-	var Route = ReactRouter.Route;
-	var History = ReactRouter.browserHistory;
-	var IndexRoute = ReactRouter.IndexRoute;
-	var LandingPage = __webpack_require__(209);
-	var UserUtil = __webpack_require__(279);
-	var BeerUtil = __webpack_require__(329);
-	var ReviewUtil = __webpack_require__(238);
-	var CommentUtil = __webpack_require__(255);
-	var ToastUtil = __webpack_require__(262);
-	var FriendRequestUtil = __webpack_require__(271);
-	var FriendUtil = __webpack_require__(269);
-	var ComposedUser = __webpack_require__(331).default;
-	var ComposedBeerShow = __webpack_require__(332).default;
-	var ComposedUsersIndex = __webpack_require__(334).default;
-	
-	var App = React.createClass({
+	var App = _react2.default.createClass({
 	  displayName: 'App',
 	
 	  render: function render() {
-	    return React.createElement(
+	    return _react2.default.createElement(
 	      'div',
 	      null,
 	      this.props.children
@@ -83,29 +118,29 @@
 	  }
 	});
 	
-	var routes = React.createElement(
-	  Route,
+	var routes = _react2.default.createElement(
+	  _reactRouter.Route,
 	  { path: '/', component: App },
-	  React.createElement(IndexRoute, { component: LandingPage }),
-	  React.createElement(Route, { path: '/beer/:id', component: ComposedBeerShow }),
-	  React.createElement(Route, { path: '/user/:id', component: ComposedUser }),
-	  React.createElement(Route, { path: '/usersindex', component: ComposedUsersIndex })
+	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _landing_page2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/beer/:id', component: _beer_show2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/user/:id', component: _user2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/usersindex', component: _users_index2.default })
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
-	  ReactDOM.render(React.createElement(
-	    Router,
-	    { history: History },
+	  _reactDom2.default.render(_react2.default.createElement(
+	    _reactRouter.Router,
+	    { history: _reactRouter.browserHistory },
 	    routes
 	  ), document.getElementById("root"));
 	
-	  UserUtil.fetchAllUsers();
-	  BeerUtil.fetchAllBeers();
-	  ReviewUtil.fetchAllReviews();
-	  CommentUtil.fetchAllComments();
-	  ToastUtil.fetchAllToasts();
-	  FriendRequestUtil.fetchAllFriendRequests();
-	  FriendUtil.fetchAllFriendships();
+	  _user_util2.default.fetchAllUsers();
+	  _beer_util2.default.fetchAllBeers();
+	  _review_util2.default.fetchAllReviews();
+	  _comment_util2.default.fetchAllComments();
+	  _toast_util2.default.fetchAllToasts();
+	  _friend_request_util2.default.fetchAllFriendRequests();
+	  _friend_util2.default.fetchAllFriendships();
 	});
 
 /***/ },

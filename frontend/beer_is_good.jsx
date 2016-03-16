@@ -1,21 +1,18 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactRouter = require('react-router');
-var Router = ReactRouter.Router;
-var Route = ReactRouter.Route;
-var History = ReactRouter.browserHistory;
-var IndexRoute = ReactRouter.IndexRoute;
-var LandingPage = require('./components/landing_page');
-var UserUtil = require('./util/user_util');
-var BeerUtil = require('./util/beer_util');
-var ReviewUtil = require('./util/review_util');
-var CommentUtil = require('./util/comment_util');
-var ToastUtil = require('./util/toast_util');
-var FriendRequestUtil = require('./util/friend_request_util');
-var FriendUtil = require('./util/friend_util');
-var ComposedUser = require('./components/composed_components/user').default;
-var ComposedBeerShow = require('./components/composed_components/beer_show').default;
-var ComposedUsersIndex = require('./components/composed_components/users_index').default;
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Router, Route, browserHistory, IndexRoute} from 'react-router';
+
+import LandingPage from './components/landing_page';
+import UserUtil from './util/user_util';
+import BeerUtil from './util/beer_util';
+import ReviewUtil from './util/review_util';
+import CommentUtil from './util/comment_util';
+import ToastUtil from './util/toast_util';
+import FriendRequestUtil from './util/friend_request_util';
+import FriendUtil from './util/friend_util';
+import ComposedUser from'./components/composed_components/user';
+import ComposedBeerShow from './components/composed_components/beer_show';
+import ComposedUsersIndex from './components/composed_components/users_index';
 
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
@@ -41,7 +38,7 @@ var routes = (
 
 document.addEventListener("DOMContentLoaded", function () {
   ReactDOM.render(
-    <Router history={History}>{routes}</Router>,
+    <Router history={browserHistory}>{routes}</Router>,
       document.getElementById("root"));
 
   UserUtil.fetchAllUsers();

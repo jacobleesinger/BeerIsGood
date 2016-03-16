@@ -34772,6 +34772,7 @@
 	      term: ""
 	    };
 	    _this.handleChange = _this.handleChange.bind(_this);
+	    _this.resetTerm = _this.resetTerm.bind(_this);
 	    return _this;
 	  }
 	
@@ -34784,10 +34785,17 @@
 	      });
 	    }
 	  }, {
+	    key: 'resetTerm',
+	    value: function resetTerm() {
+	      this.setState({
+	        term: ""
+	      });
+	    }
+	  }, {
 	    key: 'getSearchResults',
 	    value: function getSearchResults() {
 	      if (this.state.term) {
-	        return _react2.default.createElement(_beer_search_results2.default, { term: this.state.term });
+	        return _react2.default.createElement(_beer_search_results2.default, { term: this.state.term, handleClick: this.resetTerm });
 	      }
 	    }
 	  }, {
@@ -34863,6 +34871,7 @@
 	  _createClass(BeerSearchResults, [{
 	    key: 'renderBeers',
 	    value: function renderBeers() {
+	      var _this2 = this;
 	
 	      var term = this.props.term;
 	
@@ -34883,7 +34892,7 @@
 	            },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'beerSearchResultItem' },
+	              { className: 'beerSearchResultItem', onClick: _this2.props.handleClick },
 	              beer.name
 	            )
 	          );

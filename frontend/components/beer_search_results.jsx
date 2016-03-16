@@ -32,7 +32,7 @@ class BeerSearchResults extends Component {
                     params={{id: beer.id}}
                     ref={beer.id}
                     >
-                      <div className="beerSearchResultItem">
+                      <div className="beerSearchResultItem" onClick={this.props.handleClick}>
                         {beer.name}
                       </div>
                   </Link>

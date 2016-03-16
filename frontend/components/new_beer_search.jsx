@@ -9,6 +9,7 @@ class BeerSearch extends Component {
       term: ""
     };
     this.handleChange = this.handleChange.bind(this);
+    this.resetTerm = this.resetTerm.bind(this);
   }
 
   handleChange(e) {
@@ -18,10 +19,16 @@ class BeerSearch extends Component {
     });
   }
 
+  resetTerm() {
+    this.setState({
+      term: ""
+    });
+  }
+
   getSearchResults() {
     if(this.state.term) {
       return(
-        <BeerSearchResults term={this.state.term} />
+        <BeerSearchResults term={this.state.term} handleClick={this.resetTerm}/>
       )
     }
   }

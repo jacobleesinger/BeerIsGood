@@ -1,6 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory, IndexRoute} from 'react-router';
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
 import LandingPage from './components/landing_page';
 import UserUtil from './util/user_util';
@@ -16,29 +16,30 @@ import ComposedUsersIndex from './components/composed_components/users_index';
 
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
-var App = React.createClass({
-  render: function () {
+class App extends Component {
+  render() {
     return (
       <div>
-        {this.props.children}
+        { this.props.children }
       </div>
-    )
+    );
   }
-});
+};
 
-var routes = (
-  <Route path="/" component={App}>
-    <IndexRoute component={LandingPage}/>
-    <Route path="/beer/:id" component={ComposedBeerShow} />
-    <Route path="/user/:id" component={ComposedUser} />
-    <Route path="/usersindex" component={ComposedUsersIndex} />
+const routes = (
+  <Route path="/" component={ App }>
+    <IndexRoute component={ LandingPage }/>
+    <Route path="/beer/:id" component={ ComposedBeerShow } />
+    <Route path="/user/:id" component={ ComposedUser } />
+    <Route path="/usersindex" component={ ComposedUsersIndex } />
   </Route>
 );
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  ReactDOM.render(
-    <Router history={browserHistory}>{routes}</Router>,
+  render(
+    // change to history={ createBrowserHistory() } once I get API routes fixed
+    <Router history={ browserHistory }>{ routes }</Router>,
       document.getElementById("root"));
 
   UserUtil.fetchAllUsers();

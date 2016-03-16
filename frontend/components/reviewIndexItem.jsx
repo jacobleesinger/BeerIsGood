@@ -1,7 +1,7 @@
 import React, { Componenet } from 'react';
 import Comment from './comment';
 import ReviewUtil from '../util/review_util';
-import BeerStore from 'stores/beer_store';
+import BeerStore from '../stores/beer_store';
 import CommentStore from '../stores/comment_store';
 import ToastStore from '../stores/toast_store';
 import CommentForm from './comment_form';

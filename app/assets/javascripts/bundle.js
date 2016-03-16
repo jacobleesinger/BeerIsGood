@@ -35150,7 +35150,7 @@
 	
 	var _review_util2 = _interopRequireDefault(_review_util);
 	
-	var _beer_store = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"stores/beer_store\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _beer_store = __webpack_require__(214);
 	
 	var _beer_store2 = _interopRequireDefault(_beer_store);
 	

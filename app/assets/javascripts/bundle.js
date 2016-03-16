@@ -24358,17 +24358,14 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var React = __webpack_require__(20);
-	var Auth = __webpack_require__(273);
 	var SessionStore = __webpack_require__(287);
 	var ErrorStore = __webpack_require__(288);
-	var Home = __webpack_require__(289).default;
 	var CurrentUserStore = __webpack_require__(291);
 	var SessionUtil = __webpack_require__(285);
 	var Footer = __webpack_require__(300);
 	var NewUserForm = __webpack_require__(278);
 	var NewSessionForm = __webpack_require__(286);
 	var UserProfile = __webpack_require__(292).default;
-	var User = __webpack_require__(301);
 	
 	var Navbar = __webpack_require__(293);
 	
@@ -33508,45 +33505,7 @@
 	module.exports = FriendRequestActions;
 
 /***/ },
-/* 273 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(20);
-	var LinkedStateMixin = __webpack_require__(274);
-	var NewUser = __webpack_require__(278);
-	var NewSession = __webpack_require__(286);
-	
-	var AuthForm;
-	var Auth = React.createClass({
-	  displayName: 'Auth',
-	
-	  GetAppropriateAuthForm: function GetAppropriateAuthForm() {
-	
-	    if (this.props.button === "signup") {
-	      AuthForm = NewUser;
-	    } else if (this.props.button === "signin") {
-	      AuthForm = NewSession;
-	    }
-	  },
-	
-	  render: function render() {
-	
-	    this.GetAppropriateAuthForm();
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(AuthForm, { cancelAuth: this.props.cancelAuth })
-	    );
-	  }
-	
-	});
-	
-	module.exports = Auth;
-
-/***/ },
+/* 273 */,
 /* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -34304,58 +34263,7 @@
 	module.exports = ErrorStore;
 
 /***/ },
-/* 289 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _react = __webpack_require__(20);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _authenticated_component = __webpack_require__(290);
-	
-	var _authenticated_component2 = _interopRequireDefault(_authenticated_component);
-	
-	var _new_user_profile = __webpack_require__(292);
-	
-	var _new_user_profile2 = _interopRequireDefault(_new_user_profile);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	exports.default = (0, _authenticated_component2.default)((function (_Component) {
-	  _inherits(Home, _Component);
-	
-	  function Home() {
-	    _classCallCheck(this, Home);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Home).apply(this, arguments));
-	  }
-	
-	  _createClass(Home, [{
-	    key: 'render',
-	    value: function render() {
-	      // Here, we display the user information
-	      return _react2.default.createElement(_new_user_profile2.default, { currentUser: this.props.currentUser });
-	    }
-	  }]);
-	
-	  return Home;
-	})(_react.Component));
-
-/***/ },
+/* 289 */,
 /* 290 */
 /***/ function(module, exports, __webpack_require__) {
 

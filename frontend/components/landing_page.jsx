@@ -1,17 +1,12 @@
 var React = require('react');
-var Auth = require('./auth/auth_component');
 var SessionStore = require('../stores/session_store');
 var ErrorStore = require('../stores/error_store');
-var Home = require('./new_home').default;
 var CurrentUserStore = require('../stores/current_user_store');
 var SessionUtil = require('../util/session_util');
 var Footer = require('./footer');
 var NewUserForm = require('./auth/new_user');
 var NewSessionForm = require('./auth/new_session');
 var UserProfile = require('./new_user_profile').default;
-var User = require('./user');
-
-
 
 var Navbar = require('./new_navbar');
 import ReviewForm from './new_review_form';
@@ -196,7 +191,7 @@ var LandingPage = React.createClass({
 
 
     if (this.state.signedIn) {
-      
+
       var url = '/user/' + this.state.currentUser.id
       this.props.history.pushState(null, url);
 

@@ -27,9 +27,6 @@ var CommentForm = React.createClass({
 
   render: function () {
 
-
-
-
     return (
       <div className="col-md-12">
         <form className="form-group commentForm">
@@ -38,9 +35,9 @@ var CommentForm = React.createClass({
           <textarea
             className="form-control"
             id="reviewBody"
-            valueLink={this.linkState('body')} ></textarea>
+            valueLink={ this.linkState('body') } ></textarea>
 
-          <input className="btn btn-2 addCommentButton" type="submit" value="Add Comment" onClick={this.handleSubmit}/>
+          <input className="btn btn-2 addCommentButton" type="submit" value="Add Comment" onClick={ this.handleSubmit }/>
         </form>
 
       </div>

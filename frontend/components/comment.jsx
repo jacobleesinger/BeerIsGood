@@ -2,7 +2,7 @@ import React from 'react';
 import UserStore from '../stores/user_store';
 import { Link } from 'react-router';
 
-const Comment = (props) => {
+export default Comment = (props) => {
 
     let author = UserStore.findById(props.comment.author_id)
     let url = "/user/" + author.id
@@ -18,5 +18,3 @@ const Comment = (props) => {
       </div>
     );
 };
-
-export default Comment;

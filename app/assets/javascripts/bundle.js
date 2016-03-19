@@ -35598,7 +35598,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Comment = function Comment(props) {
+	exports.default = Comment = function Comment(props) {
 	
 	  var author = _user_store2.default.findById(props.comment.author_id);
 	  var url = "/user/" + author.id;
@@ -35622,8 +35622,6 @@
 	    )
 	  );
 	};
-	
-	exports.default = Comment;
 
 /***/ },
 /* 299 */

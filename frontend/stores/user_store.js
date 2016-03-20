@@ -86,5 +86,5 @@ UserStore.__onDispatch = function(payload){
       break;
   };
 };
-window.UserStore = UserStore;
+
 module.exports = UserStore;

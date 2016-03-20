@@ -33395,7 +33395,7 @@
 	      break;
 	  };
 	};
-	window.UserStore = UserStore;
+	
 	module.exports = UserStore;
 
 /***/ },
@@ -36090,75 +36090,105 @@
 
 	'use strict';
 	
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(159).Link;
-	
-	var UserStore = __webpack_require__(267);
-	var CurrentUserStore = __webpack_require__(233);
-	var User = __webpack_require__(296);
-	var Navbar = __webpack_require__(249).default;
-	var UserSearch = __webpack_require__(308).default;
-	var UserSearchResults = __webpack_require__(309).default;
-	var Footer = __webpack_require__(239);
-	var userToken;
-	
-	var UsersIndex = React.createClass({
-	  displayName: 'UsersIndex',
-	
-	  getInitialState: function getInitialState() {
-	    return {
-	      users: UserStore.all(),
-	      currentUser: CurrentUserStore.currentUser(),
-	      searchResults: []
-	    };
-	  },
-	
-	  componentDidMount: function componentDidMount() {
-	
-	    this.userToken = UserStore.addListener(this._onChange);
-	    this.currentUserToken = CurrentUserStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.userToken.remove();
-	  },
-	
-	  _onChange: function _onChange() {
-	    this.setState({
-	      users: UserStore.all(),
-	      currentUser: CurrentUserStore.currentUser()
-	    });
-	  },
-	
-	  searchResults: function searchResults(_searchResults) {
-	    this.setState({
-	      searchResults: _searchResults
-	    });
-	  },
-	
-	  render: function render() {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'mainPage' },
-	      React.createElement(Navbar, { currentUser: this.state.currentUser }),
-	      React.createElement(
-	        'div',
-	        { className: 'row fixedwidth' },
-	        React.createElement(
-	          'div',
-	          { className: 'usersIndex col-md-6 col-md-offset-3' },
-	          React.createElement(UserSearch, { onSearch: this.searchResults }),
-	          React.createElement(UserSearchResults, { searchResults: this.state.searchResults, currentUser: this.props.currentUser })
-	        )
-	      ),
-	      React.createElement(Footer, null)
-	    );
-	  }
-	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
 	});
 	
-	module.exports = UsersIndex;
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(159);
+	
+	var _user_search = __webpack_require__(308);
+	
+	var _user_search2 = _interopRequireDefault(_user_search);
+	
+	var _user_store = __webpack_require__(267);
+	
+	var _user_store2 = _interopRequireDefault(_user_store);
+	
+	var _current_user_store = __webpack_require__(233);
+	
+	var _current_user_store2 = _interopRequireDefault(_current_user_store);
+	
+	var _user = __webpack_require__(296);
+	
+	var _user2 = _interopRequireDefault(_user);
+	
+	var _new_navbar = __webpack_require__(249);
+	
+	var _new_navbar2 = _interopRequireDefault(_new_navbar);
+	
+	var _user_search_results = __webpack_require__(309);
+	
+	var _user_search_results2 = _interopRequireDefault(_user_search_results);
+	
+	var _footer = __webpack_require__(239);
+	
+	var _footer2 = _interopRequireDefault(_footer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var UsersIndex = (function (_Component) {
+	  _inherits(UsersIndex, _Component);
+	
+	  function UsersIndex(props) {
+	    _classCallCheck(this, UsersIndex);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UsersIndex).call(this, props));
+	
+	    _this.state = {
+	      searchResults: []
+	    };
+	
+	    _this.searchResults = _this.searchResults.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(UsersIndex, [{
+	    key: 'searchResults',
+	    value: function searchResults(_searchResults) {
+	      this.setState({
+	        searchResults: _searchResults
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'mainPage' },
+	        _react2.default.createElement(_new_navbar2.default, { currentUser: this.props.currentUser }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row fixedwidth' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'usersIndex col-md-6 col-md-offset-3' },
+	            _react2.default.createElement(_user_search2.default, { onSearch: this.searchResults }),
+	            _react2.default.createElement(_user_search_results2.default, { searchResults: this.state.searchResults, currentUser: this.props.currentUser })
+	          )
+	        ),
+	        _react2.default.createElement(_footer2.default, null)
+	      );
+	    }
+	  }]);
+	
+	  return UsersIndex;
+	})(_react.Component);
+	
+	;
+	
+	exports.default = UsersIndex;
 
 /***/ },
 /* 308 */

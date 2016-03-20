@@ -16,14 +16,14 @@ import ComposedUsersIndex from './components/composed_components/users_index';
 
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
-class App extends Component {
-  render() {
+const App = (props) => {
+
     return (
       <div>
-        { this.props.children }
+        { props.children }
       </div>
     );
-  }
+
 };
 
 const routes = (

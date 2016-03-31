@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AuthenticatedComponent from '../authenticated_component';
-import BeerShow from '../new_beer_show';
+import BeerShow from '../beer_show';
 
 var BeerStore = require('../../stores/beer_store');
 

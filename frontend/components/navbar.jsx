@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import BeerSearch from './new_beer_search';
+import BeerSearch from './beer_search';
 import SessionUtil from '../util/session_util';
 
 var browserHistory = require('react-router').browserHistory;

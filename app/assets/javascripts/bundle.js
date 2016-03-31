@@ -32910,9 +32910,9 @@
 	
 	var _authenticated_component2 = _interopRequireDefault(_authenticated_component);
 	
-	var _new_beer_show = __webpack_require__(271);
+	var _beer_show = __webpack_require__(310);
 	
-	var _new_beer_show2 = _interopRequireDefault(_new_beer_show);
+	var _beer_show2 = _interopRequireDefault(_beer_show);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -32942,7 +32942,7 @@
 	    key: 'render',
 	    value: function render() {
 	      var beer = BeerStore.find(this.props.params.id);
-	      return _react2.default.createElement(_new_beer_show2.default, {
+	      return _react2.default.createElement(_beer_show2.default, {
 	        currentUser: this.props.currentUser,
 	        beer: BeerStore.find(this.props.params.id) });
 	    }
@@ -32952,98 +32952,7 @@
 	})(_react.Component));
 
 /***/ },
-/* 271 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reviewsIndex = __webpack_require__(272);
-	
-	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
-	
-	var _new_navbar = __webpack_require__(284);
-	
-	var _new_navbar2 = _interopRequireDefault(_new_navbar);
-	
-	var _footer = __webpack_require__(239);
-	
-	var _footer2 = _interopRequireDefault(_footer);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var BeerStore = __webpack_require__(275);
-	
-	var BeerShow = (function (_Component) {
-	  _inherits(BeerShow, _Component);
-	
-	  function BeerShow(props) {
-	    _classCallCheck(this, BeerShow);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerShow).call(this, props));
-	
-	    _this.state = {
-	      beer: _this.props.beer
-	    };
-	    return _this;
-	  }
-	
-	  _createClass(BeerShow, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps() {
-	      this.forceUpdate();
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'mainPage' },
-	        _react2.default.createElement(_new_navbar2.default, { currentUser: this.props.currentUser }),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row fixedWidth' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'beerHeader' },
-	            _react2.default.createElement(
-	              'h3',
-	              null,
-	              this.props.beer.name
-	            )
-	          ),
-	          _react2.default.createElement(_reviewsIndex2.default, {
-	            currentUser: this.props.currentUser,
-	            beer: this.props.beer })
-	        ),
-	        _react2.default.createElement(_footer2.default, null)
-	      );
-	    }
-	  }]);
-	
-	  return BeerShow;
-	})(_react.Component);
-	
-	;
-	
-	exports.default = BeerShow;
-
-/***/ },
+/* 271 */,
 /* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -33063,9 +32972,9 @@
 	
 	var _reviewIndexItem2 = _interopRequireDefault(_reviewIndexItem);
 	
-	var _new_review_form = __webpack_require__(279);
+	var _review_form = __webpack_require__(311);
 	
-	var _new_review_form2 = _interopRequireDefault(_new_review_form);
+	var _review_form2 = _interopRequireDefault(_review_form);
 	
 	var _review_store = __webpack_require__(283);
 	
@@ -33173,7 +33082,7 @@
 	    value: function renderReviewForm() {
 	      if (this.state.isReviewing && this.state.currentUser) {
 	        var beerToReview = this.props.beer;
-	        return _react2.default.createElement(_new_review_form2.default, {
+	        return _react2.default.createElement(_review_form2.default, {
 	          currentUser: this.props.currentUser,
 	          beer: this.props.beer,
 	          onClick: this.handleCloseFormClick });
@@ -33989,203 +33898,7 @@
 	module.exports = CommentForm;
 
 /***/ },
-/* 279 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactLinkState = __webpack_require__(280);
-	
-	var _reactLinkState2 = _interopRequireDefault(_reactLinkState);
-	
-	var _beer_store = __webpack_require__(275);
-	
-	var _beer_store2 = _interopRequireDefault(_beer_store);
-	
-	var _review_store = __webpack_require__(283);
-	
-	var _review_store2 = _interopRequireDefault(_review_store);
-	
-	var _review_util = __webpack_require__(252);
-	
-	var _review_util2 = _interopRequireDefault(_review_util);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var ReviewForm = (function (_Component) {
-	  _inherits(ReviewForm, _Component);
-	
-	  function ReviewForm(props) {
-	    _classCallCheck(this, ReviewForm);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReviewForm).call(this, props));
-	
-	    if (_this.props.beer) {
-	      _this.state = {
-	        beers: [],
-	        beer_id: _this.props.beer.id,
-	        body: "",
-	        rating: 0,
-	        author_id: props.currentUser.id
-	      };
-	    } else {
-	      _this.state = {
-	        beers: _beer_store2.default.all(),
-	        beer_id: 0,
-	        body: "",
-	        rating: 0,
-	        author_id: props.currentUser.id
-	      };
-	    }
-	    _this.handleBeerChange = _this.handleBeerChange.bind(_this);
-	    _this.handleRatingChange = _this.handleRatingChange.bind(_this);
-	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(ReviewForm, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.beerToken = _beer_store2.default.addListener(this.onBeerChange);
-	      this.reviewToken = _review_store2.default.addListener(this.onReviewChange);
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      this.beerToken.remove();
-	      this.reviewToken.remove();
-	    }
-	  }, {
-	    key: 'handleBeerChange',
-	    value: function handleBeerChange(e) {
-	      this.setState({
-	        beer_id: e.target.value
-	      });
-	    }
-	  }, {
-	    key: 'handleRatingChange',
-	    value: function handleRatingChange(e) {
-	      this.setState({
-	        rating: e.target.value
-	      });
-	    }
-	  }, {
-	    key: 'handleSubmit',
-	    value: function handleSubmit(e) {
-	      e.preventDefault();
-	      _review_util2.default.createReview({
-	        beer_id: parseInt(this.state.beer_id),
-	        author_id: this.state.author_id,
-	        body: this.state.body,
-	        rating: parseInt(this.state.rating)
-	
-	      });
-	      this.props.onClick();
-	    }
-	  }, {
-	    key: 'renderSelect',
-	    value: function renderSelect() {
-	      if (this.props.beer) {
-	        return _react2.default.createElement('div', null);
-	      } else {
-	        return _react2.default.createElement(
-	          'label',
-	          { htmlFor: 'reviewBeer' },
-	          'What are you drinking?',
-	          _react2.default.createElement(
-	            'select',
-	            { value: this.state.beer_id, onChange: this.handleBeerChange },
-	            _react2.default.createElement('option', { value: '0', key: '0' }),
-	            this.state.beers.map((function (beer) {
-	              return _react2.default.createElement(
-	                'option',
-	                { value: beer.id, key: beer.id },
-	                beer.name
-	              );
-	            }).bind(this))
-	          )
-	        );
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'form',
-	        { className: 'form-group reviewForm', onSubmit: this.handleSubmit },
-	        this.renderSelect(),
-	        _react2.default.createElement(
-	          'label',
-	          { htmlFor: 'reviewBody' },
-	          'What do you think?'
-	        ),
-	        _react2.default.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: (0, _reactLinkState2.default)(this, 'body') }),
-	        _react2.default.createElement(
-	          'label',
-	          { className: 'reviewFormItem', htmlFor: 'reviewRating' },
-	          'Rate it!'
-	        ),
-	        _react2.default.createElement(
-	          'select',
-	          { className: 'reviewFormItem', onChange: this.handleRatingChange },
-	          _react2.default.createElement(
-	            'option',
-	            { value: '0' },
-	            'rate beer'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            { value: '1' },
-	            '1'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            { value: '2' },
-	            '2'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            { value: '3' },
-	            '3'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            { value: '4' },
-	            '4'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            { value: '5' },
-	            '5'
-	          )
-	        ),
-	        _react2.default.createElement('input', { className: 'btn btn-2 reviewFormItem addReviewButton', type: 'submit', value: 'Add your review!' })
-	      );
-	    }
-	  }]);
-	
-	  return ReviewForm;
-	})(_react.Component);
-	
-	exports.default = ReviewForm;
-
-/***/ },
+/* 279 */,
 /* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -34339,234 +34052,8 @@
 	module.exports = ReviewStore;
 
 /***/ },
-/* 284 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(159);
-	
-	var _new_beer_search = __webpack_require__(285);
-	
-	var _new_beer_search2 = _interopRequireDefault(_new_beer_search);
-	
-	var _session_util = __webpack_require__(235);
-	
-	var _session_util2 = _interopRequireDefault(_session_util);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var browserHistory = __webpack_require__(159).browserHistory;
-	
-	var Navbar = (function (_Component) {
-	  _inherits(Navbar, _Component);
-	
-	  function Navbar(props) {
-	    _classCallCheck(this, Navbar);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Navbar).call(this, props));
-	
-	    _this.handleSignOut = _this.handleSignOut.bind(_this);
-	    _this.handleSearchClick = _this.handleSearchClick.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(Navbar, [{
-	    key: 'handleSignOut',
-	    value: function handleSignOut() {
-	      _session_util2.default.destroySession();
-	    }
-	  }, {
-	    key: 'handleSearchClick',
-	    value: function handleSearchClick(beerId) {
-	
-	      var url = "/beer/" + beerId;
-	      history.pushState(null, '/beer/1');
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var profileUrl = "/user/" + this.props.currentUser.id;
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'navbar' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'fixedWidth' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'navbarHeader navbarLinks' },
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { className: 'logo',
-	                to: profileUrl
-	              },
-	              _react2.default.createElement(
-	                'h1',
-	                null,
-	                'BeerisGood'
-	              )
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'navbarContent' },
-	            _react2.default.createElement(
-	              'ul',
-	              { className: 'navbarLinksUl' },
-	              _react2.default.createElement(
-	                'li',
-	                { className: 'navbarLinks' },
-	                _react2.default.createElement(
-	                  _reactRouter.Link,
-	                  {
-	                    to: '/users'
-	
-	                  },
-	                  'Find Friends'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(_new_beer_search2.default, {
-	                  onClick: this.handleSearchClick,
-	
-	                  className: ''
-	                })
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(
-	                  'button',
-	                  {
-	                    className: 'btn btn-sm btn-1 signOutButton', onClick: this.handleSignOut },
-	                  'Sign Out'
-	                )
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return Navbar;
-	})(_react.Component);
-	
-	exports.default = Navbar;
-
-/***/ },
-/* 285 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _beer_search_results = __webpack_require__(286);
-	
-	var _beer_search_results2 = _interopRequireDefault(_beer_search_results);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var BeerSearch = (function (_Component) {
-	  _inherits(BeerSearch, _Component);
-	
-	  function BeerSearch(props) {
-	    _classCallCheck(this, BeerSearch);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerSearch).call(this, props));
-	
-	    _this.state = {
-	      term: ""
-	    };
-	    _this.handleChange = _this.handleChange.bind(_this);
-	    _this.resetTerm = _this.resetTerm.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(BeerSearch, [{
-	    key: 'handleChange',
-	    value: function handleChange(e) {
-	      e.preventDefault;
-	      this.setState({
-	        term: e.target.value
-	      });
-	    }
-	  }, {
-	    key: 'resetTerm',
-	    value: function resetTerm() {
-	      this.setState({
-	        term: ""
-	      });
-	    }
-	  }, {
-	    key: 'getSearchResults',
-	    value: function getSearchResults() {
-	      if (this.state.term) {
-	        return _react2.default.createElement(_beer_search_results2.default, { term: this.state.term, handleClick: this.resetTerm });
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'beerSearch' },
-	        _react2.default.createElement(
-	          'form',
-	          { className: 'form-group has-feedback' },
-	          _react2.default.createElement('input', {
-	            type: 'text',
-	            placeholder: 'search for a beer',
-	            value: this.state.term,
-	            onChange: this.handleChange,
-	            className: 'form-control' }),
-	          _react2.default.createElement('i', { className: 'glyphicon glyphicon-search form-control-feedback searchIcon' })
-	        ),
-	        this.getSearchResults()
-	      );
-	    }
-	  }]);
-	
-	  return BeerSearch;
-	})(_react.Component);
-	
-	exports.default = BeerSearch;
-
-/***/ },
+/* 284 */,
+/* 285 */,
 /* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -34741,9 +34228,9 @@
 	
 	var _user2 = _interopRequireDefault(_user);
 	
-	var _new_navbar = __webpack_require__(284);
+	var _navbar = __webpack_require__(314);
 	
-	var _new_navbar2 = _interopRequireDefault(_new_navbar);
+	var _navbar2 = _interopRequireDefault(_navbar);
 	
 	var _user_search_results = __webpack_require__(290);
 	
@@ -34790,7 +34277,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'mainPage' },
-	        _react2.default.createElement(_new_navbar2.default, { currentUser: this.props.currentUser }),
+	        _react2.default.createElement(_navbar2.default, { currentUser: this.props.currentUser }),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'row fixedwidth' },
@@ -35343,8 +34830,8 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var UserShow = __webpack_require__(294).default;
-	var UserProfile = __webpack_require__(297).default;
+	var UserShow = __webpack_require__(313).default;
+	var UserProfile = __webpack_require__(312).default;
 	var CurrentUserStore = __webpack_require__(233);
 	var UserStore = __webpack_require__(269);
 	var UserPage;
@@ -35386,59 +34873,7 @@
 	module.exports = User;
 
 /***/ },
-/* 294 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _new_navbar = __webpack_require__(284);
-	
-	var _new_navbar2 = _interopRequireDefault(_new_navbar);
-	
-	var _reviewsIndex = __webpack_require__(272);
-	
-	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
-	
-	var _footer = __webpack_require__(239);
-	
-	var _footer2 = _interopRequireDefault(_footer);
-	
-	var _user_show_sidebar = __webpack_require__(295);
-	
-	var _user_show_sidebar2 = _interopRequireDefault(_user_show_sidebar);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var UserShow = function UserShow(props) {
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'mainPage' },
-	    _react2.default.createElement(_new_navbar2.default, { currentUser: props.currentUser }),
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'row fixedWidth' },
-	      _react2.default.createElement(_reviewsIndex2.default, {
-	        currentUser: props.currentUser,
-	        user: props.user }),
-	      _react2.default.createElement(_user_show_sidebar2.default, {
-	        currentUser: props.currentUser,
-	        user: props.user })
-	    ),
-	    _react2.default.createElement(_footer2.default, null)
-	  );
-	};
-	
-	exports.default = UserShow;
-
-/***/ },
+/* 294 */,
 /* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -35644,87 +35079,7 @@
 	module.exports = FriendRequestStore;
 
 /***/ },
-/* 297 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _new_navbar = __webpack_require__(284);
-	
-	var _new_navbar2 = _interopRequireDefault(_new_navbar);
-	
-	var _reviewsIndex = __webpack_require__(272);
-	
-	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
-	
-	var _user_profile_sidebar = __webpack_require__(298);
-	
-	var _user_profile_sidebar2 = _interopRequireDefault(_user_profile_sidebar);
-	
-	var _footer = __webpack_require__(239);
-	
-	var _footer2 = _interopRequireDefault(_footer);
-	
-	var _friend_store = __webpack_require__(291);
-	
-	var _friend_store2 = _interopRequireDefault(_friend_store);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	// import ReviewForm from './new_review_form';
-	
-	var UserProfile = (function (_Component) {
-	  _inherits(UserProfile, _Component);
-	
-	  function UserProfile(props) {
-	    _classCallCheck(this, UserProfile);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(UserProfile).call(this, props));
-	  }
-	
-	  _createClass(UserProfile, [{
-	    key: 'render',
-	    value: function render() {
-	
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'userProfile mainPage' },
-	        _react2.default.createElement(_new_navbar2.default, { currentUser: this.props.currentUser }),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row fixedWidth' },
-	          _react2.default.createElement(_reviewsIndex2.default, {
-	
-	            user: this.props.currentUser,
-	            currentUser: this.props.currentUser }),
-	          _react2.default.createElement(_user_profile_sidebar2.default, { currentUser: this.props.currentUser })
-	        ),
-	        _react2.default.createElement(_footer2.default, null)
-	      );
-	    }
-	  }]);
-	
-	  return UserProfile;
-	})(_react.Component);
-	
-	exports.default = UserProfile;
-
-/***/ },
+/* 297 */,
 /* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -35890,6 +35245,666 @@
 	})(_react.Component);
 	
 	exports.default = Sidebar;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _beer_search_results = __webpack_require__(286);
+	
+	var _beer_search_results2 = _interopRequireDefault(_beer_search_results);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BeerSearch = (function (_Component) {
+	  _inherits(BeerSearch, _Component);
+	
+	  function BeerSearch(props) {
+	    _classCallCheck(this, BeerSearch);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerSearch).call(this, props));
+	
+	    _this.state = {
+	      term: ""
+	    };
+	    _this.handleChange = _this.handleChange.bind(_this);
+	    _this.resetTerm = _this.resetTerm.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(BeerSearch, [{
+	    key: 'handleChange',
+	    value: function handleChange(e) {
+	      e.preventDefault;
+	      this.setState({
+	        term: e.target.value
+	      });
+	    }
+	  }, {
+	    key: 'resetTerm',
+	    value: function resetTerm() {
+	      this.setState({
+	        term: ""
+	      });
+	    }
+	  }, {
+	    key: 'getSearchResults',
+	    value: function getSearchResults() {
+	      if (this.state.term) {
+	        return _react2.default.createElement(_beer_search_results2.default, { term: this.state.term, handleClick: this.resetTerm });
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'beerSearch' },
+	        _react2.default.createElement(
+	          'form',
+	          { className: 'form-group has-feedback' },
+	          _react2.default.createElement('input', {
+	            type: 'text',
+	            placeholder: 'search for a beer',
+	            value: this.state.term,
+	            onChange: this.handleChange,
+	            className: 'form-control' }),
+	          _react2.default.createElement('i', { className: 'glyphicon glyphicon-search form-control-feedback searchIcon' })
+	        ),
+	        this.getSearchResults()
+	      );
+	    }
+	  }]);
+	
+	  return BeerSearch;
+	})(_react.Component);
+	
+	exports.default = BeerSearch;
+
+/***/ },
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reviewsIndex = __webpack_require__(272);
+	
+	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
+	
+	var _navbar = __webpack_require__(314);
+	
+	var _navbar2 = _interopRequireDefault(_navbar);
+	
+	var _footer = __webpack_require__(239);
+	
+	var _footer2 = _interopRequireDefault(_footer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BeerStore = __webpack_require__(275);
+	
+	var BeerShow = (function (_Component) {
+	  _inherits(BeerShow, _Component);
+	
+	  function BeerShow(props) {
+	    _classCallCheck(this, BeerShow);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerShow).call(this, props));
+	
+	    _this.state = {
+	      beer: _this.props.beer
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(BeerShow, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      this.forceUpdate();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'mainPage' },
+	        _react2.default.createElement(_navbar2.default, { currentUser: this.props.currentUser }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row fixedWidth' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'beerHeader' },
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              this.props.beer.name
+	            )
+	          ),
+	          _react2.default.createElement(_reviewsIndex2.default, {
+	            currentUser: this.props.currentUser,
+	            beer: this.props.beer })
+	        ),
+	        _react2.default.createElement(_footer2.default, null)
+	      );
+	    }
+	  }]);
+	
+	  return BeerShow;
+	})(_react.Component);
+	
+	;
+	
+	exports.default = BeerShow;
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactLinkState = __webpack_require__(280);
+	
+	var _reactLinkState2 = _interopRequireDefault(_reactLinkState);
+	
+	var _beer_store = __webpack_require__(275);
+	
+	var _beer_store2 = _interopRequireDefault(_beer_store);
+	
+	var _review_store = __webpack_require__(283);
+	
+	var _review_store2 = _interopRequireDefault(_review_store);
+	
+	var _review_util = __webpack_require__(252);
+	
+	var _review_util2 = _interopRequireDefault(_review_util);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ReviewForm = (function (_Component) {
+	  _inherits(ReviewForm, _Component);
+	
+	  function ReviewForm(props) {
+	    _classCallCheck(this, ReviewForm);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReviewForm).call(this, props));
+	
+	    if (_this.props.beer) {
+	      _this.state = {
+	        beers: [],
+	        beer_id: _this.props.beer.id,
+	        body: "",
+	        rating: 0,
+	        author_id: props.currentUser.id
+	      };
+	    } else {
+	      _this.state = {
+	        beers: _beer_store2.default.all(),
+	        beer_id: 0,
+	        body: "",
+	        rating: 0,
+	        author_id: props.currentUser.id
+	      };
+	    }
+	    _this.handleBeerChange = _this.handleBeerChange.bind(_this);
+	    _this.handleRatingChange = _this.handleRatingChange.bind(_this);
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(ReviewForm, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.beerToken = _beer_store2.default.addListener(this.onBeerChange);
+	      this.reviewToken = _review_store2.default.addListener(this.onReviewChange);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.beerToken.remove();
+	      this.reviewToken.remove();
+	    }
+	  }, {
+	    key: 'handleBeerChange',
+	    value: function handleBeerChange(e) {
+	      this.setState({
+	        beer_id: e.target.value
+	      });
+	    }
+	  }, {
+	    key: 'handleRatingChange',
+	    value: function handleRatingChange(e) {
+	      this.setState({
+	        rating: e.target.value
+	      });
+	    }
+	  }, {
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+	      _review_util2.default.createReview({
+	        beer_id: parseInt(this.state.beer_id),
+	        author_id: this.state.author_id,
+	        body: this.state.body,
+	        rating: parseInt(this.state.rating)
+	
+	      });
+	      this.props.onClick();
+	    }
+	  }, {
+	    key: 'renderSelect',
+	    value: function renderSelect() {
+	      if (this.props.beer) {
+	        return _react2.default.createElement('div', null);
+	      } else {
+	        return _react2.default.createElement(
+	          'label',
+	          { htmlFor: 'reviewBeer' },
+	          'What are you drinking?',
+	          _react2.default.createElement(
+	            'select',
+	            { value: this.state.beer_id, onChange: this.handleBeerChange },
+	            _react2.default.createElement('option', { value: '0', key: '0' }),
+	            this.state.beers.map((function (beer) {
+	              return _react2.default.createElement(
+	                'option',
+	                { value: beer.id, key: beer.id },
+	                beer.name
+	              );
+	            }).bind(this))
+	          )
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'form',
+	        { className: 'form-group reviewForm', onSubmit: this.handleSubmit },
+	        this.renderSelect(),
+	        _react2.default.createElement(
+	          'label',
+	          { htmlFor: 'reviewBody' },
+	          'What do you think?'
+	        ),
+	        _react2.default.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: (0, _reactLinkState2.default)(this, 'body') }),
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'reviewFormItem', htmlFor: 'reviewRating' },
+	          'Rate it!'
+	        ),
+	        _react2.default.createElement(
+	          'select',
+	          { className: 'reviewFormItem', onChange: this.handleRatingChange },
+	          _react2.default.createElement(
+	            'option',
+	            { value: '0' },
+	            'rate beer'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '1' },
+	            '1'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '2' },
+	            '2'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '3' },
+	            '3'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '4' },
+	            '4'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '5' },
+	            '5'
+	          )
+	        ),
+	        _react2.default.createElement('input', { className: 'btn btn-2 reviewFormItem addReviewButton', type: 'submit', value: 'Add your review!' })
+	      );
+	    }
+	  }]);
+	
+	  return ReviewForm;
+	})(_react.Component);
+	
+	exports.default = ReviewForm;
+
+/***/ },
+/* 312 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _navbar = __webpack_require__(314);
+	
+	var _navbar2 = _interopRequireDefault(_navbar);
+	
+	var _reviewsIndex = __webpack_require__(272);
+	
+	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
+	
+	var _user_profile_sidebar = __webpack_require__(298);
+	
+	var _user_profile_sidebar2 = _interopRequireDefault(_user_profile_sidebar);
+	
+	var _footer = __webpack_require__(239);
+	
+	var _footer2 = _interopRequireDefault(_footer);
+	
+	var _friend_store = __webpack_require__(291);
+	
+	var _friend_store2 = _interopRequireDefault(_friend_store);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var UserProfile = (function (_Component) {
+	  _inherits(UserProfile, _Component);
+	
+	  function UserProfile(props) {
+	    _classCallCheck(this, UserProfile);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(UserProfile).call(this, props));
+	  }
+	
+	  _createClass(UserProfile, [{
+	    key: 'render',
+	    value: function render() {
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'userProfile mainPage' },
+	        _react2.default.createElement(_navbar2.default, { currentUser: this.props.currentUser }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row fixedWidth' },
+	          _react2.default.createElement(_reviewsIndex2.default, {
+	
+	            user: this.props.currentUser,
+	            currentUser: this.props.currentUser }),
+	          _react2.default.createElement(_user_profile_sidebar2.default, { currentUser: this.props.currentUser })
+	        ),
+	        _react2.default.createElement(_footer2.default, null)
+	      );
+	    }
+	  }]);
+	
+	  return UserProfile;
+	})(_react.Component);
+	
+	exports.default = UserProfile;
+
+/***/ },
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _navbar = __webpack_require__(314);
+	
+	var _navbar2 = _interopRequireDefault(_navbar);
+	
+	var _reviewsIndex = __webpack_require__(272);
+	
+	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
+	
+	var _footer = __webpack_require__(239);
+	
+	var _footer2 = _interopRequireDefault(_footer);
+	
+	var _user_show_sidebar = __webpack_require__(295);
+	
+	var _user_show_sidebar2 = _interopRequireDefault(_user_show_sidebar);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserShow = function UserShow(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'mainPage' },
+	    _react2.default.createElement(_navbar2.default, { currentUser: props.currentUser }),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'row fixedWidth' },
+	      _react2.default.createElement(_reviewsIndex2.default, {
+	        currentUser: props.currentUser,
+	        user: props.user }),
+	      _react2.default.createElement(_user_show_sidebar2.default, {
+	        currentUser: props.currentUser,
+	        user: props.user })
+	    ),
+	    _react2.default.createElement(_footer2.default, null)
+	  );
+	};
+	
+	exports.default = UserShow;
+
+/***/ },
+/* 314 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(159);
+	
+	var _beer_search = __webpack_require__(299);
+	
+	var _beer_search2 = _interopRequireDefault(_beer_search);
+	
+	var _session_util = __webpack_require__(235);
+	
+	var _session_util2 = _interopRequireDefault(_session_util);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var browserHistory = __webpack_require__(159).browserHistory;
+	
+	var Navbar = (function (_Component) {
+	  _inherits(Navbar, _Component);
+	
+	  function Navbar(props) {
+	    _classCallCheck(this, Navbar);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Navbar).call(this, props));
+	
+	    _this.handleSignOut = _this.handleSignOut.bind(_this);
+	    _this.handleSearchClick = _this.handleSearchClick.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Navbar, [{
+	    key: 'handleSignOut',
+	    value: function handleSignOut() {
+	      _session_util2.default.destroySession();
+	    }
+	  }, {
+	    key: 'handleSearchClick',
+	    value: function handleSearchClick(beerId) {
+	
+	      var url = "/beer/" + beerId;
+	      history.pushState(null, '/beer/1');
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var profileUrl = "/user/" + this.props.currentUser.id;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'navbar' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'fixedWidth' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'navbarHeader navbarLinks' },
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { className: 'logo',
+	                to: profileUrl
+	              },
+	              _react2.default.createElement(
+	                'h1',
+	                null,
+	                'BeerisGood'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'navbarContent' },
+	            _react2.default.createElement(
+	              'ul',
+	              { className: 'navbarLinksUl' },
+	              _react2.default.createElement(
+	                'li',
+	                { className: 'navbarLinks' },
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  {
+	                    to: '/users'
+	
+	                  },
+	                  'Find Friends'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(_beer_search2.default, {
+	                  onClick: this.handleSearchClick,
+	
+	                  className: ''
+	                })
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'button',
+	                  {
+	                    className: 'btn btn-sm btn-1 signOutButton', onClick: this.handleSignOut },
+	                  'Sign Out'
+	                )
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Navbar;
+	})(_react.Component);
+	
+	exports.default = Navbar;
 
 /***/ }
 /******/ ]);

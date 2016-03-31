@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from './new_navbar';
+import Navbar from './navbar';
 import ReviewsIndex from './reviewsIndex';
 import Footer from './footer';
 import Sidebar from './user_show_sidebar';

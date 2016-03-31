@@ -1,84 +1,55 @@
-var React = require('react');
-var BeerStore = require('../stores/beer_store');
-var Select = require('react-select');
-var BeerShow = require('./beer_show');
-require('react-select/dist/react-select.css');
+import React, { Component } from 'react';
 
+import BeerSearchResults from './beer_search_results';
 
+class BeerSearch extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      term: ""
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.resetTerm = this.resetTerm.bind(this);
+  }
 
+  handleChange(e) {
+    e.preventDefault;
+    this.setState({
+      term: e.target.value
+    });
+  }
 
-var Search = React.createClass({
-  	displayName: 'search',
-  	propTypes: {
-  		label: React.PropTypes.string,
-  		searchable: React.PropTypes.bool,
-  	},
+  resetTerm() {
+    this.setState({
+      term: ""
+    });
+  }
 
-  	getDefaultProps: function () {
-  		return {
-  			label: 'values:',
-  			searchable: true,
-  		};
-  	},
+  getSearchResults() {
+    if(this.state.term) {
+      return(
+        <BeerSearchResults term={this.state.term} handleClick={this.resetTerm}/>
+      )
+    }
+  }
 
-  	getInitialState: function () {
-  		return {
-  			disabled: false,
-  			searchable: this.props.searchable,
-  			selectValue: '',
-  			clearable: true
-  		};
-  	},
+  render() {
+    return (
+      <div className="beerSearch">
+        <form className="form-group has-feedback">
+          <input
+            type="text"
+            placeholder="search for a beer"
+            value={this.state.term}
+            onChange={this.handleChange}
+            className="form-control" />
+          <i className="glyphicon glyphicon-search form-control-feedback searchIcon"></i>
 
-  	updateValue: function (beerId) {
-    
-      this.props.onClick(beerId);
+        </form>
+        {this.getSearchResults()}
+      </div>
+    );
+  }
+}
 
-  	},
-
-  	focusStateSelect: function () {
-  		this.refs.stateSelect.focus();
-  	},
-
-  	toggleCheckbox: function (e) {
-  		var newState = {};
-  		newState[e.target.name] = e.target.checked;
-  		this.setState(newState);
-  	},
-
-
-
-
-  	render: function () {
-
-      var options = [];
-      var Searchable = BeerStore.all();
-
-      Searchable.forEach(function(beer) {
-        options.push({value: beer.id, label: beer.name});
-      });
-
-  		return (
-  			<div className="section">
-
-  				<Select
-            className="select beerSearch"
-            ref="stateSelect"
-            autofocus
-            options={options}
-            simpleValue
-            clearable={this.state.clearable}
-            name="selected-state"
-            disabled={this.state.disabled}
-            value={this.state.selectValue}
-            onChange={this.updateValue}
-            searchable={this.state.searchable}
-            placeholder="Find a Beer"
-            />
-
-  			</div>
-  		);
-  	}
-  });
-
-module.exports = Search;
+export default BeerSearch;

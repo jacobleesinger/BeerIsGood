@@ -1,6 +1,6 @@
 var React = require('react');
-var UserShow = require('./new_user_show').default;
-var UserProfile = require('./new_user_profile').default;
+var UserShow = require('./user_show').default;
+var UserProfile = require('./user_profile').default;
 var CurrentUserStore = require('../stores/current_user_store');
 var UserStore = require('../stores/user_store');
 var UserPage;

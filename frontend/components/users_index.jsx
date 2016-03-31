@@ -5,7 +5,7 @@ import UserSearch from './user_search';
 import UserStore from '../stores/user_store';
 import CurrentUserStore from '../stores/current_user_store';
 import User from './user';
-import Navbar from './new_navbar';
+import Navbar from './navbar';
 import UserSearchResults from './user_search_results';
 import Footer from './footer';
 

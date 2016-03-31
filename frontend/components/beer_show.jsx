@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import ReviewsIndex from './reviewsIndex';
-import Navbar from './new_navbar';
+import Navbar from './navbar';
 import Footer from './footer';
 
 var BeerStore = require('../stores/beer_store');

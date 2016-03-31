@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReviewIndexItem from './reviewIndexItem';
-import ReviewForm from './new_review_form';
+import ReviewForm from './review_form';
 import ReviewStore from '../stores/review_store';
 
 

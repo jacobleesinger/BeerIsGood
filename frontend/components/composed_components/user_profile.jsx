@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AuthenticatedComponent from '../authenticated_component';
-import UserProfile from '../new_user_profile';
+import UserProfile from '../user_profile';
 
 export default AuthenticatedComponent(class Home extends Component {
   render() {

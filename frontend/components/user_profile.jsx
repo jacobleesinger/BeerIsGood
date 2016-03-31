@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Navbar from './new_navbar';
-// import ReviewForm from './new_review_form';
+import Navbar from './navbar';
 import ReviewsIndex from './reviewsIndex';
 import Sidebar from './user_profile_sidebar';
 import Footer from './footer';

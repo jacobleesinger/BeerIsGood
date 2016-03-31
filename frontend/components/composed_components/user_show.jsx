@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AuthenticatedComponent from '../authenticated_component';
-import UserShow from '../new_user_show';
+import UserShow from '../user_show';
 
 export default AuthenticatedComponent(class Home extends Component {
   render() {

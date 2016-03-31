@@ -7,10 +7,6 @@ import SessionUtil from '../util/session_util';
 import Footer from './footer';
 import NewUserForm from './auth/new_user';
 import NewSessionForm from'./auth/new_session';
-import Navbar from './new_navbar';
-import ReviewForm from './new_review_form';
-import ReviewsIndex from './new_reviews_index';
-import Sidebar from './user_profile_sidebar';
 
 var Page;
 var modal;

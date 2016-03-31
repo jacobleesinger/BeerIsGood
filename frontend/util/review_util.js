@@ -4,7 +4,7 @@ var ErrorActions = require('../actions/error_actions');
 var ReviewUtil = {
 
   fetchAllReviews: function() {
-    $.get('api/reviews', function (reviews) {
+    $.get('../api/reviews', function (reviews) {
       ReviewActions.receiveAllReviews(reviews);
     });
   },
@@ -39,7 +39,7 @@ var ReviewUtil = {
   updateReview: function(review) {
 
     $.ajax({
-      url: "/api/reviews/" + review.id,
+      url: "../api/reviews/" + review.id,
       type: "PATCH",
       data: { review: review },
       success: function(review) {

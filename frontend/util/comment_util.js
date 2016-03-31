@@ -3,7 +3,7 @@ var CommentActions = require('../actions/comment_actions');
 var CommentUtil = {
 
   fetchAllComments: function() {
-    $.get('api/comments', function (comments) {
+    $.get('../api/comments', function (comments) {
       CommentActions.receiveAllComments(comments);
     });
   },
@@ -17,7 +17,7 @@ var CommentUtil = {
 
    destroyComment: function(comment){
      $.ajax({
-       url: "api/comment/" + comment.id,
+       url: "../api/comment/" + comment.id,
        type: 'DELETE',
        success: function(review){
          ReviewActions.receiveSingleReview(review);

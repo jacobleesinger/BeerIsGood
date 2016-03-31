@@ -3,7 +3,7 @@ var ToastActions = require('../actions/toast_actions');
 var ToastUtil = {
 
   fetchAllToasts: function() {
-    $.get('api/toasts', function (toasts) {
+    $.get('../api/toasts', function (toasts) {
       ToastActions.receiveAllToasts(toasts);
     });
   },
@@ -17,7 +17,7 @@ var ToastUtil = {
 
    destroyToast: function(toast){
      $.ajax({
-       url: "api/toast/" + toast.id,
+       url: "../api/toast/" + toast.id,
        type: 'DELETE',
        success: function(review){
          ReviewActions.receiveSingleReview(review);

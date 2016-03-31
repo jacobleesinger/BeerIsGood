@@ -31454,14 +31454,14 @@
 	var SessionUtil = {
 	
 	  fetchCurrentUser: function fetchCurrentUser() {
-	    $.get('api/session', function (user) {
+	    $.get('../api/session', function (user) {
 	      SessionActions.receiveCurrentUser(user);
 	    });
 	  },
 	
 	  createSession: function createSession(user) {
 	    $.ajax({
-	      url: "api/session",
+	      url: "../api/session",
 	      type: "POST",
 	      data: { user: user },
 	      success: function success(user) {
@@ -31476,7 +31476,7 @@
 	
 	  destroySession: function destroySession() {
 	    $.ajax({
-	      url: "../api/session", // not sure why "api/session" doesn't work anymore
+	      url: "../api/session", // need to use ../api to reflect new routes
 	      type: 'DELETE',
 	      success: function success(user) {
 	        SessionActions.destroySession(user);
@@ -31987,7 +31987,7 @@
 	
 	  createUser: function createUser(user) {
 	    $.ajax({
-	      url: "api/users",
+	      url: "../api/users",
 	      type: "POST",
 	      data: { user: user },
 	      success: function success(user) {
@@ -32002,13 +32002,13 @@
 	  },
 	
 	  fetchSingleUser: function fetchSingleUser(user) {
-	    $.get('api/user/' + user.id, function (user) {
+	    $.get('../api/user/' + user.id, function (user) {
 	      UserActions.receiveSingleUser(user);
 	    });
 	  },
 	
 	  fetchAllUsers: function fetchAllUsers() {
-	    $.get('api/users', function (users) {
+	    $.get('../api/users', function (users) {
 	      UserActions.receiveAllUsers(users);
 	    });
 	  }
@@ -32914,7 +32914,7 @@
 	var ReviewUtil = {
 	
 	  fetchAllReviews: function fetchAllReviews() {
-	    $.get('api/reviews', function (reviews) {
+	    $.get('../api/reviews', function (reviews) {
 	      ReviewActions.receiveAllReviews(reviews);
 	    });
 	  },
@@ -32947,7 +32947,7 @@
 	  updateReview: function updateReview(review) {
 	
 	    $.ajax({
-	      url: "/api/reviews/" + review.id,
+	      url: "../api/reviews/" + review.id,
 	      type: "PATCH",
 	      data: { review: review },
 	      success: function success(review) {
@@ -33699,7 +33699,7 @@
 	var CommentUtil = {
 	
 	  fetchAllComments: function fetchAllComments() {
-	    $.get('api/comments', function (comments) {
+	    $.get('../api/comments', function (comments) {
 	      CommentActions.receiveAllComments(comments);
 	    });
 	  },
@@ -33713,7 +33713,7 @@
 	
 	  destroyComment: function destroyComment(comment) {
 	    $.ajax({
-	      url: "api/comment/" + comment.id,
+	      url: "../api/comment/" + comment.id,
 	      type: 'DELETE',
 	      success: function success(review) {
 	        ReviewActions.receiveSingleReview(review);
@@ -34057,7 +34057,7 @@
 	var ToastUtil = {
 	
 	  fetchAllToasts: function fetchAllToasts() {
-	    $.get('api/toasts', function (toasts) {
+	    $.get('../api/toasts', function (toasts) {
 	      ToastActions.receiveAllToasts(toasts);
 	    });
 	  },
@@ -34071,7 +34071,7 @@
 	
 	  destroyToast: function destroyToast(toast) {
 	    $.ajax({
-	      url: "api/toast/" + toast.id,
+	      url: "../api/toast/" + toast.id,
 	      type: 'DELETE',
 	      success: function success(review) {
 	        ReviewActions.receiveSingleReview(review);
@@ -34471,7 +34471,7 @@
 	
 	  createFriendship: function createFriendship(requestObj) {
 	
-	    $.post("api/friendships", { friendship: {
+	    $.post("../api/friendships", { friendship: {
 	        user_id: requestObj.requester_id,
 	        friend_id: requestObj.requested_id
 	      }
@@ -34479,7 +34479,7 @@
 	      FriendActions.receiveSingleFriendship(friendship);
 	    });
 	
-	    $.post("api/friendships", { friendship: {
+	    $.post("../api/friendships", { friendship: {
 	        user_id: requestObj.requested_id,
 	        friend_id: requestObj.requester_id
 	      }
@@ -34489,7 +34489,7 @@
 	  },
 	
 	  fetchAllFriendships: function fetchAllFriendships() {
-	    $.get('api/friendships', function (friendships) {
+	    $.get('../api/friendships', function (friendships) {
 	      FriendActions.receiveAllFriendships(friendships);
 	    });
 	  }
@@ -34539,7 +34539,7 @@
 	var FriendRequestUtil = {
 	
 	  createFriendRequest: function createFriendRequest(requesterId, requestedId) {
-	    $.post('api/friendrequests', { friendrequest: {
+	    $.post('../api/friendrequests', { friendrequest: {
 	        requester_id: requesterId,
 	        requested_id: requestedId
 	      }
@@ -34550,14 +34550,14 @@
 	  },
 	
 	  fetchAllFriendRequests: function fetchAllFriendRequests() {
-	    $.get('api/friendrequests', function (friendRequests) {
+	    $.get('../api/friendrequests', function (friendRequests) {
 	      FriendRequestActions.receiveAllFriendRequests(friendRequests);
 	    });
 	  },
 	
 	  destroyFriendRequest: function destroyFriendRequest(requestId) {
 	    $.ajax({
-	      url: "api/friendrequests/" + requestId,
+	      url: "../api/friendrequests/" + requestId,
 	      type: "DELETE",
 	      success: function success(friendRequests) {
 	        FriendRequestActions.receiveAllFriendRequests(friendRequests);
@@ -34609,13 +34609,13 @@
 	var BeerUtil = {
 	
 	  fetchAllBeers: function fetchAllBeers() {
-	    $.get('api/beers', function (beers) {
+	    $.get('../api/beers', function (beers) {
 	      BeerActions.receiveAllBeers(beers);
 	    });
 	  },
 	
 	  fetchSingleBeer: function fetchSingleBeer(beer) {
-	    $.get('api/beer/' + beer.id, function (beer) {
+	    $.get('../api/beer/' + beer.id, function (beer) {
 	      BeerActions.receiveSingleBeer(beer);
 	    });
 	  }

@@ -5,14 +5,14 @@ var CurrentUserActions = require('../actions/current_user_actions');
 var SessionUtil = {
 
   fetchCurrentUser: function(){
-   $.get('api/session', function(user){
+   $.get('../api/session', function(user){
      SessionActions.receiveCurrentUser(user);
    });
  },
 
  createSession: function (user) {
    $.ajax({
-     url: "api/session",
+     url: "../api/session",
      type: "POST",
      data: {user: user},
      success: function(user) {
@@ -27,7 +27,7 @@ var SessionUtil = {
 
  destroySession: function(){
    $.ajax({
-     url: "../api/session", // not sure why "api/session" doesn't work anymore
+     url: "../api/session", // need to use ../api to reflect new routes
      type: 'DELETE',
      success: function(user){
        SessionActions.destroySession(user);

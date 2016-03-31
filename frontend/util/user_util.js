@@ -7,7 +7,7 @@ var UserUtil = {
 
   createUser: function(user) {
     $.ajax({
-      url: "api/users",
+      url: "../api/users",
       type: "POST",
       data: { user: user},
       success: function (user) {
@@ -23,13 +23,13 @@ var UserUtil = {
 
 
  fetchSingleUser: function(user) {
-   $.get('api/user/' + user.id, function(user) {
+   $.get('../api/user/' + user.id, function(user) {
      UserActions.receiveSingleUser(user);
    });
  },
 
  fetchAllUsers: function() {
-   $.get('api/users', function (users) {
+   $.get('../api/users', function (users) {
      UserActions.receiveAllUsers(users);
    });
  }

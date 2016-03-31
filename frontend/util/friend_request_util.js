@@ -3,7 +3,7 @@ var FriendRequestActions = require('../actions/friend_request_actions');
 var FriendRequestUtil = {
 
   createFriendRequest: function(requesterId, requestedId) {
-    $.post('api/friendrequests',
+    $.post('../api/friendrequests',
     { friendrequest:
       {
         requester_id: requesterId,
@@ -17,14 +17,14 @@ var FriendRequestUtil = {
   },
 
   fetchAllFriendRequests: function () {
-    $.get('api/friendrequests', function(friendRequests){
+    $.get('../api/friendrequests', function(friendRequests){
       FriendRequestActions.receiveAllFriendRequests(friendRequests);
     });
   },
 
   destroyFriendRequest: function (requestId) {
     $.ajax({
-      url: "api/friendrequests/" + requestId,
+      url: "../api/friendrequests/" + requestId,
       type: "DELETE",
       success: function(friendRequests){
         FriendRequestActions.receiveAllFriendRequests(friendRequests);

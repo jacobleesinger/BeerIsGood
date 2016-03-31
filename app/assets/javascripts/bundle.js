@@ -62,43 +62,43 @@
 	
 	var _user_util2 = _interopRequireDefault(_user_util);
 	
-	var _beer_util = __webpack_require__(292);
+	var _beer_util = __webpack_require__(249);
 	
 	var _beer_util2 = _interopRequireDefault(_beer_util);
 	
-	var _review_util = __webpack_require__(260);
+	var _review_util = __webpack_require__(252);
 	
 	var _review_util2 = _interopRequireDefault(_review_util);
 	
-	var _comment_util = __webpack_require__(274);
+	var _comment_util = __webpack_require__(255);
 	
 	var _comment_util2 = _interopRequireDefault(_comment_util);
 	
-	var _toast_util = __webpack_require__(281);
+	var _toast_util = __webpack_require__(258);
 	
 	var _toast_util2 = _interopRequireDefault(_toast_util);
 	
-	var _friend_request_util = __webpack_require__(290);
+	var _friend_request_util = __webpack_require__(261);
 	
 	var _friend_request_util2 = _interopRequireDefault(_friend_request_util);
 	
-	var _friend_util = __webpack_require__(288);
+	var _friend_util = __webpack_require__(264);
 	
 	var _friend_util2 = _interopRequireDefault(_friend_util);
 	
-	var _user = __webpack_require__(294);
+	var _user = __webpack_require__(267);
 	
 	var _user2 = _interopRequireDefault(_user);
 	
-	var _beer_show = __webpack_require__(304);
+	var _beer_show = __webpack_require__(270);
 	
 	var _beer_show2 = _interopRequireDefault(_beer_show);
 	
-	var _users_index = __webpack_require__(306);
+	var _users_index = __webpack_require__(287);
 	
 	var _users_index2 = _interopRequireDefault(_users_index);
 	
-	var _createBrowserHistory = __webpack_require__(310);
+	var _createBrowserHistory = __webpack_require__(292);
 	
 	var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
 	
@@ -32136,134 +32136,25 @@
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
+	var BeerActions = __webpack_require__(250);
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var BeerUtil = {
 	
-	var _react = __webpack_require__(1);
+	  fetchAllBeers: function fetchAllBeers() {
+	    $.get('../api/beers', function (beers) {
+	      BeerActions.receiveAllBeers(beers);
+	    });
+	  },
 	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(159);
-	
-	var _new_beer_search = __webpack_require__(250);
-	
-	var _new_beer_search2 = _interopRequireDefault(_new_beer_search);
-	
-	var _session_util = __webpack_require__(235);
-	
-	var _session_util2 = _interopRequireDefault(_session_util);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var browserHistory = __webpack_require__(159).browserHistory;
-	
-	var Navbar = (function (_Component) {
-	  _inherits(Navbar, _Component);
-	
-	  function Navbar(props) {
-	    _classCallCheck(this, Navbar);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Navbar).call(this, props));
-	
-	    _this.handleSignOut = _this.handleSignOut.bind(_this);
-	    _this.handleSearchClick = _this.handleSearchClick.bind(_this);
-	    return _this;
+	  fetchSingleBeer: function fetchSingleBeer(beer) {
+	    $.get('../api/beer/' + beer.id, function (beer) {
+	      BeerActions.receiveSingleBeer(beer);
+	    });
 	  }
 	
-	  _createClass(Navbar, [{
-	    key: 'handleSignOut',
-	    value: function handleSignOut() {
-	      _session_util2.default.destroySession();
-	    }
-	  }, {
-	    key: 'handleSearchClick',
-	    value: function handleSearchClick(beerId) {
+	};
 	
-	      var url = "/beer/" + beerId;
-	      history.pushState(null, '/beer/1');
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var profileUrl = "/user/" + this.props.currentUser.id;
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'navbar' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'fixedWidth' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'navbarHeader navbarLinks' },
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { className: 'logo',
-	                to: profileUrl
-	              },
-	              _react2.default.createElement(
-	                'h1',
-	                null,
-	                'BeerisGood'
-	              )
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'navbarContent' },
-	            _react2.default.createElement(
-	              'ul',
-	              { className: 'navbarLinksUl' },
-	              _react2.default.createElement(
-	                'li',
-	                { className: 'navbarLinks' },
-	                _react2.default.createElement(
-	                  _reactRouter.Link,
-	                  {
-	                    to: '/usersindex'
-	
-	                  },
-	                  'Find Friends'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(_new_beer_search2.default, {
-	                  onClick: this.handleSearchClick,
-	
-	                  className: ''
-	                })
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(
-	                  'button',
-	                  {
-	                    className: 'btn btn-sm btn-1 signOutButton', onClick: this.handleSignOut },
-	                  'Sign Out'
-	                )
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return Navbar;
-	})(_react.Component);
-	
-	exports.default = Navbar;
+	module.exports = BeerUtil;
 
 /***/ },
 /* 250 */
@@ -32271,247 +32162,32 @@
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
+	var Dispatcher = __webpack_require__(227);
+	var BeerConstants = __webpack_require__(251);
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var BeerActions = {
 	
-	var _react = __webpack_require__(1);
+	  receiveAllBeers: function receiveAllBeers(beers) {
+	    Dispatcher.dispatch({
+	      actionType: BeerConstants.BEERS_RECEIVED,
+	      beers: beers
+	    });
+	  },
 	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _beer_search_results = __webpack_require__(251);
-	
-	var _beer_search_results2 = _interopRequireDefault(_beer_search_results);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var BeerSearch = (function (_Component) {
-	  _inherits(BeerSearch, _Component);
-	
-	  function BeerSearch(props) {
-	    _classCallCheck(this, BeerSearch);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerSearch).call(this, props));
-	
-	    _this.state = {
-	      term: ""
+	  receiveSingleBeer: function receiveSingleBeer(beer) {
+	    var action = {
+	      actionType: BeerConstants.BEER_RECEIVED,
+	      beer: beer
 	    };
-	    _this.handleChange = _this.handleChange.bind(_this);
-	    _this.resetTerm = _this.resetTerm.bind(_this);
-	    return _this;
+	    Dispatcher.dispatch(action);
 	  }
 	
-	  _createClass(BeerSearch, [{
-	    key: 'handleChange',
-	    value: function handleChange(e) {
-	      e.preventDefault;
-	      this.setState({
-	        term: e.target.value
-	      });
-	    }
-	  }, {
-	    key: 'resetTerm',
-	    value: function resetTerm() {
-	      this.setState({
-	        term: ""
-	      });
-	    }
-	  }, {
-	    key: 'getSearchResults',
-	    value: function getSearchResults() {
-	      if (this.state.term) {
-	        return _react2.default.createElement(_beer_search_results2.default, { term: this.state.term, handleClick: this.resetTerm });
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'beerSearch' },
-	        _react2.default.createElement(
-	          'form',
-	          { className: 'form-group has-feedback' },
-	          _react2.default.createElement('input', {
-	            type: 'text',
-	            placeholder: 'search for a beer',
-	            value: this.state.term,
-	            onChange: this.handleChange,
-	            className: 'form-control' }),
-	          _react2.default.createElement('i', { className: 'glyphicon glyphicon-search form-control-feedback searchIcon' })
-	        ),
-	        this.getSearchResults()
-	      );
-	    }
-	  }]);
+	};
 	
-	  return BeerSearch;
-	})(_react.Component);
-	
-	exports.default = BeerSearch;
+	module.exports = BeerActions;
 
 /***/ },
 /* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(159);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var BeerStore = __webpack_require__(252);
-	
-	var BeerSearchResults = (function (_Component) {
-	  _inherits(BeerSearchResults, _Component);
-	
-	  function BeerSearchResults(props) {
-	    _classCallCheck(this, BeerSearchResults);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerSearchResults).call(this, props));
-	
-	    _this.state = {
-	      beers: []
-	    };
-	    _this.renderBeers = _this.renderBeers.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(BeerSearchResults, [{
-	    key: 'renderBeers',
-	    value: function renderBeers() {
-	      var _this2 = this;
-	
-	      var term = this.props.term;
-	
-	      var beers = BeerStore.filterBySearchTerm(term);
-	
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'beerSearchResults' },
-	        beers.map(function (beer) {
-	          var url = "/beer/" + beer.id;
-	          return _react2.default.createElement(
-	            _reactRouter.Link,
-	            {
-	              to: url,
-	              key: beer.id,
-	              params: { id: beer.id },
-	              ref: beer.id
-	            },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'beerSearchResultItem', onClick: _this2.props.handleClick },
-	              beer.name
-	            )
-	          );
-	        }, this)
-	      );
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        this.renderBeers()
-	      );
-	    }
-	  }]);
-	
-	  return BeerSearchResults;
-	})(_react.Component);
-	
-	exports.default = BeerSearchResults;
-
-/***/ },
-/* 252 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Store = __webpack_require__(210).Store;
-	var AppDispatcher = __webpack_require__(227);
-	var BeerConstants = __webpack_require__(253);
-	
-	var _beers = {};
-	
-	var BeerStore = new Store(AppDispatcher);
-	
-	var addAllBeers = function addAllBeers(beers) {
-	  beers.forEach(function (beer) {
-	    _beers[beer.id] = beer;
-	  });
-	};
-	
-	var addSingleBeer = function addSingleBeer(beer) {
-	  _beers[beer.id] = beer;
-	};
-	
-	BeerStore.all = function () {
-	  var beers = [];
-	  for (var key in _beers) {
-	    if (_beers.hasOwnProperty(key)) {
-	      beers.push(_beers[key]);
-	    }
-	  }
-	  return beers;
-	};
-	
-	BeerStore.filterBySearchTerm = function (term) {
-	  return this.all().filter(function (beer) {
-	
-	    return beer.name.toLowerCase().match(term.toLowerCase());
-	  });
-	};
-	
-	BeerStore.find = function (beerId) {
-	  return _beers[beerId];
-	};
-	
-	BeerStore.__onDispatch = function (payload) {
-	
-	  switch (payload.actionType) {
-	    case BeerConstants.BEERS_RECEIVED:
-	      addAllBeers(payload.beers);
-	      BeerStore.__emitChange();
-	      break;
-	    case BeerConstants.BEER_RECEIVED:
-	      addSingleBeer(payload.beer);
-	      BeerStore.__emitChange();
-	      break;
-	
-	  };
-	};
-	
-	module.exports = BeerStore;
-
-/***/ },
-/* 253 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -32524,375 +32200,12 @@
 	module.exports = BeerConstants;
 
 /***/ },
-/* 254 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactLinkState = __webpack_require__(255);
-	
-	var _reactLinkState2 = _interopRequireDefault(_reactLinkState);
-	
-	var _beer_store = __webpack_require__(252);
-	
-	var _beer_store2 = _interopRequireDefault(_beer_store);
-	
-	var _review_store = __webpack_require__(258);
-	
-	var _review_store2 = _interopRequireDefault(_review_store);
-	
-	var _review_util = __webpack_require__(260);
-	
-	var _review_util2 = _interopRequireDefault(_review_util);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var ReviewForm = (function (_Component) {
-	  _inherits(ReviewForm, _Component);
-	
-	  function ReviewForm(props) {
-	    _classCallCheck(this, ReviewForm);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReviewForm).call(this, props));
-	
-	    if (_this.props.beer) {
-	      _this.state = {
-	        beers: [],
-	        beer_id: _this.props.beer.id,
-	        body: "",
-	        rating: 0,
-	        author_id: props.currentUser.id
-	      };
-	    } else {
-	      _this.state = {
-	        beers: _beer_store2.default.all(),
-	        beer_id: 0,
-	        body: "",
-	        rating: 0,
-	        author_id: props.currentUser.id
-	      };
-	    }
-	    _this.handleBeerChange = _this.handleBeerChange.bind(_this);
-	    _this.handleRatingChange = _this.handleRatingChange.bind(_this);
-	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(ReviewForm, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.beerToken = _beer_store2.default.addListener(this.onBeerChange);
-	      this.reviewToken = _review_store2.default.addListener(this.onReviewChange);
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      this.beerToken.remove();
-	      this.reviewToken.remove();
-	    }
-	  }, {
-	    key: 'handleBeerChange',
-	    value: function handleBeerChange(e) {
-	      this.setState({
-	        beer_id: e.target.value
-	      });
-	    }
-	  }, {
-	    key: 'handleRatingChange',
-	    value: function handleRatingChange(e) {
-	      this.setState({
-	        rating: e.target.value
-	      });
-	    }
-	  }, {
-	    key: 'handleSubmit',
-	    value: function handleSubmit(e) {
-	      e.preventDefault();
-	      _review_util2.default.createReview({
-	        beer_id: parseInt(this.state.beer_id),
-	        author_id: this.state.author_id,
-	        body: this.state.body,
-	        rating: parseInt(this.state.rating)
-	
-	      });
-	      this.props.onClick();
-	    }
-	  }, {
-	    key: 'renderSelect',
-	    value: function renderSelect() {
-	      if (this.props.beer) {
-	        return _react2.default.createElement('div', null);
-	      } else {
-	        return _react2.default.createElement(
-	          'label',
-	          { htmlFor: 'reviewBeer' },
-	          'What are you drinking?',
-	          _react2.default.createElement(
-	            'select',
-	            { value: this.state.beer_id, onChange: this.handleBeerChange },
-	            _react2.default.createElement('option', { value: '0', key: '0' }),
-	            this.state.beers.map((function (beer) {
-	              return _react2.default.createElement(
-	                'option',
-	                { value: beer.id, key: beer.id },
-	                beer.name
-	              );
-	            }).bind(this))
-	          )
-	        );
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'form',
-	        { className: 'form-group reviewForm', onSubmit: this.handleSubmit },
-	        this.renderSelect(),
-	        _react2.default.createElement(
-	          'label',
-	          { htmlFor: 'reviewBody' },
-	          'What do you think?'
-	        ),
-	        _react2.default.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: (0, _reactLinkState2.default)(this, 'body') }),
-	        _react2.default.createElement(
-	          'label',
-	          { className: 'reviewFormItem', htmlFor: 'reviewRating' },
-	          'Rate it!'
-	        ),
-	        _react2.default.createElement(
-	          'select',
-	          { className: 'reviewFormItem', onChange: this.handleRatingChange },
-	          _react2.default.createElement(
-	            'option',
-	            { value: '0' },
-	            'rate beer'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            { value: '1' },
-	            '1'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            { value: '2' },
-	            '2'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            { value: '3' },
-	            '3'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            { value: '4' },
-	            '4'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            { value: '5' },
-	            '5'
-	          )
-	        ),
-	        _react2.default.createElement('input', { className: 'btn btn-2 reviewFormItem addReviewButton', type: 'submit', value: 'Add your review!' })
-	      );
-	    }
-	  }]);
-	
-	  return ReviewForm;
-	})(_react.Component);
-	
-	exports.default = ReviewForm;
-
-/***/ },
-/* 255 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var getIn = __webpack_require__(256);
-	var updateIn = __webpack_require__(257);
-	
-	/**
-	 * Extracted the linkedState implementation to its own function (instead of a mixin)
-	 *
-	 * @params {ReactElement} ctx The component's `this`
-	 * @params {str} path State key to be updated
-	 * @return {object}
-	 */
-	module.exports = function linkState(ctx, path) {
-	  return {
-	    value: getIn(ctx.state, path),
-	
-	    requestChange: function setPartialState(value) {
-	      ctx.setState(updateIn(
-	        ctx.state,
-	        path,
-	        value
-	      ));
-	    }
-	  };
-	}
-
-
-/***/ },
-/* 256 */
-/***/ function(module, exports) {
-
-	/**
-	 * Originally from:
-	 * https://github.com/tungd/react-catalyst/blob/master/src/catalyst/LinkedStateMixin.js
-	 *
-	 * @param {object}
-	 * @param {string}
-	 * @return {object}
-	 */
-	module.exports = function getIn(obj, path) {
-	  var stack = path.split('.');
-	
-	  while ( stack.length ) {
-	    obj = obj[stack.shift()];
-	  }
-	
-	  return obj;
-	}
-
-
-/***/ },
-/* 257 */
-/***/ function(module, exports) {
-
-	/**
-	 * Originally from:
-	 * https://github.com/tungd/react-catalyst/blob/master/src/catalyst/LinkedStateMixin.js
-	 *
-	 * @param {object}
-	 * @param {string}
-	 * @param {any}
-	 * @return {object}
-	 */
-	module.exports = function updateIn(obj, path, value) {
-	  var current = obj;
-	  var stack = path.split('.');
-	
-	  while ( stack.length > 1 ) {
-	    current = current[stack.shift()];
-	  }
-	  current[stack.shift()] = value;
-	
-	  return obj;
-	}
-
-
-/***/ },
-/* 258 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Store = __webpack_require__(210).Store;
-	var AppDispatcher = __webpack_require__(227);
-	var ReviewConstants = __webpack_require__(259);
-	
-	var _reviews = {};
-	
-	var ReviewStore = new Store(AppDispatcher);
-	
-	var addAllReviews = function addAllReviews(reviews) {
-	  reviews.forEach(function (review) {
-	    _reviews[review.id] = review;
-	  });
-	};
-	
-	var addSingleReview = function addSingleReview(review) {
-	
-	  _reviews[review.id] = review;
-	};
-	
-	var resetReviews = function resetReviews() {
-	  _reviews = [];
-	};
-	
-	ReviewStore.all = function () {
-	  var reviews = [];
-	  for (var key in _reviews) {
-	    if (_reviews.hasOwnProperty(key)) {
-	      reviews.push(_reviews[key]);
-	    }
-	  }
-	  return reviews.reverse();
-	};
-	
-	ReviewStore.filterReviewsByUserId = function (userId) {
-	  return this.all().filter(function (review) {
-	    return review.author_id === userId;
-	  });
-	};
-	
-	ReviewStore.filterReviewsByBeerId = function (beerId) {
-	  return this.all().filter(function (review) {
-	    return review.beer_id === beerId;
-	  });
-	};
-	
-	ReviewStore.findById = function (id) {
-	  return this.all().filter(function (review) {
-	    return review.id === id;
-	  });
-	};
-	
-	ReviewStore.__onDispatch = function (payload) {
-	
-	  switch (payload.actionType) {
-	    case ReviewConstants.REVIEWS_RECEIVED:
-	      resetReviews();
-	      addAllReviews(payload.reviews);
-	      ReviewStore.__emitChange();
-	      break;
-	    case ReviewConstants.REVIEW_RECEIVED:
-	      addSingleReview(payload.review);
-	      ReviewStore.__emitChange();
-	      break;
-	
-	  };
-	};
-	
-	module.exports = ReviewStore;
-
-/***/ },
-/* 259 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var ReviewConstants = {
-	  REVIEW_RECEIVED: "REVIEW_RECEIVED",
-	  REVIEWS_RECEIVED: "REVIEWS_RECEIVED"
-	};
-	
-	module.exports = ReviewConstants;
-
-/***/ },
-/* 260 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var ReviewActions = __webpack_require__(261);
+	var ReviewActions = __webpack_require__(253);
 	var ErrorActions = __webpack_require__(237);
 	
 	var ReviewUtil = {
@@ -32946,13 +32259,13 @@
 	module.exports = ReviewUtil;
 
 /***/ },
-/* 261 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var Dispatcher = __webpack_require__(227);
-	var ReviewConstants = __webpack_require__(259);
+	var ReviewConstants = __webpack_require__(254);
 	
 	var ReviewActions = {
 	
@@ -32977,202 +32290,25 @@
 	module.exports = ReviewActions;
 
 /***/ },
-/* 262 */,
-/* 263 */,
-/* 264 */,
-/* 265 */,
-/* 266 */,
-/* 267 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Store = __webpack_require__(210).Store;
-	var AppDispatcher = __webpack_require__(227);
-	var UserConstants = __webpack_require__(247);
-	
-	var UserStore = new Store(AppDispatcher);
-	
-	var _users = {};
-	var userErrors = [];
-	
-	UserStore.userErrors = function () {
-	  return userErrors;
-	};
-	
-	UserStore.findById = function (id) {
-	  return _users[id];
-	};
-	
-	var addSingleUser = function addSingleUser(user) {
-	  _users[user.id] = user;
-	};
-	
-	var addAllUsers = function addAllUsers(users) {
-	  users.forEach(function (user) {
-	    _users[user.id] = user;
-	  });
-	};
-	
-	var resetErrors = function resetErrors() {
-	  userErrors = [];
-	};
-	
-	var addUserErrors = function addUserErrors(errors) {
-	  userErrors = errors;
-	};
-	
-	UserStore.all = function () {
-	  var users = [];
-	  for (var key in _users) {
-	    if (_users.hasOwnProperty(key)) {
-	      users.push(_users[key]);
-	    }
-	  }
-	  return users;
-	};
-	
-	UserStore.filterBySearchTerm = function (term) {
-	  return this.all().filter(function (user) {
-	
-	    return user.username.toLowerCase().match(term.toLowerCase());
-	  });
-	};
-	
-	UserStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case UserConstants.USER_RECEIVED:
-	      addSingleUser(payload.user);
-	      UserStore.__emitChange();
-	      break;
-	    case UserConstants.USERS_RECEIVED:
-	
-	      addAllUsers(payload.users);
-	      UserStore.__emitChange();
-	      break;
-	    case UserConstants.SESSION_DESTROYED:
-	      resetUser();
-	      resetSession();
-	      resetErrors();
-	      UserStore.__emitChange();
-	      break;
-	    case UserConstants.SESSION_CREATED:
-	      addSingleUser(payload.user);
-	      UserStore.__emitChange();
-	      break;
-	    case UserConstants.SESSION_ERRORS:
-	      resetErrors();
-	      addSessionErrors(payload.errors);
-	      UserStore.__emitChange();
-	      break;
-	    case UserConstants.USER_ERRORS:
-	      resetErrors();
-	      addUserErrors(payload.errors);
-	      UserStore.__emitChange();
-	      break;
-	  };
-	};
-	
-	module.exports = UserStore;
-
-/***/ },
-/* 268 */,
-/* 269 */,
-/* 270 */,
-/* 271 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Store = __webpack_require__(210).Store;
-	var AppDispatcher = __webpack_require__(227);
-	var ToastConstants = __webpack_require__(272);
-	
-	var _toasts = {};
-	
-	var ToastStore = new Store(AppDispatcher);
-	
-	var addAllToasts = function addAllToasts(toasts) {
-	  toasts.forEach(function (toast) {
-	    _toasts[toast.id] = toast;
-	  });
-	};
-	
-	var addSingleToast = function addSingleToast(toast) {
-	
-	  _toasts[toast.id] = toast;
-	};
-	
-	ToastStore.all = function () {
-	  var toasts = [];
-	  for (var key in _toasts) {
-	    if (_toasts.hasOwnProperty(key)) {
-	      toasts.push(_toasts[key]);
-	    }
-	  }
-	  return toasts;
-	};
-	
-	ToastStore.find = function (toastId) {
-	  return _toasts[toastId];
-	};
-	
-	ToastStore.filterToastsByReviewId = function (reviewId) {
-	  return this.all().filter(function (toast) {
-	    return toast.review_id === reviewId;
-	  });
-	};
-	
-	ToastStore.filterToastsByUserId = function (userId) {
-	  return this.all().filter(function (toast) {
-	    return toast.user_id === userId;
-	  });
-	};
-	
-	ToastStore.userHasToasted = function (userId, reviewId) {
-	  return this.all().filter(function (toast) {
-	    return toast.user_id === userId && toast.review_id === reviewId;
-	  }).length > 0;
-	};
-	
-	ToastStore.__onDispatch = function (payload) {
-	
-	  switch (payload.actionType) {
-	    case ToastConstants.TOASTS_RECEIVED:
-	      addAllToasts(payload.toasts);
-	      ToastStore.__emitChange();
-	      break;
-	    case ToastConstants.TOAST_RECEIVED:
-	      addSingleToast(payload.toast);
-	      ToastStore.__emitChange();
-	      break;
-	
-	  };
-	};
-	
-	module.exports = ToastStore;
-
-/***/ },
-/* 272 */
+/* 254 */
 /***/ function(module, exports) {
 
 	"use strict";
 	
-	var ToastConstants = {
-	  TOAST_RECEIVED: "TOAST_RECEIVED",
-	  TOASTS_RECEIVED: "TOASTS_RECEIVED"
+	var ReviewConstants = {
+	  REVIEW_RECEIVED: "REVIEW_RECEIVED",
+	  REVIEWS_RECEIVED: "REVIEWS_RECEIVED"
 	};
 	
-	module.exports = ToastConstants;
+	module.exports = ReviewConstants;
 
 /***/ },
-/* 273 */,
-/* 274 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var CommentActions = __webpack_require__(275);
+	var CommentActions = __webpack_require__(256);
 	
 	var CommentUtil = {
 	
@@ -33204,13 +32340,13 @@
 	module.exports = CommentUtil;
 
 /***/ },
-/* 275 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var Dispatcher = __webpack_require__(227);
-	var CommentConstants = __webpack_require__(276);
+	var CommentConstants = __webpack_require__(257);
 	
 	var CommentActions = {
 	
@@ -33235,7 +32371,7 @@
 	module.exports = CommentActions;
 
 /***/ },
-/* 276 */
+/* 257 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -33248,75 +32384,12 @@
 	module.exports = CommentConstants;
 
 /***/ },
-/* 277 */,
-/* 278 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var Store = __webpack_require__(210).Store;
-	var AppDispatcher = __webpack_require__(227);
-	var CommentConstants = __webpack_require__(276);
-	
-	var _comments = {};
-	
-	var CommentStore = new Store(AppDispatcher);
-	
-	var addAllComments = function addAllComments(comments) {
-	  comments.forEach(function (comment) {
-	    _comments[comment.id] = comment;
-	  });
-	};
-	
-	var addSingleComment = function addSingleComment(comment) {
-	  _comments[comment.id] = comment;
-	};
-	
-	CommentStore.all = function () {
-	  var comments = [];
-	  for (var key in _comments) {
-	    if (_comments.hasOwnProperty(key)) {
-	      comments.push(_comments[key]);
-	    }
-	  }
-	  return comments;
-	};
-	
-	CommentStore.find = function (commentId) {
-	  return _comments[commentId];
-	};
-	
-	CommentStore.filterCommentsByReviewId = function (reviewId) {
-	  return this.all().filter(function (comment) {
-	    return comment.review_id === reviewId;
-	  });
-	};
-	
-	CommentStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case CommentConstants.COMMENTS_RECEIVED:
-	      addAllComments(payload.comments);
-	      CommentStore.__emitChange();
-	      break;
-	    case CommentConstants.COMMENT_RECEIVED:
-	      addSingleComment(payload.comment);
-	      CommentStore.__emitChange();
-	      break;
-	
-	  };
-	};
-	
-	module.exports = CommentStore;
-
-/***/ },
-/* 279 */,
-/* 280 */,
-/* 281 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var ToastActions = __webpack_require__(282);
+	var ToastActions = __webpack_require__(259);
 	
 	var ToastUtil = {
 	
@@ -33348,13 +32421,13 @@
 	module.exports = ToastUtil;
 
 /***/ },
-/* 282 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var Dispatcher = __webpack_require__(227);
-	var ToastConstants = __webpack_require__(272);
+	var ToastConstants = __webpack_require__(260);
 	
 	var ToastActions = {
 	
@@ -33378,427 +32451,25 @@
 	module.exports = ToastActions;
 
 /***/ },
-/* 283 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _review_store = __webpack_require__(258);
-	
-	var _review_store2 = _interopRequireDefault(_review_store);
-	
-	var _friend_store = __webpack_require__(284);
-	
-	var _friend_store2 = _interopRequireDefault(_friend_store);
-	
-	var _friend_request_store = __webpack_require__(286);
-	
-	var _friend_request_store2 = _interopRequireDefault(_friend_request_store);
-	
-	var _user_store = __webpack_require__(267);
-	
-	var _user_store2 = _interopRequireDefault(_user_store);
-	
-	var _friend_util = __webpack_require__(288);
-	
-	var _friend_util2 = _interopRequireDefault(_friend_util);
-	
-	var _friend_request_util = __webpack_require__(290);
-	
-	var _friend_request_util2 = _interopRequireDefault(_friend_request_util);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Sidebar = (function (_Component) {
-	  _inherits(Sidebar, _Component);
-	
-	  function Sidebar(props) {
-	    _classCallCheck(this, Sidebar);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Sidebar).call(this, props));
-	
-	    _this.state = {
-	      friendRequests: _friend_request_store2.default.filterRequestsByRequestedId(_this.props.currentUser.id)
-	    };
-	    _this._onChange = _this._onChange.bind(_this);
-	    _this.handleConfirm = _this.handleConfirm.bind(_this);
-	    _this.handleDeny = _this.handleDeny.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(Sidebar, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.requestToken = _friend_request_store2.default.addListener(this._onChange);
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      this.requestToken.remove();
-	    }
-	  }, {
-	    key: '_onChange',
-	    value: function _onChange() {
-	      this.setState({
-	        friendRequests: _friend_request_store2.default.filterRequestsByRequestedId(this.props.currentUser.id)
-	      });
-	    }
-	  }, {
-	    key: 'getFriendRequests',
-	    value: function getFriendRequests() {
-	      var requests = this.state.friendRequests;
-	      return requests.map((function (request) {
-	
-	        return _react2.default.createElement(
-	          'div',
-	          { className: '', key: request.id, request: request },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'friendRequestNotifcation' },
-	            _user_store2.default.findById(request.requester_id).username,
-	            ' wants to be your friend!'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'friendApproveButtons' },
-	            _react2.default.createElement(
-	              'button',
-	              { className: 'btn btn-sm btn-2 friendApproveButton',
-	                onClick: this.handleConfirm.bind(this, request) },
-	              'Confirm'
-	            ),
-	            _react2.default.createElement(
-	              'button',
-	              { className: 'btn btn-sm btn-3 friendApproveButton',
-	                onClick: this.handleDeny.bind(this, request) },
-	              'Deny'
-	            )
-	          )
-	        );
-	      }).bind(this));
-	    }
-	  }, {
-	    key: 'handleConfirm',
-	    value: function handleConfirm(request) {
-	      _friend_util2.default.createFriendship(request);
-	      _friend_request_util2.default.destroyFriendRequest(request.id);
-	    }
-	  }, {
-	    key: 'handleDeny',
-	    value: function handleDeny(request) {
-	      _friend_request_util2.default.destroyFriendRequest(request.id);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'userSidebar col-md-4 col-md-offset-1' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'userSidebarElement' },
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            'Pending Requests: ',
-	            this.state.friendRequests.length
-	          ),
-	          this.getFriendRequests()
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'userSidebarElement' },
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            'My Stats'
-	          ),
-	          'Reviews: ',
-	          _review_store2.default.filterReviewsByUserId(this.props.currentUser.id).length,
-	          _react2.default.createElement('br', null),
-	          'Friends: ',
-	          _friend_store2.default.filterFriendshipsByUserId(this.props.currentUser.id).length
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return Sidebar;
-	})(_react.Component);
-	
-	exports.default = Sidebar;
-
-/***/ },
-/* 284 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Store = __webpack_require__(210).Store;
-	var AppDispatcher = __webpack_require__(227);
-	var FriendConstants = __webpack_require__(285);
-	
-	var _friendships = {};
-	
-	var FriendStore = new Store(AppDispatcher);
-	
-	var addSingleFriendship = function addSingleFriendship(friendship) {
-	
-	  _friendships[friendship.id] = friendship;
-	};
-	
-	var addAllFriendships = function addAllFriendships(friendships) {
-	  _friendships = {};
-	  friendships.forEach(function (friendship) {
-	    _friendships[friendship.id] = friendship;
-	  });
-	};
-	
-	FriendStore.all = function () {
-	  var friendships = [];
-	  for (var key in _friendships) {
-	    if (_friendships.hasOwnProperty(key)) {
-	      friendships.push(_friendships[key]);
-	    }
-	  }
-	  return friendships;
-	};
-	
-	FriendStore.findById = function (friendshipId) {
-	  return _requests[friendshipId];
-	};
-	
-	FriendStore.filterFriendshipsByUserId = function (userId) {
-	  return this.all().filter(function (friendship) {
-	    return friendship.user_id === userId;
-	  });
-	};
-	
-	FriendStore.filterFriendshipsByFriendId = function (friendId) {
-	  return this.all().filter(function (friendship) {
-	    return friendship.friend_id === friendId;
-	  });
-	};
-	
-	FriendStore.getFriendshipStatus = function (userId, friendId) {
-	
-	  var status = false;
-	  var friendships = FriendStore.filterFriendshipsByUserId(userId);
-	  friendships.forEach(function (friendship) {
-	    if (friendship.friend_id === friendId) {
-	      status = true;
-	    }
-	  });
-	  return status;
-	};
-	
-	FriendStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case FriendConstants.FRIENDSHIP_RECEIVED:
-	      addSingleFriendship(payload.friendship);
-	      FriendStore.__emitChange();
-	      break;
-	    case FriendConstants.FRIENDSHIPS_RECEIVED:
-	      addAllFriendships(payload.friendships);
-	      FriendStore.__emitChange();
-	      break;
-	
-	  }
-	};
-	
-	module.exports = FriendStore;
-
-/***/ },
-/* 285 */
+/* 260 */
 /***/ function(module, exports) {
 
 	"use strict";
 	
-	var FriendConstants = {
-	  FRIENDSHIP_RECEIVED: "FRIENDSHIP_RECEIVED",
-	  FRIENDSHIPS_RECEIVED: "FRIENDSHIPS_RECEIVED"
+	var ToastConstants = {
+	  TOAST_RECEIVED: "TOAST_RECEIVED",
+	  TOASTS_RECEIVED: "TOASTS_RECEIVED"
 	};
 	
-	module.exports = FriendConstants;
+	module.exports = ToastConstants;
 
 /***/ },
-/* 286 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var Store = __webpack_require__(210).Store;
-	var AppDispatcher = __webpack_require__(227);
-	var FriendRequestConstants = __webpack_require__(287);
-	
-	var _requests = {};
-	
-	var FriendRequestStore = new Store(AppDispatcher);
-	
-	var addSingleFriendRequest = function addSingleFriendRequest(request) {
-	
-	  _requests[request.id] = request;
-	};
-	
-	var addAllFriendRequests = function addAllFriendRequests(requests) {
-	  _requests = {};
-	  requests.forEach(function (request) {
-	    _requests[request.id] = request;
-	  });
-	};
-	
-	FriendRequestStore.all = function () {
-	  var requests = [];
-	  for (var request in _requests) {
-	    if (_requests.hasOwnProperty(request)) {
-	      requests.push(_requests[request]);
-	    }
-	  }
-	  return requests;
-	};
-	
-	FriendRequestStore.findById = function (requestId) {
-	  return _requests[requestId];
-	};
-	
-	FriendRequestStore.filterRequestsByRequestedId = function (requestedId) {
-	  return this.all().filter(function (request) {
-	    return request.requested_id === requestedId;
-	  });
-	};
-	
-	FriendRequestStore.getRequestStatus = function (requesterId, requestedId) {
-	  var status = false;
-	  var requests = FriendRequestStore.filterRequestsByRequestedId(requestedId);
-	  requests.forEach(function (request) {
-	    if (request.requester_id === requesterId) {
-	      status = true;
-	    }
-	  });
-	  return status;
-	};
-	
-	FriendRequestStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case FriendRequestConstants.REQUEST_RECEIVED:
-	      addSingleFriendRequest(payload.request);
-	      FriendRequestStore.__emitChange();
-	      break;
-	    case FriendRequestConstants.REQUESTS_RECEIVED:
-	      addAllFriendRequests(payload.requests);
-	      FriendRequestStore.__emitChange();
-	      break;
-	
-	  }
-	};
-	
-	module.exports = FriendRequestStore;
-
-/***/ },
-/* 287 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var FriendRequestConstants = {
-	  REQUEST_RECEIVED: "REQUEST_RECEIVED",
-	  REQUESTS_RECEIVED: "REQUESTS_RECEIVED"
-	};
-	
-	module.exports = FriendRequestConstants;
-
-/***/ },
-/* 288 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var FriendActions = __webpack_require__(289);
-	
-	var FriendUtil = {
-	
-	  createFriendship: function createFriendship(requestObj) {
-	
-	    $.post("../api/friendships", { friendship: {
-	        user_id: requestObj.requester_id,
-	        friend_id: requestObj.requested_id
-	      }
-	    }, function (friendship) {
-	      FriendActions.receiveSingleFriendship(friendship);
-	    });
-	
-	    $.post("../api/friendships", { friendship: {
-	        user_id: requestObj.requested_id,
-	        friend_id: requestObj.requester_id
-	      }
-	    }, function (friendship) {
-	      FriendActions.receiveSingleFriendship(friendship);
-	    });
-	  },
-	
-	  fetchAllFriendships: function fetchAllFriendships() {
-	    $.get('../api/friendships', function (friendships) {
-	      FriendActions.receiveAllFriendships(friendships);
-	    });
-	  }
-	
-	};
-	
-	module.exports = FriendUtil;
-
-/***/ },
-/* 289 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Dispatcher = __webpack_require__(227);
-	var FriendConstants = __webpack_require__(285);
-	
-	var FriendActions = {
-	
-	  receiveSingleFriendship: function receiveSingleFriendship(friendship) {
-	
-	    Dispatcher.dispatch({
-	      actionType: FriendConstants.FRIENDSHIP_RECEIVED,
-	      friendship: friendship
-	    });
-	  },
-	
-	  receiveAllFriendships: function receiveAllFriendships(friendships) {
-	
-	    Dispatcher.dispatch({
-	      actionType: FriendConstants.FRIENDSHIPS_RECEIVED,
-	      friendships: friendships
-	    });
-	  }
-	};
-	
-	module.exports = FriendActions;
-
-/***/ },
-/* 290 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var FriendRequestActions = __webpack_require__(291);
+	var FriendRequestActions = __webpack_require__(262);
 	
 	var FriendRequestUtil = {
 	
@@ -33833,13 +32504,13 @@
 	module.exports = FriendRequestUtil;
 
 /***/ },
-/* 291 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var Dispatcher = __webpack_require__(227);
-	var FriendRequestConstants = __webpack_require__(287);
+	var FriendRequestConstants = __webpack_require__(263);
 	
 	var FriendRequestActions = {
 	
@@ -33863,63 +32534,102 @@
 	module.exports = FriendRequestActions;
 
 /***/ },
-/* 292 */
+/* 263 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var FriendRequestConstants = {
+	  REQUEST_RECEIVED: "REQUEST_RECEIVED",
+	  REQUESTS_RECEIVED: "REQUESTS_RECEIVED"
+	};
+	
+	module.exports = FriendRequestConstants;
+
+/***/ },
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
-	var BeerActions = __webpack_require__(293);
+	var FriendActions = __webpack_require__(265);
 	
-	var BeerUtil = {
+	var FriendUtil = {
 	
-	  fetchAllBeers: function fetchAllBeers() {
-	    $.get('../api/beers', function (beers) {
-	      BeerActions.receiveAllBeers(beers);
+	  createFriendship: function createFriendship(requestObj) {
+	
+	    $.post("../api/friendships", { friendship: {
+	        user_id: requestObj.requester_id,
+	        friend_id: requestObj.requested_id
+	      }
+	    }, function (friendship) {
+	      FriendActions.receiveSingleFriendship(friendship);
+	    });
+	
+	    $.post("../api/friendships", { friendship: {
+	        user_id: requestObj.requested_id,
+	        friend_id: requestObj.requester_id
+	      }
+	    }, function (friendship) {
+	      FriendActions.receiveSingleFriendship(friendship);
 	    });
 	  },
 	
-	  fetchSingleBeer: function fetchSingleBeer(beer) {
-	    $.get('../api/beer/' + beer.id, function (beer) {
-	      BeerActions.receiveSingleBeer(beer);
+	  fetchAllFriendships: function fetchAllFriendships() {
+	    $.get('../api/friendships', function (friendships) {
+	      FriendActions.receiveAllFriendships(friendships);
 	    });
 	  }
 	
 	};
 	
-	module.exports = BeerUtil;
+	module.exports = FriendUtil;
 
 /***/ },
-/* 293 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var Dispatcher = __webpack_require__(227);
-	var BeerConstants = __webpack_require__(253);
+	var FriendConstants = __webpack_require__(266);
 	
-	var BeerActions = {
+	var FriendActions = {
 	
-	  receiveAllBeers: function receiveAllBeers(beers) {
+	  receiveSingleFriendship: function receiveSingleFriendship(friendship) {
+	
 	    Dispatcher.dispatch({
-	      actionType: BeerConstants.BEERS_RECEIVED,
-	      beers: beers
+	      actionType: FriendConstants.FRIENDSHIP_RECEIVED,
+	      friendship: friendship
 	    });
 	  },
 	
-	  receiveSingleBeer: function receiveSingleBeer(beer) {
-	    var action = {
-	      actionType: BeerConstants.BEER_RECEIVED,
-	      beer: beer
-	    };
-	    Dispatcher.dispatch(action);
-	  }
+	  receiveAllFriendships: function receiveAllFriendships(friendships) {
 	
+	    Dispatcher.dispatch({
+	      actionType: FriendConstants.FRIENDSHIPS_RECEIVED,
+	      friendships: friendships
+	    });
+	  }
 	};
 	
-	module.exports = BeerActions;
+	module.exports = FriendActions;
 
 /***/ },
-/* 294 */
+/* 266 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var FriendConstants = {
+	  FRIENDSHIP_RECEIVED: "FRIENDSHIP_RECEIVED",
+	  FRIENDSHIPS_RECEIVED: "FRIENDSHIPS_RECEIVED"
+	};
+	
+	module.exports = FriendConstants;
+
+/***/ },
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33934,11 +32644,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _authenticated_component = __webpack_require__(295);
+	var _authenticated_component = __webpack_require__(268);
 	
 	var _authenticated_component2 = _interopRequireDefault(_authenticated_component);
 	
-	var _user = __webpack_require__(296);
+	var _user = __webpack_require__(293);
 	
 	var _user2 = _interopRequireDefault(_user);
 	
@@ -33954,7 +32664,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var UserStore = __webpack_require__(267);
+	var UserStore = __webpack_require__(269);
 	
 	exports.default = (0, _authenticated_component2.default)((function (_Component) {
 	  _inherits(Home, _Component);
@@ -33979,7 +32689,7 @@
 	})(_react.Component));
 
 /***/ },
-/* 295 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34087,109 +32797,101 @@
 	};
 
 /***/ },
-/* 296 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var React = __webpack_require__(1);
-	var UserShow = __webpack_require__(297).default;
-	var UserProfile = __webpack_require__(303).default;
-	var CurrentUserStore = __webpack_require__(233);
-	var UserStore = __webpack_require__(267);
-	var UserPage;
-	var LandingPage = __webpack_require__(208);
+	var Store = __webpack_require__(210).Store;
+	var AppDispatcher = __webpack_require__(227);
+	var UserConstants = __webpack_require__(247);
 	
-	var User = React.createClass({
-	  displayName: 'User',
+	var UserStore = new Store(AppDispatcher);
 	
-	  contextTypes: {
-	    router: React.PropTypes.func
-	  },
+	var _users = {};
+	var userErrors = [];
 	
-	  getUserPage: function getUserPage() {
-	    var currentUser = CurrentUserStore.currentUser();
-	    var userId = parseInt(this.props.user.id);
-	    var user = UserStore.findById(userId);
-	
-	    if (currentUser.id === userId) {
-	      UserPage = React.createElement(UserProfile, { currentUser: currentUser, user: currentUser });
-	    } else {
-	      UserPage = React.createElement(UserShow, { currentUser: currentUser, user: user });
-	    }
-	  },
-	
-	  render: function render() {
-	    this.getUserPage();
-	    if (!CurrentUserStore.currentUser()) {
-	      return React.createElement(LandingPage, null);
-	    }
-	    return React.createElement(
-	      'div',
-	      null,
-	      UserPage
-	    );
-	  }
-	
-	});
-	
-	module.exports = User;
-
-/***/ },
-/* 297 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _new_navbar = __webpack_require__(249);
-	
-	var _new_navbar2 = _interopRequireDefault(_new_navbar);
-	
-	var _reviewsIndex = __webpack_require__(298);
-	
-	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
-	
-	var _footer = __webpack_require__(239);
-	
-	var _footer2 = _interopRequireDefault(_footer);
-	
-	var _user_show_sidebar = __webpack_require__(302);
-	
-	var _user_show_sidebar2 = _interopRequireDefault(_user_show_sidebar);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var UserShow = function UserShow(props) {
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'mainPage' },
-	    _react2.default.createElement(_new_navbar2.default, { currentUser: props.currentUser }),
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'row fixedWidth' },
-	      _react2.default.createElement(_reviewsIndex2.default, {
-	        currentUser: props.currentUser,
-	        user: props.user }),
-	      _react2.default.createElement(_user_show_sidebar2.default, {
-	        currentUser: props.currentUser,
-	        user: props.user })
-	    ),
-	    _react2.default.createElement(_footer2.default, null)
-	  );
+	UserStore.userErrors = function () {
+	  return userErrors;
 	};
 	
-	exports.default = UserShow;
+	UserStore.findById = function (id) {
+	  return _users[id];
+	};
+	
+	var addSingleUser = function addSingleUser(user) {
+	  _users[user.id] = user;
+	};
+	
+	var addAllUsers = function addAllUsers(users) {
+	  users.forEach(function (user) {
+	    _users[user.id] = user;
+	  });
+	};
+	
+	var resetErrors = function resetErrors() {
+	  userErrors = [];
+	};
+	
+	var addUserErrors = function addUserErrors(errors) {
+	  userErrors = errors;
+	};
+	
+	UserStore.all = function () {
+	  var users = [];
+	  for (var key in _users) {
+	    if (_users.hasOwnProperty(key)) {
+	      users.push(_users[key]);
+	    }
+	  }
+	  return users;
+	};
+	
+	UserStore.filterBySearchTerm = function (term) {
+	  return this.all().filter(function (user) {
+	
+	    return user.username.toLowerCase().match(term.toLowerCase());
+	  });
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case UserConstants.USER_RECEIVED:
+	      addSingleUser(payload.user);
+	      UserStore.__emitChange();
+	      break;
+	    case UserConstants.USERS_RECEIVED:
+	
+	      addAllUsers(payload.users);
+	      UserStore.__emitChange();
+	      break;
+	    case UserConstants.SESSION_DESTROYED:
+	      resetUser();
+	      resetSession();
+	      resetErrors();
+	      UserStore.__emitChange();
+	      break;
+	    case UserConstants.SESSION_CREATED:
+	      addSingleUser(payload.user);
+	      UserStore.__emitChange();
+	      break;
+	    case UserConstants.SESSION_ERRORS:
+	      resetErrors();
+	      addSessionErrors(payload.errors);
+	      UserStore.__emitChange();
+	      break;
+	    case UserConstants.USER_ERRORS:
+	      resetErrors();
+	      addUserErrors(payload.errors);
+	      UserStore.__emitChange();
+	      break;
+	  };
+	};
+	
+	module.exports = UserStore;
 
 /***/ },
-/* 298 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34204,15 +32906,168 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reviewIndexItem = __webpack_require__(299);
+	var _authenticated_component = __webpack_require__(268);
+	
+	var _authenticated_component2 = _interopRequireDefault(_authenticated_component);
+	
+	var _new_beer_show = __webpack_require__(271);
+	
+	var _new_beer_show2 = _interopRequireDefault(_new_beer_show);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BeerStore = __webpack_require__(275);
+	
+	exports.default = (0, _authenticated_component2.default)((function (_Component) {
+	  _inherits(Home, _Component);
+	
+	  function Home() {
+	    _classCallCheck(this, Home);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Home).apply(this, arguments));
+	  }
+	
+	  _createClass(Home, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      this.forceUpdate();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var beer = BeerStore.find(this.props.params.id);
+	      return _react2.default.createElement(_new_beer_show2.default, {
+	        currentUser: this.props.currentUser,
+	        beer: BeerStore.find(this.props.params.id) });
+	    }
+	  }]);
+	
+	  return Home;
+	})(_react.Component));
+
+/***/ },
+/* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reviewsIndex = __webpack_require__(272);
+	
+	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
+	
+	var _new_navbar = __webpack_require__(284);
+	
+	var _new_navbar2 = _interopRequireDefault(_new_navbar);
+	
+	var _footer = __webpack_require__(239);
+	
+	var _footer2 = _interopRequireDefault(_footer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BeerStore = __webpack_require__(275);
+	
+	var BeerShow = (function (_Component) {
+	  _inherits(BeerShow, _Component);
+	
+	  function BeerShow(props) {
+	    _classCallCheck(this, BeerShow);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerShow).call(this, props));
+	
+	    _this.state = {
+	      beer: _this.props.beer
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(BeerShow, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      this.forceUpdate();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'mainPage' },
+	        _react2.default.createElement(_new_navbar2.default, { currentUser: this.props.currentUser }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row fixedWidth' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'beerHeader' },
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              this.props.beer.name
+	            )
+	          ),
+	          _react2.default.createElement(_reviewsIndex2.default, {
+	            currentUser: this.props.currentUser,
+	            beer: this.props.beer })
+	        ),
+	        _react2.default.createElement(_footer2.default, null)
+	      );
+	    }
+	  }]);
+	
+	  return BeerShow;
+	})(_react.Component);
+	
+	;
+	
+	exports.default = BeerShow;
+
+/***/ },
+/* 272 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reviewIndexItem = __webpack_require__(273);
 	
 	var _reviewIndexItem2 = _interopRequireDefault(_reviewIndexItem);
 	
-	var _new_review_form = __webpack_require__(254);
+	var _new_review_form = __webpack_require__(279);
 	
 	var _new_review_form2 = _interopRequireDefault(_new_review_form);
 	
-	var _review_store = __webpack_require__(258);
+	var _review_store = __webpack_require__(283);
 	
 	var _review_store2 = _interopRequireDefault(_review_store);
 	
@@ -34381,7 +33236,7 @@
 	exports.default = ReviewsIndex;
 
 /***/ },
-/* 299 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34396,35 +33251,35 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _comment = __webpack_require__(300);
+	var _comment = __webpack_require__(274);
 	
 	var _comment2 = _interopRequireDefault(_comment);
 	
-	var _review_util = __webpack_require__(260);
+	var _review_util = __webpack_require__(252);
 	
 	var _review_util2 = _interopRequireDefault(_review_util);
 	
-	var _beer_store = __webpack_require__(252);
+	var _beer_store = __webpack_require__(275);
 	
 	var _beer_store2 = _interopRequireDefault(_beer_store);
 	
-	var _comment_store = __webpack_require__(278);
+	var _comment_store = __webpack_require__(276);
 	
 	var _comment_store2 = _interopRequireDefault(_comment_store);
 	
-	var _toast_store = __webpack_require__(271);
+	var _toast_store = __webpack_require__(277);
 	
 	var _toast_store2 = _interopRequireDefault(_toast_store);
 	
-	var _comment_form = __webpack_require__(301);
+	var _comment_form = __webpack_require__(278);
 	
 	var _comment_form2 = _interopRequireDefault(_comment_form);
 	
-	var _toast_util = __webpack_require__(281);
+	var _toast_util = __webpack_require__(258);
 	
 	var _toast_util2 = _interopRequireDefault(_toast_util);
 	
-	var _user_store = __webpack_require__(267);
+	var _user_store = __webpack_require__(269);
 	
 	var _user_store2 = _interopRequireDefault(_user_store);
 	
@@ -34831,7 +33686,7 @@
 	exports.default = ReviewIndexItem;
 
 /***/ },
-/* 300 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34844,7 +33699,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _user_store = __webpack_require__(267);
+	var _user_store = __webpack_require__(269);
 	
 	var _user_store2 = _interopRequireDefault(_user_store);
 	
@@ -34878,14 +33733,210 @@
 	};
 
 /***/ },
-/* 301 */
+/* 275 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(210).Store;
+	var AppDispatcher = __webpack_require__(227);
+	var BeerConstants = __webpack_require__(251);
+	
+	var _beers = {};
+	
+	var BeerStore = new Store(AppDispatcher);
+	
+	var addAllBeers = function addAllBeers(beers) {
+	  beers.forEach(function (beer) {
+	    _beers[beer.id] = beer;
+	  });
+	};
+	
+	var addSingleBeer = function addSingleBeer(beer) {
+	  _beers[beer.id] = beer;
+	};
+	
+	BeerStore.all = function () {
+	  var beers = [];
+	  for (var key in _beers) {
+	    if (_beers.hasOwnProperty(key)) {
+	      beers.push(_beers[key]);
+	    }
+	  }
+	  return beers;
+	};
+	
+	BeerStore.filterBySearchTerm = function (term) {
+	  return this.all().filter(function (beer) {
+	
+	    return beer.name.toLowerCase().match(term.toLowerCase());
+	  });
+	};
+	
+	BeerStore.find = function (beerId) {
+	  return _beers[beerId];
+	};
+	
+	BeerStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case BeerConstants.BEERS_RECEIVED:
+	      addAllBeers(payload.beers);
+	      BeerStore.__emitChange();
+	      break;
+	    case BeerConstants.BEER_RECEIVED:
+	      addSingleBeer(payload.beer);
+	      BeerStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = BeerStore;
+
+/***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(210).Store;
+	var AppDispatcher = __webpack_require__(227);
+	var CommentConstants = __webpack_require__(257);
+	
+	var _comments = {};
+	
+	var CommentStore = new Store(AppDispatcher);
+	
+	var addAllComments = function addAllComments(comments) {
+	  comments.forEach(function (comment) {
+	    _comments[comment.id] = comment;
+	  });
+	};
+	
+	var addSingleComment = function addSingleComment(comment) {
+	  _comments[comment.id] = comment;
+	};
+	
+	CommentStore.all = function () {
+	  var comments = [];
+	  for (var key in _comments) {
+	    if (_comments.hasOwnProperty(key)) {
+	      comments.push(_comments[key]);
+	    }
+	  }
+	  return comments;
+	};
+	
+	CommentStore.find = function (commentId) {
+	  return _comments[commentId];
+	};
+	
+	CommentStore.filterCommentsByReviewId = function (reviewId) {
+	  return this.all().filter(function (comment) {
+	    return comment.review_id === reviewId;
+	  });
+	};
+	
+	CommentStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case CommentConstants.COMMENTS_RECEIVED:
+	      addAllComments(payload.comments);
+	      CommentStore.__emitChange();
+	      break;
+	    case CommentConstants.COMMENT_RECEIVED:
+	      addSingleComment(payload.comment);
+	      CommentStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = CommentStore;
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(210).Store;
+	var AppDispatcher = __webpack_require__(227);
+	var ToastConstants = __webpack_require__(260);
+	
+	var _toasts = {};
+	
+	var ToastStore = new Store(AppDispatcher);
+	
+	var addAllToasts = function addAllToasts(toasts) {
+	  toasts.forEach(function (toast) {
+	    _toasts[toast.id] = toast;
+	  });
+	};
+	
+	var addSingleToast = function addSingleToast(toast) {
+	
+	  _toasts[toast.id] = toast;
+	};
+	
+	ToastStore.all = function () {
+	  var toasts = [];
+	  for (var key in _toasts) {
+	    if (_toasts.hasOwnProperty(key)) {
+	      toasts.push(_toasts[key]);
+	    }
+	  }
+	  return toasts;
+	};
+	
+	ToastStore.find = function (toastId) {
+	  return _toasts[toastId];
+	};
+	
+	ToastStore.filterToastsByReviewId = function (reviewId) {
+	  return this.all().filter(function (toast) {
+	    return toast.review_id === reviewId;
+	  });
+	};
+	
+	ToastStore.filterToastsByUserId = function (userId) {
+	  return this.all().filter(function (toast) {
+	    return toast.user_id === userId;
+	  });
+	};
+	
+	ToastStore.userHasToasted = function (userId, reviewId) {
+	  return this.all().filter(function (toast) {
+	    return toast.user_id === userId && toast.review_id === reviewId;
+	  }).length > 0;
+	};
+	
+	ToastStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case ToastConstants.TOASTS_RECEIVED:
+	      addAllToasts(payload.toasts);
+	      ToastStore.__emitChange();
+	      break;
+	    case ToastConstants.TOAST_RECEIVED:
+	      addSingleToast(payload.toast);
+	      ToastStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = ToastStore;
+
+/***/ },
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
 	var LinkedStateMixin = __webpack_require__(241);
-	var CommentUtil = __webpack_require__(274);
+	var CommentUtil = __webpack_require__(255);
 	
 	var CommentForm = React.createClass({
 	  displayName: 'CommentForm',
@@ -34938,7 +33989,7 @@
 	module.exports = CommentForm;
 
 /***/ },
-/* 302 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34953,21 +34004,21 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _friend_request_store = __webpack_require__(286);
+	var _reactLinkState = __webpack_require__(280);
 	
-	var _friend_request_store2 = _interopRequireDefault(_friend_request_store);
+	var _reactLinkState2 = _interopRequireDefault(_reactLinkState);
 	
-	var _friend_store = __webpack_require__(284);
+	var _beer_store = __webpack_require__(275);
 	
-	var _friend_store2 = _interopRequireDefault(_friend_store);
+	var _beer_store2 = _interopRequireDefault(_beer_store);
 	
-	var _review_store = __webpack_require__(258);
+	var _review_store = __webpack_require__(283);
 	
 	var _review_store2 = _interopRequireDefault(_review_store);
 	
-	var _friend_request_util = __webpack_require__(290);
+	var _review_util = __webpack_require__(252);
 	
-	var _friend_request_util2 = _interopRequireDefault(_friend_request_util);
+	var _review_util2 = _interopRequireDefault(_review_util);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -34977,75 +34028,98 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Sidebar = (function (_Component) {
-	  _inherits(Sidebar, _Component);
+	var ReviewForm = (function (_Component) {
+	  _inherits(ReviewForm, _Component);
 	
-	  function Sidebar(props) {
-	    _classCallCheck(this, Sidebar);
+	  function ReviewForm(props) {
+	    _classCallCheck(this, ReviewForm);
 	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Sidebar).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReviewForm).call(this, props));
 	
-	    _this.state = {
-	      friendRequestStatus: _friend_request_store2.default.getRequestStatus(props.currentUser.id, props.user.id),
-	      friendStatus: _friend_store2.default.getFriendshipStatus(props.currentUser.id, props.user.id)
-	    };
-	
-	    _this._onChange = _this._onChange.bind(_this);
-	    _this.handleFriendClick = _this.handleFriendClick.bind(_this);
+	    if (_this.props.beer) {
+	      _this.state = {
+	        beers: [],
+	        beer_id: _this.props.beer.id,
+	        body: "",
+	        rating: 0,
+	        author_id: props.currentUser.id
+	      };
+	    } else {
+	      _this.state = {
+	        beers: _beer_store2.default.all(),
+	        beer_id: 0,
+	        body: "",
+	        rating: 0,
+	        author_id: props.currentUser.id
+	      };
+	    }
+	    _this.handleBeerChange = _this.handleBeerChange.bind(_this);
+	    _this.handleRatingChange = _this.handleRatingChange.bind(_this);
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    return _this;
 	  }
 	
-	  _createClass(Sidebar, [{
+	  _createClass(ReviewForm, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      this.requestToken = _friend_request_store2.default.addListener(this._onChange);
+	      this.beerToken = _beer_store2.default.addListener(this.onBeerChange);
+	      this.reviewToken = _review_store2.default.addListener(this.onReviewChange);
 	    }
 	  }, {
-	    key: 'coponentWillUnmount',
-	    value: function coponentWillUnmount() {
-	      this.requestToken.remove();
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.beerToken.remove();
+	      this.reviewToken.remove();
 	    }
 	  }, {
-	    key: '_onChange',
-	    value: function _onChange() {
+	    key: 'handleBeerChange',
+	    value: function handleBeerChange(e) {
 	      this.setState({
-	        friendRequestStatus: _friend_request_store2.default.getRequestStatus(this.props.currentUser.id, this.props.user.id)
+	        beer_id: e.target.value
 	      });
 	    }
 	  }, {
-	    key: 'handleFriendClick',
-	    value: function handleFriendClick() {
-	      _friend_request_util2.default.createFriendRequest(this.props.currentUser.id, this.props.user.id);
+	    key: 'handleRatingChange',
+	    value: function handleRatingChange(e) {
+	      this.setState({
+	        rating: e.target.value
+	      });
 	    }
 	  }, {
-	    key: 'renderFriendRequest',
-	    value: function renderFriendRequest() {
-	      if (this.state.friendStatus) {
-	        return _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            this.props.user.username
-	          ),
-	          'Reviews: ',
-	          _review_store2.default.filterReviewsByUserId(this.props.user.id).length,
-	          _react2.default.createElement('br', null),
-	          'Friends: ',
-	          _friend_store2.default.filterFriendshipsByUserId(this.props.user.id).length
-	        );
-	      } else if (this.state.friendRequestStatus) {
-	        return _react2.default.createElement(
-	          'div',
-	          null,
-	          'Friend Request Sent!'
-	        );
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+	      _review_util2.default.createReview({
+	        beer_id: parseInt(this.state.beer_id),
+	        author_id: this.state.author_id,
+	        body: this.state.body,
+	        rating: parseInt(this.state.rating)
+	
+	      });
+	      this.props.onClick();
+	    }
+	  }, {
+	    key: 'renderSelect',
+	    value: function renderSelect() {
+	      if (this.props.beer) {
+	        return _react2.default.createElement('div', null);
 	      } else {
 	        return _react2.default.createElement(
-	          'button',
-	          { className: 'btn btn-sm btn-1', onClick: this.handleFriendClick },
-	          'Add Friend'
+	          'label',
+	          { htmlFor: 'reviewBeer' },
+	          'What are you drinking?',
+	          _react2.default.createElement(
+	            'select',
+	            { value: this.state.beer_id, onChange: this.handleBeerChange },
+	            _react2.default.createElement('option', { value: '0', key: '0' }),
+	            this.state.beers.map((function (beer) {
+	              return _react2.default.createElement(
+	                'option',
+	                { value: beer.id, key: beer.id },
+	                beer.name
+	              );
+	            }).bind(this))
+	          )
 	        );
 	      }
 	    }
@@ -35053,24 +34127,354 @@
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
+	        'form',
+	        { className: 'form-group reviewForm', onSubmit: this.handleSubmit },
+	        this.renderSelect(),
+	        _react2.default.createElement(
+	          'label',
+	          { htmlFor: 'reviewBody' },
+	          'What do you think?'
+	        ),
+	        _react2.default.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: (0, _reactLinkState2.default)(this, 'body') }),
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'reviewFormItem', htmlFor: 'reviewRating' },
+	          'Rate it!'
+	        ),
+	        _react2.default.createElement(
+	          'select',
+	          { className: 'reviewFormItem', onChange: this.handleRatingChange },
+	          _react2.default.createElement(
+	            'option',
+	            { value: '0' },
+	            'rate beer'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '1' },
+	            '1'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '2' },
+	            '2'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '3' },
+	            '3'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '4' },
+	            '4'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '5' },
+	            '5'
+	          )
+	        ),
+	        _react2.default.createElement('input', { className: 'btn btn-2 reviewFormItem addReviewButton', type: 'submit', value: 'Add your review!' })
+	      );
+	    }
+	  }]);
+	
+	  return ReviewForm;
+	})(_react.Component);
+	
+	exports.default = ReviewForm;
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var getIn = __webpack_require__(281);
+	var updateIn = __webpack_require__(282);
+	
+	/**
+	 * Extracted the linkedState implementation to its own function (instead of a mixin)
+	 *
+	 * @params {ReactElement} ctx The component's `this`
+	 * @params {str} path State key to be updated
+	 * @return {object}
+	 */
+	module.exports = function linkState(ctx, path) {
+	  return {
+	    value: getIn(ctx.state, path),
+	
+	    requestChange: function setPartialState(value) {
+	      ctx.setState(updateIn(
+	        ctx.state,
+	        path,
+	        value
+	      ));
+	    }
+	  };
+	}
+
+
+/***/ },
+/* 281 */
+/***/ function(module, exports) {
+
+	/**
+	 * Originally from:
+	 * https://github.com/tungd/react-catalyst/blob/master/src/catalyst/LinkedStateMixin.js
+	 *
+	 * @param {object}
+	 * @param {string}
+	 * @return {object}
+	 */
+	module.exports = function getIn(obj, path) {
+	  var stack = path.split('.');
+	
+	  while ( stack.length ) {
+	    obj = obj[stack.shift()];
+	  }
+	
+	  return obj;
+	}
+
+
+/***/ },
+/* 282 */
+/***/ function(module, exports) {
+
+	/**
+	 * Originally from:
+	 * https://github.com/tungd/react-catalyst/blob/master/src/catalyst/LinkedStateMixin.js
+	 *
+	 * @param {object}
+	 * @param {string}
+	 * @param {any}
+	 * @return {object}
+	 */
+	module.exports = function updateIn(obj, path, value) {
+	  var current = obj;
+	  var stack = path.split('.');
+	
+	  while ( stack.length > 1 ) {
+	    current = current[stack.shift()];
+	  }
+	  current[stack.shift()] = value;
+	
+	  return obj;
+	}
+
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(210).Store;
+	var AppDispatcher = __webpack_require__(227);
+	var ReviewConstants = __webpack_require__(254);
+	
+	var _reviews = {};
+	
+	var ReviewStore = new Store(AppDispatcher);
+	
+	var addAllReviews = function addAllReviews(reviews) {
+	  reviews.forEach(function (review) {
+	    _reviews[review.id] = review;
+	  });
+	};
+	
+	var addSingleReview = function addSingleReview(review) {
+	
+	  _reviews[review.id] = review;
+	};
+	
+	var resetReviews = function resetReviews() {
+	  _reviews = [];
+	};
+	
+	ReviewStore.all = function () {
+	  var reviews = [];
+	  for (var key in _reviews) {
+	    if (_reviews.hasOwnProperty(key)) {
+	      reviews.push(_reviews[key]);
+	    }
+	  }
+	  return reviews.reverse();
+	};
+	
+	ReviewStore.filterReviewsByUserId = function (userId) {
+	  return this.all().filter(function (review) {
+	    return review.author_id === userId;
+	  });
+	};
+	
+	ReviewStore.filterReviewsByBeerId = function (beerId) {
+	  return this.all().filter(function (review) {
+	    return review.beer_id === beerId;
+	  });
+	};
+	
+	ReviewStore.findById = function (id) {
+	  return this.all().filter(function (review) {
+	    return review.id === id;
+	  });
+	};
+	
+	ReviewStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case ReviewConstants.REVIEWS_RECEIVED:
+	      resetReviews();
+	      addAllReviews(payload.reviews);
+	      ReviewStore.__emitChange();
+	      break;
+	    case ReviewConstants.REVIEW_RECEIVED:
+	      addSingleReview(payload.review);
+	      ReviewStore.__emitChange();
+	      break;
+	
+	  };
+	};
+	
+	module.exports = ReviewStore;
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(159);
+	
+	var _new_beer_search = __webpack_require__(285);
+	
+	var _new_beer_search2 = _interopRequireDefault(_new_beer_search);
+	
+	var _session_util = __webpack_require__(235);
+	
+	var _session_util2 = _interopRequireDefault(_session_util);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var browserHistory = __webpack_require__(159).browserHistory;
+	
+	var Navbar = (function (_Component) {
+	  _inherits(Navbar, _Component);
+	
+	  function Navbar(props) {
+	    _classCallCheck(this, Navbar);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Navbar).call(this, props));
+	
+	    _this.handleSignOut = _this.handleSignOut.bind(_this);
+	    _this.handleSearchClick = _this.handleSearchClick.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Navbar, [{
+	    key: 'handleSignOut',
+	    value: function handleSignOut() {
+	      _session_util2.default.destroySession();
+	    }
+	  }, {
+	    key: 'handleSearchClick',
+	    value: function handleSearchClick(beerId) {
+	
+	      var url = "/beer/" + beerId;
+	      history.pushState(null, '/beer/1');
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var profileUrl = "/user/" + this.props.currentUser.id;
+	      return _react2.default.createElement(
 	        'div',
-	        { className: 'userSidebar col-md-4 col-md-offset-2' },
+	        { className: 'navbar' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'userSidebarElement' },
-	          this.renderFriendRequest()
+	          { className: 'fixedWidth' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'navbarHeader navbarLinks' },
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { className: 'logo',
+	                to: profileUrl
+	              },
+	              _react2.default.createElement(
+	                'h1',
+	                null,
+	                'BeerisGood'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'navbarContent' },
+	            _react2.default.createElement(
+	              'ul',
+	              { className: 'navbarLinksUl' },
+	              _react2.default.createElement(
+	                'li',
+	                { className: 'navbarLinks' },
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  {
+	                    to: '/usersindex'
+	
+	                  },
+	                  'Find Friends'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(_new_beer_search2.default, {
+	                  onClick: this.handleSearchClick,
+	
+	                  className: ''
+	                })
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'button',
+	                  {
+	                    className: 'btn btn-sm btn-1 signOutButton', onClick: this.handleSignOut },
+	                  'Sign Out'
+	                )
+	              )
+	            )
+	          )
 	        )
 	      );
 	    }
 	  }]);
 	
-	  return Sidebar;
+	  return Navbar;
 	})(_react.Component);
 	
-	exports.default = Sidebar;
+	exports.default = Navbar;
 
 /***/ },
-/* 303 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35085,94 +34489,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _new_navbar = __webpack_require__(249);
+	var _beer_search_results = __webpack_require__(286);
 	
-	var _new_navbar2 = _interopRequireDefault(_new_navbar);
-	
-	var _reviewsIndex = __webpack_require__(298);
-	
-	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
-	
-	var _user_profile_sidebar = __webpack_require__(283);
-	
-	var _user_profile_sidebar2 = _interopRequireDefault(_user_profile_sidebar);
-	
-	var _footer = __webpack_require__(239);
-	
-	var _footer2 = _interopRequireDefault(_footer);
-	
-	var _friend_store = __webpack_require__(284);
-	
-	var _friend_store2 = _interopRequireDefault(_friend_store);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	// import ReviewForm from './new_review_form';
-	
-	var UserProfile = (function (_Component) {
-	  _inherits(UserProfile, _Component);
-	
-	  function UserProfile(props) {
-	    _classCallCheck(this, UserProfile);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(UserProfile).call(this, props));
-	  }
-	
-	  _createClass(UserProfile, [{
-	    key: 'render',
-	    value: function render() {
-	
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'userProfile mainPage' },
-	        _react2.default.createElement(_new_navbar2.default, { currentUser: this.props.currentUser }),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row fixedWidth' },
-	          _react2.default.createElement(_reviewsIndex2.default, {
-	
-	            user: this.props.currentUser,
-	            currentUser: this.props.currentUser }),
-	          _react2.default.createElement(_user_profile_sidebar2.default, { currentUser: this.props.currentUser })
-	        ),
-	        _react2.default.createElement(_footer2.default, null)
-	      );
-	    }
-	  }]);
-	
-	  return UserProfile;
-	})(_react.Component);
-	
-	exports.default = UserProfile;
-
-/***/ },
-/* 304 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _authenticated_component = __webpack_require__(295);
-	
-	var _authenticated_component2 = _interopRequireDefault(_authenticated_component);
-	
-	var _new_beer_show = __webpack_require__(305);
-	
-	var _new_beer_show2 = _interopRequireDefault(_new_beer_show);
+	var _beer_search_results2 = _interopRequireDefault(_beer_search_results);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -35182,129 +34501,73 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var BeerStore = __webpack_require__(252);
+	var BeerSearch = (function (_Component) {
+	  _inherits(BeerSearch, _Component);
 	
-	exports.default = (0, _authenticated_component2.default)((function (_Component) {
-	  _inherits(Home, _Component);
+	  function BeerSearch(props) {
+	    _classCallCheck(this, BeerSearch);
 	
-	  function Home() {
-	    _classCallCheck(this, Home);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Home).apply(this, arguments));
-	  }
-	
-	  _createClass(Home, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps() {
-	      this.forceUpdate();
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var beer = BeerStore.find(this.props.params.id);
-	      return _react2.default.createElement(_new_beer_show2.default, {
-	        currentUser: this.props.currentUser,
-	        beer: BeerStore.find(this.props.params.id) });
-	    }
-	  }]);
-	
-	  return Home;
-	})(_react.Component));
-
-/***/ },
-/* 305 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reviewsIndex = __webpack_require__(298);
-	
-	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
-	
-	var _new_navbar = __webpack_require__(249);
-	
-	var _new_navbar2 = _interopRequireDefault(_new_navbar);
-	
-	var _footer = __webpack_require__(239);
-	
-	var _footer2 = _interopRequireDefault(_footer);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var BeerStore = __webpack_require__(252);
-	
-	var BeerShow = (function (_Component) {
-	  _inherits(BeerShow, _Component);
-	
-	  function BeerShow(props) {
-	    _classCallCheck(this, BeerShow);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerShow).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerSearch).call(this, props));
 	
 	    _this.state = {
-	      beer: _this.props.beer
+	      term: ""
 	    };
+	    _this.handleChange = _this.handleChange.bind(_this);
+	    _this.resetTerm = _this.resetTerm.bind(_this);
 	    return _this;
 	  }
 	
-	  _createClass(BeerShow, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps() {
-	      this.forceUpdate();
+	  _createClass(BeerSearch, [{
+	    key: 'handleChange',
+	    value: function handleChange(e) {
+	      e.preventDefault;
+	      this.setState({
+	        term: e.target.value
+	      });
+	    }
+	  }, {
+	    key: 'resetTerm',
+	    value: function resetTerm() {
+	      this.setState({
+	        term: ""
+	      });
+	    }
+	  }, {
+	    key: 'getSearchResults',
+	    value: function getSearchResults() {
+	      if (this.state.term) {
+	        return _react2.default.createElement(_beer_search_results2.default, { term: this.state.term, handleClick: this.resetTerm });
+	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'mainPage' },
-	        _react2.default.createElement(_new_navbar2.default, { currentUser: this.props.currentUser }),
+	        { className: 'beerSearch' },
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'row fixedWidth' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'beerHeader' },
-	            _react2.default.createElement(
-	              'h3',
-	              null,
-	              this.props.beer.name
-	            )
-	          ),
-	          _react2.default.createElement(_reviewsIndex2.default, {
-	            currentUser: this.props.currentUser,
-	            beer: this.props.beer })
+	          'form',
+	          { className: 'form-group has-feedback' },
+	          _react2.default.createElement('input', {
+	            type: 'text',
+	            placeholder: 'search for a beer',
+	            value: this.state.term,
+	            onChange: this.handleChange,
+	            className: 'form-control' }),
+	          _react2.default.createElement('i', { className: 'glyphicon glyphicon-search form-control-feedback searchIcon' })
 	        ),
-	        _react2.default.createElement(_footer2.default, null)
+	        this.getSearchResults()
 	      );
 	    }
 	  }]);
 	
-	  return BeerShow;
+	  return BeerSearch;
 	})(_react.Component);
 	
-	;
-	
-	exports.default = BeerShow;
+	exports.default = BeerSearch;
 
 /***/ },
-/* 306 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35319,11 +34582,101 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _users_index = __webpack_require__(307);
+	var _reactRouter = __webpack_require__(159);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BeerStore = __webpack_require__(275);
+	
+	var BeerSearchResults = (function (_Component) {
+	  _inherits(BeerSearchResults, _Component);
+	
+	  function BeerSearchResults(props) {
+	    _classCallCheck(this, BeerSearchResults);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BeerSearchResults).call(this, props));
+	
+	    _this.state = {
+	      beers: []
+	    };
+	    _this.renderBeers = _this.renderBeers.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(BeerSearchResults, [{
+	    key: 'renderBeers',
+	    value: function renderBeers() {
+	      var _this2 = this;
+	
+	      var term = this.props.term;
+	
+	      var beers = BeerStore.filterBySearchTerm(term);
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'beerSearchResults' },
+	        beers.map(function (beer) {
+	          var url = "/beer/" + beer.id;
+	          return _react2.default.createElement(
+	            _reactRouter.Link,
+	            {
+	              to: url,
+	              key: beer.id,
+	              params: { id: beer.id },
+	              ref: beer.id
+	            },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'beerSearchResultItem', onClick: _this2.props.handleClick },
+	              beer.name
+	            )
+	          );
+	        }, this)
+	      );
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        this.renderBeers()
+	      );
+	    }
+	  }]);
+	
+	  return BeerSearchResults;
+	})(_react.Component);
+	
+	exports.default = BeerSearchResults;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _users_index = __webpack_require__(288);
 	
 	var _users_index2 = _interopRequireDefault(_users_index);
 	
-	var _authenticated_component = __webpack_require__(295);
+	var _authenticated_component = __webpack_require__(268);
 	
 	var _authenticated_component2 = _interopRequireDefault(_authenticated_component);
 	
@@ -35355,7 +34708,7 @@
 	})(_react.Component));
 
 /***/ },
-/* 307 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35372,11 +34725,11 @@
 	
 	var _reactRouter = __webpack_require__(159);
 	
-	var _user_search = __webpack_require__(308);
+	var _user_search = __webpack_require__(289);
 	
 	var _user_search2 = _interopRequireDefault(_user_search);
 	
-	var _user_store = __webpack_require__(267);
+	var _user_store = __webpack_require__(269);
 	
 	var _user_store2 = _interopRequireDefault(_user_store);
 	
@@ -35384,15 +34737,15 @@
 	
 	var _current_user_store2 = _interopRequireDefault(_current_user_store);
 	
-	var _user = __webpack_require__(296);
+	var _user = __webpack_require__(293);
 	
 	var _user2 = _interopRequireDefault(_user);
 	
-	var _new_navbar = __webpack_require__(249);
+	var _new_navbar = __webpack_require__(284);
 	
 	var _new_navbar2 = _interopRequireDefault(_new_navbar);
 	
-	var _user_search_results = __webpack_require__(309);
+	var _user_search_results = __webpack_require__(290);
 	
 	var _user_search_results2 = _interopRequireDefault(_user_search_results);
 	
@@ -35461,7 +34814,7 @@
 	exports.default = UsersIndex;
 
 /***/ },
-/* 308 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35476,7 +34829,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _user_store = __webpack_require__(267);
+	var _user_store = __webpack_require__(269);
 	
 	var _user_store2 = _interopRequireDefault(_user_store);
 	
@@ -35559,7 +34912,7 @@
 	exports.default = UserSearch;
 
 /***/ },
-/* 309 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35576,11 +34929,11 @@
 	
 	var _reactRouter = __webpack_require__(159);
 	
-	var _friend_store = __webpack_require__(284);
+	var _friend_store = __webpack_require__(291);
 	
 	var _friend_store2 = _interopRequireDefault(_friend_store);
 	
-	var _user_store = __webpack_require__(267);
+	var _user_store = __webpack_require__(269);
 	
 	var _user_store2 = _interopRequireDefault(_user_store);
 	
@@ -35720,7 +35073,87 @@
 	exports.default = UserSearchResults;
 
 /***/ },
-/* 310 */
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(210).Store;
+	var AppDispatcher = __webpack_require__(227);
+	var FriendConstants = __webpack_require__(266);
+	
+	var _friendships = {};
+	
+	var FriendStore = new Store(AppDispatcher);
+	
+	var addSingleFriendship = function addSingleFriendship(friendship) {
+	
+	  _friendships[friendship.id] = friendship;
+	};
+	
+	var addAllFriendships = function addAllFriendships(friendships) {
+	  _friendships = {};
+	  friendships.forEach(function (friendship) {
+	    _friendships[friendship.id] = friendship;
+	  });
+	};
+	
+	FriendStore.all = function () {
+	  var friendships = [];
+	  for (var key in _friendships) {
+	    if (_friendships.hasOwnProperty(key)) {
+	      friendships.push(_friendships[key]);
+	    }
+	  }
+	  return friendships;
+	};
+	
+	FriendStore.findById = function (friendshipId) {
+	  return _requests[friendshipId];
+	};
+	
+	FriendStore.filterFriendshipsByUserId = function (userId) {
+	  return this.all().filter(function (friendship) {
+	    return friendship.user_id === userId;
+	  });
+	};
+	
+	FriendStore.filterFriendshipsByFriendId = function (friendId) {
+	  return this.all().filter(function (friendship) {
+	    return friendship.friend_id === friendId;
+	  });
+	};
+	
+	FriendStore.getFriendshipStatus = function (userId, friendId) {
+	
+	  var status = false;
+	  var friendships = FriendStore.filterFriendshipsByUserId(userId);
+	  friendships.forEach(function (friendship) {
+	    if (friendship.friend_id === friendId) {
+	      status = true;
+	    }
+	  });
+	  return status;
+	};
+	
+	FriendStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case FriendConstants.FRIENDSHIP_RECEIVED:
+	      addSingleFriendship(payload.friendship);
+	      FriendStore.__emitChange();
+	      break;
+	    case FriendConstants.FRIENDSHIPS_RECEIVED:
+	      addAllFriendships(payload.friendships);
+	      FriendStore.__emitChange();
+	      break;
+	
+	  }
+	};
+	
+	module.exports = FriendStore;
+
+/***/ },
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -35902,6 +35335,561 @@
 	exports['default'] = createBrowserHistory;
 	module.exports = exports['default'];
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var UserShow = __webpack_require__(294).default;
+	var UserProfile = __webpack_require__(297).default;
+	var CurrentUserStore = __webpack_require__(233);
+	var UserStore = __webpack_require__(269);
+	var UserPage;
+	var LandingPage = __webpack_require__(208);
+	
+	var User = React.createClass({
+	  displayName: 'User',
+	
+	  contextTypes: {
+	    router: React.PropTypes.func
+	  },
+	
+	  getUserPage: function getUserPage() {
+	    var currentUser = CurrentUserStore.currentUser();
+	    var userId = parseInt(this.props.user.id);
+	    var user = UserStore.findById(userId);
+	
+	    if (currentUser.id === userId) {
+	      UserPage = React.createElement(UserProfile, { currentUser: currentUser, user: currentUser });
+	    } else {
+	      UserPage = React.createElement(UserShow, { currentUser: currentUser, user: user });
+	    }
+	  },
+	
+	  render: function render() {
+	    this.getUserPage();
+	    if (!CurrentUserStore.currentUser()) {
+	      return React.createElement(LandingPage, null);
+	    }
+	    return React.createElement(
+	      'div',
+	      null,
+	      UserPage
+	    );
+	  }
+	
+	});
+	
+	module.exports = User;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _new_navbar = __webpack_require__(284);
+	
+	var _new_navbar2 = _interopRequireDefault(_new_navbar);
+	
+	var _reviewsIndex = __webpack_require__(272);
+	
+	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
+	
+	var _footer = __webpack_require__(239);
+	
+	var _footer2 = _interopRequireDefault(_footer);
+	
+	var _user_show_sidebar = __webpack_require__(295);
+	
+	var _user_show_sidebar2 = _interopRequireDefault(_user_show_sidebar);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserShow = function UserShow(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'mainPage' },
+	    _react2.default.createElement(_new_navbar2.default, { currentUser: props.currentUser }),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'row fixedWidth' },
+	      _react2.default.createElement(_reviewsIndex2.default, {
+	        currentUser: props.currentUser,
+	        user: props.user }),
+	      _react2.default.createElement(_user_show_sidebar2.default, {
+	        currentUser: props.currentUser,
+	        user: props.user })
+	    ),
+	    _react2.default.createElement(_footer2.default, null)
+	  );
+	};
+	
+	exports.default = UserShow;
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _friend_request_store = __webpack_require__(296);
+	
+	var _friend_request_store2 = _interopRequireDefault(_friend_request_store);
+	
+	var _friend_store = __webpack_require__(291);
+	
+	var _friend_store2 = _interopRequireDefault(_friend_store);
+	
+	var _review_store = __webpack_require__(283);
+	
+	var _review_store2 = _interopRequireDefault(_review_store);
+	
+	var _friend_request_util = __webpack_require__(261);
+	
+	var _friend_request_util2 = _interopRequireDefault(_friend_request_util);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Sidebar = (function (_Component) {
+	  _inherits(Sidebar, _Component);
+	
+	  function Sidebar(props) {
+	    _classCallCheck(this, Sidebar);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Sidebar).call(this, props));
+	
+	    _this.state = {
+	      friendRequestStatus: _friend_request_store2.default.getRequestStatus(props.currentUser.id, props.user.id),
+	      friendStatus: _friend_store2.default.getFriendshipStatus(props.currentUser.id, props.user.id)
+	    };
+	
+	    _this._onChange = _this._onChange.bind(_this);
+	    _this.handleFriendClick = _this.handleFriendClick.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Sidebar, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.requestToken = _friend_request_store2.default.addListener(this._onChange);
+	    }
+	  }, {
+	    key: 'coponentWillUnmount',
+	    value: function coponentWillUnmount() {
+	      this.requestToken.remove();
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange() {
+	      this.setState({
+	        friendRequestStatus: _friend_request_store2.default.getRequestStatus(this.props.currentUser.id, this.props.user.id)
+	      });
+	    }
+	  }, {
+	    key: 'handleFriendClick',
+	    value: function handleFriendClick() {
+	      _friend_request_util2.default.createFriendRequest(this.props.currentUser.id, this.props.user.id);
+	    }
+	  }, {
+	    key: 'renderFriendRequest',
+	    value: function renderFriendRequest() {
+	      if (this.state.friendStatus) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            this.props.user.username
+	          ),
+	          'Reviews: ',
+	          _review_store2.default.filterReviewsByUserId(this.props.user.id).length,
+	          _react2.default.createElement('br', null),
+	          'Friends: ',
+	          _friend_store2.default.filterFriendshipsByUserId(this.props.user.id).length
+	        );
+	      } else if (this.state.friendRequestStatus) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          'Friend Request Sent!'
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'button',
+	          { className: 'btn btn-sm btn-1', onClick: this.handleFriendClick },
+	          'Add Friend'
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'userSidebar col-md-4 col-md-offset-2' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'userSidebarElement' },
+	          this.renderFriendRequest()
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Sidebar;
+	})(_react.Component);
+	
+	exports.default = Sidebar;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(210).Store;
+	var AppDispatcher = __webpack_require__(227);
+	var FriendRequestConstants = __webpack_require__(263);
+	
+	var _requests = {};
+	
+	var FriendRequestStore = new Store(AppDispatcher);
+	
+	var addSingleFriendRequest = function addSingleFriendRequest(request) {
+	
+	  _requests[request.id] = request;
+	};
+	
+	var addAllFriendRequests = function addAllFriendRequests(requests) {
+	  _requests = {};
+	  requests.forEach(function (request) {
+	    _requests[request.id] = request;
+	  });
+	};
+	
+	FriendRequestStore.all = function () {
+	  var requests = [];
+	  for (var request in _requests) {
+	    if (_requests.hasOwnProperty(request)) {
+	      requests.push(_requests[request]);
+	    }
+	  }
+	  return requests;
+	};
+	
+	FriendRequestStore.findById = function (requestId) {
+	  return _requests[requestId];
+	};
+	
+	FriendRequestStore.filterRequestsByRequestedId = function (requestedId) {
+	  return this.all().filter(function (request) {
+	    return request.requested_id === requestedId;
+	  });
+	};
+	
+	FriendRequestStore.getRequestStatus = function (requesterId, requestedId) {
+	  var status = false;
+	  var requests = FriendRequestStore.filterRequestsByRequestedId(requestedId);
+	  requests.forEach(function (request) {
+	    if (request.requester_id === requesterId) {
+	      status = true;
+	    }
+	  });
+	  return status;
+	};
+	
+	FriendRequestStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case FriendRequestConstants.REQUEST_RECEIVED:
+	      addSingleFriendRequest(payload.request);
+	      FriendRequestStore.__emitChange();
+	      break;
+	    case FriendRequestConstants.REQUESTS_RECEIVED:
+	      addAllFriendRequests(payload.requests);
+	      FriendRequestStore.__emitChange();
+	      break;
+	
+	  }
+	};
+	
+	module.exports = FriendRequestStore;
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _new_navbar = __webpack_require__(284);
+	
+	var _new_navbar2 = _interopRequireDefault(_new_navbar);
+	
+	var _reviewsIndex = __webpack_require__(272);
+	
+	var _reviewsIndex2 = _interopRequireDefault(_reviewsIndex);
+	
+	var _user_profile_sidebar = __webpack_require__(298);
+	
+	var _user_profile_sidebar2 = _interopRequireDefault(_user_profile_sidebar);
+	
+	var _footer = __webpack_require__(239);
+	
+	var _footer2 = _interopRequireDefault(_footer);
+	
+	var _friend_store = __webpack_require__(291);
+	
+	var _friend_store2 = _interopRequireDefault(_friend_store);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	// import ReviewForm from './new_review_form';
+	
+	var UserProfile = (function (_Component) {
+	  _inherits(UserProfile, _Component);
+	
+	  function UserProfile(props) {
+	    _classCallCheck(this, UserProfile);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(UserProfile).call(this, props));
+	  }
+	
+	  _createClass(UserProfile, [{
+	    key: 'render',
+	    value: function render() {
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'userProfile mainPage' },
+	        _react2.default.createElement(_new_navbar2.default, { currentUser: this.props.currentUser }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row fixedWidth' },
+	          _react2.default.createElement(_reviewsIndex2.default, {
+	
+	            user: this.props.currentUser,
+	            currentUser: this.props.currentUser }),
+	          _react2.default.createElement(_user_profile_sidebar2.default, { currentUser: this.props.currentUser })
+	        ),
+	        _react2.default.createElement(_footer2.default, null)
+	      );
+	    }
+	  }]);
+	
+	  return UserProfile;
+	})(_react.Component);
+	
+	exports.default = UserProfile;
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _review_store = __webpack_require__(283);
+	
+	var _review_store2 = _interopRequireDefault(_review_store);
+	
+	var _friend_store = __webpack_require__(291);
+	
+	var _friend_store2 = _interopRequireDefault(_friend_store);
+	
+	var _friend_request_store = __webpack_require__(296);
+	
+	var _friend_request_store2 = _interopRequireDefault(_friend_request_store);
+	
+	var _user_store = __webpack_require__(269);
+	
+	var _user_store2 = _interopRequireDefault(_user_store);
+	
+	var _friend_util = __webpack_require__(264);
+	
+	var _friend_util2 = _interopRequireDefault(_friend_util);
+	
+	var _friend_request_util = __webpack_require__(261);
+	
+	var _friend_request_util2 = _interopRequireDefault(_friend_request_util);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Sidebar = (function (_Component) {
+	  _inherits(Sidebar, _Component);
+	
+	  function Sidebar(props) {
+	    _classCallCheck(this, Sidebar);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Sidebar).call(this, props));
+	
+	    _this.state = {
+	      friendRequests: _friend_request_store2.default.filterRequestsByRequestedId(_this.props.currentUser.id)
+	    };
+	    _this._onChange = _this._onChange.bind(_this);
+	    _this.handleConfirm = _this.handleConfirm.bind(_this);
+	    _this.handleDeny = _this.handleDeny.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Sidebar, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.requestToken = _friend_request_store2.default.addListener(this._onChange);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.requestToken.remove();
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange() {
+	      this.setState({
+	        friendRequests: _friend_request_store2.default.filterRequestsByRequestedId(this.props.currentUser.id)
+	      });
+	    }
+	  }, {
+	    key: 'getFriendRequests',
+	    value: function getFriendRequests() {
+	      var requests = this.state.friendRequests;
+	      return requests.map((function (request) {
+	
+	        return _react2.default.createElement(
+	          'div',
+	          { className: '', key: request.id, request: request },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'friendRequestNotifcation' },
+	            _user_store2.default.findById(request.requester_id).username,
+	            ' wants to be your friend!'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'friendApproveButtons' },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'btn btn-sm btn-2 friendApproveButton',
+	                onClick: this.handleConfirm.bind(this, request) },
+	              'Confirm'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'btn btn-sm btn-3 friendApproveButton',
+	                onClick: this.handleDeny.bind(this, request) },
+	              'Deny'
+	            )
+	          )
+	        );
+	      }).bind(this));
+	    }
+	  }, {
+	    key: 'handleConfirm',
+	    value: function handleConfirm(request) {
+	      _friend_util2.default.createFriendship(request);
+	      _friend_request_util2.default.destroyFriendRequest(request.id);
+	    }
+	  }, {
+	    key: 'handleDeny',
+	    value: function handleDeny(request) {
+	      _friend_request_util2.default.destroyFriendRequest(request.id);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'userSidebar col-md-4 col-md-offset-1' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'userSidebarElement' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'Pending Requests: ',
+	            this.state.friendRequests.length
+	          ),
+	          this.getFriendRequests()
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'userSidebarElement' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'My Stats'
+	          ),
+	          'Reviews: ',
+	          _review_store2.default.filterReviewsByUserId(this.props.currentUser.id).length,
+	          _react2.default.createElement('br', null),
+	          'Friends: ',
+	          _friend_store2.default.filterFriendshipsByUserId(this.props.currentUser.id).length
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Sidebar;
+	})(_react.Component);
+	
+	exports.default = Sidebar;
 
 /***/ }
 /******/ ]);

@@ -31,7 +31,7 @@ const routes = (
     <IndexRoute component={ LandingPage }/>
     <Route path="/beer/:id" component={ ComposedBeerShow } />
     <Route path="/user/:id" component={ ComposedUser } />
-    <Route path="/usersindex" component={ ComposedUsersIndex } />
+    <Route path="/users" component={ ComposedUsersIndex } />
   </Route>
 );
 

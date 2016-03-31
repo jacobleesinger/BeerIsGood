@@ -119,7 +119,7 @@
 	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _landing_page2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/beer/:id', component: _beer_show2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/user/:id', component: _user2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/usersindex', component: _users_index2.default })
+	  _react2.default.createElement(_reactRouter.Route, { path: '/users', component: _users_index2.default })
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
@@ -34436,7 +34436,7 @@
 	                _react2.default.createElement(
 	                  _reactRouter.Link,
 	                  {
-	                    to: '/usersindex'
+	                    to: '/users'
 	
 	                  },
 	                  'Find Friends'

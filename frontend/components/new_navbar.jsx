@@ -44,7 +44,7 @@ class Navbar extends Component {
 
               <li className="navbarLinks">
                 <Link
-                  to="/usersindex"
+                  to="/users"
 
                   >
                   Find Friends

@@ -39,7 +39,7 @@ const routes = (
 document.addEventListener("DOMContentLoaded", function () {
   render(
     // change to history={ createBrowserHistory() } once I get API routes fixed
-    <Router history={ browserHistory }>{ routes }</Router>,
+    <Router history={ createBrowserHistory() }>{ routes }</Router>,
       document.getElementById("root"));
 
   UserUtil.fetchAllUsers();

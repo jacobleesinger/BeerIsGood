@@ -127,7 +127,7 @@
 	  // change to history={ createBrowserHistory() } once I get API routes fixed
 	  _react2.default.createElement(
 	    _reactRouter.Router,
-	    { history: _reactRouter.browserHistory },
+	    { history: (0, _createBrowserHistory2.default)() },
 	    routes
 	  ), document.getElementById("root"));
 	
@@ -32922,7 +32922,7 @@
 	  createReview: function createReview(review) {
 	
 	    $.ajax({
-	      url: "api/reviews",
+	      url: "../api/reviews",
 	      type: "POST",
 	      data: { review: review },
 	      success: function success(review) {
@@ -32936,7 +32936,7 @@
 	
 	  destroyReview: function destroyReview(review) {
 	    $.ajax({
-	      url: "api/reviews/" + review.id,
+	      url: "../api/reviews/" + review.id,
 	      type: 'DELETE',
 	      success: function success(reviews) {
 	        ReviewActions.receiveAllReviews(reviews);
@@ -33706,7 +33706,7 @@
 	
 	  createComment: function createComment(comment) {
 	
-	    $.post('api/comments', { comment: comment }, function (comment) {
+	    $.post('../api/comments', { comment: comment }, function (comment) {
 	      CommentActions.receiveSingleComment(comment);
 	    });
 	  },
@@ -34064,7 +34064,7 @@
 	
 	  createToast: function createToast(toast) {
 	
-	    $.post('api/toasts', { toast: toast }, function (toast) {
+	    $.post('../api/toasts', { toast: toast }, function (toast) {
 	      ToastActions.receiveSingleToast(toast);
 	    });
 	  },
@@ -35219,6 +35219,7 @@
 	    _this.handleCommentFormSubmit = _this.handleCommentFormSubmit.bind(_this);
 	    _this.renderRating = _this.renderRating.bind(_this);
 	    _this.isEditing = _this.isEditing.bind(_this);
+	    _this.onBodyChange = _this.onBodyChange.bind(_this);
 	    return _this;
 	  }
 	
@@ -35314,6 +35315,11 @@
 	        comments: _comment_store2.default.filterCommentsByReviewId(this.props.review.id),
 	        toasts: _toast_store2.default.filterToastsByReviewId(this.props.review.id)
 	      });
+	    }
+	  }, {
+	    key: 'onBodyChange',
+	    value: function onBodyChange(e) {
+	      this.setState({ body: e.target.value });
 	    }
 	  }, {
 	    key: 'handleDeleteClick',
@@ -35415,7 +35421,7 @@
 	              { htmlFor: 'reviewBody' },
 	              'What do you think?'
 	            ),
-	            _react2.default.createElement('textarea', { className: 'form-control', id: 'reviewBody', valueLink: this.linkState('body') }),
+	            _react2.default.createElement('textarea', { className: 'form-control', id: 'reviewBody', onChange: this.onBodyChange, value: this.state.body }),
 	            _react2.default.createElement(
 	              'label',
 	              { htmlFor: 'reviewRating', className: 'reviewFormItem' },

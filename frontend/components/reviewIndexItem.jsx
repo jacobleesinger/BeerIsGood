@@ -52,6 +52,7 @@ class ReviewIndexItem extends Component {
     this.handleCommentFormSubmit = this.handleCommentFormSubmit.bind(this);
     this.renderRating = this.renderRating.bind(this);
     this.isEditing = this.isEditing.bind(this);
+    this.onBodyChange = this.onBodyChange.bind(this);
   }
 
   componentDidMount() {
@@ -138,6 +139,10 @@ class ReviewIndexItem extends Component {
     });
   }
 
+  onBodyChange(e) {
+    this.setState({ body: e.target.value })
+  }
+
   handleDeleteClick(review) {
     ReviewUtil.destroyReview(review);
   }
@@ -214,7 +219,7 @@ class ReviewIndexItem extends Component {
         <form className="form-group reviewForm">
 
             <label htmlFor="reviewBody">What do you think?</label>
-            <textarea className="form-control" id="reviewBody" valueLink={this.linkState('body')} ></textarea>
+            <textarea className="form-control" id="reviewBody" onChange={this.onBodyChange} value={ this.state.body } ></textarea>
 
             <label htmlFor="reviewRating" className="reviewFormItem">Your Rating</label>
               <select onChange={this.handleRatingChange}>

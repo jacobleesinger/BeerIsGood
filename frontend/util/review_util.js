@@ -10,9 +10,9 @@ var ReviewUtil = {
   },
 
   createReview: function(review) {
-    
+
     $.ajax({
-      url: "api/reviews",
+      url: "../api/reviews",
       type: "POST",
       data: {review: review},
       success: function(review) {
@@ -28,7 +28,7 @@ var ReviewUtil = {
 
   destroyReview: function(review){
    $.ajax({
-     url: "api/reviews/" + review.id,
+     url: "../api/reviews/" + review.id,
      type: 'DELETE',
      success: function(reviews){
        ReviewActions.receiveAllReviews(reviews);

@@ -10,7 +10,7 @@ var ToastUtil = {
 
   createToast: function(toast) {
 
-    $.post('api/toasts', { toast: toast }, function(toast) {
+    $.post('../api/toasts', { toast: toast }, function(toast) {
        ToastActions.receiveSingleToast(toast)
      });
    },

@@ -2,6 +2,9 @@
 
 BeerIsGood is a social media web application for craft beer enthusiasts inspired by Untappd and built using Ruby on Rails and React.js. You can visit it live at [beerisgood.xyz](http://www.beerisgood.xyz)
 
+BeerIsGood is a personal project developed by Jacob Singer
+
+![BeerIsGood landing page](http://res.cloudinary.com/dbkzwcps1/image/upload/v1459886511/beerisgood landing page.png)
 
 ### Features
 

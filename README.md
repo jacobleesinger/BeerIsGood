@@ -7,7 +7,7 @@ BeerIsGood is a personal project developed by Jacob Singer
 
 ![BeerIsGood landing page](http://res.cloudinary.com/dbkzwcps1/image/upload/v1459886511/beerisgood landing page.png)
 
-### Features
+## Features
 
 BeerIsGood allows users to:
 * Sign Up/Sign in
@@ -20,6 +20,28 @@ BeerIsGood allows users to:
 
 ![BeerIsGood guest profile](http://res.cloudinary.com/dbkzwcps1/image/upload/v1459886582/beerisgood%20user%20page.png)
 
-### In the Future!
+
+## Technologies
+
+### Back-end
+
+* Ruby on Rails
+* Postgres
+* Heroku
+* NewRelic
+* BCrypt
+
+
+### Front-end
+
+* React
+* React Router
+* Flux
+* Webpack
+* ES6
+* jQuery (for ajax calls)
+* Bootstrap & sass
+
+## In the Future!
 
 BeerIsGood is currently only a few steps beyond an MVP. Check back later for more features!

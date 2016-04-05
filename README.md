@@ -19,3 +19,7 @@ BeerIsGood allows users to:
 
 
 ![BeerIsGood guest profile](http://res.cloudinary.com/dbkzwcps1/image/upload/v1459886582/beerisgood%20user%20page.png)
+
+### In the Future!
+
+BeerIsGood is currently only a few steps beyond an MVP. Check back later for more features!

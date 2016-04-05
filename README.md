@@ -4,6 +4,7 @@ BeerIsGood is a social media web application for craft beer enthusiasts inspired
 
 BeerIsGood is a personal project developed by Jacob Singer
 
+
 ![BeerIsGood landing page](http://res.cloudinary.com/dbkzwcps1/image/upload/v1459886511/beerisgood landing page.png)
 
 ### Features
@@ -15,4 +16,6 @@ BeerIsGood allows users to:
 * Add other Users as Friends. The other User must confirm the Friendship before it is established
 * Comment on and/or "toast" (like) their friends' reviews
 * 
+
+
 ![BeerIsGood guest profile](http://res.cloudinary.com/dbkzwcps1/image/upload/v1459886582/beerisgood%20user%20page.png)
